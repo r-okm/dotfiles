@@ -44,7 +44,36 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # Application specific settings
 # asdf
-. $(brew --prefix)/opt/asdf/libexec/asdf.sh
+source $(brew --prefix)/opt/asdf/libexec/asdf.sh
 
-# msut be in the end of this file
-eval "$(starship init zsh)"
+# Prompt
+function prompt-color {
+  local text='%{\e[38;5;'  # set text color
+  local bg='%{\e[30;48;5;' # set background color
+  local reset='%{\e[0m'    # reset
+  local sharp='\uE0B0'     # triangle
+
+  local green='002m%}'
+  local white='007m%}'
+  local grey='008m%}'
+  local sky='110m%}'
+  local black='232m%}'
+
+  local clock="${bg}${grey}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
+  local dir="${bg}${sky}${text}${black} %~ ${reset}${text}${sky}${sharp}${reset}"
+  local dollar="${text}${green}>${reset} "
+
+  echo "${clock}${dir}\n${dollar}"
+}
+
+PROMPT=`prompt-color`
+
+function precmd() {
+    # Print a newline before the prompt, unless it's the
+    # first prompt in the process.
+    if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
+        NEW_LINE_BEFORE_PROMPT=1
+    elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
+        echo ""
+    fi
+}
