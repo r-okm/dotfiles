@@ -28,3 +28,6 @@ fi
 
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# openssl v3 を優先させる
+export PATH="$(brew --prefix)/opt/openssl@3/bin:$PATH"
