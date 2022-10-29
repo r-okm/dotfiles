@@ -34,6 +34,7 @@ endif
 
 "  Remap
 inoremap <silent> jk <esc>
+nnoremap c "_c
 
 "  Vscode
 if exists('g:vscode')
