@@ -1,0 +1,85 @@
+# Misc
+bindkey -e
+setopt no_beep
+
+# Alias
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias vi='nvim'
+alias yank='win32yank -i --crlf'
+alias dk='docker'
+alias dkc='docker compose'
+alias n='npm run'
+alias tf='terraform'
+alias hex2dec="printf '%d\n'"
+alias dec2hex="printf '%x\n'"
+
+# Export
+export LANG=ja_JP.utf8
+export CLICOLOR=1
+export EDITOR=nvim
+
+# Completion
+fpath=(
+  ${HOME}/.zsh/completions
+  $(brew --prefix)/share/zsh/site-functions
+  $(brew --prefix asdf)/etc/bash_completion.d
+  ${fpath}
+)
+autoload -Uz compinit && compinit
+# ignore case
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# Application specific settings
+# asdf
+. $(brew --prefix)/opt/asdf/libexec/asdf.sh
+
+# Prompt
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:*' formats "$back_color$grey$text_color$white %b $reset$text_color$grey$sharp"
+zstyle ':vcs_info:*' actionformats "$back_color$grey$text_color$white %b|%a $reset$text_color$grey$sharp"
+
+local text_color='%{\e[38;5;'    # set text color
+local back_color='%{\e[30;48;5;' # set background color
+local reset='%{\e[0m%}'          # reset
+local sharp='\uE0B0'             # triangle
+
+local grey='008m%}'
+local cian='024m%}'
+local cian_l='110m%}'
+local orange_l='179m%}'
+local white='254m%}'
+
+local row_top_1="$back_color$cian_l $back_color$grey$text_color$cian_l$sharp"
+local row_top_2="$back_color$orange_l $reset$text_color$orange_l$sharp"
+local user="$back_color$grey$text_color$white %n@%m $back_color$cian$text_color$grey$sharp"
+local dir="$back_color$cian$text_color$white %~ $back_color$grey$text_color$cian$sharp"
+function prompt-color {
+  echo "$row_top_1$user$dir$vcs_info_msg_0_\n$row_top_2$reset "
+}
+PROMPT=`prompt-color`
+
+# コマンドの実行ごとに改行
+function precmd() {
+    vcs_info
+    # Print a newline before the prompt, unless it's the
+    # first prompt in the process.
+    if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
+        NEW_LINE_BEFORE_PROMPT=1
+    elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
+        echo ""
+    fi
+}
