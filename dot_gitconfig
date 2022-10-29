@@ -1,0 +1,13 @@
+[core]
+	editor = nvim
+	autocrlf = false
+[init]
+	defaultBranch = main
+[fetch]
+	prune = true
+[user]
+	useConfigOnly = true
+[includeIf "gitdir:~/src/gh/r-okm/"]
+	path = ~/gitconfigs/.gitconfig_user_github
+[includeIf "gitdir:~/src/az/"]
+	path = ~/gitconfigs/.gitconfig_user_azure
