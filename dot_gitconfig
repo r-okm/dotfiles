@@ -5,6 +5,8 @@
 	defaultBranch = main
 [fetch]
 	prune = true
+[pull]
+	rebase = false
 [user]
 	useConfigOnly = true
 [includeIf "gitdir:~/src/gh/r-okm/"]
