@@ -37,9 +37,6 @@ inoremap <silent> jk <esc>
 if exists('g:vscode')
   "  Focus Explorer
   cnoremap e<cr> <cmd>call VSCodeNotify('workbench.view.explorer')<cr><esc>
-  "  Carriage return
-  nnoremap <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
-else
-  "  Carriage return
-  nnoremap <silent> <cr> o<esc>
+  "  Close Primary Sidebar
+  cnoremap cs<cr> <cmd>call VSCodeNotify('workbench.action.closeSidebar')<cr><esc>
 endif
