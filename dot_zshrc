@@ -46,40 +46,5 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # asdf
 . $(brew --prefix)/opt/asdf/libexec/asdf.sh
 
-# Prompt
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:*' formats "$back_color$grey$text_color$white %b $reset$text_color$grey$sharp"
-zstyle ':vcs_info:*' actionformats "$back_color$grey$text_color$white %b|%a $reset$text_color$grey$sharp"
-
-local text_color='%{\e[38;5;'    # set text color
-local back_color='%{\e[30;48;5;' # set background color
-local reset='%{\e[0m%}'          # reset
-local sharp='\uE0B0'             # triangle
-
-local grey='008m%}'
-local cian='024m%}'
-local cian_l='110m%}'
-local orange_l='179m%}'
-local white='254m%}'
-
-local row_top_1="$back_color$cian_l $back_color$grey$text_color$cian_l$sharp"
-local row_top_2="$back_color$orange_l $reset$text_color$orange_l$sharp"
-local user="$back_color$grey$text_color$white %n@%m $back_color$cian$text_color$grey$sharp"
-local dir="$back_color$cian$text_color$white %~ $back_color$grey$text_color$cian$sharp"
-function prompt-color {
-  echo "$row_top_1$user$dir$vcs_info_msg_0_\n$row_top_2$reset "
-}
-PROMPT=`prompt-color`
-
-# コマンドの実行ごとに改行
-function precmd() {
-    vcs_info
-    # Print a newline before the prompt, unless it's the
-    # first prompt in the process.
-    if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
-        NEW_LINE_BEFORE_PROMPT=1
-    elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
-        echo ""
-    fi
-}
+# msut be in the end of this file
+eval "$(starship init zsh)"
