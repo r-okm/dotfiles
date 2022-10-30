@@ -48,27 +48,28 @@ source $(brew --prefix)/opt/asdf/libexec/asdf.sh
 
 # Prompt
 function prompt-color {
-  local text='%{\e[38;5;'  # set text color
-  local bg='%{\e[30;48;5;' # set background color
-  local reset='%{\e[0m%}'  # reset
-  local sharp='\uE0B0'     # triangle
+  local text='%{\e[38;5;' # set text color
+  local bg='%{\e[48;5;'   # set background color
+  local reset='%{\e[0m%}' # reset
+  local sharp='\uE0B0'    # triangle
 
+  local none='000m%}'
   local green='002m%}'
   local white='007m%}'
   local grey='008m%}'
   local sky='110m%}'
   local black='232m%}'
 
-  local clock="${bg}${grey}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
+  local clock="${bg}${grey}${text}${none}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
   local dir="${bg}${sky}${text}${black} %~ ${reset}${text}${sky}${sharp}${reset}"
-  local dollar="${text}${green}>${reset} "
+  local dollar="${text}${green}\$${reset} "
 
   echo "${clock}${dir}\n${dollar}"
 }
 
 PROMPT=`prompt-color`
 
-function precmd() {
+function precmd {
     # Print a newline before the prompt, unless it's the
     # first prompt in the process.
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
