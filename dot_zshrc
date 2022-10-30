@@ -86,7 +86,7 @@ function prompt_format {
 
   # ブランチ
   function prompt_3 {
-    echo "${text}${white} ${BRANCH_NAME}${GIT_STATUS} ${reset}${text}${blue}${sharp}${reset}"
+    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
   }
   local p_3=`prompt_3`
 
@@ -107,16 +107,9 @@ function precmd {
     # git管理されていないかどうか
     git status --porcelain >/dev/null 2>&1
     if [ $? -ne 0 ];then
-      export GIT_STATUS=""
       export IS_GIT_DIR=0
       export BRANCH_NAME=""
-    # 変更があるかどうか
-    elif [ -n "$(git status --short 2>/dev/null)" ];then
-      export GIT_STATUS="*"
-      export IS_GIT_DIR=1
-      export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
     else
-      export GIT_STATUS=""
       export IS_GIT_DIR=1
       export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
     fi
