@@ -18,6 +18,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 alias vi='nvim'
+alias relogin='su - $USER'
 alias clip='clip.exe'
 alias dk='docker'
 alias dkc='docker compose'
