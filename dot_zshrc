@@ -56,16 +56,26 @@ function prompt_format {
   local sharp='\uE0B0'    # triangle
 
   local none='000m%}'
+  local red='052m%}'
   local green='002m%}'
   local white='007m%}'
   local grey='008m%}'
   local blue='024m%}'
+  local cian='158m%}'
   local sky='110m%}'
   local black='232m%}'
 
+  # 前回の終了ステータス(正常)
+  function previous_status_o {
+    echo "${bg}${white}${text}${cian} ✔  ${bg}${grey}${text}${white}${sharp}"
+  }
+  # 前回の終了ステータス(異常)
+  function previous_status_x {
+    echo "${bg}${white}${text}${red} ${PREVIOUS_EXIT_CODE} ${bg}${grey}${text}${white}${sharp}"
+  }
   # 時計~ディレクトリ(三角含まない)
   function clock_dir {
-    local clock="${bg}${grey}${text}${none}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
+    local clock="${text}${white} %D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
     local dir="${bg}${sky}${text}${black} %~ "
 
     echo "${clock}${dir}"
@@ -87,19 +97,32 @@ function prompt_format {
     echo "\n${text}${green}\$${reset} "
   }
 
-  local result=`clock_dir`
+  local result
+  # 前回の終了コードが0以外の場合
+  if [ $PREVIOUS_EXIT_CODE -ne 0 ];then
+    result=`previous_status_x`
+  else
+    result=`previous_status_o`
+  fi
+
+  result+=`clock_dir`
+
   # git管理されているかどうか
   if [ $IS_GIT_DIR -ne 0 ];then
     result+=`dir_sharp_git``branch`
   else
     result+=`dir_sharp_nogit`
   fi
+
   result+=`return_doller`
 
   echo $result
 }
 
 function precmd {
+    # 前回のコマンドの終了コード
+    export PREVIOUS_EXIT_CODE=$?
+
     # git管理されていないかどうか
     git status --porcelain >/dev/null 2>&1
     if [ $? -ne 0 ];then
