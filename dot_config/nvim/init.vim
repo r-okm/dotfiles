@@ -17,7 +17,7 @@ nnoremap c "_c
 "  Vscode
 if exists('g:vscode')
   "  Focus Explorer
-  cnoremap e<cr> <cmd>call VSCodeNotify('workbench.view.explorer')<cr><esc>
+  cnoremap ee<cr> <cmd>call VSCodeNotify('workbench.view.explorer')<cr><esc>
   "  Close Primary Sidebar
   cnoremap cs<cr> <cmd>call VSCodeNotify('workbench.action.closeSidebar')<cr><esc>
 endif
