@@ -50,7 +50,7 @@ source $(brew --prefix)/opt/asdf/libexec/asdf.sh
 function prompt-color {
   local text='%{\e[38;5;'  # set text color
   local bg='%{\e[30;48;5;' # set background color
-  local reset='%{\e[0m'    # reset
+  local reset='%{\e[0m%}'  # reset
   local sharp='\uE0B0'     # triangle
 
   local green='002m%}'
