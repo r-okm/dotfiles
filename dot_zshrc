@@ -86,7 +86,7 @@ function prompt_format {
 
   # ブランチ
   function prompt_3 {
-    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
+    echo "${text}${white} ${BRANCH_NAME}${GIT_STATUS} ${reset}${text}${blue}${sharp}${reset}"
   }
   local p_3=`prompt_3`
 
@@ -104,29 +104,28 @@ function prompt_format {
 }
 
 function precmd {
-    if [ -n "$(git status --short 2>/dev/null)" ];then
-      export GIT_HAS_DIFF="✗"
-      export GIT_NON_DIFF=""
-    else
-      export GIT_HAS_DIFF=""
-      export GIT_NON_DIFF="✔"
-    fi
-    # git管理されているか確認
+    # git管理されていないかどうか
     git status --porcelain >/dev/null 2>&1
     if [ $? -ne 0 ];then
-      export GIT_HAS_DIFF=""
-      export GIT_NON_DIFF=""
+      export GIT_STATUS=""
       export IS_GIT_DIR=0
-    else
+      export BRANCH_NAME=""
+    # 変更があるかどうか
+    elif [ -n "$(git status --short 2>/dev/null)" ];then
+      export GIT_STATUS="*"
       export IS_GIT_DIR=1
+      export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
+    else
+      export GIT_STATUS=""
+      export IS_GIT_DIR=1
+      export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
     fi
-    export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
 
-    local prompt_string=`prompt_format`
-    PROMPT=$prompt_string
+    # Promptの更新
+    local p_f=`prompt_format`
+    PROMPT=$p_f
 
-    # Print a newline before the prompt, unless it's the
-    # first prompt in the process.
+    # 初回起動時以外､改行する
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
         NEW_LINE_BEFORE_PROMPT=1
     elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
