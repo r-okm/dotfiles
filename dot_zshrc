@@ -64,43 +64,39 @@ function prompt_format {
   local black='232m%}'
 
   # 時計~ディレクトリ(三角含まない)
-  function prompt_1 {
+  function clock_dir {
     local clock="${bg}${grey}${text}${none}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
     local dir="${bg}${sky}${text}${black} %~ "
 
     echo "${clock}${dir}"
   }
-  local p_1=`prompt_1`
-
   # ディレクトリ三角(gitなし)
-  function prompt_2_nogit {
+  function dir_sharp_nogit {
     echo "${reset}${text}${sky}${sharp}${reset}"
   }
-  local p_2_nogit=`prompt_2_nogit`
-
   # ディレクトリ三角(gitあり)
-  function prompt_2_git {
+  function dir_sharp_git {
     echo "${bg}${blue}${text}${sky}${sharp}"
   }
-  local p_2_git=`prompt_2_git`
-
   # ブランチ
-  function prompt_3 {
+  function branch {
     echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
   }
-  local p_3=`prompt_3`
-
   # 2行目
-  function prompt_4 {
+  function return_doller {
     echo "\n${text}${green}\$${reset} "
   }
-  local p_4=`prompt_4`
 
+  local result=`clock_dir`
+  # git管理されているかどうか
   if [ $IS_GIT_DIR -ne 0 ];then
-    echo $p_1$p_2_git$p_3$p_4
+    result+=`dir_sharp_git``branch`
   else
-    echo $p_1$p_2_nogit$p_4
+    result+=`dir_sharp_nogit`
   fi
+  result+=`return_doller`
+
+  echo $result
 }
 
 function precmd {
