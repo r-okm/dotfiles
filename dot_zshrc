@@ -18,7 +18,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 alias vi='nvim'
-alias yank='win32yank -i --crlf'
+alias clip='clip.exe'
 alias dk='docker'
 alias dkc='docker compose'
 alias n='npm run'
