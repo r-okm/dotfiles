@@ -19,6 +19,7 @@ alias l='ls -CF'
 
 alias vi='nvim'
 alias relogin='su - $USER'
+alias sz='source ~/.zshrc'
 alias clip='clip.exe'
 alias dk='docker'
 alias dkc='docker compose'
@@ -48,7 +49,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 source $(brew --prefix)/opt/asdf/libexec/asdf.sh
 
 # Prompt
-function prompt-color {
+function prompt_format {
   local text='%{\e[38;5;' # set text color
   local bg='%{\e[48;5;'   # set background color
   local reset='%{\e[0m%}' # reset
@@ -58,19 +59,72 @@ function prompt-color {
   local green='002m%}'
   local white='007m%}'
   local grey='008m%}'
+  local blue='024m%}'
   local sky='110m%}'
   local black='232m%}'
 
-  local clock="${bg}${grey}${text}${none}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
-  local dir="${bg}${sky}${text}${black} %~ ${reset}${text}${sky}${sharp}${reset}"
-  local dollar="${text}${green}\$${reset} "
+  # 時計~ディレクトリ(三角含まない)
+  function prompt_1 {
+    local clock="${bg}${grey}${text}${none}${sharp} ${text}${white}%D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
+    local dir="${bg}${sky}${text}${black} %~ "
 
-  echo "${clock}${dir}\n${dollar}"
+    echo "${clock}${dir}"
+  }
+  local p_1=`prompt_1`
+
+  # ディレクトリ三角(gitなし)
+  function prompt_2_nogit {
+    echo "${reset}${text}${sky}${sharp}${reset}"
+  }
+  local p_2_nogit=`prompt_2_nogit`
+
+  # ディレクトリ三角(gitあり)
+  function prompt_2_git {
+    echo "${bg}${blue}${text}${sky}${sharp}"
+  }
+  local p_2_git=`prompt_2_git`
+
+  # ブランチ
+  function prompt_3 {
+    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
+  }
+  local p_3=`prompt_3`
+
+  # 2行目
+  function prompt_4 {
+    echo "\n${text}${green}\$${reset} "
+  }
+  local p_4=`prompt_4`
+
+  if [ $IS_GIT_DIR -ne 0 ];then
+    echo $p_1$p_2_git$p_3$p_4
+  else
+    echo $p_1$p_2_nogit$p_4
+  fi
 }
 
-PROMPT=`prompt-color`
-
 function precmd {
+    if [ -n "$(git status --short 2>/dev/null)" ];then
+      export GIT_HAS_DIFF="✗"
+      export GIT_NON_DIFF=""
+    else
+      export GIT_HAS_DIFF=""
+      export GIT_NON_DIFF="✔"
+    fi
+    # git管理されているか確認
+    git status --porcelain >/dev/null 2>&1
+    if [ $? -ne 0 ];then
+      export GIT_HAS_DIFF=""
+      export GIT_NON_DIFF=""
+      export IS_GIT_DIR=0
+    else
+      export IS_GIT_DIR=1
+    fi
+    export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
+
+    local prompt_string=`prompt_format`
+    PROMPT=$prompt_string
+
     # Print a newline before the prompt, unless it's the
     # first prompt in the process.
     if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
