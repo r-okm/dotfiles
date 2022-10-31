@@ -9,7 +9,5 @@
 	rebase = false
 [user]
 	useConfigOnly = true
-[includeIf "gitdir:~/src/gh/r-okm/"]
-	path = ~/gitconfigs/.gitconfig_user_github
-[includeIf "gitdir:~/src/az/"]
-	path = ~/gitconfigs/.gitconfig_user_azure
+[include]
+	path = ~/gitconfigs/.gitconfig_user_index
