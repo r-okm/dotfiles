@@ -90,7 +90,7 @@ function prompt_format {
   }
   # ブランチ
   function branch {
-    echo "${text}${white} %B${BRANCH_NAME} %b${reset}${text}${blue}${sharp}${reset}"
+    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
   }
   # 2行目
   function return_doller {
