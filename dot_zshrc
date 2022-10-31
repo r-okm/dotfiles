@@ -56,28 +56,28 @@ function prompt_format {
   local reset='%{\e[0m%}' # reset
   local sharp='\uE0B0'    # triangle
 
-  local none='000m%}'
-  local red='052m%}'
   local green='002m%}'
   local white='007m%}'
   local grey='008m%}'
+  local red='009m%}'
   local blue='024m%}'
-  local cian='158m%}'
+  local cian='036m%}'
   local sky='110m%}'
   local black='232m%}'
+  local white_b='254m%}'
 
   # 前回の終了ステータス(正常)
   function previous_status_o {
-    echo "${bg}${white}${text}${cian} ✔  ${bg}${grey}${text}${white}${sharp}"
+    echo "${bg}${white_b}${text}${cian} ✔  ${bg}${grey}${text}${white_b}${sharp}"
   }
   # 前回の終了ステータス(異常)
   function previous_status_x {
-    echo "${bg}${white}${text}${red} ${PREVIOUS_EXIT_CODE} ${bg}${grey}${text}${white}${sharp}"
+    echo "${bg}${white_b}${text}${red} ✘  ${bg}${grey}${text}${white_b}${sharp}"
   }
   # 時計~ディレクトリ(三角含まない)
   function clock_dir {
     local clock="${text}${white} %D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
-    local dir="${bg}${sky}${text}${black} %~ "
+    local dir="${text}${black} %B%~ %b"
 
     echo "${clock}${dir}"
   }
