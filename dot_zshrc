@@ -76,7 +76,7 @@ function prompt_format {
   # 時計~ディレクトリ(三角含まない)
   function clock_dir {
     local clock="${text}${white} %D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
-    local dir="${bg}${sky}${text}${black} %~ "
+    local dir="${text}${black} %B%~ %b"
 
     echo "${clock}${dir}"
   }
@@ -90,7 +90,7 @@ function prompt_format {
   }
   # ブランチ
   function branch {
-    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
+    echo "${text}${white} %B${BRANCH_NAME} %b${reset}${text}${blue}${sharp}${reset}"
   }
   # 2行目
   function return_doller {
