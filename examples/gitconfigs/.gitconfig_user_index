@@ -1,0 +1,4 @@
+[includeIf "gitdir:~/src/gh/r-okm/"]
+	path = ~/gitconfigs/.gitconfig_user_github
+[includeIf "gitdir:~/src/az/"]
+	path = ~/gitconfigs/.gitconfig_user_azure
