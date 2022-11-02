@@ -6,6 +6,8 @@ call plug#end()
 "  Misc
 set number
 set expandtab
+set tabstop=4
+set shiftwidth=4
 set whichwrap=b,s,h,l,<,>,~,[,]
 set nrformats=
 set clipboard+=unnamedplus
