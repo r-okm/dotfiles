@@ -11,8 +11,16 @@ set nrformats=
 set clipboard+=unnamedplus
 
 "  Remap
-inoremap <silent> jk <esc>
+inoremap <silent> <C-j> <esc>
 nnoremap c "_c
+nnoremap gh ^
+nnoremap gl $
+
+"  IME OFF
+if executable('zenhan')
+  autocmd InsertLeave * :call system('zenhan 0')
+  autocmd CmdlineLeave * :call system('zenhan 0')
+endif
 
 "  Vscode
 if exists('g:vscode')
