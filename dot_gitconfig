@@ -1,13 +1,24 @@
 [core]
 	editor = nvim
 	autocrlf = false
+[user]
+	useConfigOnly = true
+[include]
+	path = ~/gitconfigs/.gitconfig_user_index
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  lga = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 [init]
 	defaultBranch = main
 [fetch]
 	prune = true
 [pull]
 	rebase = false
-[user]
-	useConfigOnly = true
-[include]
-	path = ~/gitconfigs/.gitconfig_user_index
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[mergetool "vimdiff"]
+  path = nvim
+[difftool]
+	prompt = false
