@@ -224,3 +224,11 @@ fzf_git_checkout() {
     git checkout $target_br
   fi
 }
+
+fzf-command-history() {
+  BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle reset-prompt
+}
+zle -N fzf-command-history
+bindkey '^r' fzf-command-history
