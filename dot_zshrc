@@ -2,6 +2,11 @@
 bindkey -e
 setopt no_beep
 
+# Export
+export LANG=ja_JP.utf8
+export CLICOLOR=1
+export EDITOR=nvim
+
 # Alias
 if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -32,11 +37,6 @@ alias dec2hex="printf '%x\n'"
 alias clip='clip.exe'
 alias relogin='su - $USER'
 
-# Export
-export LANG=ja_JP.utf8
-export CLICOLOR=1
-export EDITOR=nvim
-
 # Completion
 fpath=(
   ${HOME}/.zsh/completions
@@ -52,8 +52,32 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # asdf
 source $(brew --prefix)/opt/asdf/libexec/asdf.sh
 
+# ========================== zsh-hooks ==========================
+precmd() {
+  # 前回のコマンドの終了コードを記録
+  export PREVIOUS_EXIT_CODE=$?
+
+  # git の状態を環境変数に記録
+  save_git_status_to_env
+
+  # Promptの更新
+  PROMPT=`prompt_format`
+
+  # 初回起動時以外､改行する
+  if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
+      NEW_LINE_BEFORE_PROMPT=1
+  elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
+      echo ""
+  fi
+}
+
+chpwd() {
+  ls_abbrev
+}
+
+# ========================== functions ==========================
 # Prompt
-function prompt_format {
+prompt_format() {
   local text='%{\e[38;5;' # set text color
   local bg='%{\e[48;5;'   # set background color
   local reset='%{\e[0m%}' # reset
@@ -70,34 +94,34 @@ function prompt_format {
   local white_b='254m%}'
 
   # 前回の終了ステータス(正常)
-  function previous_status_o {
+  previous_status_o() {
     echo "${bg}${white_b}${text}${cian} ✔  ${bg}${grey}${text}${white_b}${sharp}"
   }
   # 前回の終了ステータス(異常)
-  function previous_status_x {
+  previous_status_x() {
     echo "${bg}${white_b}${text}${red} ✘  ${bg}${grey}${text}${white_b}${sharp}"
   }
   # 時計~ディレクトリ(三角含まない)
-  function clock_dir {
+  clock_dir() {
     local clock="${text}${white} %D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
     local dir="${text}${black} %B%~ %b"
 
     echo "${clock}${dir}"
   }
   # ディレクトリ三角(gitなし)
-  function dir_sharp_nogit {
+  dir_sharp_nogit() {
     echo "${reset}${text}${sky}${sharp}${reset}"
   }
   # ディレクトリ三角(gitあり)
-  function dir_sharp_git {
+  dir_sharp_git() {
     echo "${bg}${blue}${text}${sky}${sharp}"
   }
   # ブランチ
-  function branch {
+  branch() {
     echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
   }
   # 2行目
-  function return_doller {
+  return_doller() {
     echo "\n${text}${green}\$${reset} "
   }
 
@@ -123,35 +147,20 @@ function prompt_format {
   echo $result
 }
 
-function precmd {
-    # 前回のコマンドの終了コード
-    export PREVIOUS_EXIT_CODE=$?
-
-    # git管理されていないかどうか
-    git status --porcelain >/dev/null 2>&1
-    if [ $? -ne 0 ];then
-      export IS_GIT_DIR=0
-      export BRANCH_NAME=""
-    else
-      export IS_GIT_DIR=1
-      export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
-    fi
-
-    # Promptの更新
-    local p_f=`prompt_format`
-    PROMPT=$p_f
-
-    # 初回起動時以外､改行する
-    if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
-        NEW_LINE_BEFORE_PROMPT=1
-    elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
-        echo ""
-    fi
+# git の状態を環境変数に記録
+save_git_status_to_env() {
+  # git管理されていないかどうか
+  git status --porcelain >/dev/null 2>&1
+  if [ $? -ne 0 ];then
+    export IS_GIT_DIR=0
+    export BRANCH_NAME=""
+  else
+    export IS_GIT_DIR=1
+    export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
+  fi
 }
 
-chpwd() {
-    ls_abbrev
-}
+# ls hook
 ls_abbrev() {
     if [[ ! -r $PWD ]]; then
         return
