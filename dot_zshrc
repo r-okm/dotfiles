@@ -118,7 +118,13 @@ prompt_format() {
   }
   # ブランチ
   branch() {
-    echo "${text}${white} ${BRANCH_NAME} ${reset}${text}${blue}${sharp}${reset}"
+    local output
+    if [ -n "$CUR_BRANCH_NAME" ]; then
+      output=$CUR_BRANCH_NAME
+    else
+      output=$CUR_COMMIT_HASH
+    fi
+    echo "${text}${white} ${output}${GIT_STATUS} ${reset}${text}${blue}${sharp}${reset}"
   }
   # 2行目
   return_doller() {
@@ -153,10 +159,18 @@ save_git_status_to_env() {
   git status --porcelain >/dev/null 2>&1
   if [ $? -ne 0 ];then
     export IS_GIT_DIR=0
-    export BRANCH_NAME=""
+    export CUR_BRANCH_NAME=""
+    export CUR_COMMIT_HASH=""
+    export GIT_STATUS=""
   else
     export IS_GIT_DIR=1
-    export BRANCH_NAME=$(git branch --show-current 2>/dev/null)
+    export CUR_BRANCH_NAME=$(git branch --show-current 2>/dev/null)
+    export CUR_COMMIT_HASH=$(git rev-parse --short HEAD 2>/dev/null)
+    if [ -n "$(git status --short 2>/dev/null)" ]; then
+      export GIT_STATUS="*"
+    else
+      export GIT_STATUS=""
+    fi
   fi
 }
 
