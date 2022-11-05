@@ -24,6 +24,7 @@ alias l='ls -CF'
 alias vi='nvim'
 alias sz='source ~/.zshrc'
 alias g='git'
+alias gch='fzf_git_checkout'
 alias n='npm'
 alias nr='npm run'
 alias ch='chezmoi'
@@ -209,4 +210,17 @@ ls_abbrev() {
     else
         echo "$ls_result"
     fi
+}
+
+fzf_git_checkout() {
+  target_br=$(
+    git branch -a |
+      grep -v HEAD |
+      fzf --exit-0 --layout=reverse --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lg --color=always" |
+      head -n 1 |
+      sed -e "s/^.* //g"
+  )
+  if [ -n "$target_br" ]; then
+    git checkout $target_br
+  fi
 }
