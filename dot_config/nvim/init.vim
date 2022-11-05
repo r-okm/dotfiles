@@ -1,6 +1,7 @@
 "  Plugin
 call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
+  Plug 'bronson/vim-visual-star-search'
 call plug#end()
 
 "  Misc
