@@ -13,3 +13,6 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # openssl v3 を優先させる
 export PATH="$(brew --prefix)/opt/openssl@3/bin:$PATH"
+
+# qmk
+export PATH="$HOME/.local/bin:$PATH"
