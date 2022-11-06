@@ -17,7 +17,6 @@ set clipboard+=unnamedplus
 
 "  Remap
 inoremap <silent> <C-j> <esc>
-nnoremap c "_c
 nnoremap gh ^
 nnoremap gl $
 
