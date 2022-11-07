@@ -19,6 +19,8 @@ set clipboard+=unnamedplus
 inoremap <silent> <C-j> <esc>
 nnoremap gh ^
 nnoremap gl $
+xnoremap gh ^
+xnoremap gl $
 
 "  IME OFF
 if executable('zenhan')
