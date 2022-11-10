@@ -17,9 +17,17 @@ set clipboard+=unnamedplus
 
 "  Remap
 inoremap <silent> <C-j> <esc>
+nnoremap j gj
+xnoremap j gj
+nnoremap k gk
+xnoremap k gk
+nnoremap gj j
+xnoremap gj j
+nnoremap gk k
+xnoremap gk k
 nnoremap gh ^
-nnoremap gl $
 xnoremap gh ^
+nnoremap gl $
 xnoremap gl $
 
 "  IME OFF
