@@ -1,6 +1,3 @@
-README.md
-examples
-
 {{ if ne .chezmoi.os "windows"}}
 .bashrc
 .vsvimrc
