@@ -1,2 +1,14 @@
 README.md
 examples
+
+{{ if ne .chezmoi.os "windows"}}
+.bashrc
+.vsvimrc
+AppData
+{{ end }}
+
+{{ if ne .chezmoi.os "linux"}}
+.profile
+.zprofile
+.zshrc
+{{ end }}
