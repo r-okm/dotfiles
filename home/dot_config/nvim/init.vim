@@ -6,6 +6,8 @@ call plug#end()
 
 "  Misc
 set number
+set list
+set listchars=tab:»-,trail:_
 set expandtab
 set tabstop=4
 set shiftwidth=4
