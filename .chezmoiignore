@@ -4,7 +4,7 @@ examples
 {{ if ne .chezmoi.os "windows"}}
 .bashrc
 .vsvimrc
-AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
+AppData
 {{ end }}
 
 {{ if ne .chezmoi.os "linux"}}
