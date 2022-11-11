@@ -31,6 +31,11 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+if exists('g:vscode')
+  nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
+else
+  nnoremap <silent> <cr> o<esc>
+endif
 
 "  IME OFF
 if executable('zenhan')
