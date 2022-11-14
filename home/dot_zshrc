@@ -53,6 +53,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # Application specific settings
 # asdf
 source $(brew --prefix)/opt/asdf/libexec/asdf.sh
+# direnv
+eval "$(direnv hook zsh)"
 
 # ========================== zsh-hooks ==========================
 precmd() {
