@@ -1,7 +1,9 @@
 "  Plugin
 call plug#begin('~/.vim/plugged')
+  let g:plug_url_format = 'git@github.com:%s.git'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
+  Plug 'rhysd/clever-f.vim'
 call plug#end()
 
 "  Misc
