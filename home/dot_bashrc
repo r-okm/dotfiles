@@ -31,6 +31,9 @@ alias dec2hex="printf '%x\n'"
 # windows only
 alias sp='scoop'
 
+# direnv
+eval "$(direnv hook bash)"
+
 # fd - cd to selected directory
 fd() {
   local dir
