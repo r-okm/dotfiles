@@ -34,9 +34,7 @@ xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
 map f <Plug>(easymotion-fl)
-map t <Plug>(easymotion-tl)
 map F <Plug>(easymotion-Fl)
-map T <Plug>(easymotion-Tl)
 nmap s <Plug>(easymotion-s2)
 xmap s <Plug>(easymotion-s2)
 if exists('g:vscode')
