@@ -177,6 +177,7 @@ save_git_status_to_env() {
 # node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する
 nodepath() {
   echo 'export PATH="$(npm bin):$PATH"' >> .envrc
+  direnv allow
 }
 
 fzf_git_checkout() {
