@@ -38,3 +38,8 @@ fd() {
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
 }
+
+# node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する
+nodepath() {
+  echo 'export PATH="$(npm bin):$PATH"' >> .envrc
+}
