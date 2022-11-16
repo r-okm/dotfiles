@@ -4,6 +4,15 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
   Plug 'rhysd/clever-f.vim'
+  if exists('g:vscode')
+    Plug 'asvetliakov/vim-easymotion'
+  else
+    Plug 'easymotion/vim-easymotion'
+  endif
+  let g:EasyMotion_do_mapping = 0
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
 call plug#end()
 
 "  Misc
@@ -25,6 +34,8 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+nmap s <Plug>(easymotion-s2)
+xmap s <Plug>(easymotion-s2)
 if exists('g:vscode')
   nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
 else
