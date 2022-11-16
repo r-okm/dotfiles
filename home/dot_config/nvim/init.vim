@@ -3,7 +3,6 @@ call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
-  Plug 'rhysd/clever-f.vim'
   if exists('g:vscode')
     Plug 'asvetliakov/vim-easymotion'
   else
@@ -34,6 +33,10 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+map f <Plug>(easymotion-fl)
+map t <Plug>(easymotion-tl)
+map F <Plug>(easymotion-Fl)
+map T <Plug>(easymotion-Tl)
 nmap s <Plug>(easymotion-s2)
 xmap s <Plug>(easymotion-s2)
 if exists('g:vscode')
