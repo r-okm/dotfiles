@@ -22,7 +22,7 @@ alias la='ls -A'
 alias l='ls -CF'
 # compatible with windows
 alias vi='nvim'
-alias sz='source ~/.zshrc'
+alias sz='source ${ZDOTDIR}/.zshrc'
 alias g='git'
 alias gch='fzf_git_checkout'
 alias n='npm'
