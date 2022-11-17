@@ -14,6 +14,8 @@
   prune = true
 [pull]
   rebase = false
+[commit]
+  verbose = true
 [diff]
   tool = nvim
 [difftool "nvim"]
