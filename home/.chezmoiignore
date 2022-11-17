@@ -5,7 +5,5 @@ AppData
 {{ end }}
 
 {{ if ne .chezmoi.os "linux"}}
-.profile
-.zprofile
-.zshrc
+.config/zsh
 {{ end }}

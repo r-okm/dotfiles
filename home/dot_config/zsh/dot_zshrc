@@ -41,7 +41,7 @@ alias relogin='su - $USER'
 
 # Completion
 fpath=(
-  ${HOME}/.zsh/completions
+  ${ZDOTDIR}/completions
   $(brew --prefix)/share/zsh/site-functions
   $(brew --prefix asdf)/etc/bash_completion.d
   ${fpath}
