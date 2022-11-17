@@ -1,4 +1,4 @@
 [includeIf "gitdir:~/src/gh/r-okm/"]
-  path = ~/gitconfigs/users/home
+  path = home
 [includeIf "gitdir:~/src/az/"]
-  path = ~/gitconfigs/users/work
+  path = work
