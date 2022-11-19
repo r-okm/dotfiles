@@ -100,7 +100,7 @@ prompt_format() {
   }
   # 前回の終了ステータス(異常)
   previous_status_x() {
-    echo "${bg}${white_b}${text}${red} ✘  ${bg}${grey}${text}${white_b}${sharp}"
+    echo "${bg}${white_b}${text}${red} %B[$PREVIOUS_EXIT_CODE] %b${bg}${grey}${text}${white_b}${sharp}"
   }
   # 時計~ディレクトリ(三角含まない)
   clock_dir() {
