@@ -24,7 +24,8 @@ alias l='ls -CF'
 alias vi='nvim'
 alias sz='source ${ZDOTDIR}/.zshrc'
 alias g='git'
-alias gch='fzf_git_checkout'
+alias fgsw='fzf-git-switch'
+alias fgad='fzf-git-add'
 alias n='npm'
 alias p='pnpm'
 alias nr='npm run'
@@ -180,7 +181,7 @@ nodepath() {
   direnv allow
 }
 
-fzf_git_checkout() {
+fzf-git-switch() {
   target_br=$(
     git branch -a |
       grep -v HEAD |
@@ -190,6 +191,17 @@ fzf_git_checkout() {
   )
   if [ -n "$target_br" ]; then
     git checkout $target_br
+  fi
+}
+
+fzf-git-add() {
+  local selected
+  selected=$(unbuffer git status -s | fzf -m --ansi --preview="echo {} | awk '{print \$2}' | xargs git diff --color" | awk '{print $2}')
+  if [[ -n "$selected" ]]; then
+      selected=$(tr '\n' ' ' <<< "$selected")
+      selected=$(echo $selected| sed -e 's/ *$//')
+      eval git add $selected
+      echo "Completed: git add $selected"
   fi
 }
 
