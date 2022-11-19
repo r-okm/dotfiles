@@ -13,11 +13,13 @@ call plug#begin('~/.vim/plugged')
   else
     Plug 'easymotion/vim-easymotion'
   endif
-  let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
 call plug#end()
+
+"  Plugin Settings
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_enter_jump_first = 1
+let g:EasyMotion_space_jump_first = 1
 
 "  Misc
 set number
