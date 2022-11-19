@@ -38,6 +38,8 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+nmap <C-l> gt
+nmap <C-h> gT
 map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)

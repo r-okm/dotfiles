@@ -11,16 +11,10 @@ set nrformats=
 set clipboard=unnamed
 
 inoremap <silent> <C-j> <esc>
-nnoremap j gj
-xnoremap j gj
-nnoremap k gk
-xnoremap k gk
-nnoremap gj j
-xnoremap gj j
-nnoremap gk k
-xnoremap gk k
 nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+nmap <C-l> gt
+nmap <C-h> gT
 nnoremap <silent> <cr> o<esc>
