@@ -23,8 +23,6 @@ alias l='ls -CF'
 # compatible with windows
 alias sz='source ${ZDOTDIR}/.zshrc'
 alias fd='fzf-cd'
-alias fgsw='fzf-git-switch'
-alias fgad='fzf-git-add'
 alias n='npm'
 alias p='pnpm'
 alias nr='npm run'
