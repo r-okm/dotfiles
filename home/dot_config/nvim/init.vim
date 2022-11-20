@@ -13,13 +13,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'asvetliakov/vim-easymotion'
   else
     Plug 'easymotion/vim-easymotion'
-    Plug 'vim-jp/vimdoc-ja'
     Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/gina.vim'
     Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'sainnhe/gruvbox-material'
+    Plug 'tomtom/tcomment_vim'
   endif
 call plug#end()
 
@@ -74,6 +74,16 @@ if exists('g:vscode')
 else
   nnoremap <silent> <cr> o<esc>
 endif
+" window
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap ss :<C-u>sp<CR><C-w>j
+nnoremap sv :<C-u>vs<CR><C-w>l
+" tcomment_vim
+nnoremap <C-_> :<C-u>TComment<CR>
+xnoremap <C-_> :<C-u>'<,'>TComment<CR>
 
 " easymotion
 let g:EasyMotion_do_mapping = 0
@@ -84,8 +94,8 @@ map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-nmap s <Plug>(easymotion-s2)
-xmap s <Plug>(easymotion-s2)
+nmap ; <Plug>(easymotion-s2)
+xmap ; <Plug>(easymotion-s2)
 
 " https://zenn.dev/yano/articles/vim_frontend_development_2021
 " set options
@@ -107,6 +117,16 @@ nmap <silent> gr <Plug>(coc-references)
 " <C-g>u breaks current undo, please make your own choice.
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 function! s:coc_typescript_settings() abort
   nnoremap <silent> <buffer> [dev]f :<C-u>CocCommand eslint.executeAutofix<CR>:CocCommand prettier.formatFile<CR>
