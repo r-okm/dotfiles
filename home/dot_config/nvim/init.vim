@@ -71,8 +71,8 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
-nmap <C-l> :<C-u>bnext<CR>
-nmap <C-h> :<C-u>bprev<CR>
+nmap <silent> <C-l> :<C-u>bnext<CR>
+nmap <silent> <C-h> :<C-u>bprev<CR>
 if exists('g:vscode')
   nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
 else
