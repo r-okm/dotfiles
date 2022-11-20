@@ -6,5 +6,6 @@ AppData
 
 {{ if ne .chezmoi.os "linux"}}
 .config/zsh
+.config/nvim/coc-settings.json
 .zshenv
 {{ end }}

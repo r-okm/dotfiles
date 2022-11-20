@@ -17,9 +17,13 @@ call plug#begin('~/.vim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/gina.vim'
+    Plug 'lambdalisue/nerdfont.vim'
+    Plug 'lambdalisue/fern-renderer-nerdfont.vim'
     Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'sainnhe/gruvbox-material'
     Plug 'tomtom/tcomment_vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
   endif
 call plug#end()
 
@@ -162,9 +166,14 @@ nnoremap <silent> [ff]d  :<C-u>CocCommand fzf-preview.CocDefinition<CR>
 nnoremap <silent> [ff]t  :<C-u>CocCommand fzf-preview.CocTypeDefinition<CR>
 nnoremap <silent> [ff]o  :<C-u>CocCommand fzf-preview.CocOutline --add-fzf-arg=--exact --add-fzf-arg=--no-sort<CR>
 
+" airline
+let g:airline#extensions#tabline#enabled = 1
+
 "" fern
 nnoremap <silent> <Leader>e :<C-u>Fern . -drawer<CR>
 nnoremap <silent> <Leader>E :<C-u>Fern . -drawer -reveal=%<CR>
+let g:fern#default_hidden=1
+let g:fern#renderer = 'nerdfont'
 
 "" treesitter
 lua <<EOF
