@@ -3,19 +3,31 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   \| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-"  Plugin
+" Plugin
 call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
+  Plug 'vim-jp/vimdoc-ja'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
   if exists('g:vscode')
     Plug 'asvetliakov/vim-easymotion'
   else
     Plug 'easymotion/vim-easymotion'
+    Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'lambdalisue/fern.vim'
+    Plug 'lambdalisue/gina.vim'
+    Plug 'lambdalisue/nerdfont.vim'
+    Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+    Plug 'nvim-treesitter/nvim-treesitter'
+    Plug 'sainnhe/gruvbox-material'
+    Plug 'tomtom/tcomment_vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
   endif
 call plug#end()
 
-"  Misc
+" Misc
 set number
 set list
 set listchars=tab:»-,trail:_
@@ -28,23 +40,25 @@ set ignorecase
 set nrformats=
 set clipboard+=unnamedplus
 
-"  Remap
+" insert or cmdline mode を抜けた時に IME を OFF
+if executable('zenhan')
+  autocmd InsertLeave * :call system('zenhan 0')
+  autocmd CmdlineLeave * :call system('zenhan 0')
+endif
+
+" Remap
+" map prefix
 let g:mapleader = "\<Space>"
+nnoremap <Leader> <Nop>
+xnoremap <Leader> <Nop>
+" common mappings
 inoremap <silent> <C-j> <esc>
 nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
-if exists('g:vscode')
-  nmap <C-l> gt
-  nmap <C-h> gT
-  nnoremap <silent> <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
-  nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
-else
-  nnoremap <silent> <cr> o<esc>
-endif
 
-"  easymotion
+" easymotion
 let g:EasyMotion_do_mapping = 0
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_enter_jump_first = 1
@@ -56,8 +70,28 @@ map T <Plug>(easymotion-Tl)
 nmap ; <Plug>(easymotion-s2)
 xmap ; <Plug>(easymotion-s2)
 
-"  IME OFF
-if executable('zenhan')
-  autocmd InsertLeave * :call system('zenhan 0')
-  autocmd CmdlineLeave * :call system('zenhan 0')
+" Vscode
+if exists('g:vscode')
+  " filer
+  nnoremap <silent> <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
+  " cr
+  nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
+  " buffer
+  nmap <C-l> gt
+  nmap <C-h> gT
+else
+  " cr
+  nnoremap <silent> <cr> o<esc>
+  " buffer
+  nmap <silent> <C-l> :<C-u>bnext<CR>
+  nmap <silent> <C-h> :<C-u>bprev<CR>
+  " window
+  nnoremap sj <C-w>j
+  nnoremap sk <C-w>k
+  nnoremap sl <C-w>l
+  nnoremap sh <C-w>h
+  nnoremap ss :<C-u>sp<CR><C-w>j
+  nnoremap sv :<C-u>vs<CR><C-w>l
+
+  source ~/.config/nvim/plugin-config-linux.vim
 endif
