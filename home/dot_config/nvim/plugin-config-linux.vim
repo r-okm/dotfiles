@@ -9,8 +9,8 @@ nmap     z        [ff]
 xmap     z        [ff]
 
 " tcomment_vim
-nnoremap <C-_> :<C-u>TComment<CR>
-xnoremap <C-_> :<C-u>'<,'>TComment<CR>
+nnoremap <silent><C-_> :<C-u>TComment<CR>
+xnoremap <silent><C-_> :<C-u>'<,'>TComment<CR>
 
 " https://zenn.dev/yano/articles/vim_frontend_development_2021
 " set options
