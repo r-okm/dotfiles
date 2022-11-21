@@ -34,8 +34,8 @@ alias dkc='docker compose'
 alias hex2dec="printf '%d\n'"
 alias dec2hex="printf '%x\n'"
 # linux only
-alias clip='clip.exe'
-alias explorer='explorer.exe'
+alias clip='/mnt/c/Windows/system32/clip.exe'
+alias explorer='/mnt/c/Windows/explorer.exe'
 
 # Completion
 fpath=(
