@@ -16,9 +16,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 # compatible with linux
-alias vi='nvim'
 alias sz='source ~/.bashrc'
-alias g='git'
+alias fd='fzf-cd'
 alias n='npm'
 alias nr='npm run'
 alias ch='chezmoi'
@@ -34,8 +33,8 @@ alias sp='scoop'
 # direnv
 eval "$(direnv hook bash)"
 
-# fd - cd to selected directory
-fd() {
+# fzf-cd - cd to selected directory
+fzf-cd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
