@@ -74,8 +74,8 @@ map f <Plug>(easymotion-fl)
 map F <Plug>(easymotion-Fl)
 map t <Plug>(easymotion-tl)
 map T <Plug>(easymotion-Tl)
-nmap ; <Plug>(easymotion-s2)
-xmap ; <Plug>(easymotion-s2)
+nmap s <Plug>(easymotion-s2)
+xmap s <Plug>(easymotion-s2)
 
 " Vscode
 if exists('g:vscode')
@@ -86,13 +86,6 @@ if exists('g:vscode')
   xnoremap gb <cmd>call VSCodeNotify('editor.action.jumpToBracket')<cr>
   " insert new line in normal mode
   nnoremap <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
-  " window
-  nnoremap sj <cmd>call VSCodeNotify('workbench.action.focusBelowGroup')<cr>
-  nnoremap sk <cmd>call VSCodeNotify('workbench.action.focusAboveGroup')<cr>
-  nnoremap sl <cmd>call VSCodeNotify('workbench.action.focusRightGroup')<cr>
-  nnoremap sh <cmd>call VSCodeNotify('workbench.action.focusLeftGroup')<cr>
-  nnoremap ss <cmd>call VSCodeNotify('workbench.action.splitEditor')<cr>
-  nnoremap sv <cmd>call VSCodeNotify('workbench.action.splitEditorOrthogonal')<cr>
   " git
   nnoremap zs <cmd>call VSCodeNotify('multiCommand.gitStatusWindow')<cr>
   nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
