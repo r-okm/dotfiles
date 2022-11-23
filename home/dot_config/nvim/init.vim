@@ -50,16 +50,11 @@ let g:mapleader = "\<Space>"
 nnoremap <Leader> <Nop>
 xnoremap <Leader> <Nop>
 " common mappings
-inoremap <silent> <C-j> <esc>
+inoremap <silent> jk <esc>
 nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
-
-" insertmode を抜けた時に IME を OFF
-if executable('zenhan')
-  autocmd InsertLeave * :call system('zenhan 0')
-endif
 
 " vim-textobj-multiblock
 omap ab <Plug>(textobj-multiblock-a)
