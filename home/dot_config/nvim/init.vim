@@ -50,7 +50,7 @@ let g:mapleader = "\<Space>"
 nnoremap <Leader> <Nop>
 xnoremap <Leader> <Nop>
 " common mappings
-inoremap <silent> jk <esc>
+inoremap jk <esc>
 nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
@@ -80,12 +80,12 @@ xmap ; <Plug>(easymotion-s2)
 " Vscode
 if exists('g:vscode')
   " filer
-  nnoremap <silent> <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
-  " cr
-  nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
-  " buffer
-  nnoremap <C-l> <cmd>call VSCodeNotify('workbench.action.nextEditorInGroup')<cr>
-  nnoremap <C-h> <cmd>call VSCodeNotify('workbench.action.previousEditorInGroup')<cr>
+  nnoremap <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
+  " jumpToBracket
+  nnoremap gb <cmd>call VSCodeNotify('editor.action.jumpToBracket')<cr>
+  xnoremap gb <cmd>call VSCodeNotify('editor.action.jumpToBracket')<cr>
+  " insert new line in normal mode
+  nnoremap <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
   " window
   nnoremap sj <cmd>call VSCodeNotify('workbench.action.focusBelowGroup')<cr>
   nnoremap sk <cmd>call VSCodeNotify('workbench.action.focusAboveGroup')<cr>
@@ -97,8 +97,11 @@ if exists('g:vscode')
   nnoremap zs <cmd>call VSCodeNotify('multiCommand.gitStatusWindow')<cr>
   nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
 else
-  " cr
-  nnoremap <silent> <cr> o<esc>
+  " jumpToBracket
+  nnoremap gb %
+  xnoremap gb %
+  " insert new line in normal mode
+  nnoremap <cr> o<esc>
   " buffer
   nmap <silent> <C-l> :<C-u>bnext<CR>
   nmap <silent> <C-h> :<C-u>bprev<CR>
