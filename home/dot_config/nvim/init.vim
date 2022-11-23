@@ -9,6 +9,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-jp/vimdoc-ja'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
+  Plug 'kana/vim-textobj-user'
+  Plug 'osyo-manga/vim-textobj-multiblock'
+  Plug 'kana/vim-operator-user'
+  Plug 'kana/vim-operator-replace'
   if exists('g:vscode')
     Plug 'asvetliakov/vim-easymotion'
   else
@@ -56,6 +60,15 @@ xnoremap gl $
 if executable('zenhan')
   autocmd InsertLeave * :call system('zenhan 0')
 endif
+
+" vim-textobj-multiblock
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+xmap ab <Plug>(textobj-multiblock-a)
+xmap ib <Plug>(textobj-multiblock-i)
+
+" vim-operator-replace
+nmap , <Plug>(operator-replace)
 
 " easymotion
 let g:EasyMotion_do_mapping = 0
