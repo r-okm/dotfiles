@@ -40,12 +40,6 @@ set ignorecase
 set nrformats=
 set clipboard+=unnamedplus
 
-" insert or cmdline mode を抜けた時に IME を OFF
-if executable('zenhan')
-  autocmd InsertLeave * :call system('zenhan 0')
-  autocmd CmdlineLeave * :call system('zenhan 0')
-endif
-
 " Remap
 " map prefix
 let g:mapleader = "\<Space>"
@@ -79,6 +73,11 @@ if exists('g:vscode')
   " buffer
   nmap <C-l> gt
   nmap <C-h> gT
+
+  " insertmode を抜けた時に IME を OFF
+  if executable('zenhan')
+    autocmd InsertLeave * :call system('zenhan 0')
+  endif
 else
   " cr
   nnoremap <silent> <cr> o<esc>
@@ -92,6 +91,11 @@ else
   nnoremap sh <C-w>h
   nnoremap ss :<C-u>sp<CR><C-w>j
   nnoremap sv :<C-u>vs<CR><C-w>l
+
+  " insertmode を抜けた時に IME を OFF
+  if executable('/mnt/c/scoop/shims/zenhan.exe')
+    autocmd InsertLeave * :call system('/mnt/c/scoop/shims/zenhan.exe 0')
+  endif
 
   source ~/.config/nvim/plugin-config-linux.vim
 endif
