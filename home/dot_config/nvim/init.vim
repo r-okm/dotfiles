@@ -7,16 +7,17 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
   Plug 'vim-jp/vimdoc-ja'
+  Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
+  Plug 'ggandor/leap.nvim'
   Plug 'kana/vim-textobj-user'
   Plug 'osyo-manga/vim-textobj-multiblock'
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
   if exists('g:vscode')
-    Plug 'asvetliakov/vim-easymotion'
+    " add plugins only in vscode-neovim
   else
-    Plug 'easymotion/vim-easymotion'
     Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'lambdalisue/fern.vim'
@@ -65,17 +66,11 @@ xmap ib <Plug>(textobj-multiblock-i)
 " vim-operator-replace
 nmap , <Plug>(operator-replace)
 
-" easymotion
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_enter_jump_first = 1
-let g:EasyMotion_space_jump_first = 1
-map f <Plug>(easymotion-fl)
-map F <Plug>(easymotion-Fl)
-map t <Plug>(easymotion-tl)
-map T <Plug>(easymotion-Tl)
-nmap s <Plug>(easymotion-s2)
-xmap s <Plug>(easymotion-s2)
+" leap
+nnoremap s <Plug>(leap-forward-to)
+xnoremap s <Plug>(leap-forward-to)
+nnoremap S <Plug>(leap-backward-to)
+xnoremap S <Plug>(leap-backward-to)
 
 " Vscode
 if exists('g:vscode')
