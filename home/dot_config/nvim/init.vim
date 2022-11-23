@@ -76,8 +76,18 @@ if exists('g:vscode')
   " cr
   nnoremap <silent> <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
   " buffer
-  nmap <C-l> gt
-  nmap <C-h> gT
+  nnoremap <C-l> <cmd>call VSCodeNotify('workbench.action.nextEditorInGroup')<cr>
+  nnoremap <C-h> <cmd>call VSCodeNotify('workbench.action.previousEditorInGroup')<cr>
+  " window
+  nnoremap sj <cmd>call VSCodeNotify('workbench.action.focusBelowGroup')<cr>
+  nnoremap sk <cmd>call VSCodeNotify('workbench.action.focusAboveGroup')<cr>
+  nnoremap sl <cmd>call VSCodeNotify('workbench.action.focusRightGroup')<cr>
+  nnoremap sh <cmd>call VSCodeNotify('workbench.action.focusLeftGroup')<cr>
+  nnoremap ss <cmd>call VSCodeNotify('workbench.action.splitEditor')<cr>
+  nnoremap sv <cmd>call VSCodeNotify('workbench.action.splitEditorOrthogonal')<cr>
+  " git
+  nnoremap zs <cmd>call VSCodeNotify('multiCommand.gitStatusWindow')<cr>
+  nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
 else
   " cr
   nnoremap <silent> <cr> o<esc>
