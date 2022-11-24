@@ -61,6 +61,13 @@ nnoremap s <Plug>(leap-forward-to)
 xnoremap s <Plug>(leap-forward-to)
 nnoremap S <Plug>(leap-backward-to)
 xnoremap S <Plug>(leap-backward-to)
+lua << EOF
+local leap = require('leap')
+leap.opts.safe_labels = {}
+leap.opts.labels = { "s", "f", "n",
+                     "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
+                     "u", "y", "v", "r", "g", "t", "c", "x", "/", "z" }
+EOF
 
 " Vscode
 if exists('g:vscode')
