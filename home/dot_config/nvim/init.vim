@@ -13,15 +13,10 @@ call plug#begin('~/.vim/plugged')
   if exists('g:vscode')
     " add plugins only in vscode-neovim
   else
-    Plug 'junegunn/fzf', {'dir': '~/.fzf_bin', 'do': './install --all'}
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'lambdalisue/fern.vim'
-    Plug 'lambdalisue/gina.vim'
     Plug 'lambdalisue/nerdfont.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-    Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'sainnhe/gruvbox-material'
-    Plug 'tomtom/tcomment_vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
   endif
@@ -88,13 +83,19 @@ else
   " buffer
   nmap <silent> <C-l> :<C-u>bnext<CR>
   nmap <silent> <C-h> :<C-u>bprev<CR>
-  " window
-  nnoremap sj <C-w>j
-  nnoremap sk <C-w>k
-  nnoremap sl <C-w>l
-  nnoremap sh <C-w>h
-  nnoremap ss :<C-u>sp<CR><C-w>j
-  nnoremap sv :<C-u>vs<CR><C-w>l
 
-  source ~/.config/nvim/plugin-config-linux.vim
+  " set options
+  set termguicolors
+
+  " airline
+  let g:airline#extensions#tabline#enabled = 1
+
+  "" fern
+  nnoremap <silent> <Leader>e :<C-u>Fern . -drawer<CR>
+  nnoremap <silent> <Leader>E :<C-u>Fern . -drawer -reveal=%<CR>
+  let g:fern#default_hidden=1
+  let g:fern#renderer = 'nerdfont'
+
+  "" gruvbox
+  colorscheme gruvbox-material
 endif
