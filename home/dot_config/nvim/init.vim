@@ -1,7 +1,6 @@
-" Plugin
+" plugin
 call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
-  Plug 'vim-jp/vimdoc-ja'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
@@ -14,6 +13,7 @@ call plug#begin('~/.vim/plugged')
   if exists('g:vscode')
     " add plugins only in vscode-neovim
   else
+    Plug 'vim-jp/vimdoc-ja'
     Plug 'lambdalisue/fern.vim'
     Plug 'lambdalisue/nerdfont.vim'
     Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -23,20 +23,14 @@ call plug#begin('~/.vim/plugged')
   endif
 call plug#end()
 
-" Misc
-set number
-set list
-set listchars=tab:»-,trail:_
-set expandtab
-set tabstop=4
-set shiftwidth=4
+" set options
 set whichwrap=b,s,h,l,<,>,~,[,]
 set smartcase
 set ignorecase
 set nrformats=
 set clipboard+=unnamedplus
 
-" Remap
+" remap
 " map prefix
 let g:mapleader = "\<Space>"
 nnoremap <Leader> <Nop>
@@ -80,7 +74,7 @@ flit.setup {
 }
 EOF
 
-" Vscode
+" vscode
 if exists('g:vscode')
   " filer
   nnoremap <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
@@ -104,6 +98,12 @@ else
 
   " set options
   set termguicolors
+  set number
+  set list
+  set listchars=tab:»-,trail:_
+  set expandtab
+  set tabstop=2
+  set shiftwidth=2
 
   " airline
   let g:airline#extensions#tabline#enabled = 1
