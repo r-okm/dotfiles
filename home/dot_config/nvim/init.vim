@@ -93,6 +93,8 @@ if exists('g:vscode')
   " git
   nnoremap zs <cmd>call VSCodeNotify('multiCommand.gitStatusWindow')<cr>
   nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
+  xnoremap za <cmd>call VSCodeNotifyVisual('git.stageSelectedRanges', 1)<cr>
+  xnoremap zr <cmd>call VSCodeNotifyVisual('git.unstageSelectedRanges', 1)<cr>
 else
   " jumpToBracket
   nnoremap gb %
