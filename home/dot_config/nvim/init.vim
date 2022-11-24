@@ -65,21 +65,19 @@ xnoremap S <Plug>(leap-backward-to)
 onoremap S <Plug>(leap-backward-to)
 lua << EOF
 local leap = require('leap')
-leap.opts.safe_labels = {
+leap.opts.safe_labels = {}
+leap.opts.labels = {
   "s", "f", "n",
   "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
   "u", "y", "v", "r", "g", "t", "c", "x", "/", "z"
 }
-leap.opts.labels = {}
 EOF
 
 " flit
 lua << EOF
 local flit = require('flit')
 flit.setup {
-  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
-  multiline = false,
-  opts = {}
+  multiline = false
 }
 EOF
 
