@@ -2,7 +2,6 @@
 call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
   Plug 'tpope/vim-repeat'
-  Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
   Plug 'ggandor/leap.nvim'
   Plug 'ggandor/flit.nvim'
@@ -10,6 +9,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'osyo-manga/vim-textobj-multiblock'
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
+  Plug 'rhysd/vim-operator-surround'
   if exists('g:vscode')
     " add plugins only in vscode-neovim
   else
@@ -51,17 +51,26 @@ xmap ib <Plug>(textobj-multiblock-i)
 " vim-operator-replace
 nmap , <Plug>(operator-replace)
 
+" vim-opelator-surround
+map gsa <Plug>(operator-surround-append)
+nmap gsdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
+nmap gsrr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
+
 " leap
 nnoremap s <Plug>(leap-forward-to)
 xnoremap s <Plug>(leap-forward-to)
+onoremap s <Plug>(leap-forward-to)
 nnoremap S <Plug>(leap-backward-to)
 xnoremap S <Plug>(leap-backward-to)
+onoremap S <Plug>(leap-backward-to)
 lua << EOF
 local leap = require('leap')
-leap.opts.safe_labels = {}
-leap.opts.labels = { "s", "f", "n",
-                     "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
-                     "u", "y", "v", "r", "g", "t", "c", "x", "/", "z" }
+leap.opts.safe_labels = {
+  "s", "f", "n",
+  "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
+  "u", "y", "v", "r", "g", "t", "c", "x", "/", "z"
+}
+leap.opts.labels = {}
 EOF
 
 " flit
