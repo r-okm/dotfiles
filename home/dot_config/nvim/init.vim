@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-surround'
   Plug 'bronson/vim-visual-star-search'
   Plug 'ggandor/leap.nvim'
+  Plug 'ggandor/flit.nvim'
   Plug 'kana/vim-textobj-user'
   Plug 'osyo-manga/vim-textobj-multiblock'
   Plug 'kana/vim-operator-user'
@@ -67,6 +68,16 @@ leap.opts.safe_labels = {}
 leap.opts.labels = { "s", "f", "n",
                      "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
                      "u", "y", "v", "r", "g", "t", "c", "x", "/", "z" }
+EOF
+
+" flit
+lua << EOF
+local flit = require('flit')
+flit.setup {
+  keys = { f = 'f', F = 'F', t = 't', T = 'T' },
+  multiline = false,
+  opts = {}
+}
 EOF
 
 " Vscode
