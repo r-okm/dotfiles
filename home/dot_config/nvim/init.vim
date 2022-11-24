@@ -2,7 +2,7 @@
 call plug#begin('~/.vim/plugged')
   let g:plug_url_format = 'git@github.com:%s.git'
   Plug 'tpope/vim-repeat'
-  Plug 'bronson/vim-visual-star-search'
+  Plug 'haya14busa/vim-asterisk'
   Plug 'ggandor/leap.nvim'
   Plug 'ggandor/flit.nvim'
   Plug 'kana/vim-textobj-user'
@@ -41,6 +41,10 @@ nnoremap gh ^
 xnoremap gh ^
 nnoremap gl $
 xnoremap gl $
+
+" vim-asterisk
+map * <Plug>(asterisk-gz*)
+map # <Plug>(asterisk-gz#)
 
 " vim-textobj-multiblock
 omap ab <Plug>(textobj-multiblock-a)
