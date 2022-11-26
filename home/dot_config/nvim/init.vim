@@ -10,17 +10,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
   Plug 'rhysd/vim-operator-surround'
-  if exists('g:vscode')
-    " add plugins only in vscode-neovim
-  else
-    Plug 'vim-jp/vimdoc-ja'
-    Plug 'lambdalisue/fern.vim'
-    Plug 'lambdalisue/nerdfont.vim'
-    Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-    Plug 'sainnhe/gruvbox-material'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-  endif
 call plug#end()
 
 " set options
@@ -99,34 +88,4 @@ if exists('g:vscode')
   nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
   xnoremap za <cmd>call VSCodeNotifyVisual('git.stageSelectedRanges', 1)<cr>
   xnoremap zr <cmd>call VSCodeNotifyVisual('git.unstageSelectedRanges', 1)<cr>
-else
-  " jumpToBracket
-  nnoremap gb %
-  xnoremap gb %
-  " insert new line in normal mode
-  nnoremap <cr> o<esc>
-  " buffer
-  nmap <silent> <C-l> :<C-u>bnext<CR>
-  nmap <silent> <C-h> :<C-u>bprev<CR>
-
-  " set options
-  set termguicolors
-  set number
-  set list
-  set listchars=tab:»-,trail:_
-  set expandtab
-  set tabstop=2
-  set shiftwidth=2
-
-  " airline
-  let g:airline#extensions#tabline#enabled = 1
-
-  "" fern
-  nnoremap <silent> <Leader>e :<C-u>Fern . -drawer<CR>
-  nnoremap <silent> <Leader>E :<C-u>Fern . -drawer -reveal=%<CR>
-  let g:fern#default_hidden=1
-  let g:fern#renderer = 'nerdfont'
-
-  "" gruvbox
-  colorscheme gruvbox-material
 endif
