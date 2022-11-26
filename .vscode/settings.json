@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["chezmoi", "difftool", "gitconfigs", "mergetool", "vsvimrc"]
+  "cSpell.words": ["chezmoi", "difftool", "gitconfigs", "mergetool", "vsvimrc"],
+  "Lua.diagnostics.globals": ["vim"]
 }
