@@ -33,7 +33,6 @@ xnoremap gl $
 
 " vim-asterisk
 map * <Plug>(asterisk-gz*)
-map # <Plug>(asterisk-gz#)
 
 " vim-textobj-multiblock
 omap ab <Plug>(textobj-multiblock-a)
@@ -45,17 +44,17 @@ xmap ib <Plug>(textobj-multiblock-i)
 nmap , <Plug>(operator-replace)
 
 " vim-opelator-surround
-map gsa <Plug>(operator-surround-append)
-nmap gsdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
-nmap gsrr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
+map mba <Plug>(operator-surround-append)
+nmap mbd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
+nmap mbr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
 
 " leap
 nnoremap s <Plug>(leap-forward-to)
 xnoremap s <Plug>(leap-forward-to)
 onoremap s <Plug>(leap-forward-to)
-nnoremap S <Plug>(leap-backward-to)
-xnoremap S <Plug>(leap-backward-to)
-onoremap S <Plug>(leap-backward-to)
+nnoremap gs <Plug>(leap-backward-to)
+xnoremap gs <Plug>(leap-backward-to)
+onoremap gs <Plug>(leap-backward-to)
 lua << EOF
 local leap = require('leap')
 leap.opts.safe_labels = {}
@@ -77,12 +76,19 @@ EOF
 " vscode
 if exists('g:vscode')
   " filer
+  nnoremap <Leader>c <cmd>call VSCodeNotify('workbench.action.closeSidebar')<cr>
   nnoremap <Leader>e <cmd>call VSCodeNotify('workbench.view.explorer')<cr>
+  nnoremap <Leader>f <cmd>call VSCodeNotify('workbench.action.findInFiles')<cr>
+  nnoremap <Leader>g <cmd>call VSCodeNotify('workbench.view.scm')<cr>
+  nnoremap <Leader>d <cmd>call VSCodeNotify('workbench.view.debug')<cr>
+  nnoremap <Leader>x <cmd>call VSCodeNotify('workbench.view.extensions')<cr>
   " jumpToBracket
   nnoremap gb <cmd>call VSCodeNotify('editor.action.jumpToBracket')<cr>
   xnoremap gb <cmd>call VSCodeNotify('editor.action.jumpToBracket')<cr>
   " insert new line in normal mode
   nnoremap <cr> <cmd>call VSCodeNotify('editor.action.insertLineAfter')<cr>
+  " global search
+  map # <Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>
   " git
   nnoremap zs <cmd>call VSCodeNotify('multiCommand.gitStatusWindow')<cr>
   nnoremap zd <cmd>call VSCodeNotify('git.openChange')<cr>
