@@ -60,10 +60,10 @@ precmd() {
   export PREVIOUS_EXIT_CODE=$?
 
   # git の状態を環境変数に記録
-  save_git_status_to_env
+  save-git-status-to-env
 
   # Promptの更新
-  PROMPT=`prompt_format`
+  PROMPT=`prompt-format`
 
   # 初回起動時以外､改行する
   if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
@@ -75,84 +75,41 @@ precmd() {
 
 # ========================== functions ==========================
 # Prompt
-prompt_format() {
-  local text='%{\e[38;5;' # set text color
-  local bg='%{\e[48;5;'   # set background color
+prompt-format() {
   local reset='%{\e[0m%}' # reset
-  local sharp='\uE0B0'    # triangle
 
-  local green='002m%}'
-  local white='007m%}'
-  local grey='008m%}'
-  local red='009m%}'
-  local blue='024m%}'
-  local cian='036m%}'
-  local sky='110m%}'
-  local black='232m%}'
-  local white_b='254m%}'
-
-  # 前回の終了ステータス(正常)
-  previous_status_o() {
-    echo "${bg}${white_b}${text}${cian} ✔  ${bg}${grey}${text}${white_b}${sharp}"
-  }
-  # 前回の終了ステータス(異常)
-  previous_status_x() {
-    echo "${bg}${white_b}${text}${red} %B[$PREVIOUS_EXIT_CODE] %b${bg}${grey}${text}${white_b}${sharp}"
-  }
-  # 時計~ディレクトリ(三角含まない)
-  clock_dir() {
-    local clock="${text}${white} %D{%H:%M:%S} ${bg}${sky}${text}${grey}${sharp}"
-    local dir="${text}${black} %B%~ %b"
-
-    echo "${clock}${dir}"
-  }
-  # ディレクトリ三角(gitなし)
-  dir_sharp_nogit() {
-    echo "${reset}${text}${sky}${sharp}${reset}"
-  }
-  # ディレクトリ三角(gitあり)
-  dir_sharp_git() {
-    echo "${bg}${blue}${text}${sky}${sharp}"
-  }
-  # ブランチ
-  branch() {
-    local output
-    if [ -n "$CUR_BRANCH_NAME" ]; then
-      output=$CUR_BRANCH_NAME
-    else
-      output=$CUR_COMMIT_HASH
-    fi
-    echo "${text}${white} ${output}${GIT_STATUS} ${reset}${text}${blue}${sharp}${reset}"
-  }
-  # 2行目
-  return_doller() {
-    echo "\n${text}${green}\$${reset} "
-  }
-
-  local result
-  # 前回の終了コードが0以外の場合
-  if [ $PREVIOUS_EXIT_CODE -ne 0 ];then
-    result=`previous_status_x`
+  if [ $PWD = $HOME ]; then
+    local dir_symbol='⟰'
   else
-    result=`previous_status_o`
+    local dir_symbol='🖿'
   fi
-
-  result+=`clock_dir`
+  local result="%F{yellow}${dir_symbol}  %~%f "
 
   # git管理されているかどうか
-  if [ $IS_GIT_DIR -ne 0 ];then
-    result+=`dir_sharp_git``branch`
-  else
-    result+=`dir_sharp_nogit`
+  if [ $IS_GIT_DIR -ne 0 ]; then
+    if [ -n "$CUR_BRANCH_NAME" ]; then
+      local branch_symbol="\ue0a0"
+      local output="${branch_symbol} ${CUR_BRANCH_NAME}"
+    else
+      local detached_symbol="➦"
+      local output="${detached_symbol} ${CUR_COMMIT_HASH}"
+    fi
+    result+="on %F{magenta}${output}${GIT_STATUS}%f "
   fi
 
-  result+=`return_doller`
+  # 前回の終了コードが0の場合
+  if [ $PREVIOUS_EXIT_CODE -eq 0 ]; then
+    local color="${reset}"
+  else
+    local color="%F{red}"
+  fi
+  result+="[${color}${PREVIOUS_EXIT_CODE}${reset}]\n%# "
 
   echo $result
 }
 
 # git の状態を環境変数に記録
-save_git_status_to_env() {
+save-git-status-to-env() {
   # git管理されていないかどうか
   git status --porcelain >/dev/null 2>&1
   if [ $? -ne 0 ];then
