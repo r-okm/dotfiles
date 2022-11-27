@@ -25,7 +25,7 @@ for k, v in pairs(set_options) do
 end
 
 -- remap
-local function keymap(modeStr, lhs, rhs)
+local function getModes(modeStr)
   -- 文字列を1字ずつ分割し配列に変換
   -- ex) 'nx' => {'n', 'x'}
   local modes = {}
@@ -37,10 +37,37 @@ local function keymap(modeStr, lhs, rhs)
       table.insert(modes, mode)
     end
   end
-  -- オプション
-  local opts = { noremap = true, silent = true }
+  return modes
+end
 
-  vim.keymap.set(modes, lhs, rhs, opts)
+local function keymap(modeStr, lhs, rhs)
+  local modes = getModes(modeStr)
+  local common_keymap_opts = { noremap = true, silent = true }
+  vim.keymap.set(modes, lhs, rhs, common_keymap_opts)
+end
+
+local function keymapVsc(modeStr, lhs, cmd, opts)
+  local rhs
+  if opts ~= nil then
+    rhs = string.format('<Cmd> call VSCodeNotify("%s", %s)<Cr>', cmd, opts)
+  else
+    rhs = string.format('<Cmd> call VSCodeNotify("%s")<Cr>', cmd)
+  end
+
+  keymap(modeStr, lhs, rhs)
+end
+
+local function keymapVscVisual(modeStr, lhs, cmd, opts)
+  local rhs
+  if opts ~= nil then
+    -- <Cmd> call VSCodeNotifyVisual()<Cr> の後に <Esc> を追記することでコマンド実行後にノーマルモードに移行する
+    -- VSCodeNotifyVisual の第二引数に 0 を入れることで､コマンド実行後の vscode の文字選択状態を解除する
+    rhs = string.format('<Cmd> call VSCodeNotifyVisual("%s", 0, %s)<Cr><Esc>', cmd, opts)
+  else
+    rhs = string.format('<Cmd> call VSCodeNotifyVisual("%s", 0)<Cr><Esc>', cmd)
+  end
+
+  keymap(modeStr, lhs, rhs)
 end
 
 -- map prefix
@@ -48,7 +75,7 @@ vim.g.mapleader = ' '
 keymap('', '<Space>', '')
 
 -- common mappings
-keymap('i', 'jk', '<esc>')
+keymap('i', 'jk', '<Esc>')
 keymap('nx', 'gh', '^')
 keymap('nx', 'gl', '$')
 
@@ -86,23 +113,19 @@ require('flit').setup {
 -- vscode
 if vim.g.vscode then
   -- filer
-  keymap('n', '<Leader>c', '<cmd>call VSCodeNotify("workbench.action.closeSidebar")<cr>')
-  keymap('n', '<Leader>e', '<cmd>call VSCodeNotify("workbench.view.explorer")<cr>')
-  keymap('n', '<Leader>f', '<cmd>call VSCodeNotify("workbench.action.findInFiles")<cr>')
-  keymap('n', '<Leader>g', '<cmd>call VSCodeNotify("workbench.view.scm")<cr>')
-  keymap('n', '<Leader>d', '<cmd>call VSCodeNotify("workbench.view.debug")<cr>')
-  keymap('n', '<Leader>x', '<cmd>call VSCodeNotify("workbench.view.extensions")<cr>')
-  keymap('n', '<Leader>n', '<cmd>call VSCodeNotify("notifications.showList")<cr>')
-  keymap('n', '<Leader>nc', '<cmd>call VSCodeNotify("notifications.clearAll")<cr>')
+  keymapVsc('n', '<Leader>c', 'workbench.action.closeSidebar')
+  keymapVsc('n', '<Leader>e', 'workbench.view.explorer')
+  keymapVsc('n', '<Leader>f', 'workbench.action.findInFiles')
+  keymapVsc('n', '<Leader>g', 'workbench.view.scm')
+  keymapVsc('n', '<Leader>d', 'workbench.view.debug')
+  keymapVsc('n', '<Leader>x', 'workbench.view.extensions')
+  keymapVsc('n', '<Leader>n', 'notifications.showList')
+  keymapVsc('n', '<Leader>nc', 'notifications.clearAll')
   -- jumpToBracket
-  keymap('nx', 'gb', '<cmd>call VSCodeNotify("editor.action.jumpToBracket")<cr>')
+  keymapVsc('nx', 'gb', 'editor.action.jumpToBracket')
   -- insert new line in normal mode
-  keymap('n', '<cr>', '<cmd>call VSCodeNotify("editor.action.insertLineAfter")<cr>')
+  keymapVsc('n', '<Cr>', 'editor.action.insertLineAfter')
   -- global search
-  keymap('', '#', '<Cmd>call VSCodeNotify("workbench.action.findInFiles", { "query": expand("<cword>")})<CR>')
-  -- git
-  keymap('n', 'zs', '<cmd>call VSCodeNotify("multiCommand.gitStatusWindow")<cr>')
-  keymap('n', 'zd', '<cmd>call VSCodeNotify("git.openChange")<cr>')
-  keymap('x', 'za', '<cmd>call VSCodeNotifyVisual("git.stageSelectedRanges", 1)<cr>')
-  keymap('x', 'zr', '<cmd>call VSCodeNotifyVisual("git.unstageSelectedRanges", 1)<cr>')
+  keymapVsc('n', '#', 'workbench.action.findInFiles', '{ "query": expand("<cword>")}')
+  keymapVscVisual('x', '#', 'workbench.action.findInFiles', '{ "query": expand("<cword>")}')
 end
