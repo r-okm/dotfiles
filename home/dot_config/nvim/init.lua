@@ -128,4 +128,9 @@ if vim.g.vscode then
   -- global search
   keymapVsc('n', '#', 'workbench.action.findInFiles', '{ "query": expand("<cword>")}')
   keymapVscVisual('x', '#', 'workbench.action.findInFiles', '{ "query": expand("<cword>")}')
+  -- git
+  keymapVsc('n', 'zs', 'multiCommand.gitStatusWindow')
+  keymapVsc('n', 'zd', 'git.openChange')
+  keymapVscVisual('x', 'za', 'git.stageSelectedRanges')
+  keymapVscVisual('x', 'zr', 'git.unstageSelectedRanges')
 end
