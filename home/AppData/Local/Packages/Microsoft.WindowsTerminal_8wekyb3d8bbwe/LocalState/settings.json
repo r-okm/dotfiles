@@ -52,7 +52,7 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
+    "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
     "firstWindowPreference": "defaultProfile",
     "profiles": 
     {
@@ -78,6 +78,14 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
+            },
+            {
+                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
+                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
+                "hidden": false,
+                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
+                "name": "MSYS2",
+                "startingDirectory": "%USERPROFILE%"
             },
             {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
