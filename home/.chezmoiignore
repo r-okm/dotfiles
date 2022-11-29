@@ -5,6 +5,5 @@ AppData
 {{ end }}
 
 {{ if ne .chezmoi.os "linux"}}
-.config/zsh
-.zshenv
+.config/zsh/wsl.zsh
 {{ end }}
