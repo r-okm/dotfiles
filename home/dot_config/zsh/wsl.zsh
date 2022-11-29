@@ -1,52 +1,13 @@
-# Misc
-bindkey -e
-setopt no_beep
-
-# Export
-export LANG=ja_JP.utf8
-export CLICOLOR=1
-export EDITOR=nvim
-
-# Alias
-if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
-  alias grep='grep --color=auto'
-  alias fgrep='fgrep --color=auto'
-  alias egrep='egrep --color=auto'
-fi
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-# compatible with windows
-alias sz='source ${ZDOTDIR}/.zshrc'
-alias fd='fzf-cd'
-alias n='npm'
-alias p='pnpm'
-alias nr='npm run'
-alias ch='chezmoi'
-alias amp='amplify'
-alias tf='terraform'
-alias dk='docker'
-alias dkc='docker compose'
-alias hex2dec="printf '%d\n'"
-alias dec2hex="printf '%x\n'"
-# linux only
+# alias
 alias clip='/mnt/c/Windows/system32/clip.exe'
 alias explorer='/mnt/c/Windows/explorer.exe'
 
 # Completion
 fpath=(
-  ${ZDOTDIR}/completions
   $(brew --prefix)/share/zsh/site-functions
   $(brew --prefix asdf)/etc/bash_completion.d
   ${fpath}
 )
-autoload -Uz compinit && compinit
-# ignore case
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # Application specific settings
 # asdf
@@ -135,19 +96,3 @@ nodepath() {
   direnv allow
 }
 
-# fzf-command-history
-fzf-command-history() {
-  BUFFER=$(history -n -r 1 | fzf --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle reset-prompt
-}
-zle -N fzf-command-history
-bindkey '^r' fzf-command-history
-
-# fzf-cd - cd to selected directory
-fzf-cd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
