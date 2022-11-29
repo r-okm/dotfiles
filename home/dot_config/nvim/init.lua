@@ -2,6 +2,7 @@
 vim.g.plug_url_format = 'git@github.com:%s.git'
 local Plug = vim.fn['plug#']
 vim.call('plug#begin', '~/.vim/plugged')
+Plug 'vim-jp/vimdoc-ja'
 Plug 'tpope/vim-repeat'
 Plug 'haya14busa/vim-asterisk'
 Plug 'ggandor/leap.nvim'
