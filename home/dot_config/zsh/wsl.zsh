@@ -2,19 +2,6 @@
 alias clip='/mnt/c/Windows/system32/clip.exe'
 alias explorer='/mnt/c/Windows/explorer.exe'
 
-# Completion
-fpath=(
-  $(brew --prefix)/share/zsh/site-functions
-  $(brew --prefix asdf)/etc/bash_completion.d
-  ${fpath}
-)
-
-# Application specific settings
-# asdf
-source $(brew --prefix)/opt/asdf/libexec/asdf.sh
-# direnv
-eval "$(direnv hook zsh)"
-
 # ========================== zsh-hooks ==========================
 precmd() {
   # 前回のコマンドの終了コードを記録
@@ -89,10 +76,3 @@ save-git-status-to-env() {
     fi
   fi
 }
-
-# node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する
-nodepath() {
-  echo 'export PATH="$(npm bin):$PATH"' >> .envrc
-  direnv allow
-}
-

@@ -21,7 +21,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 # compatible with windows
-alias sz='source ${ZDOTDIR}/.zshrc'
+alias sz="source $ZDOTDIR/.zshrc"
 alias fd='fzf-cd'
 alias n='npm'
 alias p='pnpm'
@@ -34,10 +34,31 @@ alias dkc='docker compose'
 alias hex2dec="printf '%d\n'"
 alias dec2hex="printf '%x\n'"
 
+# Application specific settings
+# Homebrew
+if type "brew" > /dev/null 2>&1; then
+  fpath=(
+    $HOMEBREW_PREFIX/share/zsh/site-functions
+    $fpath
+  )
+fi
+# asdf
+if [ -e "$ASDF_DIR/asdf.sh" ]; then
+  source $ASDF_DIR/asdf.sh
+  fpath=(
+    $(brew --prefix asdf)/etc/bash_completion.d
+    $fpath
+  )
+fi
+# direnv
+if type "direnv" > /dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
+
 # Completion
 fpath=(
-  ${ZDOTDIR}/completions
-  ${fpath}
+  $ZDOTDIR/completions
+  $fpath
 )
 autoload -Uz compinit && compinit
 # ignore case
@@ -60,6 +81,16 @@ fzf-cd() {
   cd "$dir"
 }
 
-{{ if eq .chezmoi.os "linux"}}
-source $ZDOTDIR/wsl.zsh
-{{ end }}
+# node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する
+nodepath() {
+  if type "direnv" > /dev/null 2>&1; then
+    echo 'export PATH="$(npm bin):$PATH"' >> .envrc
+    direnv allow
+  else
+    echo 'direnv が存在しないため無効'
+  fi
+}
+
+if [ -e "$ZDOTDIR/wsl.zsh" ]; then
+  source $ZDOTDIR/wsl.zsh
+fi
