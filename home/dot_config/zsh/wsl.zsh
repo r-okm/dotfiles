@@ -20,9 +20,9 @@ prompt-format() {
   local reset='%{\e[0m%}' # reset
 
   if [ $PWD = $HOME ]; then
-    local dir_symbol='⟰'
+    local dir_symbol='\uf015'
   else
-    local dir_symbol='🖿'
+    local dir_symbol='\uf07c'
   fi
   local result="
 %F{yellow}${dir_symbol}  %~%f "
@@ -30,10 +30,10 @@ prompt-format() {
   # git管理されているかどうか
   if [ $IS_GIT_DIR -ne 0 ]; then
     if [ -n "$CUR_BRANCH_NAME" ]; then
-      local branch_symbol="\ue0a0"
+      local branch_symbol="\ufb2b"
       local output="${branch_symbol} ${CUR_BRANCH_NAME}"
     else
-      local detached_symbol="➦"
+      local detached_symbol="\uf417"
       local output="${detached_symbol} ${CUR_COMMIT_HASH}"
     fi
     result+="on %F{magenta}${output}${GIT_STATUS}%f "
