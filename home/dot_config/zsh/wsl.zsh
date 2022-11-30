@@ -12,13 +12,6 @@ precmd() {
 
   # Promptの更新
   PROMPT=`prompt-format`
-
-  # 初回起動時以外､改行する
-  if [ -z "$NEW_LINE_BEFORE_PROMPT" ]; then
-      NEW_LINE_BEFORE_PROMPT=1
-  elif [ "$NEW_LINE_BEFORE_PROMPT" -eq 1 ]; then
-      echo ""
-  fi
 }
 
 # ========================== functions ==========================
@@ -31,7 +24,8 @@ prompt-format() {
   else
     local dir_symbol='🖿'
   fi
-  local result="%F{yellow}${dir_symbol}  %~%f "
+  local result="
+%F{yellow}${dir_symbol}  %~%f "
 
   # git管理されているかどうか
   if [ $IS_GIT_DIR -ne 0 ]; then
@@ -51,7 +45,7 @@ prompt-format() {
   else
     local color="%F{red}"
   fi
-  result+="[${color}${PREVIOUS_EXIT_CODE}${reset}]\n%# "
+  result+="[${color}${PREVIOUS_EXIT_CODE}${reset}]\n$ "
 
   echo $result
 }
