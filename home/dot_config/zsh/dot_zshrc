@@ -94,3 +94,7 @@ nodepath() {
 if [ -e "$ZDOTDIR/wsl.zsh" ]; then
   source $ZDOTDIR/wsl.zsh
 fi
+
+if [ -e "$ZDOTDIR/windows.zsh" ]; then
+  source $ZDOTDIR/windows.zsh
+fi
