@@ -9,8 +9,8 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # Set PATH, MANPATH, etc., for Homebrew.
-if [ -e "$HOMEBREW_PREFIX/bin/brew" ]; then
-    eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 # openssl v3 を優先させる
