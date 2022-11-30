@@ -80,7 +80,7 @@
                 "name": "Windows PowerShell"
             },
             {
-                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
+                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
                 "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
                 "hidden": false,
                 "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
