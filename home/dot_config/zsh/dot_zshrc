@@ -95,6 +95,6 @@ if [ -e "$ZDOTDIR/wsl.zsh" ]; then
   source $ZDOTDIR/wsl.zsh
 fi
 
-if [ -e "$ZDOTDIR/windows.zsh" ]; then
-  source $ZDOTDIR/windows.zsh
+if [ -e "$ZDOTDIR/msys2.zsh" ]; then
+  source $ZDOTDIR/msys2.zsh
 fi

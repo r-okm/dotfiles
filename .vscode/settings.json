@@ -4,6 +4,13 @@
     "files.trimTrailingWhitespace": false,
     "files.insertFinalNewline": false
   },
-  "cSpell.words": ["chezmoi", "difftool", "gitconfigs", "mergetool", "vsvimrc"],
-  "Lua.diagnostics.globals": ["vim"]
+  "Lua.diagnostics.globals": ["vim"],
+  "cSpell.words": [
+    "chezmoi",
+    "difftool",
+    "gitconfigs",
+    "mergetool",
+    "msys",
+    "vsvimrc"
+  ]
 }
