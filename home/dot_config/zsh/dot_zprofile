@@ -17,8 +17,3 @@ fi
 if [ -d "$HOMEBREW_PREFIX/opt/openssl@3/bin" ]; then
     export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
 fi
-
-# qmk
-if [ -d "$HOME/.local/bin" ]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
