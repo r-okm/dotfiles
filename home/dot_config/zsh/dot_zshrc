@@ -46,8 +46,8 @@ if type "brew" > /dev/null 2>&1; then
   )
 fi
 # asdf
-if [ -e "$ASDF_DIR/asdf.sh" ]; then
-  source $ASDF_DIR/asdf.sh
+if [ -e "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
+  source $HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh
   fpath=(
     $(brew --prefix asdf)/etc/bash_completion.d
     $fpath
