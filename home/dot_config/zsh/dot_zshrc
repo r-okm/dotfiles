@@ -1,5 +1,8 @@
 # Misc
 bindkey -e
+bindkey "^[[3~" delete-char
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 setopt no_beep
 
 # Export
