@@ -76,7 +76,6 @@ vim.g.mapleader = ' '
 keymap('', '<Space>', '')
 
 -- common mappings
-keymap('i', 'jk', '<Esc>')
 keymap('nx', 'gh', '^')
 keymap('nx', 'gl', '$')
 
