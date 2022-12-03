@@ -85,6 +85,16 @@ keymap('nx', '*', '<Plug>(asterisk-gz*)')
 -- vim-textobj-multiblock
 keymap('ox', 'ab', '<Plug>(textobj-multiblock-a)')
 keymap('ox', 'ib', '<Plug>(textobj-multiblock-i)')
+vim.g.textobj_multiblock_blocks = {
+  { "(", ")" },
+  { "[", "]" },
+  { "{", "}" },
+  { '<', '>' },
+  { '"', '"', 1 },
+  { "'", "'", 1 },
+  { "`", "`", 1 },
+}
+
 
 -- vim-operator-replace
 keymap('nx', ',', '<Plug>(operator-replace)')
