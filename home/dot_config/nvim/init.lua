@@ -91,6 +91,8 @@ keymap('nx', ',', '<Plug>(operator-replace)')
 
 -- vim-opelator-surround
 keymap('nx', 'sa', '<Plug>(operator-surround-append)')
+keymap('nx', 'sd', '<Plug>(operator-surround-delete)')
+keymap('nx', 'sr', '<Plug>(operator-surround-replace)')
 keymap('n', 'sdd', '<Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)')
 keymap('n', 'srr', '<Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)')
 
