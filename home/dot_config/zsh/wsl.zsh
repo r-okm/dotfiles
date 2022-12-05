@@ -19,13 +19,16 @@ precmd() {
 prompt-format() {
   local reset='%{\e[0m%}' # reset
 
+  local result='
+%F{yellow}'
   if [ $PWD = $HOME ]; then
-    local dir_symbol='\uf015'
+    local home_symbol='\uf015'
+    result+="${home_symbol} "
   else
-    local dir_symbol='\uf07c'
+    local folder_symbol='\uf07c'
+    result+="${folder_symbol}  %~"
   fi
-  local result="
-%F{yellow}${dir_symbol}  %~%f "
+  result+='%f '
 
   # git管理されているかどうか
   if [ $IS_GIT_DIR -ne 0 ]; then
