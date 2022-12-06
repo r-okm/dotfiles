@@ -25,6 +25,22 @@ for k, v in pairs(set_options) do
   vim.api.nvim_set_option(k, v)
 end
 
+-- wsl でホストとクリップボードを共有
+if vim.fn.has 'wsl' == 1 then
+  vim.g.clipboard = {
+    name = "win32yank-wsl",
+    copy = {
+      ["+"] = "win32yank -i --crlf",
+      ["*"] = "win32yank -i --crlf",
+    },
+    paste = {
+      ["+"] = "win32yank -o --lf",
+      ["*"] = "win32yank -o --lf",
+    },
+    cache_enable = 0,
+  }
+end
+
 -- remap
 local function getModes(modeStr)
   -- 文字列を1字ずつ分割し配列に変換
