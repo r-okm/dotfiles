@@ -95,6 +95,16 @@ nodepath() {
   fi
 }
 
+# 規定の設定値の .prettierrc を作成する
+init-prettier() {
+  cat << EOF > .prettierrc
+{
+  "semi": false,
+  "trailingComma": "none"
+}
+EOF
+}
+
 if [ -e "$ZDOTDIR/wsl.zsh" ]; then
   source $ZDOTDIR/wsl.zsh
 fi
