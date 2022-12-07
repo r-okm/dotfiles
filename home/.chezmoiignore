@@ -6,4 +6,5 @@ AppData
 
 {{ if ne .chezmoi.os "linux"}}
 .config/zsh/wsl.zsh
+.config/nvim
 {{ end }}
