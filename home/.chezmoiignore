@@ -5,6 +5,7 @@ AppData
 {{ end }}
 
 {{ if ne .chezmoi.os "linux"}}
+.Brewfile
 .config/zsh/wsl.zsh
 .config/nvim
 {{ end }}
