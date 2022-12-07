@@ -160,12 +160,6 @@ if vim.g.vscode then
   -- filer
   keymapVsc('n', '<Leader>c', 'workbench.action.closeSidebar')
   keymapVsc('n', '<Leader>e', 'workbench.view.explorer')
-  keymapVsc('n', '<Leader>f', 'workbench.action.findInFiles')
-  keymapVsc('n', '<Leader>g', 'workbench.view.scm')
-  keymapVsc('n', '<Leader>d', 'workbench.view.debug')
-  keymapVsc('n', '<Leader>x', 'workbench.view.extensions')
-  keymapVsc('n', '<Leader>n', 'notifications.showList')
-  keymapVsc('n', '<Leader>nc', 'notifications.clearAll')
   -- jumpToBracket
   keymapVsc('nx', 'gb', 'editor.action.jumpToBracket')
   -- insert new line in normal mode
