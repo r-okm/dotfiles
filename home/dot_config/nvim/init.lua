@@ -163,4 +163,7 @@ if vim.g.vscode then
   keymapVsc('n', 'zd', 'git.openChange')
   keymapVscVisual('x', 'za', 'git.stageSelectedRanges')
   keymapVscVisual('x', 'zr', 'git.unstageSelectedRanges')
+else
+  vim.o.number = true
+  vim.o.relativenumber = true
 end
