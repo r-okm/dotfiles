@@ -1,33 +1,17 @@
 -- plugin
-local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
-local jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
-if vim.fn.filereadable(jetpackfile) == 0 then
-  vim.fn.system(string.format('curl -fsSLo %s --create-dirs %s', jetpackfile, jetpackurl))
-end
-
-vim.cmd('packadd vim-jetpack')
-
-local jetpack = require('jetpack')
-for _, name in ipairs(jetpack.names()) do
-  if not jetpack.tap(name) then
-    jetpack.sync()
-    break
-  end
-end
-
-require('jetpack.paq') {
-  { 'tani/vim-jetpack', opt = 1 }, -- bootstrap
-  'vim-jp/vimdoc-ja',
-  'tpope/vim-repeat',
-  'haya14busa/vim-asterisk',
-  'ggandor/leap.nvim',
-  'ggandor/flit.nvim',
-  'kana/vim-textobj-user',
-  'osyo-manga/vim-textobj-multiblock',
-  'kana/vim-operator-user',
-  'kana/vim-operator-replace',
-  'rhysd/vim-operator-surround',
-}
+local Plug = vim.fn['plug#']
+vim.call('plug#begin', '~/.vim/plugged')
+Plug 'vim-jp/vimdoc-ja'
+Plug 'tpope/vim-repeat'
+Plug 'haya14busa/vim-asterisk'
+Plug 'ggandor/leap.nvim'
+Plug 'ggandor/flit.nvim'
+Plug 'kana/vim-textobj-user'
+Plug 'osyo-manga/vim-textobj-multiblock'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-operator-replace'
+Plug 'rhysd/vim-operator-surround'
+vim.call('plug#end')
 
 -- set options
 local set_options = {
