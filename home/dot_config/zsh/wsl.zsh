@@ -1,5 +1,5 @@
 # alias
-alias clip='/mnt/c/Windows/system32/clip.exe'
+alias yank='win32yank -i'
 alias explorer='/mnt/c/Windows/explorer.exe'
 alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
 
