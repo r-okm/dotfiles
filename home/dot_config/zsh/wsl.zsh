@@ -1,6 +1,7 @@
 # alias
 alias clip='/mnt/c/Windows/system32/clip.exe'
 alias explorer='/mnt/c/Windows/explorer.exe'
+alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
 
 # ========================== zsh-hooks ==========================
 precmd() {
