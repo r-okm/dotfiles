@@ -1,5 +1,5 @@
 # alias
-alias yank='win32yank -i'
+alias yank='/mnt/c/scoop/shims/win32yank.exe -i'
 alias explorer='/mnt/c/Windows/explorer.exe'
 alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
 
