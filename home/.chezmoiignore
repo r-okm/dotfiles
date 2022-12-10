@@ -4,6 +4,6 @@ AppData
 {{ end }}
 
 {{ if ne .chezmoi.os "linux"}}
-.Brewfile
+.config/brew-bundle
 .config/zsh/wsl.zsh
 {{ end }}

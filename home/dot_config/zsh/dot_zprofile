@@ -2,22 +2,23 @@ export XDG_DATA_HOME="$HOME/.local/share"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
+  PATH="$HOME/bin:$PATH"
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
+  PATH="$HOME/.local/bin:$PATH"
 fi
 
 # Set PATH, MANPATH, etc., for Homebrew.
 if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  export HOMEBREW_BUNDLE_FILE=$XDG_CONFIG_HOME/brew-bundle/.Brewfile
 fi
 
 # openssl v3 を優先させる
 if [ -d "$HOMEBREW_PREFIX/opt/openssl@3/bin" ]; then
-    export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
+  export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
 fi
 
 # powered_cd
