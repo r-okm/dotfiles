@@ -112,6 +112,3 @@ fi
 if [ -e "$ZDOTDIR/msys2.zsh" ]; then
   source $ZDOTDIR/msys2.zsh
 fi
-
-# vscode integrated terminal
-[[ "$TERM_PROGRAM" == "vscode" ]] && source "$(code --locate-shell-integration-path zsh)"
