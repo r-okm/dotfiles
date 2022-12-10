@@ -1,3 +1,5 @@
+export XDG_DATA_HOME="$HOME/.local/share"
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
@@ -17,3 +19,7 @@ fi
 if [ -d "$HOMEBREW_PREFIX/opt/openssl@3/bin" ]; then
     export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
 fi
+
+# powered_cd
+export POWERED_CD_LOG_FILE="$XDG_DATA_HOME/zsh/powered_cd.log"
+export POWERED_CD_LOG_COUNT=30

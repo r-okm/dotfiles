@@ -26,6 +26,7 @@ alias l='ls -CF'
 # compatible with windows
 alias sz="source $ZDOTDIR/.zshrc"
 alias fd='fzf-cd'
+alias gs='fzf-git-checkout'
 alias g='git'
 alias n='npm'
 alias p='pnpm'
@@ -83,6 +84,20 @@ fzf-cd() {
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
+}
+
+# fzf-git-checkout
+fzf-git-checkout() {
+  target_br=$(
+    git branch -a |
+      grep -v HEAD |
+      fzf --exit-0 --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lg --color=always" |
+      head -n 1 |
+      sed -e "s/^.* //g"
+  )
+  if [ -n "$target_br" ]; then
+    git checkout $target_br
+  fi
 }
 
 # node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する

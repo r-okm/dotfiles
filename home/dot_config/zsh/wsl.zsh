@@ -2,6 +2,9 @@
 alias yank='/mnt/c/scoop/shims/win32yank.exe -i'
 alias explorer='/mnt/c/Windows/explorer.exe'
 alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
+alias cdh='powered-cd'
+
+[ -e $POWERED_CD_LOG_FILE ] || mkdir -p $(dirname $POWERED_CD_LOG_FILE) && touch $POWERED_CD_LOG_FILE
 
 # ========================== zsh-hooks ==========================
 precmd() {
@@ -15,7 +18,38 @@ precmd() {
   PROMPT=`prompt-format`
 }
 
+chpwd() {
+  powered-cd-add-log
+}
+
 # ========================== functions ==========================
+powered-cd-add-log() {
+  local log_count={$POWERED_CD_LOG_COUNT:30}
+  local i=0
+  cat $POWERED_CD_LOG_FILE | while read line; do
+    (( i++ ))
+    if [ i = $log_count ]; then
+      sed -i -e "${log_count},${log_count}d" $POWERED_CD_LOG_FILE
+    elif [ "$line" = "$PWD" ]; then
+      sed -i -e "${i},${i}d" $POWERED_CD_LOG_FILE
+    fi
+  done
+  echo "$PWD" >> $POWERED_CD_LOG_FILE
+}
+
+powered-cd() {
+  local target_dir=$(gtac $POWERED_CD_LOG_FILE | fzf)
+  if [ -n "$target_dir" ]; then
+    cd $target_dir
+  fi
+}
+
+_powered-cd() {
+  _files -/
+}
+
+compdef _powered-cd powered-cd
+
 # Prompt
 prompt-format() {
   local reset='%{\e[0m%}' # reset
