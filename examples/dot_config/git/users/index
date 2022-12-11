@@ -1,4 +1,0 @@
-[includeIf "gitdir:~/src/gh/r-okm/"]
-  path = home
-[includeIf "gitdir:~/src/az/"]
-  path = work
