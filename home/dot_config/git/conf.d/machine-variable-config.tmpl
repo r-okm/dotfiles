@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.hostname "DESKTOP-2H0QQTG"}}
+
+[include]
+  path = users/home
+
+{{ else }}
+
+[includeIf "gitdir:~/src/gh/{{ .name_home }}/"]
+  path = users/home
+[includeIf "gitdir:~/src/gh/{{ .name_work }}/"]
+  path = users/work
+[includeIf "gitdir:~/src/az/"]
+  path = users/work
+
+{{ end }}
