@@ -158,6 +158,10 @@ require('flit').setup {
 
 -- vscode
 if vim.g.vscode then
+  -- buffer
+  keymapVsc('n', '<Leader>s', 'workbench.action.files.save')
+  keymapVsc('n', '<Leader>w', 'workbench.action.closeActiveEditor')
+  keymapVsc('n', '<Leader>t', 'workbench.action.reopenClosedEditor')
   -- filer
   keymapVsc('n', '<Leader>c', 'workbench.action.closeSidebar')
   keymapVsc('n', '<Leader>e', 'workbench.view.explorer')
