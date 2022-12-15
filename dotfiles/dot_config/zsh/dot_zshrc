@@ -71,7 +71,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 # fzf-command-history
 fzf-command-history() {
-  BUFFER=$(history -n -r 1 | grep -v "ll" | grep -v "cd" | fzf --query "$LBUFFER")
+  BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ll" | grep -v "cd" | fzf --query "$LBUFFER")
   CURSOR=$#BUFFER
   zle reset-prompt
 }
