@@ -26,4 +26,16 @@ require('jetpack.packer').startup(function(use)
   use { 'kana/vim-operator-user' }
   use { 'gbprod/substitute.nvim', config = require('plugins.substitute') }
   use { 'rhysd/vim-operator-surround', config = require('plugins.operator-surround') }
+
+  if not vim.g.vscode then
+    use {
+      'nvim-tree/nvim-tree.lua',
+      requires = { 'nvim-tree/nvim-web-devicons' },
+      config = require('plugins.nvim-tree')
+    }
+    use {
+      'ellisonleao/gruvbox.nvim',
+      config = require('plugins.gruvbox')
+    }
+  end
 end)

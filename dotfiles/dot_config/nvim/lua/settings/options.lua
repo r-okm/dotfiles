@@ -24,9 +24,7 @@ if vim.fn.has('wsl') and vim.fn.executable(win32yank) then
 end
 
 -- vscode
-if vim.g.vscode then
-
-else
+if not vim.g.vscode then
   o.number = true
   o.relativenumber = true
 end
