@@ -33,6 +33,7 @@ require('jetpack.packer').startup(function(use)
       requires = { 'nvim-tree/nvim-web-devicons' },
       config = require('plugins.nvim-tree')
     }
+    use { 'nvim-tree/nvim-web-devicons' }
     use {
       'ellisonleao/gruvbox.nvim',
       config = require('plugins.gruvbox')
