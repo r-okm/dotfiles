@@ -27,15 +27,15 @@
             "keys": "ctrl+tab"
         },
         {
+            "command": "unbound",
+            "keys": "ctrl+v"
+        },
+        {
             "command": 
             {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
-        },
-        {
-            "command": "paste",
-            "keys": "ctrl+v"
         },
         {
             "command": 
