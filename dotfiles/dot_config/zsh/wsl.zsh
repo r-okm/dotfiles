@@ -44,12 +44,6 @@ powered-cd() {
   fi
 }
 
-_powered-cd() {
-  _files -/
-}
-
-compdef _powered-cd powered-cd
-
 # Prompt
 prompt-format() {
   local reset='%{\e[0m%}' # reset
