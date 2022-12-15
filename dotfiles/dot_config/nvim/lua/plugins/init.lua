@@ -15,7 +15,7 @@ for _, name in ipairs(jetpack.names()) do
 end
 
 require('jetpack.packer').startup(function(use)
-  use { 'tani/vim-jetpack', opt = 1 }
+  use { 'tani/vim-jetpack', opt = true }
   use { 'vim-jp/vimdoc-ja' }
   use { 'tpope/vim-repeat' }
   use { 'haya14busa/vim-asterisk', config = require('plugins.asterisk') }
@@ -30,10 +30,18 @@ require('jetpack.packer').startup(function(use)
   if not vim.g.vscode then
     use {
       'nvim-tree/nvim-tree.lua',
-      requires = { 'nvim-tree/nvim-web-devicons' },
+      -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' },
       config = require('plugins.nvim-tree')
     }
-    use { 'nvim-tree/nvim-web-devicons' }
+    use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
+
+    use {
+      'nvim-lualine/lualine.nvim',
+      -- requires = { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true },
+      config = require('plugins.lualine')
+    }
+    use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
+
     use {
       'ellisonleao/gruvbox.nvim',
       config = require('plugins.gruvbox')
