@@ -29,6 +29,28 @@ require('jetpack.packer').startup(function(use)
 
   if not vim.g.vscode then
     use {
+      'nvim-treesitter/nvim-treesitter',
+      run = ':TSUpdate',
+      event = { 'BufRead', 'BufNewFile' },
+      cmd = {
+        "TSInstall",
+        "TSInstallInfo",
+        "TSInstallSync",
+        "TSUninstall",
+        "TSUpdate",
+        "TSUpdateSync",
+        "TSDisableAll",
+        "TSEnableAll",
+      },
+      config = require('plugins.treesitter'),
+    }
+
+    use {
+      'numToStr/Comment.nvim',
+      config = require('plugins.comment')
+    }
+
+    use {
       'nvim-tree/nvim-tree.lua',
       -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' },
       config = require('plugins.nvim-tree')
