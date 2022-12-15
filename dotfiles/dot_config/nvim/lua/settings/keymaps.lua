@@ -31,4 +31,9 @@ if vim.g.vscode then
   keymapVsc('n', 'zd', 'git.openChange')
   keymapVscVisual('x', 'za', 'git.stageSelectedRanges')
   keymapVscVisual('x', 'zr', 'git.unstageSelectedRanges')
+else
+  keymap('n', '<C-h>', ':<C-u>bprev<CR>')
+  keymap('n', '<C-l>', ':<C-u>bnext<CR>')
+  keymap('n', '<Leader>s', ':<C-u>w<CR>')
+  keymap('n', '<Leader>w', ':<C-u>bw<CR>')
 end

@@ -33,6 +33,11 @@ require('jetpack.packer').startup(function(use)
       -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' },
       config = require('plugins.nvim-tree')
     }
+    use {
+      'akinsho/bufferline.nvim',
+      -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
+      config = require('plugins.bufferline')
+    }
     use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
 
     use {

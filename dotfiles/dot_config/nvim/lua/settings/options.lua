@@ -27,4 +27,5 @@ end
 if not vim.g.vscode then
   o.number = true
   o.relativenumber = true
+  o.termgouicolors = true
 end
