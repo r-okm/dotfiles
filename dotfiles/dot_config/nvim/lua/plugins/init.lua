@@ -63,6 +63,10 @@ require('jetpack.packer').startup(function(use)
       },
       config = require('plugins._treesitter'),
     }
+    use {
+      'windwp/nvim-autopairs',
+      config = require('plugins._autopairs')
+    }
 
     use {
       'nvim-telescope/telescope.nvim',
