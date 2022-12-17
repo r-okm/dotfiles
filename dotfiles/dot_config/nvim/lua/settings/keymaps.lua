@@ -7,8 +7,8 @@ local keymapVscVisual = util.keymapVscVisual
 vim.g.mapleader = ' '
 keymap('', '<Space>', '')
 
-keymap('nx', 'gh', '^')
-keymap('nx', 'gl', '$')
+keymap('nxo', 'gh', '^')
+keymap('nxo', 'gl', '$')
 
 -- vscode
 if vim.g.vscode then
