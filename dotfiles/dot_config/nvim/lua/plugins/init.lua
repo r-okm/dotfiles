@@ -39,14 +39,7 @@ require('jetpack.packer').startup(function(use)
     }
     use {
       'hrsh7th/nvim-cmp',
-      -- event = 'InsertEnter',
       config = require('plugins._nvim-cmp'),
-      -- requires = {
-      --   'hrsh7th/cmp-nvim-lsp',
-      --   'hrsh7th/cmp-buffer',
-      --   'hrsh7th/cmp-path',
-      --   'hrsh7th/cmp-cmdline',
-      -- }
     }
     use { 'hrsh7th/cmp-nvim-lsp' }
     use { 'hrsh7th/vim-vsnip' }
@@ -72,25 +65,30 @@ require('jetpack.packer').startup(function(use)
     }
 
     use {
+      'nvim-telescope/telescope.nvim',
+      tag = '0.1.0',
+      config = require('plugins._telescope'),
+    }
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+
+    use {
       'numToStr/Comment.nvim',
       config = require('plugins._comment')
     }
 
     use {
       'nvim-tree/nvim-tree.lua',
-      -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' },
       config = require('plugins._nvim-tree')
     }
     use {
       'akinsho/bufferline.nvim',
-      -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
       config = require('plugins._bufferline')
     }
     use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
 
     use {
       'nvim-lualine/lualine.nvim',
-      -- requires = { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true },
       config = require('plugins._lualine')
     }
     use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
