@@ -10,12 +10,17 @@ return function()
         list = {
           { key = 'h', action = 'close_node' },
           { key = 'l', action = 'preview' },
-          { key = 'v', action = 'vsplit' }
-        }
-      }
-    }
+          { key = 'v', action = 'vsplit' },
+        },
+      },
+    },
+    actions = {
+      open_file = {
+        quit_on_open = true
+      },
+    },
   }
 
   local keymap = require('utils.setKeymap').keymap
-  keymap('n', '<Leader>e', ':NvimTreeFocus<Cr>')
+  keymap('n', '<Leader>e', ':NvimTreeFindFile<Cr>')
 end
