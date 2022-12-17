@@ -18,14 +18,14 @@ require('jetpack.packer').startup(function(use)
   use { 'tani/vim-jetpack', opt = true }
   use { 'vim-jp/vimdoc-ja' }
   use { 'tpope/vim-repeat' }
-  use { 'haya14busa/vim-asterisk', config = require('plugins.asterisk') }
-  use { 'ggandor/leap.nvim', config = require('plugins.leap') }
-  use { 'ggandor/flit.nvim', config = require('plugins.flit') }
+  use { 'haya14busa/vim-asterisk', config = require('plugins._asterisk') }
+  use { 'ggandor/leap.nvim', config = require('plugins._leap') }
+  use { 'ggandor/flit.nvim', config = require('plugins._flit') }
   use { 'kana/vim-textobj-user' }
-  use { 'osyo-manga/vim-textobj-multiblock', config = require('plugins.textobj-multiblock') }
+  use { 'osyo-manga/vim-textobj-multiblock', config = require('plugins._textobj-multiblock') }
   use { 'kana/vim-operator-user' }
-  use { 'gbprod/substitute.nvim', config = require('plugins.substitute') }
-  use { 'rhysd/vim-operator-surround', config = require('plugins.operator-surround') }
+  use { 'gbprod/substitute.nvim', config = require('plugins._substitute') }
+  use { 'rhysd/vim-operator-surround', config = require('plugins._operator-surround') }
 
   if not vim.g.vscode then
     use { 'neovim/nvim-lspconfig' }
@@ -68,36 +68,36 @@ require('jetpack.packer').startup(function(use)
         "TSDisableAll",
         "TSEnableAll",
       },
-      config = require('plugins.treesitter'),
+      config = require('plugins._treesitter'),
     }
 
     use {
       'numToStr/Comment.nvim',
-      config = require('plugins.comment')
+      config = require('plugins._comment')
     }
 
     use {
       'nvim-tree/nvim-tree.lua',
       -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' },
-      config = require('plugins.nvim-tree')
+      config = require('plugins._nvim-tree')
     }
     use {
       'akinsho/bufferline.nvim',
       -- requires = { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
-      config = require('plugins.bufferline')
+      config = require('plugins._bufferline')
     }
     use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
 
     use {
       'nvim-lualine/lualine.nvim',
       -- requires = { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true },
-      config = require('plugins.lualine')
+      config = require('plugins._lualine')
     }
     use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
 
     use {
       'ellisonleao/gruvbox.nvim',
-      config = require('plugins.gruvbox')
+      config = require('plugins._gruvbox')
     }
   end
 end)
