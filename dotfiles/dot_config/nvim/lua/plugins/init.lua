@@ -1,5 +1,6 @@
 local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 local jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+
 if vim.fn.filereadable(jetpackfile) == 0 then
   vim.fn.system(string.format('curl -fsSLo %s --create-dirs %s', jetpackfile, jetpackurl))
 end
@@ -110,6 +111,13 @@ require('jetpack.packer').startup(function(use)
       config = require('plugins._lualine')
     }
     use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
+
+    -- gitsign
+    use {
+      'lewis6991/gitsigns.nvim',
+      tag = 'release',
+      config = require('plugins._gitsigns'),
+    }
 
     -- color theme
     use {
