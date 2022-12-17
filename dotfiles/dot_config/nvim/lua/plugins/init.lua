@@ -110,6 +110,12 @@ require('jetpack.packer').startup(function(use)
     }
     use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
 
+    -- delete buffer without closing window
+    use {
+      'famiu/bufdelete.nvim',
+      config = require('plugins._bufdelete'),
+    }
+
     -- statusbar
     use {
       'nvim-lualine/lualine.nvim',
