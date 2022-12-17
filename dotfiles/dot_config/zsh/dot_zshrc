@@ -28,6 +28,7 @@ alias sz="source $ZDOTDIR/.zshrc"
 alias cf='fzf-cd'
 alias gs='fzf-git-checkout'
 alias g='git'
+alias lg='lazygit'
 alias n='npm'
 alias p='pnpm'
 alias nr='npm run'
