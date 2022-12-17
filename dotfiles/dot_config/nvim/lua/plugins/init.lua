@@ -28,6 +28,7 @@ require('jetpack.packer').startup(function(use)
   use { 'rhysd/vim-operator-surround', config = require('plugins._operator-surround') }
 
   if not vim.g.vscode then
+    -- lsp
     use { 'neovim/nvim-lspconfig' }
     use {
       'williamboman/mason.nvim',
@@ -37,6 +38,7 @@ require('jetpack.packer').startup(function(use)
       'williamboman/mason-lspconfig.nvim',
       config = require('plugins._mason-lspconfig'),
     }
+    -- cmp
     use {
       'hrsh7th/nvim-cmp',
       config = require('plugins._nvim-cmp'),
@@ -47,6 +49,7 @@ require('jetpack.packer').startup(function(use)
     use { 'hrsh7th/cmp-path' }
     use { 'hrsh7th/cmp-cmdline' }
 
+    -- treesitter
     use {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
@@ -68,6 +71,7 @@ require('jetpack.packer').startup(function(use)
       config = require('plugins._autopairs')
     }
 
+    -- telescope
     use {
       'nvim-telescope/telescope.nvim',
       tag = '0.1.0',
