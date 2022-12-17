@@ -27,8 +27,8 @@ return function()
         keymapBuf('n', 'gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
         keymapBuf('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
         keymapBuf('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
-        keymapBuf('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-        keymapBuf('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
+        keymapBuf('n', 'g.', '<cmd>lua vim.diagnostic.goto_next()<CR>')
+        keymapBuf('n', 'g,', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
         vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
       end
 
