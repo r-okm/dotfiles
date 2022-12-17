@@ -80,27 +80,38 @@ require('jetpack.packer').startup(function(use)
     use { 'nvim-lua/plenary.nvim' }
     use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
+    -- Comment
     use {
       'numToStr/Comment.nvim',
       config = require('plugins._comment')
     }
 
+    -- terminal
+    use {
+      'akinsho/toggleterm.nvim',
+      config = require('plugins._toggleterm'),
+    }
+
+    -- sidebar
     use {
       'nvim-tree/nvim-tree.lua',
       config = require('plugins._nvim-tree')
     }
+    -- tab
     use {
       'akinsho/bufferline.nvim',
       config = require('plugins._bufferline')
     }
     use { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons' }
 
+    -- statusbar
     use {
       'nvim-lualine/lualine.nvim',
       config = require('plugins._lualine')
     }
     use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
 
+    -- color theme
     use {
       'ellisonleao/gruvbox.nvim',
       config = require('plugins._gruvbox')
