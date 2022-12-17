@@ -29,12 +29,18 @@ require('jetpack.packer').startup(function(use)
 
   if not vim.g.vscode then
     use { 'neovim/nvim-lspconfig' }
-    use { 'williamboman/mason.nvim' }
-    use { 'williamboman/mason-lspconfig.nvim' }
+    use {
+      'williamboman/mason.nvim',
+      config = require('plugins._mason'),
+    }
+    use {
+      'williamboman/mason-lspconfig.nvim',
+      config = require('plugins._mason-lspconfig'),
+    }
     use {
       'hrsh7th/nvim-cmp',
       -- event = 'InsertEnter',
-      -- config = require('plugins.cmp'),
+      config = require('plugins._nvim-cmp'),
       -- requires = {
       --   'hrsh7th/cmp-nvim-lsp',
       --   'hrsh7th/cmp-buffer',
