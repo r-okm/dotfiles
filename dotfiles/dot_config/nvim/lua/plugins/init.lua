@@ -28,6 +28,26 @@ require('jetpack.packer').startup(function(use)
   use { 'rhysd/vim-operator-surround', config = require('plugins.operator-surround') }
 
   if not vim.g.vscode then
+    use { 'neovim/nvim-lspconfig' }
+    use { 'williamboman/mason.nvim' }
+    use { 'williamboman/mason-lspconfig.nvim' }
+    use {
+      'hrsh7th/nvim-cmp',
+      -- event = 'InsertEnter',
+      -- config = require('plugins.cmp'),
+      -- requires = {
+      --   'hrsh7th/cmp-nvim-lsp',
+      --   'hrsh7th/cmp-buffer',
+      --   'hrsh7th/cmp-path',
+      --   'hrsh7th/cmp-cmdline',
+      -- }
+    }
+    use { 'hrsh7th/cmp-nvim-lsp' }
+    use { 'hrsh7th/vim-vsnip' }
+    use { 'hrsh7th/cmp-buffer' }
+    use { 'hrsh7th/cmp-path' }
+    use { 'hrsh7th/cmp-cmdline' }
+
     use {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
