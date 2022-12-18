@@ -5,6 +5,9 @@ return function()
       find_files = {
         hidden = true,
       },
+      git_files = {
+        show_untracked = true,
+      },
     },
     extensions = {
       fzf = {
