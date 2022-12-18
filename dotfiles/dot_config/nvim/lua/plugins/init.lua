@@ -54,17 +54,6 @@ require('jetpack.packer').startup(function(use)
     use {
       'nvim-treesitter/nvim-treesitter',
       run = ':TSUpdate',
-      event = { 'BufRead', 'BufNewFile' },
-      cmd = {
-        "TSInstall",
-        "TSInstallInfo",
-        "TSInstallSync",
-        "TSUninstall",
-        "TSUpdate",
-        "TSUpdateSync",
-        "TSDisableAll",
-        "TSEnableAll",
-      },
       config = require('plugins._treesitter'),
     }
     use {

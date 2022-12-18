@@ -7,33 +7,34 @@ return function()
   mlc.setup_handlers({
     function(server)
       -- server 固有の設定
-      local setupOptions = require(string.format('lsp.%s', server))
+      local opts = require(string.format('lsp._%s', server))
 
       -- 共通設定
-      setupOptions.capabilities = require('cmp_nvim_lsp').default_capabilities()
-      setupOptions.on_attach = function(_, bufnr)
-        local opts = { noremap = true, silent = true }
-        local function keymapBuf(mode, lhs, rhs)
-          vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+      opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
+      opts.on_attach = function(client, bufnr)
+        local function map(mode, lhs, rhs)
+          vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, buffer = bufnr })
         end
 
-        keymapBuf('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-        keymapBuf('n', 'gf', '<cmd>lua vim.lsp.buf.format()<CR>')
-        keymapBuf('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-        keymapBuf('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-        keymapBuf('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-        keymapBuf('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-        keymapBuf('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-        keymapBuf('n', 'gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-        keymapBuf('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-        keymapBuf('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
-        keymapBuf('n', 'g.', '<cmd>lua vim.diagnostic.goto_next()<CR>')
-        keymapBuf('n', 'g,', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
-        vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
+        map('n', 'K', function() vim.lsp.buf.hover() end)
+        map('n', 'gf', function() vim.lsp.buf.format() end)
+        map('n', 'gr', function() vim.lsp.buf.references() end)
+        map('n', 'gd', function() vim.lsp.buf.definition() end)
+        map('n', 'gD', function() vim.lsp.buf.declaration() end)
+        map('n', 'gi', function() vim.lsp.buf.implementation() end)
+        map('n', 'gt', function() vim.lsp.buf.type_definition() end)
+        map('n', 'gn', function() vim.lsp.buf.rename() end)
+        map('n', 'ga', function() vim.lsp.buf.code_action() end)
+        map('n', 'ge', function() vim.diagnostic.open_float() end)
+        map('n', 'g.', function() vim.diagnostic.goto_next() end)
+        map('n', 'g,', function() vim.diagnostic.goto_prev() end)
+
+        -- server 固有の on_attach ハンドラーを実行
+        opts.on_attach_extra(client, bufnr)
       end
 
       -- setup
-      require('lspconfig')[server].setup(setupOptions)
+      require('lspconfig')[server].setup(opts)
     end,
   })
 
