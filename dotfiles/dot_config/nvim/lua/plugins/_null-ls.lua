@@ -6,7 +6,6 @@ return function()
         prefer_local = 'node_modules/.bin',
       }
     },
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
     on_attach = function(_, bufnr)
       local function map(mode, lhs, rhs)
         vim.keymap.set(mode, lhs, rhs, { noremap = true, silent = true, buffer = bufnr })
