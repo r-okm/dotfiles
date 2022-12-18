@@ -43,6 +43,10 @@ require('jetpack.packer').startup(function(use)
       'jose-elias-alvarez/null-ls.nvim',
       config = require('plugins._null-ls')
     }
+    use {
+      'j-hui/fidget.nvim',
+      config = require('plugins._fidget')
+    }
     -- cmp
     use {
       'hrsh7th/nvim-cmp',
