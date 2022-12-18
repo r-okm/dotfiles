@@ -1,7 +1,12 @@
-local servers = {
+local M = {}
+
+M.lsp = {
   'eslint',
   'sumneko_lua',
   'tsserver',
 }
+M.null_ls = {
+  'prettierd',
+}
 
-return servers
+return M

@@ -40,6 +40,10 @@ require('jetpack.packer').startup(function(use)
       config = require('plugins._mason-lspconfig'),
     }
     use {
+      'jay-babu/mason-null-ls.nvim',
+      config = require('plugins._mason-null-ls')
+    }
+    use {
       'jose-elias-alvarez/null-ls.nvim',
       config = require('plugins._null-ls')
     }

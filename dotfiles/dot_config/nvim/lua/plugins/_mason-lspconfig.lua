@@ -2,7 +2,7 @@ return function()
   local mlc = require('mason-lspconfig')
 
   mlc.setup({
-    ensure_installed = require('lsp.server_list')
+    ensure_installed = require('lsp.server_list').lsp
   })
   mlc.setup_handlers({
     function(server)
