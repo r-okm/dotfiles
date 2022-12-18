@@ -91,6 +91,11 @@ require('jetpack.packer').startup(function(use)
       'numToStr/Comment.nvim',
       config = require('plugins._comment')
     }
+    -- indent line
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = require('plugins._indent-blankline'),
+    }
 
     -- terminal
     use {
