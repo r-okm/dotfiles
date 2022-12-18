@@ -39,6 +39,10 @@ require('jetpack.packer').startup(function(use)
       'williamboman/mason-lspconfig.nvim',
       config = require('plugins._mason-lspconfig'),
     }
+    use {
+      'jose-elias-alvarez/null-ls.nvim',
+      config = require('plugins._null-ls')
+    }
     -- cmp
     use {
       'hrsh7th/nvim-cmp',
@@ -59,6 +63,10 @@ require('jetpack.packer').startup(function(use)
     use {
       'windwp/nvim-autopairs',
       config = require('plugins._autopairs')
+    }
+    use {
+      'RRethy/vim-illuminate',
+      config = require('plugins._illuminate')
     }
 
     -- telescope
