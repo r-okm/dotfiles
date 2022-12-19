@@ -1,8 +1,8 @@
 return function()
-  vim.cmd [[highlight IndentBlanklineIndent1 guibg=#383138 gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent2 guibg=#2e362e gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent3 guibg=#303838 gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent4 guibg=#36362f gui=nocombine]]
+  vim.cmd [[highlight IndentBlanklineIndent1 guibg=#403b40 gui=nocombine]]
+  vim.cmd [[highlight IndentBlanklineIndent2 guibg=#353b35 gui=nocombine]]
+  vim.cmd [[highlight IndentBlanklineIndent3 guibg=#383d3d gui=nocombine]]
+  vim.cmd [[highlight IndentBlanklineIndent4 guibg=#454540 gui=nocombine]]
   vim.cmd [[highlight IndentBlanklineContextChar guifg=#CCCCCC gui=nocombine]]
 
   require("indent_blankline").setup {
