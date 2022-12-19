@@ -1,5 +1,5 @@
 return function(use)
-  local vscode = vim.g.vscode == 1
+  local vscode = not vim.g.vscode
 
   -- treesitter
   use {
