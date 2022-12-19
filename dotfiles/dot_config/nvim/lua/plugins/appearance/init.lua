@@ -10,92 +10,95 @@ return function(use)
   _use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    config = ('plugins.appearance._treesitter'),
+    config = require('plugins.appearance._treesitter'),
   }
   _use {
     'windwp/nvim-autopairs',
-    config = ('plugins.appearance._autopairs'),
+    config = require('plugins.appearance._autopairs'),
+    after = { 'nvim-treesitter', 'nvim-cmp' },
   }
   _use {
     'RRethy/vim-illuminate',
-    config = ('plugins.appearance._illuminate'),
+    config = require('plugins.appearance._illuminate'),
+    after = { 'nvim-treesitter' },
   }
 
   -- telescope
   _use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    config = ('plugins.appearance._telescope'),
-  }
-  _use {
-    'nvim-lua/plenary.nvim',
-  }
-  _use {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make',
-  }
-
-  _use {
-    'AckslD/nvim-neoclip.lua',
-    config = ('plugins.appearance._neoclip'),
+    config = require('plugins.appearance._telescope'),
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make',
+      },
+      {
+        'AckslD/nvim-neoclip.lua',
+        config = require('plugins.appearance._neoclip'),
+      }
+    },
+    after = { 'plenary.nvim' },
   }
 
   -- Comment
   _use {
     'numToStr/Comment.nvim',
-    config = ('plugins.appearance._comment'),
+    config = require('plugins.appearance._comment'),
   }
   -- indent line
   _use {
     'lukas-reineke/indent-blankline.nvim',
-    config = ('plugins.appearance._indent-blankline'),
+    config = require('plugins.appearance._indent-blankline'),
   }
 
   -- terminal
   _use {
     'akinsho/toggleterm.nvim',
-    config = ('plugins.appearance._toggleterm'),
+    config = require('plugins.appearance._toggleterm'),
   }
 
   -- sidebar
   _use {
     'nvim-tree/nvim-tree.lua',
-    config = ('plugins.appearance._nvim-tree'),
+    config = require('plugins.appearance._nvim-tree'),
   }
   -- tab
   _use {
     'akinsho/bufferline.nvim',
-    config = ('plugins.appearance._bufferline'),
-  }
-  _use {
-    'nvim-tree/nvim-web-devicons',
-    as = 'tree-web-devicons',
+    config = require('plugins.appearance._bufferline'),
+    requires = {
+      { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons', },
+    },
   }
 
   -- delete buffer without closing window
   _use {
     'famiu/bufdelete.nvim',
-    config = ('plugins.appearance._bufdelete'),
+    config = require('plugins.appearance._bufdelete'),
   }
 
   -- statusbar
   _use {
     'nvim-lualine/lualine.nvim',
-    config = ('plugins.appearance._lualine'),
+    config = require('plugins.appearance._lualine'),
+    requires = {
+      { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', }
+    }
   }
-  _use { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
 
   -- gitsign
   _use {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
-    config = ('plugins.appearance._gitsigns'),
+    config = require('plugins.appearance._gitsigns'),
   }
 
   -- color theme
   _use {
     'ellisonleao/gruvbox.nvim',
-    config = ('plugins.appearance._gruvbox'),
+    config = require('plugins.appearance._gruvbox'),
   }
 
 end
