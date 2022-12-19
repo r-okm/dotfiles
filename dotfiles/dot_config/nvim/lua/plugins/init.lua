@@ -1,26 +1,26 @@
-local jetpackfile = vim.fn.stdpath('data') .. '/site/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
-local jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
-
-if vim.fn.filereadable(jetpackfile) == 0 then
-  vim.fn.system(string.format('curl -fsSLo %s --create-dirs %s', jetpackfile, jetpackurl))
-end
-
-vim.cmd('packadd vim-jetpack')
-
-local jetpack = require('jetpack')
-for _, name in ipairs(jetpack.names()) do
-  if not jetpack.tap(name) then
-    jetpack.sync()
-    break
+local ensure_packer = function()
+  local fn = vim.fn
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    vim.cmd [[packadd packer.nvim]]
+    return true
   end
+  return false
 end
 
-require('jetpack.packer').startup(function(use)
-  use { 'tani/vim-jetpack', opt = true }
+local packer_bootstrap = ensure_packer()
+
+return require('packer').startup(function(use)
+  use { 'wbthomason/packer.nvim' }
 
   require('plugins.editor')(use)
-  if not vim.g.vscode then
-    require('plugins.appearance')(use)
-    require('plugins.lsp')(use)
+  require('plugins.appearance')(use)
+  require('plugins.lsp')(use)
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if packer_bootstrap then
+    require('packer').sync()
   end
 end)
