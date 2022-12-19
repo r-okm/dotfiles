@@ -1,4 +1,6 @@
 require('settings.keymaps')
 require('settings.options')
 require('plugins')
-require('settings.lsp')
+if not vim.g.vscode then
+  require('settings.lsp')
+end
