@@ -1,67 +1,46 @@
 return function(use)
-  local not_vscode = function()
-    return vim.g.vscode == nil
+  local _use = function(opts)
+    opts.cond = function()
+      return vim.g.vscode == nil
+    end
+    use(opts)
   end
 
   -- lsp
-  use {
+  _use {
     'neovim/nvim-lspconfig',
-    cond = not_vscode,
   }
-  use {
+  _use {
     'williamboman/mason.nvim',
     config = require('plugins.lsp._mason'),
-    cond = not_vscode,
   }
-  use {
+  _use {
     'williamboman/mason-lspconfig.nvim',
     config = require('plugins.lsp._mason-lspconfig'),
-    cond = not_vscode,
   }
-  use {
+  _use {
     'jay-babu/mason-null-ls.nvim',
     config = require('plugins.lsp._mason-null-ls'),
-    cond = not_vscode,
   }
-  use {
+  _use {
     'jose-elias-alvarez/null-ls.nvim',
     config = require('plugins.lsp._null-ls'),
-    cond = not_vscode,
   }
-  use {
+  _use {
     'j-hui/fidget.nvim',
     config = require('plugins.lsp._fidget'),
-    cond = not_vscode,
   }
   -- cmp
-  use {
+  _use {
     'hrsh7th/nvim-cmp',
     config = require('plugins.lsp._nvim-cmp'),
-    cond = not_vscode,
+    requires = {
+      { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
+      { 'hrsh7th/vim-vsnip', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
+    }
   }
-  use {
-    'hrsh7th/cmp-nvim-lsp',
-    cond = not_vscode,
-    requires = { 'hrsh7th/nvim-cmp' }
-  }
-  use {
-    'hrsh7th/vim-vsnip',
-    cond = not_vscode,
-    requires = { 'hrsh7th/nvim-cmp' }
-  }
-  use {
-    'hrsh7th/cmp-buffer',
-    cond = not_vscode,
-    requires = { 'hrsh7th/nvim-cmp' }
-  }
-  use {
-    'hrsh7th/cmp-path',
-    cond = not_vscode,
-    requires = { 'hrsh7th/nvim-cmp' }
-  }
-  use {
-    'hrsh7th/cmp-cmdline',
-    cond = not_vscode,
-    requires = { 'hrsh7th/nvim-cmp' }
-  }
+
 end
