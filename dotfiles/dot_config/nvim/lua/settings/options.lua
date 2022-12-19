@@ -12,7 +12,7 @@ if not vim.g.vscode then
   o.relativenumber = true
   o.termgouicolors = true
   o.list = true
-  opt.listchars = { tab = '»-', trail = '●' }
+  opt.listchars = { tab = '»-', trail = '●', space = '⋅' }
   o.expandtab = true
   local indent = 2
   o.shiftwidth = indent
