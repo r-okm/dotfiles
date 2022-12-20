@@ -9,19 +9,28 @@ return function(use)
   -- treesitter
   _use {
     'nvim-treesitter/nvim-treesitter',
-    event = 'BufReadPost',
+    event = 'BufRead',
     run = ':TSUpdate',
     config = require('plugins.appearance._treesitter'),
   }
   _use {
     'windwp/nvim-autopairs',
+    event = 'InsertEnter',
     config = require('plugins.appearance._autopairs'),
-    after = { 'nvim-treesitter', 'nvim-cmp' },
+    requires = {
+      { 'nvim-treesitter/nvim-treesitter', opt = true },
+      { 'hrsh7th/nvim-cmp', opt = true },
+    },
+    wants = { 'nvim-treesitter', 'nvim-cmp' },
   }
   _use {
     'RRethy/vim-illuminate',
+    event = 'BufRead',
     config = require('plugins.appearance._illuminate'),
-    after = { 'nvim-treesitter' },
+    requires = {
+      { 'nvim-treesitter/nvim-treesitter', opt = true },
+    },
+    wants = { 'nvim-treesitter' },
   }
 
   -- telescope
@@ -30,29 +39,36 @@ return function(use)
     tag = '0.1.0',
     config = require('plugins.appearance._telescope'),
     requires = {
-      { 'nvim-lua/plenary.nvim' },
+      {
+        'nvim-lua/plenary.nvim',
+        -- opt = true,
+      },
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make',
+        -- opt = true,
       },
       {
         'AckslD/nvim-neoclip.lua',
         config = require('plugins.appearance._neoclip'),
+        -- opt = true,
       }
     },
-    after = { 'plenary.nvim' },
+    wants = { 'plenary.nvim', 'telescope-fzf-native.nvim', 'nvim-neoclip.lua' },
   }
 
   -- Comment
   _use {
     'numToStr/Comment.nvim',
-    event = 'BufReadPost',
-    config = require('plugins.appearance._comment'),
+    event = 'BufRead',
+    config = function()
+      require('Comment').setup()
+    end,
   }
   -- indent line
   _use {
     'lukas-reineke/indent-blankline.nvim',
-    event = 'BufReadPost',
+    event = 'BufRead',
     config = require('plugins.appearance._indent-blankline'),
   }
 
@@ -80,8 +96,8 @@ return function(use)
   -- delete buffer without closing window
   _use {
     'famiu/bufdelete.nvim',
-    event = 'BufReadPost',
-    config = require('plugins.appearance._bufdelete'),
+    module = ('bufdelete'),
+    setup = require('plugins.appearance._bufdelete'),
   }
 
   -- statusbar
@@ -97,7 +113,7 @@ return function(use)
   _use {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
-    event = 'BufReadPost',
+    event = 'BufRead',
     config = require('plugins.appearance._gitsigns'),
   }
 
