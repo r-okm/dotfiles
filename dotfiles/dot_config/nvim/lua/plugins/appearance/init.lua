@@ -9,6 +9,7 @@ return function(use)
   -- treesitter
   _use {
     'nvim-treesitter/nvim-treesitter',
+    event = 'BufReadPost',
     run = ':TSUpdate',
     config = require('plugins.appearance._treesitter'),
   }
@@ -45,17 +46,20 @@ return function(use)
   -- Comment
   _use {
     'numToStr/Comment.nvim',
+    event = 'BufReadPost',
     config = require('plugins.appearance._comment'),
   }
   -- indent line
   _use {
     'lukas-reineke/indent-blankline.nvim',
+    event = 'BufReadPost',
     config = require('plugins.appearance._indent-blankline'),
   }
 
   -- terminal
   _use {
     'akinsho/toggleterm.nvim',
+    fn = 'LazygitToggle',
     config = require('plugins.appearance._toggleterm'),
   }
 
@@ -76,6 +80,7 @@ return function(use)
   -- delete buffer without closing window
   _use {
     'famiu/bufdelete.nvim',
+    event = 'BufReadPost',
     config = require('plugins.appearance._bufdelete'),
   }
 
@@ -92,6 +97,7 @@ return function(use)
   _use {
     'lewis6991/gitsigns.nvim',
     tag = 'release',
+    event = 'BufReadPost',
     config = require('plugins.appearance._gitsigns'),
   }
 
