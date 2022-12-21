@@ -1,40 +1,40 @@
 return function(use)
-  local _use = function(opts)
-    opts.cond = function()
-      return vim.g.vscode == nil
-    end
-    use(opts)
+  local not_vscode = function()
+    return vim.g.vscode == nil
   end
 
   -- treesitter
-  _use {
+  use {
     'nvim-treesitter/nvim-treesitter',
-    event = { 'BufRead', 'BufNewFile', 'InsertEnter' },
     run = ':TSUpdate',
+    event = { 'BufRead', 'BufNewFile' },
+    cond = not_vscode(),
     config = require('plugins.appearance._treesitter'),
   }
-  _use {
+  use {
     'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    config = require('plugins.appearance._autopairs'),
+    event = { 'InsertEnter' },
     requires = {
       { 'nvim-treesitter/nvim-treesitter', opt = true },
       { 'hrsh7th/nvim-cmp', opt = true },
     },
     wants = { 'nvim-treesitter', 'nvim-cmp' },
+    cond = not_vscode(),
+    config = require('plugins.appearance._autopairs'),
   }
-  _use {
+  use {
     'RRethy/vim-illuminate',
-    event = 'BufRead',
-    config = require('plugins.appearance._illuminate'),
+    event = { 'BufRead', 'BufNewFile' },
     requires = {
       { 'nvim-treesitter/nvim-treesitter', opt = true },
     },
     wants = { 'nvim-treesitter' },
+    cond = not_vscode(),
+    config = require('plugins.appearance._illuminate'),
   }
 
   -- telescope
-  _use {
+  use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     module = 'telescope',
@@ -49,6 +49,10 @@ return function(use)
       'nvim-neoclip.lua'
     },
     setup = function()
+      if vim.g.vscode then
+        return
+      end
+
       local telescope = require('telescope')
       telescope.load_extension('fzf')
       telescope.load_extension('neoclip')
@@ -83,43 +87,45 @@ return function(use)
   }
 
   -- Comment
-  _use {
+  use {
     'numToStr/Comment.nvim',
-    module = 'Comment',
-    setup = function()
+    event = { 'BufRead', 'BufNewFile', },
+    cond = not_vscode(),
+    config = function()
       require('Comment').setup()
     end,
   }
   -- indent line
-  _use {
+  use {
     'lukas-reineke/indent-blankline.nvim',
-    event = 'BufRead',
+    event = { 'BufRead', 'BufNewFile' },
+    cond = not_vscode(),
     config = require('plugins.appearance._indent-blankline'),
   }
 
   -- terminal
-  _use {
+  use {
     'akinsho/toggleterm.nvim',
-    fn = 'LazygitToggle',
     config = require('plugins.appearance._toggleterm'),
   }
 
   -- sidebar
-  _use {
+  use {
     'nvim-tree/nvim-tree.lua',
-    cmd = {
-      'NvimTreeFindFile',
-      'NvimTreeCollapse',
-    },
+    cmd = { 'NvimTreeFindFile' },
     requires = {
-      { 'nvim-tree/nvim-web-devicons' },
+      { 'nvim-tree/nvim-web-devicons', opt = true },
     },
+    wants = { 'nvim-web-devicons' },
     setup = function()
+      if vim.g.vscode then
+        return
+      end
+
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
       local keymap = require('utils.setKeymap').keymap
-      keymap('n', '<Leader>e', ':NvimTreeFindFile<Cr>')
-      keymap('n', '<Leader>c', ':NvimTreeCollapse<Cr>')
+      keymap('n', '<Space>e', ':<C-u>NvimTreeFindFile<Cr>')
     end,
     config = function()
       require("nvim-tree").setup {
@@ -148,40 +154,62 @@ return function(use)
     end,
   }
   -- tab
-  _use {
+  use {
     'akinsho/bufferline.nvim',
-    config = require('plugins.appearance._bufferline'),
+    event = { 'BufRead', 'BufNewFile' },
     requires = {
-      { 'nvim-tree/nvim-web-devicons' },
+      { 'nvim-tree/nvim-web-devicons', opt = true },
     },
+    wants = { 'nvim-web-devicons' },
+    cond = not_vscode(),
+    config = function()
+      require('bufferline').setup()
+    end,
   }
 
   -- delete buffer without closing window
-  _use {
+  use {
     'famiu/bufdelete.nvim',
-    module = 'bufdelete',
-    setup = require('plugins.appearance._bufdelete'),
+    cmd = {
+      'Bdelete',
+      'Bwipeout',
+    },
+    setup = function()
+      if vim.g.vscode then
+        return
+      end
+
+      local keymap = require('utils.setKeymap').keymap
+      keymap('n', '<Leader>w', ':<C-u>Bwipeout<CR>')
+    end,
   }
 
   -- statusbar
-  _use {
+  use {
     'nvim-lualine/lualine.nvim',
-    config = require('plugins.appearance._lualine'),
     requires = {
-      { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', }
-    }
+      { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons' }
+    },
+    config = function()
+      require('lualine').setup()
+    end,
+    cond = not_vscode(),
   }
 
   -- gitsign
-  _use {
+  use {
     'lewis6991/gitsigns.nvim',
-    event = 'BufRead',
-    config = require('plugins.appearance._gitsigns'),
+    event = { 'BufRead', 'BufNewFile' },
+    cond = not_vscode(),
+    config = function()
+      require('gitsigns').setup()
+    end,
   }
 
   -- color theme
-  _use {
+  use {
     'ellisonleao/gruvbox.nvim',
+    cond = not_vscode(),
     config = require('plugins.appearance._gruvbox'),
   }
 

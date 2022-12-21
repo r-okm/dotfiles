@@ -1,4 +1,8 @@
 return function()
+  if vim.g.vscode then
+    return
+  end
+
   local Terminal = require('toggleterm.terminal').Terminal
   local lazygit = Terminal:new({
     cmd = 'lazygit',
