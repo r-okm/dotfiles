@@ -111,6 +111,9 @@ return function(use)
       'NvimTreeFindFile',
       'NvimTreeCollapse',
     },
+    requires = {
+      { 'nvim-tree/nvim-web-devicons' },
+    },
     setup = function()
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
@@ -149,7 +152,7 @@ return function(use)
     'akinsho/bufferline.nvim',
     config = require('plugins.appearance._bufferline'),
     requires = {
-      { 'nvim-tree/nvim-web-devicons', as = 'tree-web-devicons', },
+      { 'nvim-tree/nvim-web-devicons' },
     },
   }
 
