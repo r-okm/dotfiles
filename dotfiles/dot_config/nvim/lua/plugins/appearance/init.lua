@@ -9,7 +9,7 @@ return function(use)
   -- treesitter
   _use {
     'nvim-treesitter/nvim-treesitter',
-    event = 'BufRead',
+    event = { 'BufRead', 'BufNewFile', 'InsertEnter' },
     run = ':TSUpdate',
     config = require('plugins.appearance._treesitter'),
   }
@@ -175,7 +175,6 @@ return function(use)
   -- gitsign
   _use {
     'lewis6991/gitsigns.nvim',
-    tag = 'release',
     event = 'BufRead',
     config = require('plugins.appearance._gitsigns'),
   }

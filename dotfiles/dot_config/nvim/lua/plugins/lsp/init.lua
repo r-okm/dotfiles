@@ -1,31 +1,44 @@
 return function(use)
-  -- lsp
+  local conf = require('plugins.lsp.conf')
+  local not_vscode = function()
+    return vim.g.vscode == nil
+  end
+
   use {
     'neovim/nvim-lspconfig',
-  }
-  use {
-    'williamboman/mason.nvim',
-    config = require('plugins.lsp._mason'),
-    after = { 'nvim-lspconfig' },
-  }
-  use {
-    'williamboman/mason-lspconfig.nvim',
-    config = require('plugins.lsp._mason-lspconfig'),
-    after = { 'nvim-lspconfig', 'mason.nvim', 'cmp-nvim-lsp' },
-  }
-  use {
-    'jose-elias-alvarez/null-ls.nvim',
-    config = require('plugins.lsp._null-ls'),
-    after = { 'mason.nvim' },
-  }
-  use {
-    'jay-babu/mason-null-ls.nvim',
-    config = require('plugins.lsp._mason-null-ls'),
-    after = { 'nvim-lspconfig', 'mason.nvim', 'null-ls.nvim' },
-  }
-  use {
-    'j-hui/fidget.nvim',
-    config = require('plugins.lsp._fidget'),
+    event = { 'BufReadPre' },
+    cond = not_vscode(),
+    requires = {
+      { 'williamboman/mason.nvim', module = { 'mason' } },
+      { 'williamboman/mason-lspconfig.nvim', module = { 'mason-lspconfig' } },
+    },
+    wants = {
+      'mason.nvim',
+      'mason-lspconfig.nvim',
+      'mason-null-ls.nvim',
+      'null-ls.nvim',
+      'cmp-nvim-lsp',
+    },
+    config = conf.lspconfig.config,
   }
 
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    event = { 'BufReadPre' },
+    cond = not_vscode(),
+    requires = {
+      { 'jay-babu/mason-null-ls.nvim', module = { 'mason-null-ls' } },
+    },
+    wants = {
+      'mason-null-ls.nvim',
+    },
+    config = conf.null_ls.config,
+  }
+
+  use {
+    'j-hui/fidget.nvim',
+    event = { 'BufReadPre' },
+    cond = not_vscode(),
+    config = conf.fidget.config
+  }
 end
