@@ -32,15 +32,6 @@ return function(use)
     cond = not_vscode(),
     config = require('plugins.appearance._illuminate'),
   }
-  use {
-    'p00f/nvim-ts-rainbow',
-    event = { 'BufRead', 'BufNewFile' },
-    requires = {
-      { 'nvim-treesitter/nvim-treesitter', opt = true },
-    },
-    wants = { 'nvim-treesitter' },
-    cond = not_vscode(),
-  }
 
   -- telescope
   use {
