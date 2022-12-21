@@ -37,21 +37,22 @@ return function(use)
   _use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
-    config = require('plugins.appearance._telescope'),
+    module = 'telescope',
+    setup = require('plugins.appearance._telescope'),
     requires = {
       {
         'nvim-lua/plenary.nvim',
-        -- opt = true,
+        opt = true,
       },
       {
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make',
-        -- opt = true,
+        opt = true,
       },
       {
         'AckslD/nvim-neoclip.lua',
         config = require('plugins.appearance._neoclip'),
-        -- opt = true,
+        opt = true,
       }
     },
     wants = { 'plenary.nvim', 'telescope-fzf-native.nvim', 'nvim-neoclip.lua' },
@@ -60,8 +61,8 @@ return function(use)
   -- Comment
   _use {
     'numToStr/Comment.nvim',
-    event = 'BufRead',
-    config = function()
+    module = 'Comment',
+    setup = function()
       require('Comment').setup()
     end,
   }
@@ -96,7 +97,7 @@ return function(use)
   -- delete buffer without closing window
   _use {
     'famiu/bufdelete.nvim',
-    module = ('bufdelete'),
+    module = 'bufdelete',
     setup = require('plugins.appearance._bufdelete'),
   }
 
