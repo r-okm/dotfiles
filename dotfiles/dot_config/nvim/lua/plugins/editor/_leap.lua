@@ -8,6 +8,6 @@ return function()
   }
 
   local keymap = require('utils.setKeymap').keymap
-  keymap('nxo', ';', '<Plug>(leap-forward-to)')
-  keymap('nxo', '+', '<Plug>(leap-backward-to)')
+  keymap('nxo', 'm', '<Plug>(leap-forward-to)')
+  keymap('nxo', 'M', '<Plug>(leap-backward-to)')
 end

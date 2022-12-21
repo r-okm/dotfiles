@@ -1,9 +1,17 @@
 return function()
-  vim.cmd [[highlight IndentBlanklineIndent1 guibg=#403b40 gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent2 guibg=#353b35 gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent3 guibg=#383d3d gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineIndent4 guibg=#454540 gui=nocombine]]
-  vim.cmd [[highlight IndentBlanklineContextChar guifg=#CCCCCC gui=nocombine]]
+  local set_hl = vim.api.nvim_set_hl
+
+  local indent_color_1 = '#403b40'
+  local indent_color_2 = '#353b35'
+  local indent_color_3 = '#383d3d'
+  local indent_color_4 = '#404039'
+  local context_color = '#CCCCCC'
+
+  set_hl(0, 'IndentBlanklineIndent1', { bg = indent_color_1, nocombine = true })
+  set_hl(0, 'IndentBlanklineIndent2', { bg = indent_color_2, nocombine = true })
+  set_hl(0, 'IndentBlanklineIndent3', { bg = indent_color_3, nocombine = true })
+  set_hl(0, 'IndentBlanklineIndent4', { bg = indent_color_4, nocombine = true })
+  set_hl(0, 'IndentBlanklineContextChar', { fg = context_color, nocombine = true })
 
   require("indent_blankline").setup {
     char = "",
