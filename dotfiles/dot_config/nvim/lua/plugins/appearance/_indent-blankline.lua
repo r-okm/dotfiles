@@ -3,8 +3,8 @@ return function()
 
   local indent_color_1 = '#403b40'
   local indent_color_2 = '#353b35'
-  local indent_color_3 = '#383d3d'
-  local indent_color_4 = '#404039'
+  local indent_color_3 = '#404039'
+  local indent_color_4 = '#383d3d'
   local context_color = '#CCCCCC'
 
   set_hl(0, 'IndentBlanklineIndent1', { bg = indent_color_1, nocombine = true })
