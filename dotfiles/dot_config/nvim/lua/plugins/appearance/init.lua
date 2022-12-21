@@ -38,24 +38,48 @@ return function(use)
     'nvim-telescope/telescope.nvim',
     tag = '0.1.0',
     module = 'telescope',
-    setup = require('plugins.appearance._telescope'),
     requires = {
-      {
-        'nvim-lua/plenary.nvim',
-        opt = true,
-      },
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        run = 'make',
-        opt = true,
-      },
-      {
-        'AckslD/nvim-neoclip.lua',
-        config = require('plugins.appearance._neoclip'),
-        opt = true,
-      }
+      { 'nvim-lua/plenary.nvim', opt = true, },
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true, },
+      { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance._neoclip'), opt = true, },
     },
-    wants = { 'plenary.nvim', 'telescope-fzf-native.nvim', 'nvim-neoclip.lua' },
+    wants = {
+      'plenary.nvim',
+      'telescope-fzf-native.nvim',
+      'nvim-neoclip.lua'
+    },
+    setup = function()
+      local telescope = require('telescope')
+      telescope.load_extension('fzf')
+      telescope.load_extension('neoclip')
+
+      local builtin = require('telescope.builtin')
+      local keymap = require('utils.setKeymap').keymap
+      keymap('n', '<C-p>', builtin.git_files)
+      keymap('n', '<C-o>', builtin.git_status)
+      keymap('n', '<C-f>', builtin.live_grep)
+      keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
+    end,
+    config = function()
+      require('telescope').setup {
+        pickers = {
+          find_files = {
+            hidden = true,
+          },
+          git_files = {
+            show_untracked = true,
+          },
+        },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case",
+          },
+        },
+      }
+    end,
   }
 
   -- Comment
@@ -83,7 +107,42 @@ return function(use)
   -- sidebar
   _use {
     'nvim-tree/nvim-tree.lua',
-    config = require('plugins.appearance._nvim-tree'),
+    cmd = {
+      'NvimTreeFindFile',
+      'NvimTreeCollapse',
+    },
+    setup = function()
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      local keymap = require('utils.setKeymap').keymap
+      keymap('n', '<Leader>e', ':NvimTreeFindFile<Cr>')
+      keymap('n', '<Leader>c', ':NvimTreeCollapse<Cr>')
+    end,
+    config = function()
+      require("nvim-tree").setup {
+        view = {
+          mappings = {
+            list = {
+              { key = 'h', action = 'close_node' },
+              { key = 'l', action = 'preview' },
+              { key = 'v', action = 'vsplit' },
+            },
+          },
+          float = {
+            enable = true,
+            open_win_config = {
+              width = 50,
+              height = 80,
+            }
+          },
+        },
+        actions = {
+          open_file = {
+            quit_on_open = true
+          },
+        },
+      }
+    end,
   }
   -- tab
   _use {
