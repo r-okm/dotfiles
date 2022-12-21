@@ -17,6 +17,7 @@ if not vim.g.vscode then
   local indent = 2
   o.shiftwidth = indent
   o.softtabstop = indent
+  o.signcolumn = 'yes'
 end
 
 -- wsl でホストとクリップボードを共有
