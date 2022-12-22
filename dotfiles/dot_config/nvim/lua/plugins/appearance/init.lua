@@ -130,6 +130,24 @@ return function(use)
     config = require('plugins.appearance._indent-blankline'),
   }
 
+  -- color
+  use {
+    'norcalli/nvim-colorizer.lua',
+    event = { 'BufRead', 'BufNewFile' },
+    cond = not_vscode(),
+    config = function()
+      local css_opts = {
+        rgb_fn = true, names = true
+      }
+      require('colorizer').setup({
+        '*';
+        css = css_opts,
+        scss = css_opts,
+        stylus = css_opts,
+      }, { names = false })
+    end
+  }
+
   -- terminal
   use {
     'akinsho/toggleterm.nvim',
