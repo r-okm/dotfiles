@@ -50,7 +50,7 @@ M.attach_handlers = {
     keymap('n', 'gi', function() impl() end, { buffer = bufnr })
     keymap('n', 'gI', function() impl(bufnew) end, { buffer = bufnr })
     keymap('n', 'gr', function() vim.lsp.buf.rename() end, { buffer = bufnr })
-    keymap('n', 'ga', function() vim.lsp.buf.code_action() end, { buffer = bufnr })
+    keymap('nv', 'ga', require('actions-preview').code_actions, { buffer = bufnr })
     keymap('n', 'gw', function() diag({ bufnr = 0 }) end, { buffer = bufnr })
     keymap('n', 'gW', function() diag({ bufnr = nil }) end, { buffer = bufnr })
     keymap('n', 'ge', function() vim.diagnostic.open_float() end, { buffer = bufnr })

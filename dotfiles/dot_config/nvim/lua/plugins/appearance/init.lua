@@ -79,7 +79,28 @@ return function(use)
             fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
-            case_mode = "smart_case",
+            case_mode = 'smart_case',
+          },
+        },
+      }
+    end,
+  }
+  use {
+    'aznhe21/actions-preview.nvim',
+    event = { 'BufRead', 'BufNewFile', },
+    config = function()
+      require('actions-preview').setup {
+        telescope = {
+          sorting_strategy = 'ascending',
+          layout_strategy = 'vertical',
+          layout_config = {
+            width = 0.8,
+            height = 0.9,
+            prompt_position = 'top',
+            preview_cutoff = 20,
+            preview_height = function(_, _, max_lines)
+              return max_lines - 15
+            end,
           },
         },
       }
@@ -109,7 +130,7 @@ return function(use)
     config = require('plugins.appearance._toggleterm'),
   }
 
-  -- sidebar
+  -- filer
   use {
     'nvim-tree/nvim-tree.lua',
     cmd = { 'NvimTreeFindFile' },
@@ -128,7 +149,7 @@ return function(use)
       keymap('n', '<Space>e', ':<C-u>NvimTreeFindFile<Cr>')
     end,
     config = function()
-      require("nvim-tree").setup {
+      require('nvim-tree').setup {
         view = {
           mappings = {
             list = {
