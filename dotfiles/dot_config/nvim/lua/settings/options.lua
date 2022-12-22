@@ -18,6 +18,7 @@ if not vim.g.vscode then
   o.shiftwidth = indent
   o.softtabstop = indent
   o.signcolumn = 'yes'
+  o.splitright = true
 end
 
 -- wsl でホストとクリップボードを共有
