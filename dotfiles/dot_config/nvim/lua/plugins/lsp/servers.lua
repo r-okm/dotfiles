@@ -3,6 +3,7 @@ local M = {}
 M.list = {
   lsp = {
     'eslint',
+    'jsonls',
     'sumneko_lua',
     'tsserver',
   },
@@ -13,6 +14,8 @@ M.list = {
 
 M.configs = {
   eslint = {},
+
+  jsonls = {},
 
   sumneko_lua = {
     settings = {
@@ -75,6 +78,10 @@ M.attach_handlers = {
       end,
       desc = "[lsp] eslint fix all on save",
     })
+  end,
+
+  jsonls = function(client, _)
+    client.server_capabilities.documentFormattingProvider = false
   end,
 
   sumneko_lua = function(_, bufnr)
