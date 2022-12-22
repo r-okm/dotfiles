@@ -12,11 +12,13 @@ return function(use)
       { 'williamboman/mason.nvim', module = { 'mason' } },
       { 'williamboman/mason-lspconfig.nvim', module = { 'mason-lspconfig' } },
       { 'jose-elias-alvarez/typescript.nvim', module = { 'typescript' } },
+      { 'b0o/schemastore.nvim', module = { 'schemastore' } },
     },
     wants = {
       'mason.nvim',
       'mason-lspconfig.nvim',
       'typescript.nvim',
+      'schemastore.nvim',
       'mason-null-ls.nvim',
       'null-ls.nvim',
       'cmp-nvim-lsp',

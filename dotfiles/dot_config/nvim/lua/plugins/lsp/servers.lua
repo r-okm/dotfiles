@@ -15,7 +15,23 @@ M.list = {
 M.configs = {
   eslint = {},
 
-  jsonls = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require('schemastore').json.schemas {
+          select = {
+            '.eslintrc',
+            'docker-compose.yml',
+            'package.json',
+            'prettierrc.json',
+            '.stylelintrc',
+            'tsconfig.json',
+          }
+        },
+        validate = { enable = true }
+      }
+    }
+  },
 
   sumneko_lua = {
     settings = {
