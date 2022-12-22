@@ -44,9 +44,37 @@ return {
       end
       })
 
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-        vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
-      )
+      local function get_icon(diagnostic)
+        if diagnostic.severity == vim.diagnostic.severity.ERROR then
+          return ""
+        end
+        if diagnostic.severity == vim.diagnostic.severity.WARN then
+          return ""
+        end
+        if diagnostic.severity == vim.diagnostic.severity.HINT then
+          return ""
+        end
+        if diagnostic.severity == vim.diagnostic.severity.INFO then
+          return ""
+        end
+      end
+
+      vim.diagnostic.config({
+        virtual_text = {
+          severity = { min = vim.diagnostic.severity.WARN },
+          spacing = 3,
+          prefix = "",
+          format = function(diagnostic)
+            return string.format("%s %s: %s", get_icon(diagnostic), diagnostic.source, diagnostic.code)
+          end,
+        },
+        float = {
+          format = function(diagnostic)
+            return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
+          end,
+        },
+        severity_sort = true,
+      })
     end,
   },
 
@@ -60,6 +88,7 @@ return {
         ensure_installed = servers.list.null_ls,
       })
       nls.setup {
+        diagnostics_format = "#{m} (#{s}: #{c})",
         sources = {
           nls.builtins.formatting.prettierd.with {
             prefer_local = 'node_modules/.bin',

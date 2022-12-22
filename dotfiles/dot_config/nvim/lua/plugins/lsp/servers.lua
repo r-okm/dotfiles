@@ -84,12 +84,12 @@ M.attach_handlers = {
     local keymap = require('utils.setKeymap').keymap
     keymap('n', 'za', function() ts.addMissingImports({ sync = true }) end, { buffer = bufnr })
     keymap('n', 'zu', function() ts.removeUnused({ sync = true }) end, { buffer = bufnr })
+    keymap('n', 'zo', function() ts.organizeImports({ sync = true }) end, { buffer = bufnr })
 
     vim.api.nvim_create_autocmd('BufWritePre', {
       buffer = bufnr,
       callback = function()
         ts.fixAll({ sync = true })
-        ts.organizeImports({ sync = true })
       end,
       desc = "[lsp] typescript fix all on save",
     })
