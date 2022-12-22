@@ -34,7 +34,13 @@ return {
           servers.attach_handlers[server](client, bufnr)
         end
 
-        lsp[server].setup(opts)
+        if server == 'tsserver' then
+          require('typescript').setup({
+            server = opts
+          })
+        else
+          lsp[server].setup(opts)
+        end
       end
       })
 
@@ -57,7 +63,8 @@ return {
         sources = {
           nls.builtins.formatting.prettierd.with {
             prefer_local = 'node_modules/.bin',
-          }
+          },
+          require('typescript.extensions.null-ls.code-actions'),
         },
         on_attach = function(client, bufnr)
           servers.attach_handlers['common'](client, bufnr)

@@ -11,10 +11,12 @@ return function(use)
     requires = {
       { 'williamboman/mason.nvim', module = { 'mason' } },
       { 'williamboman/mason-lspconfig.nvim', module = { 'mason-lspconfig' } },
+      { 'jose-elias-alvarez/typescript.nvim', module = { 'typescript' } },
     },
     wants = {
       'mason.nvim',
       'mason-lspconfig.nvim',
+      'typescript.nvim',
       'mason-null-ls.nvim',
       'null-ls.nvim',
       'cmp-nvim-lsp',
