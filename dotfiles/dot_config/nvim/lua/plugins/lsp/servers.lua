@@ -62,7 +62,10 @@ M.attach_handlers = {
     client.server_capabilities.documentFormattingProvider = false
     vim.api.nvim_create_autocmd('BufWritePre', {
       buffer = bufnr,
-      command = 'EslintFixAll',
+      callback = function()
+        require('typescript').actions.fixAll({ sync = true })
+        vim.cmd("EslintFixAll")
+      end,
       desc = "[lsp] eslint fix all on save",
     })
   end,
@@ -85,14 +88,6 @@ M.attach_handlers = {
     keymap('n', 'za', function() ts.addMissingImports({ sync = true }) end, { buffer = bufnr })
     keymap('n', 'zu', function() ts.removeUnused({ sync = true }) end, { buffer = bufnr })
     keymap('n', 'zo', function() ts.organizeImports({ sync = true }) end, { buffer = bufnr })
-
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      buffer = bufnr,
-      callback = function()
-        ts.fixAll({ sync = true })
-      end,
-      desc = "[lsp] typescript fix all on save",
-    })
   end,
 }
 
