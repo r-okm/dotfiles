@@ -60,7 +60,7 @@ return function(use)
       local builtin = require('telescope.builtin')
       local keymap = require('utils.setKeymap').keymap
       keymap('n', '<C-p>', builtin.git_files)
-      keymap('n', '<C-o>', builtin.git_status)
+      keymap('n', '<C-g>', builtin.git_status)
       keymap('n', '<C-f>', builtin.live_grep)
       keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
     end,
