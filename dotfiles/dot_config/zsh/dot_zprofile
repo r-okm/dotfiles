@@ -27,3 +27,7 @@ export POWERED_CD_LOG_COUNT=30
 
 # prettierd
 export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/nvim/external/.prettierrc.json"
+
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+export PATH="$PNPM_HOME:$PATH"
