@@ -56,10 +56,6 @@ if [ -e "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
     $fpath
   )
 fi
-# direnv
-if type "direnv" > /dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
-fi
 
 # Completion
 fpath=(
@@ -98,16 +94,6 @@ fzf-git-checkout() {
   )
   if [ -n "$target_br" ]; then
     git checkout $target_br
-  fi
-}
-
-# node_modules 以下の bin を PATH に追加するための direnv 設定ファイルを作成する
-nodepath() {
-  if type "direnv" > /dev/null 2>&1; then
-    echo 'export PATH="$(npm bin):$PATH"' >> .envrc
-    direnv allow
-  else
-    echo 'direnv が存在しないため無効'
   fi
 }
 
