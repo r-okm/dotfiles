@@ -24,7 +24,14 @@ M.configs = {
     },
   },
 
-  tsserver = {},
+  tsserver = {
+    initOptions = {
+      preferences = {
+        importModuleSpecifierPreference = "non-relative",
+        importModuleSpecifier = "non-relative",
+      },
+    },
+  },
 }
 
 M.attach_handlers = {
