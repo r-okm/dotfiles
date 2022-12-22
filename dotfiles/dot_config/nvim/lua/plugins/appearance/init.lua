@@ -225,7 +225,7 @@ return function(use)
       end
 
       local keymap = require('utils.setKeymap').keymap
-      keymap('n', '<Leader>w', ':<C-u>Bwipeout<CR>')
+      keymap('n', '<Space>w', ':<C-u>Bwipeout<CR>')
     end,
   }
 

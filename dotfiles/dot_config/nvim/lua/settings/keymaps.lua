@@ -4,7 +4,6 @@ local keymapVsc = util.keymapVsc
 local keymapVscVisual = util.keymapVscVisual
 
 -- map prefix
-vim.g.mapleader = ' '
 keymap('', '<Space>', '')
 
 keymap('nxo', 'gh', '^')
@@ -13,12 +12,12 @@ keymap('nxo', 'gl', '$')
 -- vscode
 if vim.g.vscode then
   -- buffer
-  keymapVsc('n', '<Leader>s', 'workbench.action.files.save')
-  keymapVsc('n', '<Leader>w', 'workbench.action.closeActiveEditor')
-  keymapVsc('n', '<Leader>t', 'workbench.action.reopenClosedEditor')
+  keymapVsc('n', '<Space>s', 'workbench.action.files.save')
+  keymapVsc('n', '<Space>w', 'workbench.action.closeActiveEditor')
+  keymapVsc('n', '<Space>t', 'workbench.action.reopenClosedEditor')
   -- filer
-  keymapVsc('n', '<Leader>c', 'workbench.action.closeSidebar')
-  keymapVsc('n', '<Leader>e', 'workbench.view.explorer')
+  keymapVsc('n', '<Space>c', 'workbench.action.closeSidebar')
+  keymapVsc('n', '<Space>e', 'workbench.view.explorer')
   -- jumpToBracket
   keymapVsc('nx', 'gb', 'editor.action.jumpToBracket')
   -- insert new line in normal mode
@@ -35,5 +34,5 @@ else
   keymap('n', '<CR>', 'o<ESC>')
   keymap('n', '<C-h>', ':<C-u>bprev<CR>')
   keymap('n', '<C-l>', ':<C-u>bnext<CR>')
-  keymap('n', '<Leader>s', ':<C-u>w<CR>')
+  keymap('n', '<Space>s', ':<C-u>w<CR>')
 end
