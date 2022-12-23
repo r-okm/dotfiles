@@ -28,11 +28,11 @@ return function(use)
     end,
     config = function()
       local set_hl = vim.api.nvim_set_hl
-      local bg_color = '#4C566A'
+      local bg_color = '#425259'
 
-      set_hl(0, 'IlluminatedWordText', { bg = bg_color, underline = true })
-      set_hl(0, 'IlluminatedWordRead', { bg = bg_color, underline = true })
-      set_hl(0, 'IlluminatedWordWrite', { bg = bg_color, underline = true })
+      set_hl(0, 'IlluminatedWordText', { bg = bg_color })
+      set_hl(0, 'IlluminatedWordRead', { bg = bg_color })
+      set_hl(0, 'IlluminatedWordWrite', { bg = bg_color })
     end,
   }
 
@@ -287,7 +287,7 @@ return function(use)
         variablebuiltinStyle = { italic = false },
         transparent = true,
         overrides = {
-          Visual = { bg = '#425259' },
+          Visual = { bg = '#59594e' },
         },
       })
       vim.cmd("colorscheme kanagawa")
