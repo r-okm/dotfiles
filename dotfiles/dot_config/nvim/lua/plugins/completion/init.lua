@@ -10,6 +10,9 @@ return function(use)
       { 'hrsh7th/cmp-path', event = { 'InsertEnter' } },
       { 'hrsh7th/cmp-cmdline', event = { 'InsertEnter', 'CmdlineEnter' } },
     },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = require('plugins.completion._nvim-cmp'),
   }
 

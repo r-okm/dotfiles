@@ -1,14 +1,9 @@
 return function(use)
-  local not_vscode = function()
-    return vim.g.vscode == nil
-  end
-
   -- treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     event = { 'BufRead', 'BufNewFile' },
-    cond = not_vscode(),
     config = require('plugins.appearance._treesitter'),
   }
   use {
@@ -19,7 +14,6 @@ return function(use)
       { 'hrsh7th/nvim-cmp', opt = true },
     },
     wants = { 'nvim-treesitter', 'nvim-cmp' },
-    cond = not_vscode(),
     config = require('plugins.appearance._autopairs'),
   }
   use {
@@ -29,8 +23,17 @@ return function(use)
       { 'nvim-treesitter/nvim-treesitter', opt = true },
     },
     wants = { 'nvim-treesitter' },
-    cond = not_vscode(),
-    config = require('plugins.appearance._illuminate'),
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = function()
+      local set_hl = vim.api.nvim_set_hl
+      local bg_color = '#4C566A'
+
+      set_hl(0, 'IlluminatedWordText', { bg = bg_color })
+      set_hl(0, 'IlluminatedWordRead', { bg = bg_color })
+      set_hl(0, 'IlluminatedWordWrite', { bg = bg_color })
+    end,
   }
 
   -- telescope
@@ -48,10 +51,11 @@ return function(use)
       'telescope-fzf-native.nvim',
       'nvim-neoclip.lua'
     },
+    cond = function()
+      return not vim.g.vscode
+    end,
     setup = function()
-      if vim.g.vscode then
-        return
-      end
+      if vim.g.vscode then return end
 
       local telescope = require('telescope')
       local builtin = require('telescope.builtin')
@@ -117,7 +121,9 @@ return function(use)
   use {
     'numToStr/Comment.nvim',
     event = { 'BufRead', 'BufNewFile', },
-    cond = not_vscode(),
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       require('Comment').setup()
     end,
@@ -126,7 +132,6 @@ return function(use)
   use {
     'lukas-reineke/indent-blankline.nvim',
     event = { 'BufRead', 'BufNewFile' },
-    cond = not_vscode(),
     config = require('plugins.appearance._indent-blankline'),
   }
 
@@ -134,7 +139,9 @@ return function(use)
   use {
     'norcalli/nvim-colorizer.lua',
     event = { 'BufRead', 'BufNewFile' },
-    cond = not_vscode(),
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       local css_opts = {
         rgb_fn = true, names = true
@@ -163,9 +170,7 @@ return function(use)
     },
     wants = { 'nvim-web-devicons' },
     setup = function()
-      if vim.g.vscode then
-        return
-      end
+      if vim.g.vscode then return end
 
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
@@ -206,7 +211,9 @@ return function(use)
       { 'nvim-tree/nvim-web-devicons', opt = true },
     },
     wants = { 'nvim-web-devicons' },
-    cond = not_vscode(),
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       require('bufferline').setup()
     end,
@@ -220,9 +227,7 @@ return function(use)
       'Bwipeout',
     },
     setup = function()
-      if vim.g.vscode then
-        return
-      end
+      if vim.g.vscode then return end
 
       local keymap = require('utils.setKeymap').keymap
       keymap('n', '<Space>w', ':<C-u>Bwipeout<CR>')
@@ -235,17 +240,21 @@ return function(use)
     requires = {
       { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons' }
     },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       require('lualine').setup()
     end,
-    cond = not_vscode(),
   }
 
   -- gitsign
   use {
     'lewis6991/gitsigns.nvim',
     event = { 'BufRead', 'BufNewFile' },
-    cond = not_vscode(),
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       require('gitsigns').setup()
     end,
@@ -254,7 +263,6 @@ return function(use)
   -- color theme
   use {
     'ellisonleao/gruvbox.nvim',
-    cond = not_vscode(),
     config = require('plugins.appearance._gruvbox'),
   }
 

@@ -1,4 +1,8 @@
 return function()
+  if vim.g.vscode then
+    return
+  end
+
   require('nvim-autopairs').setup {}
 
   -- If you want insert `(` after select function or method item
