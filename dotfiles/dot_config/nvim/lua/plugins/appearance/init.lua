@@ -30,9 +30,9 @@ return function(use)
       local set_hl = vim.api.nvim_set_hl
       local bg_color = '#4C566A'
 
-      set_hl(0, 'IlluminatedWordText', { bg = bg_color })
-      set_hl(0, 'IlluminatedWordRead', { bg = bg_color })
-      set_hl(0, 'IlluminatedWordWrite', { bg = bg_color })
+      set_hl(0, 'IlluminatedWordText', { bg = bg_color, underline = true })
+      set_hl(0, 'IlluminatedWordRead', { bg = bg_color, underline = true })
+      set_hl(0, 'IlluminatedWordWrite', { bg = bg_color, underline = true })
     end,
   }
 
@@ -261,9 +261,37 @@ return function(use)
   }
 
   -- color theme
+  -- use {
+  --   'ellisonleao/gruvbox.nvim',
+  --   cond = function()
+  --     return not vim.g.vscode
+  --   end,
+  --   config = function()
+  --     require('gruvbox').setup({
+  --       italic = false,
+  --     })
+  --     vim.o.background = 'dark'
+  --     vim.cmd([[colorscheme gruvbox]])
+  --   end,
+  -- }
+
   use {
-    'ellisonleao/gruvbox.nvim',
-    config = require('plugins.appearance._gruvbox'),
+    'rebelot/kanagawa.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = function()
+      require('kanagawa').setup({
+        commentStyle = { italic = false },
+        keywordStyle = { italic = false },
+        variablebuiltinStyle = { italic = false },
+        transparent = true,
+        overrides = {
+          Visual = { bg = '#425259' },
+        },
+      })
+      vim.cmd("colorscheme kanagawa")
+    end,
   }
 
 end
