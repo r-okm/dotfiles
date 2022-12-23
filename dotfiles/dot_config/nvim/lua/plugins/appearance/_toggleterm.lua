@@ -20,10 +20,11 @@ return function()
 
   -- toggleterm
   require('toggleterm').setup({
-    direction = 'vertical',
-    size = function()
-      return vim.o.columns * 0.5
-    end,
+    direction = 'float',
+    -- direction = 'vertical',
+    -- size = function()
+    --   return vim.o.columns * 0.5
+    -- end,
   })
   keymap('n', '<C-n>', ':ToggleTerm<CR>')
 
