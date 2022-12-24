@@ -129,6 +129,14 @@ return function(use)
     config = function()
       require('actions-preview').setup {
         telescope = {
+          initial_mode = 'normal',
+          defaults = {
+            mappings = {
+              n = {
+                ['q'] = require('telescope.actions').close
+              }
+            }
+          },
           sorting_strategy = 'ascending',
           layout_strategy = 'vertical',
           layout_config = {
