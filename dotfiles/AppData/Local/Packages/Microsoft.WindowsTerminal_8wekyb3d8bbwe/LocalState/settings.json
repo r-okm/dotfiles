@@ -219,6 +219,14 @@
             "keys": "shift+insert"
         },
         {
+            "command": "unbound",
+            "keys": "alt+f4"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+shift+w"
+        },
+        {
             "command": 
             {
                 "action": "prevTab"
@@ -231,9 +239,6 @@
                 "action": "copy",
                 "singleLine": false
             }
-        },
-        {
-            "command": "find"
         }
     ],
     "copyFormatting": "none",
