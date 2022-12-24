@@ -15,7 +15,7 @@ return require('packer').startup({ function(use)
   use { 'wbthomason/packer.nvim' }
 
   require('plugins.editor')(use)
-  require('plugins.completion')(use)
+  require('plugins.cmp')(use)
   require('plugins.appearance')(use)
   require('plugins.lsp')(use)
 
