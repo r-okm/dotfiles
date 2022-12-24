@@ -45,11 +45,13 @@ return function(use)
       { 'nvim-lua/plenary.nvim', opt = true, },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true, },
       { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance._neoclip'), opt = true, },
+      { 'nvim-telescope/telescope-file-browser.nvim', opt = true, },
     },
     wants = {
       'plenary.nvim',
       'telescope-fzf-native.nvim',
-      'nvim-neoclip.lua'
+      'nvim-neoclip.lua',
+      'telescope-file-browser.nvim',
     },
     cond = function()
       return not vim.g.vscode
@@ -62,6 +64,7 @@ return function(use)
 
       telescope.load_extension('fzf')
       telescope.load_extension('neoclip')
+      telescope.load_extension('file_browser')
 
       telescope.project_files = function()
         local ok = pcall(builtin.git_files)
@@ -73,18 +76,43 @@ return function(use)
       keymap('n', '<C-g>', builtin.git_status)
       keymap('n', '<C-f>', builtin.live_grep)
       keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
+      keymap('n', '<Space>e', function()
+        telescope.extensions.file_browser.file_browser({
+          initial_mode = 'normal',
+          path = '%:p:h',
+          cwd = vim.fn.expand('%:p:h'),
+          hidden = true,
+          respect_gitignore = true,
+        })
+      end)
     end,
     config = function()
-      require('telescope').setup {
+      local actions = require('telescope.actions')
+      local telescope = require('telescope')
+      local fb_actions = telescope.extensions.file_browser.actions
+
+      telescope.setup {
+        defaults = {
+          mappings = {
+            n = {
+              ['q'] = actions.close
+            }
+          }
+        },
         pickers = {
-          find_files = {
-            hidden = true,
-          },
-          git_files = {
-            show_untracked = true,
-          },
+          find_files = { hidden = true, },
+          git_files = { show_untracked = true, },
         },
         extensions = {
+          file_browser = {
+            mappings = {
+              ['n'] = {
+                ['h'] = fb_actions.goto_parent_dir,
+                ['a'] = fb_actions.create,
+                ['H'] = fb_actions.toggle_hidden,
+              }
+            }
+          },
           fzf = {
             fuzzy = true,
             override_generic_sorter = true,
@@ -161,48 +189,6 @@ return function(use)
     config = require('plugins.appearance._toggleterm'),
   }
 
-  -- filer
-  use {
-    'nvim-tree/nvim-tree.lua',
-    cmd = { 'NvimTreeFindFile' },
-    requires = {
-      { 'nvim-tree/nvim-web-devicons', opt = true },
-    },
-    wants = { 'nvim-web-devicons' },
-    setup = function()
-      if vim.g.vscode then return end
-
-      vim.g.loaded_netrw = 1
-      vim.g.loaded_netrwPlugin = 1
-      local keymap = require('utils.setKeymap').keymap
-      keymap('n', '<Space>e', ':<C-u>NvimTreeFindFile<Cr>')
-    end,
-    config = function()
-      require('nvim-tree').setup {
-        view = {
-          mappings = {
-            list = {
-              { key = 'h', action = 'close_node' },
-              { key = 'l', action = 'preview' },
-              { key = 'v', action = 'vsplit' },
-            },
-          },
-          float = {
-            enable = true,
-            open_win_config = {
-              width = 50,
-              height = 80,
-            }
-          },
-        },
-        actions = {
-          open_file = {
-            quit_on_open = true
-          },
-        },
-      }
-    end,
-  }
   -- tab
   use {
     'akinsho/bufferline.nvim',
@@ -230,7 +216,7 @@ return function(use)
       if vim.g.vscode then return end
 
       local keymap = require('utils.setKeymap').keymap
-      keymap('n', '<Space>w', ':<C-u>Bwipeout<CR>')
+      keymap('n', '<Space>w', ':<C-u>Bdelete<CR>')
     end,
   }
 
