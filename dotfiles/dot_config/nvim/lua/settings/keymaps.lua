@@ -35,5 +35,5 @@ else
   keymap('n', '<C-h>', ':<C-u>bprev<CR>')
   keymap('n', '<C-l>', ':<C-u>bnext<CR>')
   keymap('n', '<Space>s', ':<C-u>w<CR>')
-  keymap('n', '<C-w>', '<C-w>w')
+  keymap('n', '<C-j>', '<C-w>w')
 end
