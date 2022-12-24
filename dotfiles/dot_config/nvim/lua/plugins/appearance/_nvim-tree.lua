@@ -28,6 +28,12 @@ return function()
     },
     renderer = {
       add_trailing = true,
+      indent_markers = {
+        enable = true,
+        icons = {
+          corner = "└", edge = "", item = "│", bottom = "─", none = " ",
+        },
+      },
       icons = {
         show = {
           folder = false,
