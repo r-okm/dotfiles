@@ -45,13 +45,11 @@ return function(use)
       { 'nvim-lua/plenary.nvim', opt = true, },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true, },
       { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance._neoclip'), opt = true, },
-      { 'nvim-telescope/telescope-file-browser.nvim', opt = true, },
     },
     wants = {
       'plenary.nvim',
       'telescope-fzf-native.nvim',
       'nvim-neoclip.lua',
-      'telescope-file-browser.nvim',
     },
     cond = function()
       return not vim.g.vscode
@@ -64,7 +62,6 @@ return function(use)
 
       telescope.load_extension('fzf')
       telescope.load_extension('neoclip')
-      telescope.load_extension('file_browser')
 
       telescope.project_files = function()
         local ok = pcall(builtin.git_files)
@@ -76,20 +73,10 @@ return function(use)
       keymap('n', '<C-g>', builtin.git_status)
       keymap('n', '<C-f>', builtin.live_grep)
       keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
-      keymap('n', '<Space>e', function()
-        telescope.extensions.file_browser.file_browser({
-          initial_mode = 'normal',
-          path = '%:p:h',
-          cwd = vim.fn.expand('%:p:h'),
-          hidden = true,
-          respect_gitignore = true,
-        })
-      end)
     end,
     config = function()
       local actions = require('telescope.actions')
       local telescope = require('telescope')
-      local fb_actions = telescope.extensions.file_browser.actions
 
       telescope.setup {
         defaults = {
@@ -104,15 +91,6 @@ return function(use)
           git_files = { show_untracked = true, },
         },
         extensions = {
-          file_browser = {
-            mappings = {
-              ['n'] = {
-                ['h'] = fb_actions.goto_parent_dir,
-                ['a'] = fb_actions.create,
-                ['H'] = fb_actions.toggle_hidden,
-              }
-            }
-          },
           fzf = {
             fuzzy = true,
             override_generic_sorter = true,
@@ -126,6 +104,9 @@ return function(use)
   use {
     'aznhe21/actions-preview.nvim',
     event = { 'BufRead', 'BufNewFile', },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       require('actions-preview').setup {
         telescope = {
@@ -151,6 +132,19 @@ return function(use)
         },
       }
     end,
+  }
+
+  -- file tree
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      { 'nvim-tree/nvim-web-devicons' },
+    },
+    wants = { 'nvim-web-devicons' },
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = require('plugins.appearance._nvim-tree'),
   }
 
   -- Comment
