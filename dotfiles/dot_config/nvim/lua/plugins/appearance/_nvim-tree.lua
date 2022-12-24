@@ -46,13 +46,11 @@ return function()
             renamed = "➜",
             untracked = "N",
             deleted = "D",
-            ignored = "◌",
+            ignored = 'ﮖ',
           }
         }
       },
-      special_files = {
-        "README.md", "readme.md", "package.json",
-      },
+      special_files = {},
       actions = {
         change_dir = {
           enable = false,
