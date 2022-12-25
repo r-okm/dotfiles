@@ -90,6 +90,24 @@ return function(use)
     end,
   }
 
+  -- trouble
+  use {
+    "folke/trouble.nvim",
+    cmd = { "Trouble" },
+    requires = {
+      { "kyazdani42/nvim-web-devicons", as = "lualine-web-devicons", opt = true }
+    },
+    wants = { "lualine-web-devicons" },
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = function()
+      require("trouble").setup {
+        height = 7,
+      }
+    end,
+  }
+
   -- file tree
   use {
     'nvim-tree/nvim-tree.lua',
@@ -97,6 +115,7 @@ return function(use)
       { 'nvim-tree/nvim-web-devicons', opt = true },
     },
     wants = { 'nvim-web-devicons' },
+    cmd = { "NvimTreeOpen", "NvimTreeFindFile" },
     cond = function()
       return not vim.g.vscode
     end,
@@ -180,7 +199,7 @@ return function(use)
   use {
     'nvim-lualine/lualine.nvim',
     requires = {
-      { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons' }
+      { 'kyazdani42/nvim-web-devicons', as = 'lualine-web-devicons', opt = true }
     },
     cond = function()
       return not vim.g.vscode

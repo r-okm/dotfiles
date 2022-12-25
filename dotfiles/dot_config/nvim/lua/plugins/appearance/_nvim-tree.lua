@@ -16,7 +16,7 @@ return function()
         },
       },
     },
-    open_on_setup = true,
+    -- open_on_setup = true,
     update_focused_file = {
       enable = true,
     },
@@ -51,13 +51,13 @@ return function()
         }
       },
       special_files = {},
-      actions = {
-        change_dir = {
-          enable = false,
-        },
-        remove_file = {
-          close_window = false,
-        },
+    },
+    actions = {
+      change_dir = {
+        enable = false,
+      },
+      remove_file = {
+        close_window = false,
       },
     },
     diagnostics = {
