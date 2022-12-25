@@ -202,9 +202,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = function()
-      require('bufferline').setup()
-    end,
+    config = require('plugins.appearance._bufferline'),
   }
 
   -- delete buffer without closing window
@@ -273,7 +271,7 @@ return function(use)
         commentStyle = { italic = false },
         keywordStyle = { italic = false },
         variablebuiltinStyle = { italic = false },
-        transparent = true,
+        -- transparent = true,
         overrides = {
           Visual = { bg = '#59594e' },
         },

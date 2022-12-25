@@ -60,5 +60,11 @@ return function()
         },
       },
     },
+    diagnostics = {
+      enable = true,
+      severity = {
+        min = vim.diagnostic.severity.WARN,
+      },
+    },
   }
 end
