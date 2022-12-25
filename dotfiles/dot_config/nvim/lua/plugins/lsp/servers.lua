@@ -92,7 +92,7 @@ M.attach_handlers = {
         require('typescript').actions.fixAll({ sync = true })
         vim.cmd("EslintFixAll")
       end,
-      desc = "[lsp] eslint fix all on save",
+      desc = "[lsp] eslint/typescript fix all on save",
     })
   end,
 
@@ -110,14 +110,10 @@ M.attach_handlers = {
     })
   end,
 
-  tsserver = function(client, bufnr)
+  tsserver = function(client, _)
     client.server_capabilities.documentFormattingProvider = false
-
-    local ts = require('typescript').actions
-    local keymap = require('utils.setKeymap').keymap
-    keymap('n', 'za', function() ts.addMissingImports({ sync = true }) end, { buffer = bufnr })
-    keymap('n', 'zu', function() ts.removeUnused({ sync = true }) end, { buffer = bufnr })
-    keymap('n', 'zo', function() ts.organizeImports({ sync = true }) end, { buffer = bufnr })
+    -- typescript acitons organize imports などは null-ls のアクションに追加
+    -- fix on save は eslint-lsp 側で設定
   end,
 }
 
