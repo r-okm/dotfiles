@@ -245,6 +245,8 @@
     "copyOnSelect": false,
     "defaultProfile": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
     "firstWindowPreference": "defaultProfile",
+    "initialCols": 180,
+    "initialRows": 40,
     "profiles": 
     {
         "defaults": 
