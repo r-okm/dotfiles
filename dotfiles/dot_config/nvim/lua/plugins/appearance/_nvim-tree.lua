@@ -61,11 +61,5 @@ return function()
         close_window = false,
       },
     },
-    diagnostics = {
-      enable = true,
-      severity = {
-        min = vim.diagnostic.severity.WARN,
-      },
-    },
   }
 end
