@@ -4,6 +4,7 @@ return function(use)
   use {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre' },
+    cmd = { "Mason" },
     requires = {
       { 'williamboman/mason.nvim', module = { 'mason' } },
       { 'williamboman/mason-lspconfig.nvim', module = { 'mason-lspconfig' } },
