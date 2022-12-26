@@ -8,6 +8,7 @@ M.config = function()
 
   telescope.load_extension('fzf')
   telescope.load_extension('neoclip')
+  telescope.load_extension('workspaces')
 
   telescope.project_files = function()
     local ok = pcall(builtin.git_files)
@@ -19,6 +20,7 @@ M.config = function()
   keymap('n', '<C-g>', builtin.git_status)
   keymap('n', '<C-f>', builtin.live_grep)
   keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
+  keymap('n', '<C-k><C-r>', ':<C-u>Telescope workspaces<CR>')
 end
 
 M.setup = function()
@@ -44,6 +46,7 @@ M.setup = function()
         override_file_sorter = true,
         case_mode = 'smart_case',
       },
+      workspaces = {},
     },
   }
 end

@@ -45,11 +45,13 @@ return function(use)
       { 'nvim-lua/plenary.nvim', opt = true, },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true, },
       { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance._neoclip'), opt = true, },
+      { 'natecraddock/workspaces.nvim', config = require('plugins.appearance._workspaces'), opt = true, },
     },
     wants = {
       'plenary.nvim',
       'telescope-fzf-native.nvim',
       'nvim-neoclip.lua',
+      'workspaces.nvim',
     },
     cond = function()
       return not vim.g.vscode

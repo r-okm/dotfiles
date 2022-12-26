@@ -20,6 +20,7 @@ return function()
     update_focused_file = {
       enable = true,
     },
+    update_cwd = true,
     system_open = {
       cmd = 'xdg-open',
     },
