@@ -24,6 +24,8 @@ M.config = function()
 end
 
 M.setup = function()
+  if vim.g.vscode then return end
+
   local actions = require('telescope.actions')
   local telescope = require('telescope')
 
