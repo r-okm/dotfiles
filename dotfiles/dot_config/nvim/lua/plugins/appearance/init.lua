@@ -7,7 +7,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._treesitter'),
+    config = require('plugins.appearance.treesitter.config'),
   }
   use {
     'windwp/nvim-autopairs',
@@ -20,7 +20,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._autopairs'),
+    config = require('plugins.appearance.autopairs.config'),
   }
   use {
     'RRethy/vim-illuminate',
@@ -50,8 +50,8 @@ return function(use)
     requires = {
       { 'nvim-lua/plenary.nvim', opt = true, },
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', opt = true, },
-      { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance._neoclip'), opt = true, },
-      { 'natecraddock/workspaces.nvim', config = require('plugins.appearance._workspaces'), opt = true, },
+      { 'AckslD/nvim-neoclip.lua', config = require('plugins.appearance.neoclip.config'), opt = true, },
+      { 'natecraddock/workspaces.nvim', config = require('plugins.appearance.workspaces.config'), opt = true, },
     },
     wants = {
       'plenary.nvim',
@@ -127,7 +127,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._nvim-tree'),
+    config = require('plugins.appearance.nvim-tree.config'),
   }
 
   -- Comment
@@ -148,7 +148,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._indent-blankline'),
+    config = require('plugins.appearance.indent-blankline.config'),
   }
 
   -- color
@@ -177,7 +177,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._toggleterm'),
+    config = require('plugins.appearance.toggleterm.config'),
   }
 
   -- tab
@@ -191,7 +191,7 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    config = require('plugins.appearance._bufferline'),
+    config = require('plugins.appearance.bufferline.config'),
   }
 
   -- delete buffer without closing window
