@@ -8,12 +8,19 @@ return function(use)
     requires = {
       { 'williamboman/mason.nvim', module = { 'mason' } },
       { 'williamboman/mason-lspconfig.nvim', module = { 'mason-lspconfig' } },
+      {
+        "https://gitlab.com/yorickpeterse/nvim-dd.git",
+        as = "nvim-dd",
+        opt = true,
+        config = require("plugins.lsp.nvim-dd.config")
+      },
       { 'jose-elias-alvarez/typescript.nvim', module = { 'typescript' } },
       { 'b0o/schemastore.nvim', module = { 'schemastore' } },
     },
     wants = {
       'mason.nvim',
       'mason-lspconfig.nvim',
+      "nvim-dd",
       'typescript.nvim',
       'schemastore.nvim',
       'mason-null-ls.nvim',
