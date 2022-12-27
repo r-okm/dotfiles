@@ -4,6 +4,9 @@ return function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     event = { 'BufRead', 'BufNewFile' },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = require('plugins.appearance._treesitter'),
   }
   use {
@@ -14,6 +17,9 @@ return function(use)
       { 'hrsh7th/nvim-cmp', opt = true },
     },
     wants = { 'nvim-treesitter', 'nvim-cmp' },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = require('plugins.appearance._autopairs'),
   }
   use {
@@ -56,8 +62,8 @@ return function(use)
     cond = function()
       return not vim.g.vscode
     end,
-    setup = require('plugins.appearance._telescope').setup,
-    config = require('plugins.appearance._telescope').config,
+    setup = require('plugins.appearance.telescope.setup'),
+    config = require('plugins.appearance.telescope.config'),
   }
   use {
     'aznhe21/actions-preview.nvim',
@@ -139,6 +145,9 @@ return function(use)
   use {
     'lukas-reineke/indent-blankline.nvim',
     event = { 'BufRead', 'BufNewFile' },
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = require('plugins.appearance._indent-blankline'),
   }
 
@@ -165,6 +174,9 @@ return function(use)
   -- terminal
   use {
     'akinsho/toggleterm.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = require('plugins.appearance._toggleterm'),
   }
 
@@ -190,7 +202,9 @@ return function(use)
       'Bwipeout',
     },
     setup = function()
-      if vim.g.vscode then return end
+      if vim.g.vscode then
+        return
+      end
 
       local keymap = require('utils.setKeymap').keymap
       keymap('n', '<Space>w', ':<C-u>Bdelete<CR>')

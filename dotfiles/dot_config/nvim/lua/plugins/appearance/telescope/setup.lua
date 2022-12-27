@@ -1,6 +1,4 @@
-local M = {}
-
-M.config = function()
+return function()
   if vim.g.vscode then return end
 
   local telescope = require('telescope')
@@ -22,35 +20,3 @@ M.config = function()
   keymap('n', 'gp', ':<C-u>Telescope neoclip<CR>')
   keymap('n', '<C-k><C-r>', ':<C-u>Telescope workspaces<CR>')
 end
-
-M.setup = function()
-  if vim.g.vscode then return end
-
-  local actions = require('telescope.actions')
-  local telescope = require('telescope')
-
-  telescope.setup {
-    defaults = {
-      mappings = {
-        n = {
-          ['q'] = actions.close
-        }
-      }
-    },
-    pickers = {
-      find_files = { hidden = true, },
-      git_files = { show_untracked = true, },
-    },
-    extensions = {
-      fzf = {
-        fuzzy = true,
-        override_generic_sorter = true,
-        override_file_sorter = true,
-        case_mode = 'smart_case',
-      },
-      workspaces = {},
-    },
-  }
-end
-
-return M
