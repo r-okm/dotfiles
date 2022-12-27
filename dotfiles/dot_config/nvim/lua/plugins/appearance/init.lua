@@ -238,37 +238,35 @@ return function(use)
   }
 
   -- color theme
-  -- use {
-  --   'ellisonleao/gruvbox.nvim',
-  --   cond = function()
-  --     return not vim.g.vscode
-  --   end,
-  --   config = function()
-  --     require('gruvbox').setup({
-  --       italic = false,
-  --     })
-  --     vim.o.background = 'dark'
-  --     vim.cmd([[colorscheme gruvbox]])
-  --   end,
-  -- }
-
   use {
-    'rebelot/kanagawa.nvim',
+    'ellisonleao/gruvbox.nvim',
     cond = function()
       return not vim.g.vscode
     end,
     config = function()
-      require('kanagawa').setup({
-        commentStyle = { italic = false },
-        keywordStyle = { italic = false },
-        variablebuiltinStyle = { italic = false },
-        -- transparent = true,
-        overrides = {
-          Visual = { bg = '#59594e' },
-        },
+      require('gruvbox').setup({
+        italic = false,
       })
-      vim.cmd("colorscheme kanagawa")
+      vim.o.background = 'dark'
+      vim.cmd([[colorscheme gruvbox]])
     end,
   }
+  -- use {
+  --   'rebelot/kanagawa.nvim',
+  --   cond = function()
+  --     return not vim.g.vscode
+  --   end,
+  --   config = function()
+  --     require('kanagawa').setup({
+  --       commentStyle = { italic = false },
+  --       keywordStyle = { italic = false },
+  --       variablebuiltinStyle = { italic = false },
+  --       overrides = {
+  --         Visual = { bg = '#59594e' },
+  --       },
+  --     })
+  --     vim.cmd("colorscheme kanagawa")
+  --   end,
+  -- }
 
 end
