@@ -53,6 +53,7 @@ return function()
         git_placement = "signcolumn",
       },
       special_files = {},
+      group_empty = true,
     },
     actions = {
       change_dir = {
