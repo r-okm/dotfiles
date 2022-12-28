@@ -13,9 +13,5 @@ return function()
       },
       require("typescript.extensions.null-ls.code-actions"),
     },
-    on_attach = function(_, bufnr)
-      local lspKeymapToBuffer = require("lsp.utils.lspKeymapToBuffer")
-      lspKeymapToBuffer(bufnr)
-    end
   }
 end
