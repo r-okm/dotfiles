@@ -1,20 +1,22 @@
 return function()
-  local keymap = require('utils.setKeymap').keymap
-  keymap('n', '<C-l>', ':BufferLineCycleNext<CR>')
-  keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>')
-  keymap('n', 'L', ':BufferLineMoveNext<CR>')
-  keymap('n', 'H', ':BufferLineMovePrev<CR>')
+  local keymap = require("utils.setKeymap").keymap
+  keymap("n", "<C-l>", ":BufferLineCycleNext<CR>")
+  keymap("n", "<C-h>", ":BufferLineCyclePrev<CR>")
+  keymap("n", "L", ":BufferLineMoveNext<CR>")
+  keymap("n", "H", ":BufferLineMovePrev<CR>")
 
-  require('bufferline').setup({
+  require("bufferline").setup({
     options = {
-      middle_mouse_command = 'Bdelete %d',
-      diagnostics = 'nvim_lsp',
-      separator_style = 'padded_slant',
+      middle_mouse_command = "Bdelete %d",
+      diagnostics = "nvim_lsp",
+      separator_style = "padded_slant",
       offsets = {
         {
           filetype = "NvimTree",
-          text = "[File Explorer]",
-          text_align = "center",
+          text = function()
+            return vim.fn.getcwd()
+          end,
+          text_align = "left",
           separator = true,
         }
       },

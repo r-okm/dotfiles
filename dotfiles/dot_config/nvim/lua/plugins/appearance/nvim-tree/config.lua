@@ -2,42 +2,42 @@ return function()
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 
-  local keymap = require('utils.setKeymap').keymap
-  keymap('n', '<Space>e', ':<C-u>NvimTreeFindFile<Cr>')
+  local keymap = require("utils.setKeymap").keymap
+  keymap("n", "<Space>e", ":<C-u>NvimTreeFindFile<Cr>")
 
-  require('nvim-tree').setup {
+  require("nvim-tree").setup {
     view = {
       width = 40,
       mappings = {
         list = {
-          { key = 'h', action = 'close_node' },
-          { key = 'l', action = 'preview' },
-          { key = 'v', action = 'vsplit' },
+          { key = "h", action = "close_node" },
+          { key = "l", action = "preview" },
+          { key = "v", action = "vsplit" },
         },
       },
+      hide_root_folder = true,
     },
-    -- open_on_setup = true,
     update_focused_file = {
       enable = true,
     },
     update_cwd = true,
     system_open = {
-      cmd = 'xdg-open',
+      cmd = "xdg-open",
     },
     git = {
       ignore = false,
+      show_on_open_dirs = false,
     },
     renderer = {
-      add_trailing = true,
       indent_markers = {
         enable = true,
         icons = {
-          corner = "└", edge = "", item = "│", bottom = "─", none = " ",
+          corner = "└", edge = "│", item = "│", bottom = "─", none = " ",
         },
       },
       icons = {
         show = {
-          folder = false,
+          folder_arrow = false,
         },
         glyphs = {
           git = {
@@ -47,9 +47,10 @@ return function()
             renamed = "➜",
             untracked = "N",
             deleted = "D",
-            ignored = 'ﮖ',
+            ignored = "◌",
           }
-        }
+        },
+        git_placement = "signcolumn",
       },
       special_files = {},
     },
