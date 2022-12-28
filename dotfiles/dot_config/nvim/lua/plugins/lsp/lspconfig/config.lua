@@ -16,7 +16,6 @@ return function()
 
   mlc.setup_handlers({ function(server)
     local opts = require(string.format("lsp.servers.%s", server))
-    opts.capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     if server == "tsserver" then
       require("typescript").setup({

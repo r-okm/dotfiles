@@ -14,6 +14,7 @@ local M = {
       validate = { enable = true }
     }
   },
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
   on_attach = function(_, bufnr)
     local lspKeymapToBuffer = require("lsp.utils.lspKeymapToBuffer")
     lspKeymapToBuffer(bufnr)
