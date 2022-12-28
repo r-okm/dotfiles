@@ -14,6 +14,26 @@ return function(use)
       },
       { "jose-elias-alvarez/typescript.nvim", module = { "typescript" } },
       { "b0o/schemastore.nvim", module = { "schemastore" } },
+      {
+        "j-hui/fidget.nvim",
+        module = { "fidget" },
+        config = function()
+          require("fidget").setup()
+        end,
+      },
+      {
+        "ray-x/lsp_signature.nvim",
+        module = { "lsp_signature" },
+        config = function()
+          require("lsp_signature").setup({
+            toggle_key = "<C-k>",
+            hint_enable = false,
+            handler_opts = {
+              border = "single",
+            },
+          })
+        end
+      }
     },
     wants = {
       "mason.nvim",
@@ -21,6 +41,8 @@ return function(use)
       "nvim-dd",
       "typescript.nvim",
       "schemastore.nvim",
+      "fidget.nvim",
+      "lsp_signature.nvim",
       "mason-null-ls.nvim",
       "null-ls.nvim",
       "cmp-nvim-lsp",
@@ -44,16 +66,5 @@ return function(use)
       return not vim.g.vscode
     end,
     config = require("plugins.lsp.null-ls.config"),
-  }
-
-  use {
-    "j-hui/fidget.nvim",
-    event = { "BufReadPre" },
-    cond = function()
-      return not vim.g.vscode
-    end,
-    config = function()
-      require("fidget").setup()
-    end,
   }
 end
