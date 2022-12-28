@@ -6,13 +6,20 @@ local M = {
     },
   },
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
-  on_attach = function(client, bufnr)
-    local lspKeymapToBuffer = require("lsp.utils.lspKeymapToBuffer")
-    lspKeymapToBuffer(bufnr)
+  on_attach = function(_, bufnr)
+    local getUtils = require("lsp.utils.getLspUtils")
+    local utils = getUtils(bufnr, "null-ls")
+    utils.setActionsKey()
+    utils.setFmtKey()
 
-    client.server_capabilities.documentFormattingProvider = false
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      buffer = bufnr,
+      callback = function()
+        require("typescript").actions.fixAll({ sync = true })
+        vim.cmd("EslintFixAll")
+      end,
+    })
     -- typescript acitons organize imports などは null-ls のアクションに追加
-    -- fix on save は eslint-lsp 側で設定
   end,
 }
 
