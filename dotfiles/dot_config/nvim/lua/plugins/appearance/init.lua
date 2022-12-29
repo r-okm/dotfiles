@@ -214,7 +214,11 @@ return function(use)
       return not vim.g.vscode
     end,
     config = function()
-      require("lualine").setup()
+      require("lualine").setup({
+        options = {
+          globalstatus = true,
+        },
+      })
     end,
   }
 
