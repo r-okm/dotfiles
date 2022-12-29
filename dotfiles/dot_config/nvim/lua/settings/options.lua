@@ -1,10 +1,10 @@
 local o = vim.o
 local opt = vim.opt
 
-o.whichwrap = 'b,s,h,l,<,>,~,[,]'
+o.whichwrap = "b,s,h,l,<,>,~,[,]"
 o.smartcase = true
 o.ignorecase = true
-o.clipboard = 'unnamedplus'
+o.clipboard = "unnamedplus"
 
 -- not vscode
 if not vim.g.vscode then
@@ -12,24 +12,20 @@ if not vim.g.vscode then
   o.relativenumber = true
   o.termgouicolors = true
   o.list = true
-  opt.listchars = { tab = '»-', trail = '●', space = '⋅' }
-  o.expandtab = true
-  local indent = 2
-  o.shiftwidth = indent
-  o.softtabstop = indent
-  o.signcolumn = 'yes'
+  opt.listchars = { tab = "»-", trail = "●", space = "⋅" }
+  o.signcolumn = "yes"
   o.splitright = true
 
   -- [:H] => [:vert h]
-  vim.api.nvim_create_user_command('H', function(opts)
-    local command = string.format('vertical help %s', opts.args)
+  vim.api.nvim_create_user_command("H", function(opts)
+    local command = string.format("vertical help %s", opts.args)
     vim.cmd(command)
-  end, { nargs = 1, complete = 'help' })
+  end, { nargs = 1, complete = "help" })
 end
 
 -- wsl でホストとクリップボードを共有
-local win32yank = '/mnt/c/scoop/shims/win32yank.exe'
-if vim.fn.has('wsl') and vim.fn.executable(win32yank) then
+local win32yank = "/mnt/c/scoop/shims/win32yank.exe"
+if vim.fn.has("wsl") and vim.fn.executable(win32yank) then
   vim.g.clipboard = {
     name = "win32yank-wsl",
     copy = {
