@@ -8,6 +8,7 @@ keymap('', '<Space>', '')
 
 keymap('nxo', 'gh', '^')
 keymap('nxo', 'gl', '$')
+keymap('n', '<C-k><C-n>', ':<C-u>noh<CR>')
 
 -- vscode
 if vim.g.vscode then

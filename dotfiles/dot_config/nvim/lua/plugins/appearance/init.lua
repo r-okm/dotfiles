@@ -239,15 +239,18 @@ return function(use)
 
   -- color theme
   use {
-    'ellisonleao/gruvbox.nvim',
+    "ellisonleao/gruvbox.nvim",
     cond = function()
       return not vim.g.vscode
     end,
     config = function()
-      require('gruvbox').setup({
+      require("gruvbox").setup({
         italic = false,
+        overrides = {
+          Search = { fg = "#e3c47b" },
+        },
       })
-      vim.o.background = 'dark'
+      vim.o.background = "dark"
       vim.cmd([[colorscheme gruvbox]])
     end,
   }
