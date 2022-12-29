@@ -1,7 +1,7 @@
 return function()
   require("workspaces").setup {
     hooks = {
-      open = { "Trouble", "NvimTreeOpen" }
+      open = { "Trouble", "NvimTreeOpen", "wincmd w" }
     }
   }
 end
