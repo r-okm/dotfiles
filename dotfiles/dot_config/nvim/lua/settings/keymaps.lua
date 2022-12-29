@@ -15,6 +15,7 @@ keymap("n", "<C-k><C-s>", ":<C-u><CR>:%s/", { silent = false })
 if vim.g.vscode then
   -- buffer
   keymapVsc("n", "<Space>s", "workbench.action.files.save")
+  keymapVsc("n", "<Space>S", "workbench.action.files.saveWithoutFormatting")
   keymapVsc("n", "<Space>w", "workbench.action.closeActiveEditor")
   keymapVsc("n", "<Space>t", "workbench.action.reopenClosedEditor")
   -- filer
@@ -33,5 +34,6 @@ else
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<Space>s", ":<C-u>w<CR>")
+  keymap("n", "<Space>S", ":<C-u>noa w<CR>")
   keymap("n", "<C-q>", "<C-w>w")
 end
