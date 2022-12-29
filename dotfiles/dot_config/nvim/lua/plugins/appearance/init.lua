@@ -12,10 +12,6 @@ return function(use)
   use {
     'windwp/nvim-autopairs',
     event = { 'InsertEnter' },
-    requires = {
-      { 'nvim-treesitter/nvim-treesitter', opt = true },
-      { 'hrsh7th/nvim-cmp', opt = true },
-    },
     wants = { 'nvim-treesitter', 'nvim-cmp' },
     cond = function()
       return not vim.g.vscode
@@ -25,9 +21,6 @@ return function(use)
   use {
     'RRethy/vim-illuminate',
     event = { 'BufRead', 'BufNewFile' },
-    requires = {
-      { 'nvim-treesitter/nvim-treesitter', opt = true },
-    },
     wants = { 'nvim-treesitter' },
     cond = function()
       return not vim.g.vscode

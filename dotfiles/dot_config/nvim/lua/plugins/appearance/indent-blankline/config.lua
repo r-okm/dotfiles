@@ -1,8 +1,4 @@
 return function()
-  if vim.g.vscode then
-    return
-  end
-
   local set_hl = vim.api.nvim_set_hl
 
   local indent_color_1 = '#403b40'
