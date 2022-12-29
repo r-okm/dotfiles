@@ -4,6 +4,7 @@ M.lsp = {
   "cssls",
   "cssmodules_ls",
   "eslint",
+  "html",
   "jsonls",
   "sumneko_lua",
   "tailwindcss",
