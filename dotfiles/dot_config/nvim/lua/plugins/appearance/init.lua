@@ -105,6 +105,7 @@ return function(use)
     config = function()
       require("trouble").setup {
         height = 7,
+        padding = false,
       }
     end,
   }
