@@ -256,8 +256,8 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "HackGen35 Console NFJ",
-                "size": 11
+                "face": "HackGen Console NFJ",
+                "size": 12
             },
             "opacity": 100,
             "useAcrylic": false
