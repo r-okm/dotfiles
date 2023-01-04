@@ -9,7 +9,7 @@ return function()
     options = {
       middle_mouse_command = "Bdelete %d",
       diagnostics = "nvim_lsp",
-      separator_style = "padded_slant",
+      separator_style = "slant",
       offsets = {
         {
           filetype = "NvimTree",
