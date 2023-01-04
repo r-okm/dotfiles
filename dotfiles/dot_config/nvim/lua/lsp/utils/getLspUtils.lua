@@ -1,13 +1,5 @@
 local keymap = require("utils.setKeymap").keymap
-local tb = require("telescope.builtin")
-
-local ref      = tb.lsp_references
-local def      = tb.lsp_definitions
-local type_def = tb.lsp_type_definitions
-local impl     = tb.lsp_implementations
-local diag     = tb.diagnostics
-
-local bufnew = { jump_type = "vsplit" }
+local diag = require("telescope.builtin").diagnostics
 
 return function(bufnr, fmtServerName)
   local lsp_formatting = function()
@@ -21,21 +13,15 @@ return function(bufnr, fmtServerName)
 
   local M = {}
   M.setActionsKey = function()
-    keymap("n", "K", function() vim.lsp.buf.hover() end, { buffer = bufnr })
-    keymap("n", "gd", function() def() end, { buffer = bufnr })
-    keymap("n", "gD", function() def(bufnew) end, { buffer = bufnr })
-    keymap("n", "gt", function() type_def() end, { buffer = bufnr })
-    keymap("n", "gT", function() type_def(bufnew) end, { buffer = bufnr })
-    keymap("n", "go", function() ref() end, { buffer = bufnr })
-    keymap("n", "gi", function() impl() end, { buffer = bufnr })
-    keymap("n", "gI", function() impl(bufnew) end, { buffer = bufnr })
-    keymap("n", "gr", function() vim.lsp.buf.rename() end, { buffer = bufnr })
-    keymap("nv", "ga", require("actions-preview").code_actions, { buffer = bufnr })
+    keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = bufnr })
+    keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { buffer = bufnr })
+    keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { buffer = bufnr })
+    keymap("nv", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = bufnr })
     keymap("n", "gw", function() diag({ bufnr = 0 }) end, { buffer = bufnr })
     keymap("n", "gW", function() diag({ bufnr = nil }) end, { buffer = bufnr })
-    keymap("n", "ge", function() vim.diagnostic.open_float() end, { buffer = bufnr })
-    keymap("n", "g.", function() vim.diagnostic.goto_next() end, { buffer = bufnr })
-    keymap("n", "g,", function() vim.diagnostic.goto_prev() end, { buffer = bufnr })
+    keymap("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>", { buffer = bufnr })
+    keymap("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr })
+    keymap("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr })
   end
   M.setFmtKey = function()
     keymap("n", "gf", lsp_formatting, { buffer = bufnr })

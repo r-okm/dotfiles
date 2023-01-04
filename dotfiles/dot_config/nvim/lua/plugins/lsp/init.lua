@@ -15,6 +15,19 @@ return function(use)
       { "jose-elias-alvarez/typescript.nvim", module = { "typescript" } },
       { "b0o/schemastore.nvim", module = { "schemastore" } },
       {
+        "glepnir/lspsaga.nvim",
+        branch = "main",
+        opt = true,
+        config = function()
+          require("lspsaga").init_lsp_saga({
+            code_action_lightbulb = {
+              enable = false,
+            },
+            rename_in_select = false,
+          })
+        end,
+      },
+      {
         "j-hui/fidget.nvim",
         module = { "fidget" },
         config = function()
@@ -26,6 +39,7 @@ return function(use)
         module = { "lsp_signature" },
         config = function()
           require("lsp_signature").setup({
+            bind = false,
             toggle_key = "<C-k>",
             hint_enable = false,
             handler_opts = {
@@ -41,6 +55,7 @@ return function(use)
       "nvim-dd",
       "typescript.nvim",
       "schemastore.nvim",
+      "lspsaga.nvim",
       "fidget.nvim",
       "lsp_signature.nvim",
       "mason-null-ls.nvim",

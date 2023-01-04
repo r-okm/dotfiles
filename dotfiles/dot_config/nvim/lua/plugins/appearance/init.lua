@@ -58,38 +58,6 @@ return function(use)
     setup = require("plugins.appearance.telescope.setup"),
     config = require("plugins.appearance.telescope.config"),
   }
-  use {
-    "aznhe21/actions-preview.nvim",
-    event = { "BufRead", "BufNewFile", },
-    cond = function()
-      return not vim.g.vscode
-    end,
-    config = function()
-      require("actions-preview").setup {
-        telescope = {
-          initial_mode = "normal",
-          defaults = {
-            mappings = {
-              n = {
-                ["q"] = require("telescope.actions").close
-              }
-            }
-          },
-          sorting_strategy = "ascending",
-          layout_strategy = "vertical",
-          layout_config = {
-            width = 0.8,
-            height = 0.9,
-            prompt_position = "top",
-            preview_cutoff = 20,
-            preview_height = function(_, _, max_lines)
-              return max_lines - 15
-            end,
-          },
-        },
-      }
-    end,
-  }
 
   -- trouble
   use {
