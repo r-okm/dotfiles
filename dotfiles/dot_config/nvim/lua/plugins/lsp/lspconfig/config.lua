@@ -51,11 +51,6 @@ return function()
         return string.format("%s %s: %s", get_icon(diagnostic), diagnostic.source, diagnostic.code)
       end,
     },
-    float = {
-      format = function(diagnostic)
-        return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
-      end,
-    },
     severity_sort = true,
   })
 end
