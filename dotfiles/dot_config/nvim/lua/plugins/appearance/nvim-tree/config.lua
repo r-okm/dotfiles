@@ -17,6 +17,9 @@ return function()
       },
       hide_root_folder = true,
     },
+    filters = {
+      custom = { "node_modules", ".git" },
+    },
     update_focused_file = {
       enable = true,
     },
