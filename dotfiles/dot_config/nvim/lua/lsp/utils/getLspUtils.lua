@@ -1,5 +1,5 @@
 local keymap = require("utils.setKeymap").keymap
-local diag = require("telescope.builtin").diagnostics
+local tb = require("telescope.builtin")
 
 return function(bufnr, fmtServerName)
   local lsp_formatting = function()
@@ -15,10 +15,11 @@ return function(bufnr, fmtServerName)
   M.setActionsKey = function()
     keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = bufnr })
     keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { buffer = bufnr })
+    keymap("n", "gD", function() tb.lsp_references() end, { buffer = bufnr })
     keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { buffer = bufnr })
     keymap("nv", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = bufnr })
-    keymap("n", "gw", function() diag({ bufnr = 0 }) end, { buffer = bufnr })
-    keymap("n", "gW", function() diag({ bufnr = nil }) end, { buffer = bufnr })
+    keymap("n", "gw", function() tb.diagnostics({ bufnr = 0 }) end, { buffer = bufnr })
+    keymap("n", "gW", function() tb.diagnostics({ bufnr = nil }) end, { buffer = bufnr })
     keymap("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>", { buffer = bufnr })
     keymap("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr })
     keymap("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr })
