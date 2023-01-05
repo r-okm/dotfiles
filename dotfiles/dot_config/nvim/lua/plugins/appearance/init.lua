@@ -19,6 +19,19 @@ return function(use)
     config = require("plugins.appearance.autopairs.config"),
   }
   use {
+    "windwp/nvim-ts-autotag",
+    event = { "InsertEnter" },
+    wants = { "nvim-treesitter" },
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = function()
+      require("nvim-ts-autotag").setup({
+        filetypes = { "html", "javascriptreact", "typescriptreact", "jsx", "tsx", "vue", "xml" }
+      })
+    end,
+  }
+  use {
     "RRethy/vim-illuminate",
     event = { "BufRead", "BufNewFile" },
     wants = { "nvim-treesitter" },
