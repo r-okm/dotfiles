@@ -1,7 +1,7 @@
-local keymap = require("utils.setKeymap").keymap
-local tb = require("telescope.builtin")
-
 return function(bufnr, fmtServerName)
+  local keymap = require("utils.setKeymap").keymap
+  local tb = require("telescope.builtin")
+
   local lsp_formatting = function()
     vim.lsp.buf.format({
       bufnr = bufnr,
@@ -11,21 +11,25 @@ return function(bufnr, fmtServerName)
     })
   end
 
+  local keymapToBuffer = function(modeStr, lhs, rhs)
+    keymap(modeStr, lhs, rhs, { buffer = bufnr })
+  end
+
   local M = {}
   M.setActionsKey = function()
-    keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", { buffer = bufnr })
-    keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", { buffer = bufnr })
-    keymap("n", "gD", function() tb.lsp_references() end, { buffer = bufnr })
-    keymap("n", "gr", "<cmd>Lspsaga rename<CR>", { buffer = bufnr })
-    keymap("nv", "ga", "<cmd>Lspsaga code_action<CR>", { buffer = bufnr })
-    keymap("n", "gw", function() tb.diagnostics({ bufnr = 0 }) end, { buffer = bufnr })
-    keymap("n", "gW", function() tb.diagnostics({ bufnr = nil }) end, { buffer = bufnr })
-    keymap("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>", { buffer = bufnr })
-    keymap("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr })
-    keymap("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr })
+    keymapToBuffer("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+    keymapToBuffer("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+    keymapToBuffer("n", "gD", function() tb.lsp_references() end)
+    keymapToBuffer("n", "gr", "<cmd>Lspsaga rename<CR>")
+    keymapToBuffer("nv", "ga", "<cmd>Lspsaga code_action<CR>")
+    keymapToBuffer("n", "gw", function() tb.diagnostics({ bufnr = 0 }) end)
+    keymapToBuffer("n", "gW", function() tb.diagnostics({ bufnr = nil }) end)
+    keymapToBuffer("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>")
+    keymapToBuffer("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+    keymapToBuffer("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
   end
   M.setFmtKey = function()
-    keymap("n", "gf", lsp_formatting, { buffer = bufnr })
+    keymapToBuffer("n", "gf", lsp_formatting)
   end
   M.setFmtOnSave = function()
     vim.api.nvim_create_autocmd("BufWritePre", {
