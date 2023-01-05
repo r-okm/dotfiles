@@ -27,30 +27,8 @@ return function()
   end
   })
 
-  local function get_icon(diagnostic)
-    if diagnostic.severity == vim.diagnostic.severity.ERROR then
-      return ""
-    end
-    if diagnostic.severity == vim.diagnostic.severity.WARN then
-      return ""
-    end
-    if diagnostic.severity == vim.diagnostic.severity.HINT then
-      return ""
-    end
-    if diagnostic.severity == vim.diagnostic.severity.INFO then
-      return ""
-    end
-  end
-
   vim.diagnostic.config({
-    virtual_text = {
-      severity = { min = vim.diagnostic.severity.WARN },
-      spacing = 3,
-      prefix = "",
-      format = function(diagnostic)
-        return string.format("%s %s: %s", get_icon(diagnostic), diagnostic.source, diagnostic.code)
-      end,
-    },
+    virtual_text = false,
     severity_sort = true,
   })
 end
