@@ -159,10 +159,7 @@ return function(use)
   -- delete buffer without closing window
   use {
     "famiu/bufdelete.nvim",
-    cmd = {
-      "Bdelete",
-      "Bwipeout",
-    },
+    cmd = { "Bdelete", "Bwipeout", },
     setup = function()
       if vim.g.vscode then
         return
@@ -170,6 +167,7 @@ return function(use)
 
       local keymap = require("utils.setKeymap").keymap
       keymap("n", "<Space>w", ":<C-u>Bdelete<CR>")
+      keymap("n", "<Space>W", ":<C-u>Bwipeout<CR>")
     end,
   }
 
