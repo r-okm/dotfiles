@@ -31,7 +31,11 @@ return function(use)
         "j-hui/fidget.nvim",
         module = { "fidget" },
         config = function()
-          require("fidget").setup()
+          require("fidget").setup({
+            sources = {
+              ["null-ls"] = { ignore = true }
+            },
+          })
         end,
       },
       {
