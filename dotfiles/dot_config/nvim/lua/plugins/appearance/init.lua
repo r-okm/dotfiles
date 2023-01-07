@@ -108,12 +108,21 @@ return function(use)
   -- Comment
   use {
     "numToStr/Comment.nvim",
+    requires = {
+      { "JoosepAlviste/nvim-ts-context-commentstring", opt = true },
+    },
+    wants = {
+      "nvim-treesitter",
+      "nvim-ts-context-commentstring",
+    },
     event = { "BufRead", "BufNewFile", },
     cond = function()
       return not vim.g.vscode
     end,
     config = function()
-      require("Comment").setup()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
     end,
   }
   -- indent line
