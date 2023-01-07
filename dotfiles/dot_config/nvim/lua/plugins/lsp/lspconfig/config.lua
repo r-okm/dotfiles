@@ -15,7 +15,7 @@ return function()
   })
 
   mlc.setup_handlers({ function(server)
-    local opts = require(string.format("lsp.servers.%s", server))
+    local opts = require(string.format("lsp.servers.%s", server)) or {}
 
     if server == "tsserver" then
       require("typescript").setup({

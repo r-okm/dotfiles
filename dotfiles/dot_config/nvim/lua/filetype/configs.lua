@@ -20,6 +20,14 @@ M.java = function()
   set_indent(4, false)
 end
 
+M.c = function()
+  set_indent(4, false)
+end
+
+M.cpp = function()
+  set_indent(4, false)
+end
+
 return setmetatable(M, {
   __index = function()
     return function()
