@@ -223,6 +223,27 @@ return function(use)
     end,
   }
 
+  -- chetGPT
+  use {
+    "jackMort/ChatGPT.nvim",
+    cmd = {
+      "ChatGPT", "ChatGPTActAs", "ChatGPTEditWithInstructions"
+    },
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    wants = {
+      "nui.nvim",
+      "plenary.nvim",
+      "telescope.nvim",
+    },
+    config = function()
+      require("chatgpt").setup()
+    end,
+  }
+
   -- color theme
   use {
     "ellisonleao/gruvbox.nvim",
