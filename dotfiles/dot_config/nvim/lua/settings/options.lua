@@ -21,6 +21,12 @@ if not vim.g.vscode then
     local command = string.format("vertical help %s", opts.args)
     vim.cmd(command)
   end, { nargs = 1, complete = "help" })
+
+  -- 下部ペインとサイドペインを表示するコマンド
+  vim.api.nvim_create_user_command("Ide", function()
+    vim.cmd("Trouble")
+    vim.cmd("NvimTreeOpen")
+  end, {})
 end
 
 -- wsl でホストとクリップボードを共有
