@@ -1,7 +1,6 @@
 local M = {}
 
 M.lsp = {
-  "clangd",
   "cssls",
   "cssmodules_ls",
   "eslint",
