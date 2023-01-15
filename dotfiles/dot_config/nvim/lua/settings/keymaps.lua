@@ -29,6 +29,9 @@ if vim.g.vscode then
   -- comment
   keymapVsc("n", "gcc", "editor.action.commentLine")
   keymapVscVisual("x", "gc", "editor.action.commentLine")
+  -- エラージャンプ
+  keymapVsc("n", "g.", "editor.action.marker.nextInFiles")
+  keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
 else
   keymap("n", "<CR>", "o<ESC>")
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
