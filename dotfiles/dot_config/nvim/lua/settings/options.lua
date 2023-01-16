@@ -26,6 +26,7 @@ if not vim.g.vscode then
   vim.api.nvim_create_user_command("Ide", function()
     vim.cmd("Trouble")
     vim.cmd("NvimTreeOpen")
+    vim.cmd("wincmd w")
   end, {})
 end
 
