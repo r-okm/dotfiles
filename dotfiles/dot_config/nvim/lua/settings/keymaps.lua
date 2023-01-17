@@ -32,6 +32,8 @@ if vim.g.vscode then
   -- エラージャンプ
   keymapVsc("n", "g.", "editor.action.marker.nextInFiles")
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
+  -- フォーマット
+  keymapVsc("n", "gf", "editor.action.formatDocument")
 else
   keymap("n", "<CR>", "o<ESC>")
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
