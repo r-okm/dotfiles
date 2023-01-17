@@ -85,12 +85,16 @@ fzf-cd() {
 
 # fzf-git-checkout
 fzf-git-checkout() {
+  local_brs=$(git branch | sed -e 's/^.*\* //')
+  remote_brs=$(git branch -r | grep -v HEAD | sed -e 's/^.* //g')
+  remote_brs_trim=$(echo $remote_brs | sed -e 's/^.*\///')
+  remote_only_brs=$(echo $local_brs\\n$remote_brs_trim | sort | uniq -u)
+  target_brs=$(echo $local_brs\\n$remote_brs\\n$remote_only_brs | sed -e 's/^.* //g')
+
   target_br=$(
-    git branch -a |
-      grep -v HEAD |
+    echo $target_brs |
       fzf --exit-0 --info=hidden --no-multi --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lg --color=always" |
-      head -n 1 |
-      sed -e "s/^.* //g"
+      head -n 1
   )
   if [ -n "$target_br" ]; then
     git checkout $target_br
