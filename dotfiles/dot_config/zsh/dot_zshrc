@@ -99,7 +99,7 @@ fzf-git-checkout() {
 
 # 規定の設定値の .prettierrc を作成する
 init-prettier() {
-  cat << EOF > .prettierrc
+  cat << EOF > .prettierrc.json
 {
   "semi": false,
   "trailingComma": "none"
