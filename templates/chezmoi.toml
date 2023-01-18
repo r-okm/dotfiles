@@ -1,0 +1,5 @@
+[merge]
+command = "nvim"
+args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
+[data]
+openai_api_key = ""
