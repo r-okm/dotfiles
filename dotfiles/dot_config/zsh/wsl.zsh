@@ -1,7 +1,6 @@
 # alias
 alias yank='/mnt/c/scoop/shims/win32yank.exe -i'
 alias explorer='/mnt/c/Windows/explorer.exe'
-alias code='/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin/code'
 alias cdh='powered-cd'
 
 [ -e $POWERED_CD_LOG_FILE ] || mkdir -p $(dirname $POWERED_CD_LOG_FILE) && touch $POWERED_CD_LOG_FILE
