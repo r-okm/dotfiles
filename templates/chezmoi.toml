@@ -2,4 +2,6 @@
 command = "nvim"
 args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
 [data]
+git_user_name = ""
+git_user_email = ""
 openai_api_key = ""
