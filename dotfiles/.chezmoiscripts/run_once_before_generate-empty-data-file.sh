@@ -1,10 +1,10 @@
 #!/bin/sh
 
-if [ ! -d "~/.config/chezmoi"]; then
-  mkdir -p ~/.config/chezmoi
-fi
+chezmoi_data_file="$HOME/.config/chezmoi/chezmoi.toml"
 
-cat << EOF > ~/.config/chezmoi/chezmoi.toml
+[ -f $chezmoi_data_file ] || mkdir -p $(dirname $chezmoi_data_file) && touch $chezmoi_data_file
+
+cat << EOF > $chezmoi_data_file
 [merge]
   command = "nvim"
   args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
