@@ -1,4 +1,0 @@
-# POWERED_CD_LOG_FILE の中身を削除
-if [ -e $POWERED_CD_LOG_FILE ]; then
-  : > $POWERED_CD_LOG_FILE
-fi

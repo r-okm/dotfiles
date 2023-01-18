@@ -34,3 +34,8 @@ export PATH="$PNPM_HOME:$PATH"
 
 # openai
 export OPENAI_API_KEY='{{ .openai_api_key }}'
+
+# wsl
+if [ -v WSL_DISTRO_NAME ]; then
+  export PATH="$PATH:/mnt/c/Program Files/Microsoft VS Code/bin"
+fi
