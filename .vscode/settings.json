@@ -1,16 +1,3 @@
 {
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "files.trimTrailingWhitespace": false,
-    "files.insertFinalNewline": false
-  },
-  "Lua.diagnostics.globals": ["vim"],
-  "cSpell.words": [
-    "chezmoi",
-    "difftool",
-    "gitconfigs",
-    "mergetool",
-    "msys",
-    "vsvimrc"
-  ]
+  "Lua.diagnostics.globals": ["vim"]
 }
