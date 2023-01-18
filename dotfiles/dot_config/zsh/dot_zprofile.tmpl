@@ -16,18 +16,6 @@ if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
   export HOMEBREW_BUNDLE_FILE=$XDG_CONFIG_HOME/homebrew/.Brewfile
 fi
 
-# openssl v3 を優先させる
-if [ -d "$HOMEBREW_PREFIX/opt/openssl@3/bin" ]; then
-  export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
-fi
-
-# powered_cd
-export POWERED_CD_LOG_FILE="$XDG_DATA_HOME/zsh/powered_cd.log"
-export POWERED_CD_LOG_COUNT=30
-
-# prettierd
-export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/nvim/external/.prettierrc.json"
-
 # pnpm
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 export PATH="$PNPM_HOME:$PATH"
