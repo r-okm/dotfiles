@@ -84,11 +84,13 @@ precmd() {
 prompt-format() {
   local reset='%{\e[0m%}'
 
+  local user="%F{blue}\uf007 ${USER}%f"
+
   local dir
   if [ $PWD = $HOME ]; then
-    dir="%F{yellow}\uf015 ${HOME}%f"
+    dir=" ${reset}in %F{yellow}\uf015 ${HOME}%f"
   else
-    dir="%F{yellow}\ue5fe %~%f"
+    dir=" ${reset}in %F{yellow}\ue5fe %~%f"
   fi
 
   export BRANCH=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) \
@@ -102,13 +104,13 @@ prompt-format() {
 
   local previouscode
   if [ $PREVIOUS_EXIT_CODE -eq 0 ]; then
-    previouscode="${reset}[${PREVIOUS_EXIT_CODE}]"
+    previouscode=" ${reset}[${PREVIOUS_EXIT_CODE}]"
   else
-    previouscode="${reset}[%F{red}${PREVIOUS_EXIT_CODE}%f]"
+    previouscode=" ${reset}[%F{red}${PREVIOUS_EXIT_CODE}%f]"
   fi
 
   echo "
-${dir}${gitbranch} ${previouscode}\n$ "
+${user}${dir}${gitbranch}${previouscode}\n$ "
 }
 
 # fzf-command-history
