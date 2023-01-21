@@ -15,7 +15,9 @@ local M = {
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
       callback = function()
-        require("typescript").actions.fixAll({ sync = true })
+        local ts = require("typescript")
+        ts.actions.addMissingImports({ sync = true })
+        ts.actions.fixAll({ sync = true })
         vim.cmd("EslintFixAll")
       end,
     })
