@@ -1,0 +1,19 @@
+{
+  "React FC TS": {
+    "prefix": "tsx",
+    "body": [
+      "import type { FC } from \"react\"",
+      "",
+      "const ${TM_FILENAME_BASE}: FC<{}> = ({}) => {$0",
+      "  return (",
+      "    <>",
+      "      <div />",
+      "      <div />",
+      "    </>",
+      "  )",
+      "}",
+      "",
+      "export default ${TM_FILENAME_BASE}"
+    ]
+  }
+}
