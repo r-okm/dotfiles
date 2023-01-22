@@ -15,6 +15,7 @@ sh ~/.local/share/chezmoi/install.sh
 ## Change login shell
 
 ```sh
+which zsh | sudo tee -a /etc/shells
 chsh -s $(which zsh)
 ```
 
