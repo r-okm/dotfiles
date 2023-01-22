@@ -1,5 +1,6 @@
 return function(use)
   use { "vim-jp/vimdoc-ja" }
+  use { "yutkat/wb-only-current-line.nvim" }
 
   use {
     "haya14busa/vim-asterisk",
@@ -10,31 +11,30 @@ return function(use)
   }
 
   use {
-    "ggandor/flit.nvim",
+    "ggandor/leap.nvim",
     config = function()
-      require("flit").setup {
-        multiline = false
+      local leap = require("leap")
+      leap.opts.safe_labels = {}
+      leap.opts.labels = {
+        "s", "f", "n",
+        "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
+        "u", "y", "v", "r", "g", "t", "c", "x", "/", "z"
       }
-    end,
-    requires = {
-      {
-        "ggandor/leap.nvim",
-        config = function()
-          local leap = require("leap")
-          leap.opts.safe_labels = {}
-          leap.opts.labels = {
-            "s", "f", "n",
-            "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
-            "u", "y", "v", "r", "g", "t", "c", "x", "/", "z"
-          }
-          local keymap = require("utils.setKeymap").keymap
+      local keymap = require("utils.setKeymap").keymap
 
-          keymap("nxo", "m", function()
-            leap.leap { target_windows = { vim.fn.win_getid() } }
-          end)
-        end,
-      }
-    }
+      keymap("nxo", "m", function()
+        leap.leap { target_windows = { vim.fn.win_getid() } }
+      end)
+    end,
+  }
+
+  use {
+    "unblevable/quick-scope",
+    config = function()
+      local set_hl = vim.api.nvim_set_hl
+      set_hl(0, "QuickScopePrimary", { fg = "#afff5f", underline = true, nocombine = true })
+      set_hl(0, "QuickScopeSecondary", { fg = "#5fffff", underline = true, nocombine = true })
+    end,
   }
 
   use {
