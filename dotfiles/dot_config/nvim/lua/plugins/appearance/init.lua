@@ -223,6 +223,20 @@ return function(use)
     end,
   }
 
+  -- markdown
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    cond = function()
+      return not vim.g.vscode
+    end,
+    setup = function()
+      vim.g.mkdp_auto_close = 0
+    end
+  }
+
   -- chetGPT
   use {
     "jackMort/ChatGPT.nvim",
