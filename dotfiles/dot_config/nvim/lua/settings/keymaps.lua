@@ -35,6 +35,8 @@ if vim.g.vscode then
   -- フォーマット
   keymapVsc("n", "gf", "editor.action.formatDocument")
 else
+  keymap("nx", "j", "gj")
+  keymap("nx", "k", "gk")
   keymap("n", "<CR>", "o<ESC>")
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
