@@ -265,6 +265,7 @@
         "list": 
         [
             {
+                "closeOnExit": "always",
                 "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
                 "hidden": false,
                 "name": "Ubuntu-22.04",
