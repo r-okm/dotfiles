@@ -31,6 +31,7 @@ return function(use)
   use {
     "unblevable/quick-scope",
     config = function()
+      vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
       local set_hl = vim.api.nvim_set_hl
       set_hl(0, "QuickScopePrimary", { fg = "#afff5f", underline = true, nocombine = true })
       set_hl(0, "QuickScopeSecondary", { fg = "#5fffff", underline = true, nocombine = true })
