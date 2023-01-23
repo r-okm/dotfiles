@@ -14,17 +14,18 @@ return function()
     ensure_installed = require("lsp.servers").lsp,
   })
 
-  mlc.setup_handlers({ function(server)
-    local opts = require(string.format("lsp.servers.%s", server)) or {}
-
-    if server == "tsserver" then
+  mlc.setup_handlers({
+    function(server)
+      local opts = require(string.format("lsp.servers.%s", server))
+      require("lspconfig")[server].setup(opts)
+    end,
+    ["tsserver"] = function(server)
+      local opts = require(string.format("lsp.servers.%s", server))
       require("typescript").setup({
         server = opts
       })
-    else
-      require("lspconfig")[server].setup(opts)
-    end
-  end
+    end,
+    ["jdtls"] = function() end
   })
 
   vim.diagnostic.config({

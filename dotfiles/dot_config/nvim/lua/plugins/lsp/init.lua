@@ -86,4 +86,11 @@ return function(use)
     end,
     config = require("plugins.lsp.null-ls.config"),
   }
+
+  use {
+    "mfussenegger/nvim-jdtls",
+    cond = function()
+      return not vim.g.vscode
+    end,
+  }
 end
