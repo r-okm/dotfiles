@@ -4,19 +4,14 @@ utils.setActionsKey()
 
 -- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
 local fn = vim.fn
-local project_name = fn.fnamemodify(fn.getcwd(), ':p:h:t')
+local project_name = fn.fnamemodify(fn.getcwd(), ":p:h:t")
 
 local home_dir = os.getenv("HOME")
-local jabba_jdk_dir = home_dir .. '/.jabba/jdk/'
-local jdk8_dir = jabba_jdk_dir .. '1.8.0/Contents/Home'
-local nvim_dir = home_dir .. '/.config/nvim'
-local rule_dir = nvim_dir .. '/rule/'
-local java_settings_url = rule_dir .. 'settings.prefs'
-local java_format_style_rule = rule_dir .. 'eclipse-java-google-style.xml'
-local java_debug_jar = fn.stdpath('data') .. '/mason/packages/java-debug-adapter/extension/server/*.jar'
-local workspace_root_dir = home_dir .. '/.local/share/nvim/java/workspace/'
+local jdk11_dir = home_dir .. "/.asdf/installs/java/corretto-11.0.17.8.1"
+local java_debug_jar = fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/*.jar"
+local workspace_root_dir = home_dir .. "/.local/share/nvim/java/workspace/"
 local workspace_dir = workspace_root_dir .. project_name
-local lsp = require('plugins.lsp')
+local lsp = require("plugins.lsp")
 
 local on_attach = function(client, bufnr)
   lsp.on_attach(client, bufnr)
@@ -31,12 +26,12 @@ local on_attach = function(client, bufnr)
 end
 
 local is_file_exist = function(path)
-  local f = io.open(path, 'r')
+  local f = io.open(path, "r")
   return f ~= nil and io.close(f)
 end
 
 local get_lombok_javaagent = function()
-  local lombok_dir = home_dir .. '/.m2/repository/org/projectlombok/lombok/'
+  local lombok_dir = home_dir .. "/.m2/repository/org/projectlombok/lombok/"
   local lombok_versions = io.popen('ls -1 "' .. lombok_dir .. '" | sort -r')
   if lombok_versions ~= nil then
     local lb_i, lb_versions = 0, {}
@@ -46,13 +41,13 @@ local get_lombok_javaagent = function()
     end
     lombok_versions:close()
     if next(lb_versions) ~= nil then
-      local lombok_jar = fn.expand(string.format('%s%s/*.jar', lombok_dir, lb_versions[1]))
+      local lombok_jar = fn.expand(string.format("%s%s/*.jar", lombok_dir, lb_versions[1]))
       if is_file_exist(lombok_jar) then
-        return string.format('--jvm-arg=-javaagent:%s', lombok_jar)
+        return string.format("--jvm-arg=-javaagent:%s", lombok_jar)
       end
     end
   end
-  return ''
+  return ""
 end
 
 local get_java_debug_jar = function()
@@ -60,7 +55,7 @@ local get_java_debug_jar = function()
   if is_file_exist(jdj_full_path) then
     return jdj_full_path
   end
-  return ''
+  return ""
 end
 
 local get_cmd = function()
@@ -69,11 +64,11 @@ local get_cmd = function()
   }
 
   local lombok_javaagent = get_lombok_javaagent()
-  if (lombok_javaagent ~= '') then
+  if (lombok_javaagent ~= "") then
     table.insert(cmd, lombok_javaagent)
   end
 
-  table.insert(cmd, '-data')
+  table.insert(cmd, "-data")
   table.insert(cmd, workspace_dir)
 
   return cmd
@@ -83,24 +78,20 @@ end
 -- Watch out for the 💀, it indicates that you must adjust something.
 local config = {
   cmd = get_cmd(),
-  root_dir = require('jdtls.setup').find_root({ '.git', 'mvnw', 'gradlew' }),
+  root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
 
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
   settings = {
-    ['java.settings.url'] = java_settings_url,
     java = {
       configuration = {
-        -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-        -- And search for `interface RuntimeOption`
-        -- The `name` is NOT arbitrary, but must match one of the elements from `enum ExecutionEnvironment` in the link above
         runtimes = {
           {
-            name = 'JavaSE-1.8',
-            path = jdk8_dir
+            name = "JavaSE-11",
+            path = jdk11_dir
           }
-        }
+        },
       },
       codeGeneration = {
         hashCodeEquals = {
@@ -112,7 +103,7 @@ local config = {
         },
         useBlocks = true,
       },
-      contentProvider = { preferred = 'fernflower' },
+      contentProvider = { preferred = "fernflower" },
       implementationsCodeLens = {
         enabled = true
       },
@@ -126,12 +117,6 @@ local config = {
           staticStarThreshold = 9999,
         }
       },
-      format = {
-        settings = {
-          url = java_format_style_rule,
-          profile = 'GoogleStyle'
-        }
-      }
     }
   },
 
@@ -154,8 +139,8 @@ local config = {
     debounce_text_changes = 150,
     server_side_fuzzy_completion = true
   },
-  ['on_attach'] = on_attach,
+  ["on_attach"] = on_attach,
 }
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
-require('jdtls').start_or_attach(config)
+require("jdtls").start_or_attach(config)
