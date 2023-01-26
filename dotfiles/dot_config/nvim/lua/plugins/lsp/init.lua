@@ -24,6 +24,9 @@ return function(use)
               enable = false,
             },
             rename_in_select = false,
+            ui = {
+              border = "single"
+            },
           })
         end,
       },
