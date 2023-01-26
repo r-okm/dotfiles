@@ -86,12 +86,13 @@ prompt-format() {
 
   local user="%F{blue}\uf007 ${USER}%f"
 
-  local dir
+  local icon
   if [ $PWD = $HOME ]; then
-    dir=" ${reset}in %F{yellow}\uf015 ${HOME}%f"
+    icon="\uf015"
   else
-    dir=" ${reset}in %F{yellow}\ue5fe %~%f"
+    icon="\ue5fe"
   fi
+  local dir=" ${reset}in %F{yellow}${icon} %~%f"
 
   export BRANCH=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) \
   && export COMMIT=$(git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
