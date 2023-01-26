@@ -20,6 +20,10 @@ M.java = function()
   set_indent(4, false)
 end
 
+M.cs = function()
+  set_indent(4, false)
+end
+
 M.c = function()
   set_indent(4, false)
 end
