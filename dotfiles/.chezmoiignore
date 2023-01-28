@@ -1,5 +1,6 @@
 {{ if eq .chezmoi.os "windows"}}
 .config
+!.config/git
 {{ end }}
 
 {{ if ne .chezmoi.os "windows"}}
