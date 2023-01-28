@@ -245,8 +245,8 @@
     "copyOnSelect": false,
     "defaultProfile": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
     "firstWindowPreference": "defaultProfile",
-    "initialCols": 180,
-    "initialRows": 40,
+    "initialCols": 140,
+    "initialRows": 30,
     "profiles": 
     {
         "defaults": 
@@ -259,12 +259,13 @@
                 "face": "HackGen Console NFJ",
                 "size": 12
             },
-            "opacity": 90,
+            "opacity": 100,
             "useAcrylic": false
         },
         "list": 
         [
             {
+                "closeOnExit": "always",
                 "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
                 "hidden": false,
                 "name": "Ubuntu-22.04",
@@ -276,17 +277,9 @@
                 "name": "Windows PowerShell"
             },
             {
-                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
-                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
-                "hidden": false,
-                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
-                "name": "MSYS2",
-                "startingDirectory": "%USERPROFILE%"
-            },
-            {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
-                "hidden": true,
+                "hidden": false,
                 "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
@@ -345,6 +338,52 @@
             "selectionBackground": "#FFFFFF",
             "white": "#CCCCCC",
             "yellow": "#C19C00"
+        },
+        {
+            "background": "#282828",
+            "black": "#282828",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#EBDBB2",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "GruvboxDark",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#665C54",
+            "white": "#A89984",
+            "yellow": "#D79921"
+        },
+        {
+            "background": "#1B1B1B",
+            "black": "#1B1B1B",
+            "blue": "#458588",
+            "brightBlack": "#928374",
+            "brightBlue": "#83A598",
+            "brightCyan": "#8EC07C",
+            "brightGreen": "#B8BB26",
+            "brightPurple": "#D3869B",
+            "brightRed": "#FB4934",
+            "brightWhite": "#EBDBB2",
+            "brightYellow": "#FABD2F",
+            "cursorColor": "#EBDBB2",
+            "cyan": "#689D6A",
+            "foreground": "#EBDBB2",
+            "green": "#98971A",
+            "name": "GruvboxDarkHard",
+            "purple": "#B16286",
+            "red": "#CC241D",
+            "selectionBackground": "#665C54",
+            "white": "#A89984",
+            "yellow": "#D79921"
         },
         {
             "background": "#282C34",
