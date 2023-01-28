@@ -1,10 +1,10 @@
 return function()
-  local mnl = require("mason-null-ls")
+  -- local mnl = require("mason-null-ls")
   local nls = require("null-ls")
 
-  mnl.setup({
-    ensure_installed = require("lsp.servers").null_ls,
-  })
+  -- mnl.setup({
+  --   ensure_installed = require("lsp.servers").null_ls,
+  -- })
   nls.setup {
     diagnostics_format = "#{m} (#{s}: #{c})",
     sources = {

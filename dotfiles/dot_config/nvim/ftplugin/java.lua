@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return
+end
+
 local getUtils = require("lsp.utils.getLspUtils")
 local utils = getUtils(0, "jdtls")
 utils.setActionsKey()
