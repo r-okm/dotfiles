@@ -8,8 +8,8 @@ keymap("", "<Space>", "")
 
 keymap("nxo", "gh", "^")
 keymap("nxo", "gl", "$")
-keymap("n", "<C-k><C-n>", ":<C-u>noh<CR>")
-keymap("n", "<C-k><C-s>", ":<C-u><CR>:%s/", { silent = false })
+keymap("n", "gn", ":<C-u>noh<CR>")
+keymap("n", "gs", ":<C-u><CR>:%s/", { silent = false })
 
 -- vscode
 if vim.g.vscode then
@@ -34,6 +34,7 @@ if vim.g.vscode then
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
   -- フォーマット
   keymapVsc("n", "gf", "editor.action.formatDocument")
+  keymapVsc("n", "zg", "git-graph.view")
 else
   keymap("nx", "j", "gj")
   keymap("nx", "k", "gk")
