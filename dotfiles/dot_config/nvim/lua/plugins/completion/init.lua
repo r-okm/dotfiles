@@ -5,28 +5,6 @@ return function(use)
     module = "cmp",
     requires = {
       {
-        "hrsh7th/cmp-nvim-lsp",
-        event = { "InsertEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end
-      },
-      {
-        "hrsh7th/vim-vsnip",
-        event = { "InsertEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end,
-        setup = require("plugins.completion.vsnip.setup")
-      },
-      {
-        "hrsh7th/cmp-vsnip",
-        event = { "InsertEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end
-      },
-      {
         "hrsh7th/cmp-buffer",
         event = { "InsertEnter" },
         cond = function()
@@ -55,15 +33,7 @@ return function(use)
       local cmp = require("cmp")
 
       cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
-          end,
-        },
         sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "vsnip" },
-        }, {
           { name = "buffer" },
         }),
         mapping = cmp.mapping.preset.insert({
