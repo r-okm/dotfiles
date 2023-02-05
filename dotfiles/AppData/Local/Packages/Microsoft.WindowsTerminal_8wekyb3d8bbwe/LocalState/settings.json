@@ -243,7 +243,7 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
+    "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
     "firstWindowPreference": "defaultProfile",
     "initialCols": 140,
     "initialRows": 30,
@@ -266,6 +266,15 @@
         [
             {
                 "closeOnExit": "always",
+                "commandline": "C:\\scoop\\shims\\bash.exe",
+                "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
+                "hidden": false,
+                "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
+                "name": "Git Bash",
+                "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "closeOnExit": "always",
                 "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
                 "hidden": false,
                 "name": "Ubuntu-22.04",
@@ -276,15 +285,6 @@
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
-            },
-            {
-                "closeOnExit": "always",
-                "commandline": "C:\\scoop\\shims\\bash.exe",
-                "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
-                "hidden": false,
-                "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
-                "name": "Git Bash",
-                "startingDirectory": "%USERPROFILE%"
             },
             {
                 "closeOnExit": "always",
