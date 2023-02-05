@@ -272,11 +272,13 @@
                 "source": "Windows.Terminal.Wsl"
             },
             {
+                "closeOnExit": "always",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
             },
             {
+                "closeOnExit": "always",
                 "commandline": "C:\\scoop\\shims\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
                 "hidden": false,
@@ -285,6 +287,7 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
+                "closeOnExit": "always",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "\u30b3\u30de\u30f3\u30c9 \u30d7\u30ed\u30f3\u30d7\u30c8"
@@ -570,5 +573,6 @@
             "yellow": "#808000"
         }
     ],
+    "themes": [],
     "useAcrylicInTabRow": true
 }
