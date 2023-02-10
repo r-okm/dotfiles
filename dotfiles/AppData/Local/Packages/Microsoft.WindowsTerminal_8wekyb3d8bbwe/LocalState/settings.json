@@ -104,10 +104,6 @@
         },
         {
             "command": "unbound",
-            "keys": "ctrl+shift+c"
-        },
-        {
-            "command": "unbound",
             "keys": "ctrl+numpad0"
         },
         {
@@ -238,7 +234,8 @@
             {
                 "action": "copy",
                 "singleLine": false
-            }
+            },
+            "keys": "ctrl+shift+c"
         }
     ],
     "copyFormatting": "none",
