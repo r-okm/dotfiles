@@ -48,7 +48,4 @@ else
   keymap("n", "<Space>s", ":<C-u>w<CR>")
   keymap("n", "<Space>S", ":<C-u>noa w<CR>")
   keymap("n", "<C-q>", "<C-w>w")
-  keymap("n", "<C-k><C-v>", function()
-    vim.cmd("MarkdownPreviewToggle")
-  end)
 end
