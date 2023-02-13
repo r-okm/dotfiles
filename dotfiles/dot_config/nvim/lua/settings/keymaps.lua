@@ -10,6 +10,7 @@ keymap("nxo", "gh", "^")
 keymap("nxo", "gl", "$")
 keymap("n", "gn", ":<C-u>noh<CR>")
 keymap("n", "gs", ":<C-u><CR>:%s/", { silent = false })
+keymap("n", "<CR>", "o<ESC>")
 
 -- vscode
 if vim.g.vscode then
@@ -21,8 +22,6 @@ if vim.g.vscode then
   -- filer
   keymapVsc("n", "<Space>c", "workbench.action.closeSidebar")
   keymapVsc("n", "<Space>e", "workbench.view.explorer")
-  -- insert new line in normal mode
-  keymapVsc("n", "<Cr>", "editor.action.insertLineAfter")
   -- global search
   keymapVsc("n", "#", "workbench.action.findInFiles", "{ 'query': expand('<cword>')}")
   keymapVscVisual("x", "#", "workbench.action.findInFiles", "{ 'query': expand('<cword>')}")
@@ -42,7 +41,6 @@ if vim.g.vscode then
 else
   keymap("nx", "j", "gj")
   keymap("nx", "k", "gk")
-  keymap("n", "<CR>", "o<ESC>")
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<Space>s", ":<C-u>w<CR>")
