@@ -34,7 +34,11 @@ if vim.g.vscode then
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
   -- フォーマット
   keymapVsc("n", "gf", "editor.action.formatDocument")
+  -- git graph
   keymapVsc("n", "zg", "git-graph.view")
+  -- notification
+  keymapVsc("n", "zn", "notifications.showList")
+  keymapVsc("n", "zc", "notifications.clearAll")
 else
   keymap("nx", "j", "gj")
   keymap("nx", "k", "gk")
