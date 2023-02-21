@@ -160,3 +160,8 @@ init-prettier() {
 }
 EOF
 }
+
+# /mnt 配下のディレクトリをホスト側の vscode で開く
+wcode() {
+  /mnt/c/Windows/system32/cmd.exe /c "code $1"
+}
