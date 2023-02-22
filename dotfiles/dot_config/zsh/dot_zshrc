@@ -61,6 +61,10 @@ if [ -e "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.sh" ]; then
   )
 fi
 
+if [ -e "$HOME/.asdf/plugins/java/set-java-home.zsh" ]; then
+  . $HOME/.asdf/plugins/java/set-java-home.zsh
+fi
+
 # Completion
 fpath=(
   $ZDOTDIR/completions
