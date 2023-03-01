@@ -241,7 +241,9 @@
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
+    "experimental.rendering.forceFullRepaint": true,
     "firstWindowPreference": "defaultProfile",
+    "initialPosition": "1800,80",
     "initialCols": 140,
     "initialRows": 30,
     "profiles": 
