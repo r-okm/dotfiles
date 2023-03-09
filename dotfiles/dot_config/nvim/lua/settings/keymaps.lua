@@ -33,6 +33,8 @@ if vim.g.vscode then
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
   -- フォーマット
   keymapVsc("n", "gf", "editor.action.formatDocument")
+  -- インポート整理
+  keymapVsc("n", "go", "editor.action.organizeImports")
   -- git graph
   keymapVsc("n", "zg", "git-graph.view")
   -- notification
