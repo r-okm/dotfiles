@@ -81,8 +81,10 @@ precmd() {
   # 前回のコマンドの終了コードを記録
   export PREVIOUS_EXIT_CODE=$?
 
+{{- if eq .chezmoi.os "linux" }}
   # Promptの更新
   PROMPT=`prompt-format`
+{{- end }}
 }
 
 # ========================== functions ==========================
