@@ -76,6 +76,12 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
+{{- if eq .chezmoi.os "windows" }}
+  PS1="
+(%n@%m) %~
+$ "
+{{- end }}
+
 # ========================== zsh-hooks ==========================
 precmd() {
   # 前回のコマンドの終了コードを記録
