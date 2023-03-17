@@ -240,16 +240,17 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
+    "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
     "experimental.rendering.forceFullRepaint": true,
     "firstWindowPreference": "defaultProfile",
-    "initialPosition": "1800,280",
     "initialCols": 140,
+    "initialPosition": "1800,280",
     "initialRows": 30,
     "profiles": 
     {
         "defaults": 
         {
+            "closeOnExit": "always",
             "colorScheme": "One Half Dark",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
@@ -263,6 +264,15 @@
         },
         "list": 
         [
+            {
+                "closeOnExit": "always",
+                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
+                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
+                "hidden": false,
+                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
+                "name": "MSYS2",
+                "startingDirectory": "%USERPROFILE%"
+            },
             {
                 "closeOnExit": "always",
                 "commandline": "C:\\scoop\\shims\\bash.exe",
@@ -290,14 +300,6 @@
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "\u30b3\u30de\u30f3\u30c9 \u30d7\u30ed\u30f3\u30d7\u30c8"
-            },
-            {
-                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
-                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
-                "hidden": false,
-                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
-                "name": "MSYS2",
-                "startingDirectory": "%USERPROFILE%"
             }
         ]
     },
