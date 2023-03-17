@@ -1,8 +1,5 @@
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
-.config/nvim
-.config/zsh
-.zshenv
 {{ end }}
 
 {{ if ne .chezmoi.os "windows"}}
