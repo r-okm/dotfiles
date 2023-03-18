@@ -78,7 +78,7 @@ zstyle ':completion:*' menu select
 
 {{- if eq .chezmoi.os "windows" }}
   PS1="
-(%n@%m) %~
+%F{blue}%n@%m%f %F{magenta}%~%f
 $ "
 {{- end }}
 
