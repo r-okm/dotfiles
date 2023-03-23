@@ -108,13 +108,13 @@ prompt-format() {
   fi
   local dir=" ${reset}in %F{yellow}${icon} %~%f"
 
-  export BRANCH=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) \
-  && export COMMIT=$(git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
+  local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) \
+  && local commit=$(git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
   local gitbranch
-  if [ "${BRANCH}" != "" ]; then
-    gitbranch=" ${reset}on %F{magenta}\ufb2b ${BRANCH}%f"
-  elif [ "${COMMIT}" != "" ]; then
-    gitbranch=" ${reset}on %F{magenta}\uf417 ${COMMIT}%f"
+  if [ "${branch}" != "" ]; then
+    gitbranch=" ${reset}on %F{magenta}\ufb2b ${branch}%f"
+  elif [ "${commit}" != "" ]; then
+    gitbranch=" ${reset}on %F{magenta}\uf417 ${commit}%f"
   fi
 
   local previouscode
