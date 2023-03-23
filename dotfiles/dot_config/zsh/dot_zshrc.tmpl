@@ -76,21 +76,13 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 
-{{- if eq .chezmoi.os "windows" }}
-  PS1="
-%F{blue}%n@%m%f %F{magenta}%~%f
-$ "
-{{- end }}
-
 # ========================== zsh-hooks ==========================
 precmd() {
   # 前回のコマンドの終了コードを記録
   export PREVIOUS_EXIT_CODE=$?
 
-{{- if eq .chezmoi.os "linux" }}
   # Promptの更新
   PROMPT=`prompt-format`
-{{- end }}
 }
 
 # ========================== functions ==========================
@@ -98,15 +90,22 @@ precmd() {
 prompt-format() {
   local reset='%{\e[0m%}'
 
-  local user="%F{blue}\uf007 ${USER}%f"
+  {{ if eq .chezmoi.os "linux" }}
+  local usericon="\uf31a"
+  {{ else if eq .chezmoi.os "windows" }}
+  local usericon="\uf17a"
+  {{ else }}
+  local usericon="\uf007"
+  {{ end }}
+  local user="%F{blue}${usericon} ${USER}%f"
 
-  local icon
+  local diricon
   if [ $PWD = $HOME ]; then
-    icon="\uf015"
+    diricon="\uf015"
   else
-    icon="\ue5fe"
+    diricon="\ue5fe"
   fi
-  local dir=" ${reset}in %F{yellow}${icon} %~%f"
+  local dir=" ${reset}in %F{yellow}${diricon} %~%f"
 
   local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) \
   && local commit=$(git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
