@@ -42,7 +42,13 @@ return function(use)
     "gbprod/substitute.nvim",
     config = function()
       local keymap = require("utils.setKeymap").keymap
-      keymap("nx", ",", function() require("substitute").operator() end)
+      local substitute = require("substitute")
+      substitute.setup({
+        highlight_substituted_text = {
+          enabled = false,
+        },
+      })
+      keymap("nx", ",", function() substitute.operator() end)
     end,
   }
 
