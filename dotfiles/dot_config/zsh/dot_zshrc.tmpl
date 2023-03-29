@@ -40,8 +40,10 @@ alias dkc='docker compose'
 alias hex2dec="printf '%d\n'"
 alias dec2hex="printf '%x\n'"
 if [ -v WSL_DISTRO_NAME ]; then
-  alias yank='/mnt/c/scoop/shims/win32yank.exe -i'
+  alias clip='/mnt/c/scoop/shims/win32yank.exe -i'
   alias exp='/mnt/c/Windows/explorer.exe'
+else
+  alias exp='explorer.exe'
 fi
 
 
