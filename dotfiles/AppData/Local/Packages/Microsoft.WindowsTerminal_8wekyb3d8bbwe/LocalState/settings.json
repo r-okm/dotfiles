@@ -265,7 +265,6 @@
         "list": 
         [
             {
-                "closeOnExit": "always",
                 "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
                 "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
                 "hidden": false,
@@ -274,7 +273,12 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
-                "closeOnExit": "always",
+                "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
+                "hidden": false,
+                "name": "Ubuntu-22.04",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
                 "hidden": false,
@@ -283,20 +287,11 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
-                "closeOnExit": "always",
-                "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
-                "hidden": true,
-                "name": "Ubuntu-22.04",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "closeOnExit": "always",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell"
             },
             {
-                "closeOnExit": "always",
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "\u30b3\u30de\u30f3\u30c9 \u30d7\u30ed\u30f3\u30d7\u30c8"
