@@ -25,7 +25,6 @@ alias la='ls -A'
 alias l='ls -CF'
 alias sz="source $ZDOTDIR/.zshrc"
 alias cc='fzf-cd'
-alias gs='fzf-git-checkout'
 alias g='git'
 alias lg='lazygit'
 alias n='npm'
@@ -146,6 +145,15 @@ fzf-cd() {
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
+}
+
+# gs
+gs() {
+  if [ -n "$1" ]; then
+    git checkout $1
+  else
+    fzf-git-checkout
+  fi
 }
 
 # fzf-git-checkout
