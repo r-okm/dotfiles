@@ -150,7 +150,7 @@ fzf-cd() {
 # gs
 gs() {
   if [ -n "$1" ]; then
-    git checkout $1
+    git checkout $@
   else
     fzf-git-checkout
   fi
