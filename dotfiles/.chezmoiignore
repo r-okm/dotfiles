@@ -4,6 +4,7 @@
 
 {{ if ne .chezmoi.os "windows"}}
 AppData
+.vrapperrc
 {{ end }}
 
 {{- if eq (env "REMOTE_CONTAINERS") "true" }}

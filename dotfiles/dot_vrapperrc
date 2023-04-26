@@ -1,0 +1,13 @@
+set clipboard=unnamed
+
+nnoremap gh ^
+xnoremap gh ^
+onoremap gh ^
+nnoremap gl $
+xnoremap gl $
+onoremap gl $
+nnoremap gs :<C-u><CR>:%s/
+nnoremap <CR> o<ESC>
+nnoremap <C-h> :<C-u>bprev<CR>
+nnoremap <C-l> :<C-u>bnext<CR>
+nnoremap K <C-k><C-i>
