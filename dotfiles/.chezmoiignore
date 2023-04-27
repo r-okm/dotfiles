@@ -5,6 +5,7 @@
 {{ if ne .chezmoi.os "windows"}}
 AppData
 .vrapperrc
+.ideavimrc
 {{ end }}
 
 {{- if eq (env "REMOTE_CONTAINERS") "true" }}
