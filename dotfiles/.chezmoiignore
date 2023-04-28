@@ -4,7 +4,6 @@
 
 {{ if ne .chezmoi.os "windows"}}
 AppData
-.vrapperrc
 .ideavimrc
 {{ end }}
 
