@@ -2,6 +2,14 @@ return function(use)
   use { "vim-jp/vimdoc-ja" }
   use { "yutkat/wb-only-current-line.nvim" }
 
+  -- vscode では機能しない
+  use {
+    "IMOKURI/line-number-interval.nvim",
+    config = function()
+      vim.g.line_number_interval_enable_at_startup = 1
+    end
+  }
+
   use {
     "haya14busa/vim-asterisk",
     config = function()
