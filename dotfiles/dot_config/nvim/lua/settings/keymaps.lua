@@ -26,8 +26,11 @@ if vim.g.vscode then
   -- エラージャンプ
   keymapVsc("n", "g.", "editor.action.marker.nextInFiles")
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
+  -- 定義ジャンプ
+  keymapVsc("n", "gD", "editor.action.goToImplementation")
   -- フォーマット
   keymapVsc("n", "gf", "editor.action.formatDocument")
+  keymapVscVisual("x", "gf", "editor.action.formatSelection")
   -- インポート整理
   keymapVsc("n", "go", "editor.action.organizeImports")
   -- git graph
