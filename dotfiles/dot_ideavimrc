@@ -16,3 +16,7 @@ nnoremap <C-h> gT
 nnoremap <C-l> gt
 nnoremap K <C-k><C-i>
 nnoremap gn :<C-u>noh<CR>
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gD :action GotoImplementation<CR>
+nnoremap gf :action ReformatCode<CR>
+nnoremap go :action OptimizeImports<CR>
