@@ -23,6 +23,9 @@ if vim.g.vscode then
   -- comment
   keymapVsc("n", "gcc", "editor.action.commentLine")
   keymapVscVisual("x", "gc", "editor.action.commentLine")
+  -- 戻る､進む
+  keymapVsc("n", "zh", "workbench.action.navigateBack")
+  keymapVsc("n", "zl", "workbench.action.navigateForward")
   -- エラージャンプ
   keymapVsc("n", "g.", "editor.action.marker.nextInFiles")
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")
