@@ -23,15 +23,43 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias b='cd -'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I'
+
+alias g='git'
+alias gs='git switch'
+alias gf='git fetch'
+alias gps='git push'
+alias gpl='git pull'
+alias gst='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gb='git branch'
+alias gd='git diff'
+alias ggs='fzf-git-checkout'
+alias lg='lazygit'
+
 alias sz="source $ZDOTDIR/.zshrc"
 alias cc='fzf-cd'
-alias g='git'
-alias lg='lazygit'
 alias n='npm'
 alias p='pnpm'
 alias nr='npm run'
 alias ch='chezmoi'
+alias cha='chezmoi apply'
+alias chd='chezmoi diff'
+alias chu='chezmoi update'
 alias bw='brew'
+alias bwb='brew bundle'
+alias aptu='sudo apt update && sudo apt upgrade -y'
+alias sp='scoop'
+alias spu='scoop update && scoop status'
 alias amp='amplify'
 alias tf='terraform'
 alias dk='docker'
@@ -40,10 +68,15 @@ alias hex2dec="printf '%d\n'"
 alias dec2hex="printf '%x\n'"
 if [ -v WSL_DISTRO_NAME ]; then
   alias clip='/mnt/c/scoop/shims/win32yank.exe -i'
-  alias exp='/mnt/c/Windows/explorer.exe'
+  alias x='/mnt/c/Windows/explorer.exe'
 else
-  alias exp='explorer.exe'
+  alias x='explorer.exe'
 fi
+
+alias -g C='| clip'
+alias -g G='| rg --color=auto'
+alias -g H='--help'
+alias -g L='| less -R'
 
 
 # Application specific settings
@@ -145,15 +178,6 @@ fzf-cd() {
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "$dir"
-}
-
-# gs
-gs() {
-  if [ -n "$1" ]; then
-    git checkout $@
-  else
-    fzf-git-checkout
-  fi
 }
 
 # fzf-git-checkout
