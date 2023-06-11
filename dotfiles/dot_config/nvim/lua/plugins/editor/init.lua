@@ -2,14 +2,6 @@ return function(use)
   use { "vim-jp/vimdoc-ja" }
   use { "yutkat/wb-only-current-line.nvim" }
 
-  -- vscode では機能しない
-  use {
-    "IMOKURI/line-number-interval.nvim",
-    config = function()
-      vim.g.line_number_interval_enable_at_startup = 1
-    end
-  }
-
   use {
     "haya14busa/vim-asterisk",
     config = function()
@@ -61,26 +53,6 @@ return function(use)
   }
 
   use {
-    "osyo-manga/vim-textobj-multiblock",
-    requires = { "kana/vim-textobj-user" },
-    config = function()
-      vim.g.textobj_multiblock_blocks = {
-        { "(", ")" },
-        { "[", "]" },
-        { "{", "}" },
-        { "<", ">" },
-        { '"', '"', 1 },
-        { "'", "'", 1 },
-        { "`", "`", 1 },
-      }
-
-      local keymap = require("utils.setKeymap").keymap
-      keymap("ox", "ab", "<Plug>(textobj-multiblock-a)")
-      keymap("ox", "ib", "<Plug>(textobj-multiblock-i)")
-    end,
-  }
-
-  use {
     "rhysd/vim-operator-surround",
     requires = { "kana/vim-operator-user", "tpope/vim-repeat" },
     config = function()
@@ -90,8 +62,6 @@ return function(use)
       keymap("n", "sr", "<Plug>(operator-surround-replace)a")
       keymap("x", "sd", "<Plug>(operator-surround-delete)")
       keymap("x", "sr", "<Plug>(operator-surround-replace)")
-      keymap("n", "sdd", "<Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)")
-      keymap("n", "srr", "<Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)")
     end,
   }
 end
