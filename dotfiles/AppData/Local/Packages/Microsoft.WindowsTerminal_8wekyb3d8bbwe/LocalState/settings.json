@@ -223,11 +223,19 @@
             "keys": "ctrl+shift+w"
         },
         {
+            "command": "unbound",
+            "keys": "ctrl+shift+space"
+        },
+        {
             "command": 
             {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
+        },
+        {
+            "command": "openNewTabDropdown",
+            "keys": "ctrl+@"
         },
         {
             "command": 
@@ -246,6 +254,12 @@
     "initialCols": 140,
     "initialPosition": "1800,280",
     "initialRows": 30,
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
     "profiles": 
     {
         "defaults": 
@@ -577,6 +591,50 @@
             "yellow": "#808000"
         }
     ],
-    "themes": [],
+    "themes": 
+    [
+        {
+            "name": "legacyDark",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "dark",
+                "useMica": false
+            }
+        },
+        {
+            "name": "legacyLight",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "light",
+                "useMica": false
+            }
+        },
+        {
+            "name": "legacySystem",
+            "tab": 
+            {
+                "background": null,
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "window": 
+            {
+                "applicationTheme": "system",
+                "useMica": false
+            }
+        }
+    ],
     "useAcrylicInTabRow": true
 }
