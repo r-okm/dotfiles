@@ -3,7 +3,11 @@ bindkey -e
 bindkey "^[[3~" delete-char
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
-setopt no_beep
+
+setopt nobeep
+setopt nolistbeep
+setopt correct
+setopt auto_cd
 
 # Export
 export LANG=ja_JP.utf8
@@ -42,6 +46,7 @@ alias gul='git pull'
 alias gst='git status'
 alias gsh='git show'
 alias gss='git stash'
+alias gm='git merge'
 alias ga='git add'
 alias gc='git commit'
 alias gb='git branch'
