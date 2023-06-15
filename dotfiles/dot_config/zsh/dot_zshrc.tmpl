@@ -9,6 +9,11 @@ setopt nolistbeep
 setopt correct
 setopt auto_cd
 
+cdpath=(
+  {{ .project_dir }}
+  $cdpath
+)
+
 # Export
 export LANG=ja_JP.utf8
 export CLICOLOR=1
@@ -59,10 +64,13 @@ alias cc='fzf-cd'
 alias n='npm'
 alias p='pnpm'
 alias nr='npm run'
+
 alias ch='chezmoi'
 alias cha='chezmoi apply'
 alias chd='chezmoi diff'
 alias chu='chezmoi update'
+alias che='$EDITOR $XDG_CONFIG_HOME/chezmoi/chezmoi.toml'
+
 alias bw='brew'
 alias bwb='brew bundle'
 alias aptu='sudo apt update && sudo apt upgrade -y'
