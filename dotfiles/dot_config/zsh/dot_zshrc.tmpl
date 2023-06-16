@@ -56,6 +56,16 @@ alias ga='git add'
 alias gc='git commit'
 alias gb='git branch'
 alias gd='git diff'
+
+{{ if eq .chezmoi.os "linux" }}
+alias wgit='/mnt/c/scoop/shims/git.exe'
+alias wg='wgit'
+alias wgf='wgit fetch'
+alias wgus='wgit push'
+alias wgusu='wgit push -u origin HEAD'
+alias wgul='wgit pull'
+{{ end }}
+
 alias ggs='fzf-git-checkout'
 alias lg='lazygit'
 

@@ -54,3 +54,7 @@
 [color]
   status = always
   diff = always
+{{ if eq .chezmoi.os "windows" }}
+[safe]
+  directory = *
+{{ end }}
