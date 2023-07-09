@@ -171,7 +171,7 @@ prompt-format() {
   local gitbranch
   local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
   if [ -n "${branch}" ]; then
-    gitbranch=" ${reset}on %F{magenta}\ufb2b ${branch}%f"
+    gitbranch=" ${reset}on %F{magenta}\ue725 ${branch}%f"
   else
     local commit=$(git --no-optional-locks rev-parse --short HEAD 2>/dev/null)
     if [ -n "${commit}" ]; then
