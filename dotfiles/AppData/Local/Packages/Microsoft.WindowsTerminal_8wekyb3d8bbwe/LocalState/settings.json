@@ -248,7 +248,7 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
+    "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
     "experimental.rendering.forceFullRepaint": true,
     "firstWindowPreference": "defaultProfile",
     "initialCols": 140,
@@ -270,7 +270,7 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "HackGen Console NFJ",
+                "face": "HackGen Console NF",
                 "size": 12.0
             },
             "opacity": 100,
