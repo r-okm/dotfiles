@@ -19,7 +19,6 @@ if vim.g.vscode then
   keymapVsc("n", "<Space>e", "workbench.view.explorer")
   -- global search
   keymapVsc("n", "#", "workbench.action.findInFiles", "{ 'query': expand('<cword>')}")
-  keymapVscVisual("x", "#", "workbench.action.findInFiles", "{ 'query': expand('<cword>')}")
   -- comment
   keymapVsc("n", "gcc", "editor.action.commentLine")
   keymapVscVisual("x", "gc", "editor.action.commentLine")

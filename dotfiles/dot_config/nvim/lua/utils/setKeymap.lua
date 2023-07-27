@@ -42,9 +42,9 @@ local getRhsFromVsVisualCmd = function(cmd, vs_args)
   if vs_args ~= nil then
     -- <Cmd> call VSCodeNotifyVisual()<Cr> の後に <Esc> を追記することでコマンド実行後にノーマルモードに移行する
     -- VSCodeNotifyVisual の第二引数に 0 を入れることで､コマンド実行後の vscode の文字選択状態を解除する
-    rhs = string.format("<Cmd> call VSCodeNotifyVisual('%s', 0, %s)<Cr><Esc>", cmd, vs_args)
+    rhs = string.format("<Cmd> call VSCodeCall('%s', %s)<Cr><Esc>", cmd, vs_args)
   else
-    rhs = string.format("<Cmd> call VSCodeNotifyVisual('%s', 0)<Cr><Esc>", cmd)
+    rhs = string.format("<Cmd> call VSCodeCall('%s')<Cr><Esc>", cmd)
   end
 
   return rhs
