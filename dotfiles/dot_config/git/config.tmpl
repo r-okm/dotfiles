@@ -1,3 +1,5 @@
+[include]
+  path = ~/.config/git/themes.gitconfig
 [credential]
 {{ if eq .chezmoi.os "linux" }}
   {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
@@ -9,6 +11,15 @@
 [core]
   editor = nvim
   autocrlf = false
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  features = chameleon
+  navigate = true
+  light = false
+  side-by-side = true
+  line-numbers = true
 [user]
   useConfigOnly = true
   name = {{ .git_user_name }}
