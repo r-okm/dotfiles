@@ -251,9 +251,9 @@
     "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
     "experimental.rendering.forceFullRepaint": true,
     "firstWindowPreference": "defaultProfile",
-    "initialCols": 140,
+    "initialCols": 180,
     "initialPosition": "1800,280",
-    "initialRows": 30,
+    "initialRows": 40,
     "newTabMenu": 
     [
         {
