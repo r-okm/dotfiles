@@ -16,6 +16,7 @@ return require("packer").startup({ function(use)
 
   require("plugins.editor")(use)
   require("plugins.completion")(use)
+  require("plugins.theme")(use)
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
