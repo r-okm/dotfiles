@@ -1,6 +1,7 @@
 return function(use)
   use { "vim-jp/vimdoc-ja" }
   use { "yutkat/wb-only-current-line.nvim" }
+  use { "tommcdo/vim-exchange" }
 
   use {
     "haya14busa/vim-asterisk",
