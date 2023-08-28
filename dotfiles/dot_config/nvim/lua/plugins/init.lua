@@ -82,28 +82,11 @@ require("lazy").setup({
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      {
-        "hrsh7th/cmp-buffer",
-        event = { "InsertEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end
-      },
-      {
-        "hrsh7th/cmp-path",
-        event = { "InsertEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end
-      },
-      {
-        "hrsh7th/cmp-cmdline",
-        event = { "InsertEnter", "CmdlineEnter" },
-        cond = function()
-          return not vim.g.vscode
-        end
-      },
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
     },
+    event = { "InsertEnter", "CmdlineEnter" },
     cond = function()
       return not vim.g.vscode
     end,
