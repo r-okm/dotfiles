@@ -12,12 +12,37 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "vim-jp/vimdoc-ja" },
-  { "yutkat/wb-only-current-line.nvim" },
-  { "tommcdo/vim-exchange" },
+  -- init
+  {
+    "unblevable/quick-scope",
+    init = function()
+      vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
+      local set_hl = vim.api.nvim_set_hl
+      set_hl(0, "QuickScopePrimary", { fg = "#afff5f", underline = true, nocombine = true })
+      set_hl(0, "QuickScopeSecondary", { fg = "#5fffff", underline = true, nocombine = true })
+    end,
+  },
+
+
+  -- keys
+  {
+    "yutkat/wb-only-current-line.nvim",
+    keys = {
+      { "w", mode = { "n", "x", "o" } },
+      { "b", mode = { "n", "x", "o" } }
+    },
+  },
+
+  {
+    "tommcdo/vim-exchange",
+    keys = { "cx" },
+  },
 
   {
     "haya14busa/vim-asterisk",
+    keys = {
+      { "*", mode = { "n", "x" } }
+    },
     config = function()
       local keymap = require("utils.setKeymap").keymap
       keymap("nx", "*", "<Plug>(asterisk-gz*)")
@@ -26,6 +51,9 @@ require("lazy").setup({
 
   {
     "ggandor/leap.nvim",
+    keys = {
+      { "m", mode = { "n", "x", "o" } },
+    },
     config = function()
       local leap = require("leap")
       leap.opts.safe_labels = {}
@@ -43,17 +71,10 @@ require("lazy").setup({
   },
 
   {
-    "unblevable/quick-scope",
-    init = function()
-      vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
-      local set_hl = vim.api.nvim_set_hl
-      set_hl(0, "QuickScopePrimary", { fg = "#afff5f", underline = true, nocombine = true })
-      set_hl(0, "QuickScopeSecondary", { fg = "#5fffff", underline = true, nocombine = true })
-    end,
-  },
-
-  {
     "gbprod/substitute.nvim",
+    keys = {
+      { ",", mode = { "n", "x" } }
+    },
     config = function()
       local keymap = require("utils.setKeymap").keymap
       local substitute = require("substitute")
@@ -69,6 +90,11 @@ require("lazy").setup({
   {
     "rhysd/vim-operator-surround",
     dependencies = { "kana/vim-operator-user", "tpope/vim-repeat" },
+    keys = {
+      { "sa", mode = { "n", "x" } },
+      { "sd", mode = { "n", "x" } },
+      { "sr", mode = { "n", "x" } },
+    },
     config = function()
       local keymap = require("utils.setKeymap").keymap
       keymap("nx", "sa", "<Plug>(operator-surround-append)")
@@ -76,6 +102,25 @@ require("lazy").setup({
       keymap("n", "sr", "<Plug>(operator-surround-replace)a")
       keymap("x", "sd", "<Plug>(operator-surround-delete)")
       keymap("x", "sr", "<Plug>(operator-surround-replace)")
+    end,
+  },
+
+  -- not vscode
+  {
+    "vim-jp/vimdoc-ja",
+    cond = function()
+      return not vim.g.vscode
+    end,
+  },
+
+  {
+    "ellisonleao/gruvbox.nvim",
+    cond = function()
+      return not vim.g.vscode
+    end,
+    config = function()
+      vim.o.background = "dark"
+      vim.cmd([[colorscheme gruvbox]])
     end,
   },
 
@@ -125,18 +170,6 @@ require("lazy").setup({
           { name = "cmdline" },
         }),
       })
-    end,
-  },
-
-  {
-    "ellisonleao/gruvbox.nvim",
-    cond = function()
-      return not vim.g.vscode
-    end,
-    event = "BufEnter",
-    config = function()
-      vim.o.background = "dark"
-      vim.cmd([[colorscheme gruvbox]])
     end,
   },
 })
