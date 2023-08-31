@@ -12,9 +12,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  -- init
+  -- keys
   {
     "unblevable/quick-scope",
+    keys = {
+      { "f", mode = { "n", "x", "o" } },
+      { "t", mode = { "n", "x", "o" } },
+      { "F", mode = { "n", "x", "o" } },
+      { "T", mode = { "n", "x", "o" } },
+    },
     init = function()
       vim.g.qs_highlight_on_keys = { "f", "F", "t", "T" }
       local set_hl = vim.api.nvim_set_hl
@@ -23,13 +29,11 @@ require("lazy").setup({
     end,
   },
 
-
-  -- keys
   {
     "yutkat/wb-only-current-line.nvim",
     keys = {
       { "w", mode = { "n", "x", "o" } },
-      { "b", mode = { "n", "x", "o" } }
+      { "b", mode = { "n", "x", "o" } },
     },
   },
 
@@ -41,7 +45,7 @@ require("lazy").setup({
   {
     "haya14busa/vim-asterisk",
     keys = {
-      { "*", mode = { "n", "x" } }
+      { "*", mode = { "n", "x" } },
     },
     config = function()
       local keymap = require("utils.setKeymap").keymap
@@ -73,7 +77,7 @@ require("lazy").setup({
   {
     "gbprod/substitute.nvim",
     keys = {
-      { ",", mode = { "n", "x" } }
+      { ",", mode = { "n", "x" } },
     },
     config = function()
       local keymap = require("utils.setKeymap").keymap
