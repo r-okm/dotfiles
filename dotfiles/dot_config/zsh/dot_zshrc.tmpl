@@ -228,6 +228,13 @@ fzf-git-checkout() {
   fi
 }
 
+# awsp
+awsp() {
+  local profile=$(aws configure list-profiles | sed "/default/d" | fzf )
+  export AWS_PROFILE="$profile"
+  echo "export AWS_PROFILE=\"$profile\""
+}
+
 # 規定の設定値の .prettierrc を作成する
 init-prettier() {
   cat << EOF > .prettierrc.json
