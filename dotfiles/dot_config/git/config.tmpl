@@ -53,7 +53,7 @@
 [mergetool "code"]
   cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 [mergetool "nvim"]
-  cmd = nvim -d -c "4wincmd w | wincmd J" "$LOCAL" "$BASE" "$REMOTE" "$MERGED"
+  cmd = "nvim -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
 [mergetool]
   prompt = false
 [advice]
