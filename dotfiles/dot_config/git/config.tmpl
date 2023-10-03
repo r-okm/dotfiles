@@ -48,16 +48,12 @@
   rebase = false
 [commit]
   verbose = true
-[diff]
-  tool = nvim
-[difftool "nvim"]
-  path = nvim
-[difftool]
-  prompt = false
 [merge]
-  tool = code
+  tool = nvim
 [mergetool "code"]
   cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+[mergetool "nvim"]
+  cmd = nvim -d -c "4wincmd w | wincmd J" "$LOCAL" "$BASE" "$REMOTE" "$MERGED"
 [mergetool]
   prompt = false
 [advice]
