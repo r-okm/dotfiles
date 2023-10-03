@@ -118,13 +118,34 @@ require("lazy").setup({
   },
 
   {
-    "ellisonleao/gruvbox.nvim",
+    "sainnhe/gruvbox-material",
     cond = function()
       return not vim.g.vscode
     end,
     config = function()
       vim.o.background = "dark"
-      vim.cmd([[colorscheme gruvbox]])
+      vim.g.gruvbox_material_background = "hard"
+      vim.cmd([[colorscheme gruvbox-material]])
+    end,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    cond = function()
+      return not vim.g.vscode
+    end,
+    build = { ":TSUpdate" },
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = { "bash", "c", "c_sharp", "cpp", "css", "csv", "diff", "dockerfile", "git_config",
+          "git_rebase", "gitattributes", "gitcommit", "gitignore", "html", "java", "javascript", "jq", "jsdoc", "json",
+          "jsonc", "lua", "markdown", "markdown_inline", "sql", "ssh_config", "terraform", "toml", "tsx",
+          "typescript", "vim", "vimdoc", "vue", "xml", "yaml",
+        },
+        highlight = {
+          enable = true,
+        },
+      })
     end,
   },
 
