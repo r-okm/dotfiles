@@ -1,6 +1,8 @@
 [merge]
 command = "nvim"
 args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
+[diff]
+command = "delta"
 [data]
 git_user_name = ""
 git_user_email = ""
