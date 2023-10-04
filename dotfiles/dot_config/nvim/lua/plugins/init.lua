@@ -115,6 +115,7 @@ require("lazy").setup({
     cond = function()
       return not vim.g.vscode
     end,
+    event = { "CmdlineEnter" },
   },
 
   {
@@ -134,6 +135,7 @@ require("lazy").setup({
     cond = function()
       return not vim.g.vscode
     end,
+    event = { "BufReadPre" },
     build = { ":TSUpdate" },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -156,10 +158,10 @@ require("lazy").setup({
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
     },
-    event = { "InsertEnter", "CmdlineEnter" },
     cond = function()
       return not vim.g.vscode
     end,
+    event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")
 
