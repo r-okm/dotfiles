@@ -67,12 +67,14 @@ alias glg='git lg'
 alias glga='git lga'
 
 {{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 alias wgit='/mnt/c/scoop/shims/git.exe'
 alias wg='wgit'
 alias wgf='wgit fetch'
 alias wgus='wgit push'
 alias wgusu='wgit push -u origin HEAD'
 alias wgul='wgit pull'
+{{   end }}
 {{ end }}
 
 alias ggs='fzf-git-checkout'
@@ -103,12 +105,15 @@ alias dkc='docker compose'
 alias dkcr='docker compose down -v && docker compose up -d'
 alias hex2dec="printf '%d\n'"
 alias dec2hex="printf '%x\n'"
-if [ -v WSL_DISTRO_NAME ]; then
-  alias clip='/mnt/c/scoop/shims/win32yank.exe -i'
-  alias x='/mnt/c/Windows/explorer.exe'
-else
-  alias x='explorer.exe'
-fi
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+alias clip='/mnt/c/scoop/shims/win32yank.exe -i'
+alias x='/mnt/c/Windows/explorer.exe'
+{{   end }}
+{{ else }}
+alias x='explorer.exe'
+{{ end }}
 
 alias -g G='| rg --color=auto'
 alias -g H='--help'
