@@ -109,15 +109,13 @@ require("lazy").setup({
     end,
   },
 
-  -- not vscode
+  -- event
   {
     "vim-jp/vimdoc-ja",
-    cond = function()
-      return not vim.g.vscode
-    end,
     event = { "CmdlineEnter" },
   },
 
+  -- not vscode
   {
     "sainnhe/gruvbox-material",
     cond = function()
