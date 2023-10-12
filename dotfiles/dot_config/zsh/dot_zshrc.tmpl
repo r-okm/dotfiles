@@ -192,6 +192,11 @@ prompt-format() {
     fi
   fi
 
+  local awsprofile
+  if [ -n "${AWS_PROFILE}" ]; then
+    awsprofile=" ${reset}- %F{red}\uf270 ${AWS_PROFILE}%f"
+  fi
+
   local previouscode
   if [ $PREVIOUS_EXIT_CODE -eq 0 ]; then
     previouscode=" ${reset}[${PREVIOUS_EXIT_CODE}]"
@@ -200,7 +205,7 @@ prompt-format() {
   fi
 
   echo "
-${user}${dir}${gitbranch}${previouscode}\n$ "
+${user}${dir}${gitbranch}${awsprofile}${previouscode}\n$ "
 }
 
 # fzf-command-history
