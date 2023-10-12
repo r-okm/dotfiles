@@ -249,8 +249,13 @@ fzf-git-checkout() {
 # awsp
 awsp() {
   local profile=$(aws configure list-profiles | sed "/default/d" | fzf )
-  export AWS_PROFILE="$profile"
-  echo "export AWS_PROFILE=\"$profile\""
+  if [ ! -z "$profile" ]; then
+    export AWS_PROFILE="$profile"
+    echo "export AWS_PROFILE=\"$profile\""
+  else
+    unset AWS_PROFILE
+    echo "unset AWS_PROFILE"
+  fi
 }
 
 # 規定の設定値の .prettierrc を作成する
