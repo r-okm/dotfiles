@@ -2,7 +2,7 @@
 command = "nvim"
 args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
 [diff]
-pager = "delta"
+pager = "delta --features=git"
 [data]
 git_user_name = ""
 git_user_email = ""

@@ -24,6 +24,7 @@ cdpath=(
 export LANG=ja_JP.utf8
 export CLICOLOR=1
 export EDITOR=nvim
+export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
 
 # Alias
 if [ -x /usr/bin/dircolors ]; then
@@ -77,6 +78,7 @@ alias wgul='wgit pull'
 
 alias ggs='fzf-git-checkout'
 alias lg='lazygit'
+alias fgl='fzf-git-log'
 
 alias sz="source $ZDOTDIR/.zshrc"
 alias cc='fzf-cd'
@@ -244,6 +246,17 @@ fzf-git-checkout() {
   )
   if [ -n "$target_br" ]; then
     git checkout $target_br
+  fi
+}
+
+fzf-git-log() {
+  local raw=$(git lg | \
+    fzf --ansi --no-sort --reverse --tiebreak=index --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
+      --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 | delta --features=fzf-git-log; }; f {}"
+  )
+  local commit=$(echo $raw | grep -o '[a-f0-9]\{8\}')
+  if [ ! -z "$commit" ] && type "clip" > /dev/null 2>&1;then
+    echo -n $commit | clip
   fi
 }
 

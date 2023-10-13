@@ -11,14 +11,20 @@
 [core]
   editor = nvim
   autocrlf = false
-  pager = delta
+  pager = delta --features=git
 [interactive]
   diffFilter = delta --color-only
-[delta]
+[delta "git"]
   features = chameleon
   navigate = true
   light = false
   side-by-side = true
+  line-numbers = true
+[delta "fzf-git-log"]
+  features = chameleon
+  navigate = true
+  light = false
+  side-by-side = false
   line-numbers = true
 [user]
   useConfigOnly = true
@@ -38,8 +44,8 @@
   c = commit
   b = branch
   d = diff
-  lga = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M:%S' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ad%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-  lg = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M:%S' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%ad%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+  lga = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(green)[%ar]%C(reset) %C(bold yellow)%d%C(reset)%n%C(white)└ %s%C(reset)'
+  lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) %C(green)[%ar]%C(reset) %C(bold yellow)%d%C(reset)%n%C(white)└ %s%C(reset)' --all
 [init]
   defaultBranch = main
 [fetch]
