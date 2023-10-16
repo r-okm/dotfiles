@@ -250,14 +250,18 @@ fzf-git-checkout() {
 }
 
 fzf-git-log() {
-  local raw=$(git lg | \
-    fzf --ansi --no-sort --reverse --tiebreak=index --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
-      --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 | delta --features=fzf-git-log; }; f {}"
-  )
-  local commit=$(echo $raw | grep -o '[a-f0-9]\{7\}')
-  if [ ! -z "$commit" ] && type "clip" > /dev/null 2>&1;then
-    echo -n $commit | clip
-  fi
+  local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=fzf-git-log'"
+  local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=git --paging=always'"
+  local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
+
+  git lg | \
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --preview=$preview_commit \
+      --header="ENTER to view, CTRL-X to checkout, q to exit" \
+      --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
+      --bind "enter:execute:$show_commit" \
+      --bind "ctrl-x:become:$checkout_commit"
 }
 
 # awsp
