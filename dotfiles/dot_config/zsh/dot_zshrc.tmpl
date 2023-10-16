@@ -254,7 +254,7 @@ fzf-git-log() {
     fzf --ansi --no-sort --reverse --tiebreak=index --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
       --preview "f() { set -- \$(echo -- \$@ | grep -o '[a-f0-9]\{7\}'); [ \$# -eq 0 ] || git show --color=always \$1 | delta --features=fzf-git-log; }; f {}"
   )
-  local commit=$(echo $raw | grep -o '[a-f0-9]\{8\}')
+  local commit=$(echo $raw | grep -o '[a-f0-9]\{7\}')
   if [ ! -z "$commit" ] && type "clip" > /dev/null 2>&1;then
     echo -n $commit | clip
   fi
