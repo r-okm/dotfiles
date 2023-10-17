@@ -28,16 +28,19 @@ export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl
 export YANK_COMMAND
 export PASTE_COMMAND
 export EXPLORER_COMMAND
+export WINDOWS_GIT
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 YANK_COMMAND='/mnt/c/scoop/shims/win32yank.exe -i'
 PASTE_COMMAND='/mnt/c/scoop/shims/win32yank.exe -o'
 EXPLORER_COMMAND='/mnt/c/Windows/explorer.exe'
+WINDOWS_GIT='/mnt/c/scoop/shims/git.exe'
 {{   end }}
 {{ else if eq .chezmoi.os "windows" }}
 YANK_COMMAND='clip.exe'
 PASTE_COMMAND='win32yank.exe -o'
 EXPLORER_COMMAND='explorer.exe'
+WINDOWS_GIT='git.exe'
 {{ end }}
 
 # Alias
@@ -79,16 +82,6 @@ alias gb='git branch'
 alias gd='git diff'
 alias glg='git lg'
 alias glga='git lga'
-
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-alias wgit='/mnt/c/scoop/shims/git.exe'
-alias wg='wgit'
-alias wgf='wgit fetch'
-alias wgus='wgit push'
-alias wgul='wgit pull'
-{{   end }}
-{{ end }}
 
 alias ggs='fzf-git-checkout'
 alias lg='lazygit'
@@ -169,6 +162,44 @@ precmd() {
 }
 
 # ========================== functions ==========================
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# custom-git
+alias git="custom_git"
+custom_git() {
+  # custom-git の引数
+  local git_command="$1"
+  local remote_name="${2:-origin}"
+
+  # remote と接続するコマンド
+  local remote_commands=(
+    "push"
+    "pull"
+    "fetch"
+  )
+  # remote と接続するコマンドでない場合は通常の git コマンドを実行して終了
+  if ! [[ "${remote_commands[*]}" =~ "$git_command" ]]; then
+    command git "$@"
+    return
+  fi
+
+  # 第二引数のリモート名を使用して URL を取得
+  local remote_url=$(git remote get-url $remote_name 2>/dev/null)
+  # URL が取得出来ない場合は origin を試す
+  if [ -z "$remote_url" ]; then
+    remote_url=$(git config --get remote.origin.url)
+  fi
+
+  # remote と接続するコマンド かつ 接続先が社内リポジトリの場合
+  if [[ "$remote_url" == *{{ .git_repository_host_work }}* ]]; then
+    $WINDOWS_GIT "$@"
+  else
+    command git "$@"
+  fi
+}
+{{   end }}
+{{ end }}
+
 # Prompt
 prompt-format() {
   local reset='%{\e[0m%}'
