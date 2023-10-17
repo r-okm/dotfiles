@@ -26,8 +26,8 @@ if not vim.g.vscode then
 end
 
 -- os のクリップボードと同期
-local yank_command = os.getenv("YANK_COMMAND")
-local paste_command = os.getenv("PASTE_COMMAND")
+local yank_command = os.getenv("YANK_COMMAND") or "/mnt/c/scoop/shims/win32yank.exe -i"
+local paste_command = os.getenv("PASTE_COMMAND") or "/mnt/c/scoop/shims/win32yank.exe -o"
 vim.g.clipboard = {
   name = "win32yank",
   copy = {
