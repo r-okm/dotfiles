@@ -166,6 +166,7 @@ precmd() {
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # custom-git
 alias git="custom_git"
+compdef custom_git=git
 custom_git() {
   # custom-git の引数
   local git_command="$1"
