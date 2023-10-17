@@ -282,16 +282,6 @@ awsp() {
   fi
 }
 
-# 規定の設定値の .prettierrc を作成する
-init-prettier() {
-  cat << EOF > .prettierrc.json
-{
-  "semi": false,
-  "trailingComma": "none"
-}
-EOF
-}
-
 # /mnt 配下のディレクトリをホスト側の vscode で開く
 wcode() {
   /mnt/c/Windows/system32/cmd.exe /c "code $1"
