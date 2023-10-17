@@ -25,21 +25,18 @@ if not vim.g.vscode then
   end, { nargs = 1, complete = "help" })
 end
 
--- ホストとクリップボードを共有
-{{ if eq .chezmoi.os "linux" }}
-local win32yank = "/mnt/c/scoop/shims/win32yank.exe"
-{{ else }}
-local win32yank = "win32yank.exe"
-{{ end }}
+-- os のクリップボードと同期
+local yank_command = os.getenv("YANK_COMMAND")
+local paste_command = os.getenv("PASTE_COMMAND")
 vim.g.clipboard = {
   name = "win32yank",
   copy = {
-    ["+"] = win32yank .. " -i --crlf",
-    ["*"] = win32yank .. " -i --crlf",
+    ["+"] = yank_command,
+    ["*"] = yank_command,
   },
   paste = {
-    ["+"] = win32yank .. " -o --lf",
-    ["*"] = win32yank .. " -o --lf",
+    ["+"] = paste_command,
+    ["*"] = paste_command,
   },
   cache_enable = 0,
 }

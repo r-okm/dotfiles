@@ -26,14 +26,17 @@ export CLICOLOR=1
 export EDITOR=nvim
 export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
 export YANK_COMMAND
+export PASTE_COMMAND
 export EXPLORER_COMMAND
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 YANK_COMMAND='/mnt/c/scoop/shims/win32yank.exe -i'
+PASTE_COMMAND='/mnt/c/scoop/shims/win32yank.exe -o'
 EXPLORER_COMMAND='/mnt/c/Windows/explorer.exe'
 {{   end }}
 {{ else if eq .chezmoi.os "windows" }}
 YANK_COMMAND='clip.exe'
+PASTE_COMMAND='win32yank.exe -o'
 EXPLORER_COMMAND='explorer.exe'
 {{ end }}
 
