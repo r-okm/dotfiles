@@ -1,0 +1,50 @@
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+  PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Set PATH, MANPATH, etc., for Homebrew.
+if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  export HOMEBREW_BUNDLE_FILE=$XDG_CONFIG_HOME/homebrew/.Brewfile
+fi
+
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+PATH="$PNPM_HOME:$PATH"
+
+export LANG=ja_JP.utf8
+export CLICOLOR=1
+export EDITOR=nvim
+export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
+export OPENAI_API_KEY='{{ .openai_api_key }}'
+
+export YANK_COMMAND
+export PASTE_COMMAND
+export EXPLORER_COMMAND
+export WINDOWS_GIT
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# wsl
+PATH="$PATH:/mnt/c/Program Files/Microsoft VS Code/bin"
+
+YANK_COMMAND='/mnt/c/scoop/shims/win32yank.exe -i'
+PASTE_COMMAND='/mnt/c/scoop/shims/win32yank.exe -o'
+EXPLORER_COMMAND='/mnt/c/Windows/explorer.exe'
+WINDOWS_GIT='/mnt/c/scoop/shims/git.exe'
+{{   end }}
+{{ else if eq .chezmoi.os "windows" }}
+YANK_COMMAND='clip.exe'
+PASTE_COMMAND='win32yank.exe -o'
+EXPLORER_COMMAND='explorer.exe'
+WINDOWS_GIT='git.exe'
+{{ end }}

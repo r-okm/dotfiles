@@ -4,12 +4,13 @@ if type "sheldon" > /dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
 
-# Misc
+# bindkey
 bindkey -e
 bindkey "^[[3~" delete-char
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
+# setopt
 setopt nobeep
 setopt nolistbeep
 setopt correct
@@ -19,29 +20,6 @@ cdpath=(
   {{ .project_dir }}
   $cdpath
 )
-
-# Export
-export LANG=ja_JP.utf8
-export CLICOLOR=1
-export EDITOR=nvim
-export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
-export YANK_COMMAND
-export PASTE_COMMAND
-export EXPLORER_COMMAND
-export WINDOWS_GIT
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-YANK_COMMAND='/mnt/c/scoop/shims/win32yank.exe -i'
-PASTE_COMMAND='/mnt/c/scoop/shims/win32yank.exe -o'
-EXPLORER_COMMAND='/mnt/c/Windows/explorer.exe'
-WINDOWS_GIT='/mnt/c/scoop/shims/git.exe'
-{{   end }}
-{{ else if eq .chezmoi.os "windows" }}
-YANK_COMMAND='clip.exe'
-PASTE_COMMAND='win32yank.exe -o'
-EXPLORER_COMMAND='explorer.exe'
-WINDOWS_GIT='git.exe'
-{{ end }}
 
 # Alias
 if [ -x /usr/bin/dircolors ]; then
@@ -317,7 +295,11 @@ awsp() {
   fi
 }
 
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # /mnt 配下のディレクトリをホスト側の vscode で開く
 wcode() {
   /mnt/c/Windows/system32/cmd.exe /c "code $1"
 }
+{{   end }}
+{{ end }}
