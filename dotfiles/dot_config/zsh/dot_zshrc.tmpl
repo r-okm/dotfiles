@@ -171,7 +171,7 @@ custom-git() {
 
   # remote と接続するコマンド かつ 接続先が社内リポジトリの場合
   if [[ "$remote_url" == *{{ .git_repository_host_work }}* ]]; then
-    $WINDOWS_GIT "$@"
+    $WINDOWS_GIT_COMMAND "$@"
   else
     command git "$@"
   fi
@@ -295,11 +295,14 @@ awsp() {
   fi
 }
 
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-# /mnt 配下のディレクトリをホスト側の vscode で開く
-wcode() {
-  /mnt/c/Windows/system32/cmd.exe /c "code $1"
+# custom-code
+alias code='custom-code'
+compdef custom-code=code
+custom-code() {
+  if [[ $PWD == /mnt/* ]]; then
+    # /mnt 配下のディレクトリをホスト側の vscode で開く
+    $CMD_COMMAND /c "code $@"
+  else
+    command code "$@"
+  fi
 }
-{{   end }}
-{{ end }}

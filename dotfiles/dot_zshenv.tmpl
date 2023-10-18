@@ -31,7 +31,8 @@ export OPENAI_API_KEY='{{ .openai_api_key }}'
 export YANK_COMMAND
 export PASTE_COMMAND
 export EXPLORER_COMMAND
-export WINDOWS_GIT
+export CMD_COMMAND
+export WINDOWS_GIT_COMMAND
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # wsl
@@ -40,11 +41,13 @@ PATH="$PATH:/mnt/c/Program Files/Microsoft VS Code/bin"
 YANK_COMMAND='/mnt/c/scoop/shims/win32yank.exe -i'
 PASTE_COMMAND='/mnt/c/scoop/shims/win32yank.exe -o'
 EXPLORER_COMMAND='/mnt/c/Windows/explorer.exe'
-WINDOWS_GIT='/mnt/c/scoop/shims/git.exe'
+CMD_COMMAND='/mnt/c/Windows/system32/cmd.exe'
+WINDOWS_GIT_COMMAND='/mnt/c/scoop/shims/git.exe'
 {{   end }}
 {{ else if eq .chezmoi.os "windows" }}
 YANK_COMMAND='clip.exe'
 PASTE_COMMAND='win32yank.exe -o'
 EXPLORER_COMMAND='explorer.exe'
-WINDOWS_GIT='git.exe'
+CMD_COMMAND='cmd.exe'
+WINDOWS_GIT_COMMAND='git.exe'
 {{ end }}
