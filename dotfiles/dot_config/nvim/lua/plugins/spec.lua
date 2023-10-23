@@ -105,9 +105,7 @@ return {
   -- not vscode
   {
     "sainnhe/gruvbox-material",
-    cond = function()
-      return not vim.g.vscode
-    end,
+    cond = not vim.g.vscode,
     config = function()
       vim.o.background = "dark"
       vim.g.gruvbox_material_background = "hard"
@@ -117,9 +115,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    cond = function()
-      return not vim.g.vscode
-    end,
+    cond = not vim.g.vscode,
     event = { "BufReadPre" },
     build = { ":TSUpdate" },
     config = function()
@@ -143,9 +139,7 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
     },
-    cond = function()
-      return not vim.g.vscode
-    end,
+    cond = not vim.g.vscode,
     event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")
