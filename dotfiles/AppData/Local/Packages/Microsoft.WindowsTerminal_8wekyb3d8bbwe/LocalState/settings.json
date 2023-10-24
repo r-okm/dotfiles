@@ -246,6 +246,7 @@
             "keys": "ctrl+shift+c"
         }
     ],
+    "alwaysShowTabs": true,
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
@@ -260,12 +261,15 @@
             "type": "remainingProfiles"
         }
     ],
+    "newTabPosition": "afterCurrentTab",
     "profiles": 
     {
         "defaults": 
         {
+            "adjustIndistinguishableColors": "always",
+            "antialiasingMode": "grayscale",
             "closeOnExit": "always",
-            "colorScheme": "One Half Dark",
+            "colorScheme": "GruvboxDark",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
             "font": 
@@ -591,50 +595,8 @@
             "yellow": "#808000"
         }
     ],
-    "themes": 
-    [
-        {
-            "name": "legacyDark",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "dark",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacyLight",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "light",
-                "useMica": false
-            }
-        },
-        {
-            "name": "legacySystem",
-            "tab": 
-            {
-                "background": null,
-                "showCloseButton": "always",
-                "unfocusedBackground": null
-            },
-            "window": 
-            {
-                "applicationTheme": "system",
-                "useMica": false
-            }
-        }
-    ],
+    "showTabsInTitlebar": true,
+    "theme": "dark",
+    "themes": [],
     "useAcrylicInTabRow": true
 }
