@@ -8,8 +8,13 @@ o.ignorecase = true
 o.incsearch = true
 o.hlsearch = true
 
--- not vscode
-if not vim.g.vscode then
+-- vscode
+if vim.g.vscode then
+  -- print plugins
+  vim.api.nvim_create_user_command("Plugins", function()
+    vim.print(vim.tbl_keys(require("lazy.core.config").plugins))
+  end, {})
+else
   o.number = true
   o.relativenumber = true
   o.termgouicolors = true
