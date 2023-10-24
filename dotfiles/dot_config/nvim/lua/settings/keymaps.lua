@@ -14,6 +14,9 @@ keymap("n", "<CR>", "o<ESC>")
 
 -- vscode
 if vim.g.vscode then
+  -- up/down
+  keymapVsc("nx", "k", "cursorMove", "{ 'to': 'up', 'by': 'wrappedLine', 'value': v:count1 }")
+  keymapVsc("nx", "j", "cursorMove", "{ 'to': 'down', 'by': 'wrappedLine', 'value': v:count1 }")
   -- undo/redo
   keymapVsc("n", "u", "undo", nil, { noremap = false })
   keymapVsc("n", "<C-r>", "redo", nil, { noremap = false })
@@ -44,8 +47,9 @@ if vim.g.vscode then
   keymapVsc("n", "zn", "notifications.showList")
   keymapVsc("n", "zc", "notifications.clearAll")
 else
-  keymap("nx", "j", "gj")
-  keymap("nx", "k", "gk")
+  -- up/down
+  keymap("nx", "k", "gk", { noremap = false })
+  keymap("nx", "j", "gj", { noremap = false })
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<C-q>", "<C-w>w")
