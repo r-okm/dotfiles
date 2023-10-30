@@ -14,6 +14,6 @@
   "vim-operator-surround": { "branch": "master", "commit": "80337a40a829cfc77b065a71d8a609e2ad7d2c8b" },
   "vim-operator-user": { "branch": "master", "commit": "c3dfd41c1ed516b4b901c97562e644de62c367aa" },
   "vim-repeat": { "branch": "master", "commit": "8106e142dfdc278ff3eaaadd7b362ad7949d4357" },
-  "vimdoc-ja": { "branch": "master", "commit": "29e7a166dd25957d7ad8f293205b9ea5b4bd8208" },
+  "vimdoc-ja": { "branch": "master", "commit": "ea29ebbcd650df6e9f5c242d22b3dd3ca15cc70e" },
   "wb-only-current-line.nvim": { "branch": "main", "commit": "7580a58ee6b9df554e274ac7fc64b077cd3fb0f4" }
 }
