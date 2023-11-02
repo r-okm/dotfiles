@@ -33,3 +33,12 @@ apply = ["defer"]
 
 [plugins.aws_zsh_completer]
 remote = "https://raw.githubusercontent.com/aws/aws-cli/v2/bin/aws_zsh_completer.sh"
+apply = ["defer"]
+
+[plugins.docker-completions]
+remote = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"
+apply = ["fpath"]
+
+[plugins.git-completions]
+remote = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+apply = ["fpath"]
