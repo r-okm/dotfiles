@@ -1,3 +1,8 @@
+local utils = require("utils.setKeymap")
+local keymap = utils.keymap
+
+local notVscode = not vim.g.vscode
+
 return {
   -- keys
   {
@@ -35,7 +40,6 @@ return {
       { "*", mode = { "n", "x" } },
     },
     config = function()
-      local keymap = require("utils.setKeymap").keymap
       keymap("nx", "*", "<Plug>(asterisk-gz*)")
     end,
   },
@@ -53,8 +57,6 @@ return {
         "j", "k", "l", "h", "o", "d", "w", "e", "m", "b",
         "u", "y", "v", "r", "g", "t", "c", "x", "/", "z"
       }
-      local keymap = require("utils.setKeymap").keymap
-
       keymap("nxo", "m", function()
         leap.leap { target_windows = { vim.fn.win_getid() } }
       end)
@@ -67,7 +69,6 @@ return {
       { ",", mode = { "n", "x" } },
     },
     config = function()
-      local keymap = require("utils.setKeymap").keymap
       local substitute = require("substitute")
       substitute.setup({
         highlight_substituted_text = {
@@ -87,7 +88,6 @@ return {
       { "sr", mode = { "n", "x" } },
     },
     config = function()
-      local keymap = require("utils.setKeymap").keymap
       keymap("nx", "sa", "<Plug>(operator-surround-append)")
       keymap("n", "sd", "<Plug>(operator-surround-delete)a")
       keymap("n", "sr", "<Plug>(operator-surround-replace)a")
@@ -105,7 +105,7 @@ return {
   -- not vscode
   {
     "sainnhe/gruvbox-material",
-    cond = not vim.g.vscode,
+    cond = notVscode,
     config = function()
       vim.o.background = "dark"
       vim.g.gruvbox_material_background = "hard"
@@ -115,7 +115,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    cond = not vim.g.vscode,
+    cond = notVscode,
     event = { "BufReadPre" },
     build = { ":TSUpdate" },
     config = function()
@@ -139,7 +139,7 @@ return {
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
     },
-    cond = not vim.g.vscode,
+    cond = notVscode,
     event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")

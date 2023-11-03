@@ -1,7 +1,7 @@
-local util = require("utils.setKeymap")
-local keymap = util.keymap
-local keymapVsc = util.keymapVsc
-local keymapVscVisual = util.keymapVscVisual
+local utils = require("utils.setKeymap")
+local keymap = utils.keymap
+local keymapVsc = utils.keymapVsc
+local keymapVscVisual = utils.keymapVscVisual
 
 -- map prefix
 keymap("", "<Space>", "")
@@ -14,9 +14,6 @@ keymap("n", "<CR>", "o<ESC>")
 
 -- vscode
 if vim.g.vscode then
-  -- up/down
-  keymapVsc("nx", "k", "cursorMove", "{ 'to': 'up', 'by': 'wrappedLine', 'value': v:count1 }")
-  keymapVsc("nx", "j", "cursorMove", "{ 'to': 'down', 'by': 'wrappedLine', 'value': v:count1 }")
   -- undo/redo
   keymapVsc("n", "u", "undo", nil, { noremap = false })
   keymapVsc("n", "<C-r>", "redo", nil, { noremap = false })
@@ -41,15 +38,10 @@ if vim.g.vscode then
   keymapVscVisual("x", "gf", "editor.action.formatSelection")
   -- インポート整理
   keymapVsc("n", "go", "editor.action.organizeImports")
-  -- git graph
-  keymapVsc("n", "zg", "git-graph.view")
   -- notification
   keymapVsc("n", "zn", "notifications.showList")
   keymapVsc("n", "zc", "notifications.clearAll")
 else
-  -- up/down
-  keymap("nx", "k", "gk", { noremap = false })
-  keymap("nx", "j", "gj", { noremap = false })
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<C-q>", "<C-w>w")
