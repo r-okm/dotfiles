@@ -1,8 +1,13 @@
+source $ZDOTDIR/functions.zsh
+
 # bindkey
 bindkey -e
 bindkey "^[[3~" delete-char
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
+
+zle -N fzf-command-history
+bindkey '^r' fzf-command-history
 
 # setopt
 setopt nobeep
@@ -14,6 +19,16 @@ cdpath=(
   {{ .project_dir }}
   $cdpath
 )
+
+# Completion
+fpath=(
+  $ZDOTDIR/completions
+  $fpath
+)
+autoload -Uz compinit && compinit
+# ignore case
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' menu select
 
 # Alias
 if [ -x /usr/bin/dircolors ]; then
@@ -29,6 +44,17 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+# custom-git
+alias git="custom-git"
+compdef custom-git=git
+# custom-code
+alias code='custom-code'
+compdef custom-code=code
+{{   end }}
+{{ end }}
 
 # Application specific settings
 # Homebrew
@@ -51,16 +77,6 @@ if [ -e "$HOME/.asdf/plugins/java/set-java-home.zsh" ]; then
   . $HOME/.asdf/plugins/java/set-java-home.zsh
 fi
 
-# Completion
-fpath=(
-  $ZDOTDIR/completions
-  $fpath
-)
-autoload -Uz compinit && compinit
-# ignore case
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' menu select
-
 # ========================== zsh-hooks ==========================
 precmd() {
   # 前回のコマンドの終了コードを記録
@@ -68,174 +84,6 @@ precmd() {
 
   # Promptの更新
   PROMPT=`prompt-format`
-}
-
-# ========================== functions ==========================
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-# custom-git
-alias git="custom-git"
-compdef custom-git=git
-custom-git() {
-  # custom-git の引数
-  local git_command="$1"
-  local remote_name="${2:-origin}"
-
-  # remote と接続するコマンド
-  local remote_commands=(
-    "push"
-    "pull"
-    "fetch"
-  )
-  # remote と接続するコマンドでない場合は通常の git コマンドを実行して終了
-  if ! [[ "${remote_commands[*]}" =~ "$git_command" ]]; then
-    command git "$@"
-    return
-  fi
-
-  # 第二引数のリモート名を使用して URL を取得
-  local remote_url=$(git remote get-url $remote_name 2>/dev/null)
-  # URL が取得出来ない場合は origin を試す
-  if [ -z "$remote_url" ]; then
-    remote_url=$(git config --get remote.origin.url)
-  fi
-
-  # remote と接続するコマンド かつ 接続先が社内リポジトリの場合
-  if [[ "$remote_url" == *{{ .git_repository_host_work }}* ]]; then
-    $WINDOWS_GIT_COMMAND "$@"
-  else
-    command git "$@"
-  fi
-}
-{{   end }}
-{{ end }}
-
-# Prompt
-prompt-format() {
-  local reset='%{\e[0m%}'
-
-  {{ if eq .chezmoi.os "linux" }}
-  local usericon="\uf17c"
-  {{ else if eq .chezmoi.os "windows" }}
-  local usericon="\uf17a"
-  {{ else }}
-  local usericon="\uf007"
-  {{ end }}
-  local user="%F{blue}${usericon} ${USER}%f"
-
-  local diricon
-  if [ $PWD = $HOME ]; then
-    diricon="\uf015"
-  else
-    diricon="\ue5fe"
-  fi
-  local dir=" ${reset}in %F{yellow}${diricon} %~%f"
-
-  local gitbranch
-  local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
-  if [ -n "${branch}" ]; then
-    gitbranch=" ${reset}on %F{magenta}\ue725 ${branch}%f"
-  else
-    local commit=$(git branch --contains 2>/dev/null)
-    if [ -n "${commit}" ]; then
-      local remotebranch=$(echo $commit | grep '*' | sed -e 's/* (HEAD detached at //' | sed -e 's/)//')
-      gitbranch=" ${reset}on %F{magenta}\uf417 ${remotebranch}%f"
-    fi
-  fi
-
-  local awsprofile
-  if [ -n "${AWS_PROFILE}" ]; then
-    awsprofile=" ${reset}- %F{red}\uf270 ${AWS_PROFILE}%f"
-  fi
-
-  local previouscode
-  if [ $PREVIOUS_EXIT_CODE -eq 0 ]; then
-    previouscode=" ${reset}[${PREVIOUS_EXIT_CODE}]"
-  else
-    previouscode=" ${reset}[%F{red}${PREVIOUS_EXIT_CODE}%f]"
-  fi
-
-  echo "
-${user}${dir}${gitbranch}${awsprofile}${previouscode}\n$ "
-}
-
-# fzf-command-history
-fzf-command-history() {
-  BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ll" | grep -v "cd" | fzf --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle reset-prompt
-}
-zle -N fzf-command-history
-bindkey '^r' fzf-command-history
-
-# fzf-cd - cd to selected directory
-fzf-cd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-
-# fzf-git-checkout
-fzf-git-checkout() {
-  local_brs=$(git branch | sort -r | sed -e 's/^ *//') && \
-  local_brs_trim=$(git branch | sed -e 's/\*//' | sed -e 's/ //g') && \
-  remote_brs=$(git branch -r | grep -v HEAD | sed -e 's/^.* //g') && \
-
-  remote_brs_trim=$(echo $remote_brs | sed -e 's/^.*\///')
-  local_remote_brs=$(echo $local_brs_trim\\n$remote_brs_trim | sort | uniq -D)
-  remote_only_brs=$(echo $local_remote_brs\\n$remote_brs_trim | sort | uniq -u)
-  target_brs=$(echo $local_brs\\n$remote_brs\\n$remote_only_brs)
-
-  target_br=$(
-    echo $target_brs |
-      fzf --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lg --color=always" |
-      sed -e 's/* //'
-  )
-  if [ -n "$target_br" ]; then
-    git checkout $target_br
-  fi
-}
-
-fzf-git-log() {
-  local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'echo -n %'"
-  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=fzf-git-log'"
-  local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=git --paging=always'"
-  local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
-  local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
-
-  git lg | \
-    fzf --ansi --no-sort --reverse --tiebreak=index \
-      --preview=$preview_commit \
-      --header="ENTER to view, CTRL-X to checkout, CTRL-y to copy hash, q to exit" \
-      --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
-      --bind "enter:execute:$show_commit" \
-      --bind "ctrl-x:become:$checkout_commit" \
-      --bind "ctrl-y:execute-silent:$copy_commit_hash"
-}
-
-# awsp
-awsp() {
-  local profile=$(aws configure list-profiles | sed "/default/d" | fzf )
-  if [ ! -z "$profile" ]; then
-    export AWS_PROFILE="$profile"
-    echo "export AWS_PROFILE=\"$profile\""
-  else
-    unset AWS_PROFILE
-    echo "unset AWS_PROFILE"
-  fi
-}
-
-# custom-code
-alias code='custom-code'
-compdef custom-code=code
-custom-code() {
-  if [[ $PWD == /mnt/* ]]; then
-    # /mnt 配下のディレクトリをホスト側の vscode で開く
-    $CMD_COMMAND /c "code $@"
-  else
-    command code "$@"
-  fi
 }
 
 # ========================== source ==========================
