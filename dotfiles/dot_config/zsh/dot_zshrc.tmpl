@@ -26,6 +26,10 @@ if [ -x /usr/bin/dircolors ]; then
   alias egrep='egrep --color=auto'
 fi
 
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I'
+
 # Application specific settings
 # Homebrew
 if type "brew" > /dev/null 2>&1; then
