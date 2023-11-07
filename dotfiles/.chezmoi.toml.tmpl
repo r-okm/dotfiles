@@ -1,6 +1,10 @@
 [merge]
 command = "nvim"
-args = ["-d", "{{ .Destination }}", "{{ .Source }}"]
+args = [
+  "-d",
+  "{{ "{{" }} .Destination {{ "}}" }}",
+  "{{ "{{" }} .Source {{ "}}" }}"
+]
 [diff]
 pager = "delta --features=git"
 [data]
