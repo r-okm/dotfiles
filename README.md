@@ -1,15 +1,9 @@
 # dotfiles
 
-## Prerequisites
-
-- curl
-- git
-
 ## Install
 
 ```sh
-git clone https://github.com/r-okm/dotfiles.git ~/.local/share/chezmoi
-sh ~/.local/share/chezmoi/install.sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
 ```
 
 ## Change login shell
