@@ -23,7 +23,7 @@ custom-git() {
   fi
 
   # remote と接続するコマンド かつ 接続先が社内リポジトリの場合
-  if [[ "$remote_url" == *{{ .git_repository_host_work }}* ]]; then
+  if [[ "$remote_url" == *{{ index . "git_repository_host_work" | default "" }}* ]]; then
     $WINDOWS_GIT_COMMAND "$@"
   else
     command git "$@"

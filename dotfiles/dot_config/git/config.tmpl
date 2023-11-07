@@ -28,8 +28,8 @@
   line-numbers = true
 [user]
   useConfigOnly = true
-  name = {{ .git_user_name }}
-  email = {{ .git_user_email }}
+  name = {{ index . "git_user_name" | default "" }}
+  email = {{ index . "git_user_email" | default "" }}
 [alias]
   lg = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M:%S' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)(%h)%C(reset)' --all
 [init]
