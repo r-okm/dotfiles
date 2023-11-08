@@ -251,6 +251,12 @@
     "copyOnSelect": false,
     "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
     "experimental.rendering.forceFullRepaint": true,
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
     "newTabPosition": "afterCurrentTab",
     "profiles": 
     {
@@ -268,8 +274,8 @@
                 "size": 11.0
             },
             "opacity": 100,
-            "useAcrylic": false,
-            "suppressApplicationTitle": true
+            "suppressApplicationTitle": true,
+            "useAcrylic": false
         },
         "list": 
         [
@@ -282,10 +288,18 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
+                "commandline": "wsl.exe -d Ubuntu-main",
                 "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
                 "hidden": false,
-                "name": "Ubuntu-22.04",
-                "source": "Windows.Terminal.Wsl"
+                "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+                "name": "Ubuntu-main",
+                "source": "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc",
+                "startingDirectory": "//wsl$/Ubuntu-main/home/okmt"
+            },
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
             },
             {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
@@ -294,11 +308,6 @@
                 "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
@@ -538,6 +547,29 @@
             "selectionBackground": "#FFFFFF",
             "white": "#D3D7CF",
             "yellow": "#C4A000"
+        },
+        {
+            "background": "#300A24",
+            "black": "#171421",
+            "blue": "#0037DA",
+            "brightBlack": "#767676",
+            "brightBlue": "#08458F",
+            "brightCyan": "#2C9FB3",
+            "brightGreen": "#26A269",
+            "brightPurple": "#A347BA",
+            "brightRed": "#C01C28",
+            "brightWhite": "#F2F2F2",
+            "brightYellow": "#A2734C",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#3A96DD",
+            "foreground": "#FFFFFF",
+            "green": "#26A269",
+            "name": "Ubuntu-20.04-ColorScheme",
+            "purple": "#881798",
+            "red": "#C21A23",
+            "selectionBackground": "#FFFFFF",
+            "white": "#CCCCCC",
+            "yellow": "#A2734C"
         },
         {
             "background": "#300A24",
