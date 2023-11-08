@@ -9,11 +9,12 @@
 ## Change login shell
 
 ```sh
-which zsh | sudo tee -a /etc/shells
-chsh -s $(which zsh)
+zsh_bin='/home/linuxbrew/.linuxbrew/bin/zsh'
+echo $zsh_bin | sudo tee -a /etc/shells
+chsh -s $(echo $zsh_bin)
 ```
 
-## Configure machine specific data
+## Insert value to chezmoi data file
 
 edit data file
 
