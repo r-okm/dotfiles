@@ -147,3 +147,15 @@ custom-code() {
     command code "$@"
   fi
 }
+
+function _windows_terminal_osc_9_9 {
+  # Inform Terminal about shell current working directory
+  # see: https://github.com/microsoft/terminal/issues/8166
+  {{ if eq .chezmoi.os "linux" }}
+  {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+    printf '\e]9;9;%s\e\' "$(wslpath -w "$(pwd)")"
+  {{   end}}
+  {{ else if eq .chezmoi.os "windows" }}
+    printf '\e]9;9;%s\e\' "$(cygpath --windows "$(pwd)")"
+  {{ end }}
+}

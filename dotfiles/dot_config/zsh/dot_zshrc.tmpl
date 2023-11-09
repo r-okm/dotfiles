@@ -85,6 +85,7 @@ precmd() {
   # Promptの更新
   PROMPT=`prompt-format`
 }
+precmd_functions+=(_windows_terminal_osc_9_9)
 
 # ========================== source ==========================
 # sheldon
