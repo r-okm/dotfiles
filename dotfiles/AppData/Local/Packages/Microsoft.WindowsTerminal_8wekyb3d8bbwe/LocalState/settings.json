@@ -223,10 +223,6 @@
             "keys": "ctrl+shift+w"
         },
         {
-            "command": "unbound",
-            "keys": "ctrl+shift+space"
-        },
-        {
             "command": 
             {
                 "action": "prevTab"
@@ -244,6 +240,31 @@
                 "singleLine": false
             },
             "keys": "ctrl+shift+c"
+        },
+        {
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "right"
+            },
+            "keys": "ctrl+l"
+        },
+        {
+            "command": 
+            {
+                "action": "moveFocus",
+                "direction": "left"
+            },
+            "keys": "ctrl+h"
+        },
+        {
+            "command": 
+            {
+                "action": "splitPane",
+                "split": "right",
+                "splitMode": "duplicate"
+            },
+            "keys": "ctrl+shift+space"
         }
     ],
     "alwaysShowTabs": true,
