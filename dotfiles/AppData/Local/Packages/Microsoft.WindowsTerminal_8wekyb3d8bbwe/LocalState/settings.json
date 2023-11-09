@@ -265,6 +265,10 @@
                 "splitMode": "duplicate"
             },
             "keys": "ctrl+shift+space"
+        },
+        {
+            "command": "duplicateTab",
+            "keys": "ctrl+shift+enter"
         }
     ],
     "alwaysShowTabs": true,
