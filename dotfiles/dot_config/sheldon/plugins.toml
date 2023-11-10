@@ -21,7 +21,6 @@ github = "romkatv/zsh-defer"
 
 [plugins.zsh-abbr]
 github = "olets/zsh-abbr"
-apply = ["defer"]
 
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
@@ -31,9 +30,8 @@ apply = ["defer"]
 github = "zsh-users/zsh-completions"
 apply = ["defer"]
 
-[plugins.zsh-syntax-highlighting]
-github = "zsh-users/zsh-syntax-highlighting"
-apply = ["defer"]
+[plugins.fast-syntax-highlighting]
+github = "zdharma/fast-syntax-highlighting"
 
 [plugins.aws_zsh_completer]
 remote = "https://raw.githubusercontent.com/aws/aws-cli/v2/bin/aws_zsh_completer.sh"

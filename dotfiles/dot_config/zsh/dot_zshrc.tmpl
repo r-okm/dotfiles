@@ -92,3 +92,12 @@ precmd_functions+=(_windows_terminal_osc_9_9)
 if type "sheldon" > /dev/null 2>&1; then
   eval "$(sheldon source)"
 fi
+
+# zsh-abbr, fast-syntax-highlighting
+if [[ -n $FAST_HIGHLIGHT ]]; then
+  for abbr in ${(f)"$(abbr list-abbreviations)"}; do
+    if [[ $abbr != *' '* ]]; then
+      register_single_word_chroma ${(Q)abbr}
+    fi
+  done
+fi
