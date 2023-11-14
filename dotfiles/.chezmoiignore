@@ -1,4 +1,5 @@
 {{ if eq .chezmoi.os "windows"}}
+wsl-vpnkit.d
 .config/homebrew
 .config/sheldon
 .config/zsh-abbr
