@@ -16,7 +16,7 @@ setopt correct
 setopt auto_cd
 
 cdpath=(
-  {{ index . "project_dir" | default "" }}
+  $PROJECT_DIR
   $cdpath
 )
 
