@@ -14,9 +14,6 @@ keymap("n", "<CR>", "o<ESC>")
 
 -- vscode
 if vim.g.vscode then
-  -- undo/redo
-  keymapVsc("n", "u", "undo", nil, { noremap = false })
-  keymapVsc("n", "<C-r>", "redo", nil, { noremap = false })
   -- filer
   keymapVsc("n", "<Space>c", "workbench.action.closeSidebar")
   keymapVsc("n", "<Space>e", "workbench.view.explorer")
