@@ -45,6 +45,10 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
 
+{{ if eq .chezmoi.os "windows" }}
+source $ZDOTDIR/alias.zsh
+{{ end }}
+
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # custom-git

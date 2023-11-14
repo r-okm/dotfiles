@@ -7,22 +7,3 @@ if [ -x /usr/bin/dircolors ]; then
   alias fgrep='fgrep --color=auto'
   alias egrep='egrep --color=auto'
 fi
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias sz="source $HOME/.bashrc"
-alias cc='fzf-cd'
-alias gs='fzf-git-checkout'
-alias g='git'
-alias lg='lazygit'
-alias n='npm'
-alias p='pnpm'
-alias nr='npm run'
-alias ch='chezmoi'
-alias bw='brew'
-alias amp='amplify'
-alias tf='terraform'
-alias dk='docker'
-alias dkc='docker compose'
-alias hex2dec="printf '%d\n'"
-alias dec2hex="printf '%x\n'"

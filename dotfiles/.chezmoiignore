@@ -1,5 +1,7 @@
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
+.config/sheldon
+.config/zsh-abbr
 {{ end }}
 
 {{ if ne .chezmoi.os "windows"}}
@@ -7,6 +9,6 @@ AppData
 .ideavimrc
 {{ end }}
 
-{{- if eq (env "REMOTE_CONTAINERS") "true" }}
+{{ if eq (env "REMOTE_CONTAINERS") "true" }}
 .config/git
-{{- end }}
+{{ end }}
