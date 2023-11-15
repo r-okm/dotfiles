@@ -161,7 +161,7 @@ return {
       -- hover code action
       keymap("n", "K", show_docs)
       -- symbol rename
-      keymap("n", "gn", "<Plug>(coc-rename)")
+      keymap("n", "gr", "<Plug>(coc-rename)")
       -- format
       keymap("n", "gf", "<Plug>(coc-format)")
       keymap("x", "gf", "<Plug>(coc-format-selected)")
@@ -225,6 +225,59 @@ return {
         },
       })
     end,
+  },
+
+  {
+    "nvim-telescope/telescope.nvim",
+    version = "0.1.4",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope-fzy-native.nvim" },
+    },
+    cond = notVscode,
+    keys = {
+      { "<C-p>", mode = { "n" } },
+      { "<C-g>", mode = { "n" } },
+      { "<C-f>", mode = { "n" } },
+    },
+    init = function()
+      local actions = require("telescope.actions")
+      local telescope = require("telescope")
+
+      telescope.setup {
+        defaults = {
+          mappings = {
+            n = {
+              ["q"] = actions.close
+            }
+          }
+        },
+        pickers = {
+          find_files = { hidden = true, },
+          git_files = { show_untracked = true, },
+        },
+        extensions = {
+          fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+          },
+        },
+      }
+    end,
+    config = function()
+      local telescope = require("telescope")
+      local builtin = require("telescope.builtin")
+
+      telescope.load_extension("fzy_native")
+      telescope.project_files = function()
+        local ok = pcall(builtin.git_files)
+        if not ok then builtin.find_files() end
+      end
+
+      keymap("n", "<C-p>", telescope.project_files)
+      keymap("n", "<C-g>", builtin.git_status)
+      keymap("n", "<C-f>", builtin.live_grep)
+    end
   },
 
 }
