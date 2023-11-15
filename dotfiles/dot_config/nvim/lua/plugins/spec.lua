@@ -114,6 +114,63 @@ return {
   },
 
   {
+    "nvim-treesitter/nvim-treesitter",
+    cond = notVscode,
+    event = { "BufReadPre" },
+    build = { ":TSUpdate" },
+    config = function()
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = { "bash", "c", "c_sharp", "cpp", "css", "diff", "dockerfile", "git_config",
+          "git_rebase", "gitattributes", "gitcommit", "gitignore", "html", "java", "javascript", "jq", "jsdoc", "json",
+          "jsonc", "lua", "markdown", "markdown_inline", "sql", "terraform", "toml", "tsx",
+          "typescript", "vim", "vimdoc", "vue", "yaml",
+        },
+        highlight = {
+          enable = true,
+        },
+      })
+    end,
+  },
+
+  {
+    "neoclide/coc.nvim",
+    cond = notVscode,
+    branch = "release",
+    config = function()
+      local show_docs = function()
+        local cw = vim.fn.expand('<cword>')
+        if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
+          vim.api.nvim_command('h ' .. cw)
+        elseif vim.api.nvim_eval('coc#rpc#ready()') then
+          vim.fn.CocActionAsync('doHover')
+        else
+          vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
+        end
+      end
+
+      -- completion
+      keymap("i", "<CR>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"]],
+        { expr = true })
+      keymap("i", "<C-Space>", [[coc#refresh()]], { expr = true })
+      -- diagnostic
+      keymap("n", "g.", "<Plug>(coc-diagnostic-next)")
+      keymap("n", "g,", "<Plug>(coc-diagnostic-prev)")
+      -- code navigation
+      keymap("n", "gd", "<Plug>(coc-definition)")
+      keymap("n", "gD", "<Plug>(coc-implementation)")
+      -- hover code action
+      keymap("n", "K", show_docs)
+      -- symbol rename
+      keymap("n", "gn", "<Plug>(coc-rename)")
+      -- format
+      keymap("n", "gf", "<Plug>(coc-format)")
+      keymap("x", "gf", "<Plug>(coc-format-selected)")
+      -- code action
+      keymap("n", "ga", "<Plug>(coc-codeaction-cursor)")
+    end,
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-buffer",
@@ -121,7 +178,7 @@ return {
       "hrsh7th/cmp-cmdline",
     },
     cond = notVscode,
-    event = { "InsertEnter", "CmdlineEnter" },
+    event = { "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")
 

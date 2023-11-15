@@ -1,24 +1,25 @@
-vim.o.clipboard = "unnamedplus"
-vim.o.whichwrap = "b,s,h,l,<,>,~,[,]"
-vim.o.smartcase = true
-vim.o.ignorecase = true
-vim.o.incsearch = true
-vim.o.hlsearch = true
+vim.opt.clipboard = "unnamedplus"
+vim.opt.whichwrap = "b,s,h,l,<,>,~,[,]"
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.incsearch = true
+vim.opt.hlsearch = true
 
-vim.o.number = true
-vim.o.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 vim.o.termgouicolors = true
-vim.o.list = true
-vim.opt.listchars = { tab = "»-", trail = "●", space = "⋅" }
-vim.o.signcolumn = "yes"
-vim.o.splitright = true
+vim.opt.list = true
+vim.opt.listchars = { tab = "»-", trail = "●" }
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.signcolumn = "yes"
+vim.opt.splitright = true
 
 -- [:H] => [:vert h]
-local function verticalHelp()
-  local command = string.format("vertical help %s", vim.opts.args)
+vim.api.nvim_create_user_command("H", function(opts)
+  local command = string.format("vertical help %s", opts.args)
   vim.cmd(command)
-end
-vim.api.nvim_create_user_command("H", verticalHelp, { nargs = 1, complete = "help" })
+end, { nargs = 1, complete = "help" })
 
 -- os のクリップボードと同期
 local yank_command = os.getenv("YANK_COMMAND")
