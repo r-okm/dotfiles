@@ -2,6 +2,9 @@ local utils = require("utils.setKeymap")
 local keymap = utils.keymap
 
 local notVscode = not vim.g.vscode
+local function telescope_buffer_dir()
+  return vim.fn.expand("%:p:h")
+end
 
 return {
   -- keys
@@ -231,8 +234,10 @@ return {
     "nvim-telescope/telescope.nvim",
     version = "0.1.4",
     dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-fzy-native.nvim" },
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-fzy-native.nvim",
+      "nvim-telescope/telescope-file-browser.nvim",
+      "nvim-tree/nvim-web-devicons",
     },
     cond = notVscode,
     keys = {
@@ -250,7 +255,7 @@ return {
             n = {
               ["q"] = actions.close
             }
-          }
+          },
         },
         pickers = {
           find_files = { hidden = true, },
@@ -269,6 +274,7 @@ return {
       local builtin = require("telescope.builtin")
 
       telescope.load_extension("fzy_native")
+      telescope.load_extension("file_browser")
       telescope.project_files = function()
         local ok = pcall(builtin.git_files)
         if not ok then builtin.find_files() end
@@ -277,6 +283,16 @@ return {
       keymap("n", "<C-p>", telescope.project_files)
       keymap("n", "<C-g>", builtin.git_status)
       keymap("n", "<C-f>", builtin.live_grep)
+      keymap("n", "<Space>e", function()
+        telescope.extensions.file_browser.file_browser({
+          hidden = {
+            file_browser = true,
+            folder_browser = true,
+          },
+          cwd = telescope_buffer_dir(),
+          initial_mode = "normal",
+        })
+      end)
     end
   },
 
