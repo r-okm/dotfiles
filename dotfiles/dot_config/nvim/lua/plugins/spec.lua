@@ -173,7 +173,6 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
     },
@@ -183,9 +182,6 @@ return {
       local cmp = require("cmp")
 
       cmp.setup({
-        sources = cmp.config.sources({
-          { name = "buffer" },
-        }),
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item(),
           ["<C-p>"] = cmp.mapping.select_prev_item(),
@@ -201,9 +197,6 @@ return {
 
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" }
-        }
       })
 
       cmp.setup.cmdline(":", {
@@ -216,4 +209,22 @@ return {
       })
     end,
   },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    cond = notVscode,
+    config = function()
+      require("lualine").setup({
+        options = {
+          component_separators = { left = "|", right = "|" },
+          section_separators = { left = "", right = "" },
+          globalstatus = true,
+        },
+      })
+    end,
+  },
+
 }
