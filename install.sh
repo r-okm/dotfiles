@@ -46,6 +46,4 @@ if [ -n "$WSL_DISTRO_NAME" ]; then
   rm wsl-vpnkit.tar.gz
 
   sudo cp ./wsl-vpnkit.service /etc/systemd/system/
-  sudo systemctl enable wsl-vpnkit
-  sudo systemctl start wsl-vpnkit
 fi
