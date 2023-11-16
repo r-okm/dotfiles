@@ -28,22 +28,3 @@ if [ -e "$LOCALE_JA" ]; then
   sudo localedef --add-to-archive /usr/lib/locale/ja_JP.UTF-8
   sudo localectl set-locale LANG=ja_JP.UTF-8
 fi
-
-# wsl-vpnkit
-if [ -n "$WSL_DISTRO_NAME" ]; then
-  # https://github.com/sakai135/wsl-vpnkit
-  sudo apt install -y iproute2 iptables iputils-ping dnsutils wget
-  VERSION=v0.4.1
-  WSL_VPNKIT_DIR="$HOME/wsl-vpnkit.d"
-  mkdir -p $WSL_VPNKIT_DIR
-  cd $WSL_VPNKIT_DIR
-
-  wget https://github.com/sakai135/wsl-vpnkit/releases/download/$VERSION/wsl-vpnkit.tar.gz
-  tar --strip-components=1 -xf wsl-vpnkit.tar.gz \
-      app/wsl-vpnkit \
-      app/wsl-gvproxy.exe \
-      app/wsl-vm
-  rm wsl-vpnkit.tar.gz
-
-  sudo cp ./wsl-vpnkit.service /etc/systemd/system/
-fi
