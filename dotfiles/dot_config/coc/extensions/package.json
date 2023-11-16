@@ -3,6 +3,9 @@
     "coc-json": ">=1.9.2",
     "coc-sh": ">=1.2.0",
     "coc-sumneko-lua": ">=0.0.40",
-    "coc-pairs": ">=1.4.2"
+    "coc-pairs": ">=1.4.2",
+    "coc-java": ">=1.15.2",
+    "coc-tsserver": ">=2.1.4",
+    "coc-eslint": ">=1.6.0"
   }
 }
