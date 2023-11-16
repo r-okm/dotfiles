@@ -223,6 +223,18 @@
             "keys": "ctrl+shift+w"
         },
         {
+            "command": "unbound",
+            "keys": "ctrl+shift+space"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+l"
+        },
+        {
+            "command": "unbound",
+            "keys": "ctrl+h"
+        },
+        {
             "command": 
             {
                 "action": "prevTab"
@@ -246,16 +258,14 @@
             {
                 "action": "moveFocus",
                 "direction": "right"
-            },
-            "keys": "ctrl+l"
+            }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
                 "direction": "left"
-            },
-            "keys": "ctrl+h"
+            }
         },
         {
             "command": 
@@ -263,8 +273,7 @@
                 "action": "splitPane",
                 "split": "right",
                 "splitMode": "duplicate"
-            },
-            "keys": "ctrl+shift+space"
+            }
         },
         {
             "command": "duplicateTab",
@@ -287,7 +296,7 @@
     {
         "defaults": 
         {
-            "adjustIndistinguishableColors": "always",
+            "adjustIndistinguishableColors": "never",
             "antialiasingMode": "grayscale",
             "closeOnExit": "always",
             "colorScheme": "GruvboxDark",
