@@ -1,5 +1,8 @@
-local utils = require("utils.setKeymap")
-local keymap = utils.keymap
+local u_setKeymap = require("utils.setKeymap")
+local u_buffer = require("utils.buffer")
+
+local keymap = u_setKeymap.keymap
+local getVisualSelection = u_buffer.getVisualSelection
 
 local notVscode = not vim.g.vscode
 local function telescope_buffer_dir()
@@ -296,6 +299,7 @@ return {
         pickers = {
           find_files = { hidden = true, },
           git_files = { show_untracked = true, },
+          grep_string = { initial_mode = "normal" },
         },
         extensions = {
           fzy_native = {
@@ -317,8 +321,12 @@ return {
       end
 
       keymap("n", "<C-p>", telescope.project_files)
-      keymap("n", "<C-g>", builtin.git_status)
       keymap("n", "<C-f>", builtin.live_grep)
+      keymap("n", "#", builtin.grep_string)
+      keymap("x", "#", function()
+        local text = getVisualSelection()
+        builtin.grep_string({ search = text })
+      end)
       keymap("n", "<Space>e", function()
         telescope.extensions.file_browser.file_browser({
           hidden = {
