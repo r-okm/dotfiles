@@ -112,27 +112,54 @@ return {
     config = function()
       vim.o.background = "dark"
       vim.g.gruvbox_material_background = "hard"
+      vim.g.gruvbox_material_disable_italic_comment = 1
+      vim.g.gruvbox_material_diagnostic_text_highlight = 1
+      vim.g.gruvbox_material_diagnostic_line_highlight = 1
       vim.cmd([[colorscheme gruvbox-material]])
     end,
   },
 
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "JoosepAlviste/nvim-ts-context-commentstring"
+    },
     cond = notVscode,
-    event = { "BufReadPre" },
+    event = { "BufRead" },
     build = { ":TSUpdate" },
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = { "bash", "c", "c_sharp", "cpp", "css", "diff", "dockerfile", "git_config",
           "git_rebase", "gitattributes", "gitcommit", "gitignore", "html", "java", "javascript", "jq", "jsdoc", "json",
           "jsonc", "lua", "markdown", "markdown_inline", "sql", "terraform", "toml", "tsx",
-          "typescript", "vim", "vimdoc", "vue", "yaml",
+          "typescript", "vim", "vimdoc",
         },
         highlight = {
           enable = true,
         },
       })
     end,
+  },
+
+  {
+    "numToStr/Comment.nvim",
+    event = { "BufRead", "BufNewFile", },
+    cond = notVscode,
+    config = function()
+      require("ts_context_commentstring").setup()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
+    end,
+  },
+
+  {
+    "RRethy/vim-illuminate",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter"
+    },
+    cond = notVscode,
+    event = { "BufRead", "BufNewFile" },
   },
 
   {
@@ -222,9 +249,18 @@ return {
     config = function()
       require("lualine").setup({
         options = {
+          theme = "gruvbox-material",
           component_separators = { left = "|", right = "|" },
           section_separators = { left = "", right = "" },
           globalstatus = true,
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = { "filename" },
+          lualine_x = { "g:coc_status" },
+          lualine_y = { "encoding", "filetype" },
+          lualine_z = { "location" }
         },
       })
     end,
@@ -294,6 +330,76 @@ return {
         })
       end)
     end
+  },
+
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    cond = notVscode,
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      keymap("n", "<C-l>", ":BufferLineCycleNext<CR>")
+      keymap("n", "<C-h>", ":BufferLineCyclePrev<CR>")
+      keymap("n", "L", ":BufferLineMoveNext<CR>")
+      keymap("n", "H", ":BufferLineMovePrev<CR>")
+
+      local bufferline = require("bufferline")
+      bufferline.setup({
+        options = {
+          style_preset = bufferline.style_preset.no_italic,
+          middle_mouse_command = "Bdelete %d",
+          diagnostics = "coc",
+          separator_style = { "╱", "╱" },
+          show_buffer_close_icons = true,
+          indicator = {
+            -- icon = "",
+            style = "underline",
+          },
+        },
+      })
+    end,
+  },
+
+  {
+    "famiu/bufdelete.nvim",
+    cond = notVscode,
+    keys = {
+      { "<Space>w", mode = { "n" } }
+    },
+    cmd = { "Bdelete", "Bwipeout" },
+    config = function()
+      keymap("n", "<Space>w", ":<C-u>Bdelete<CR>")
+    end,
+  },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    cond = notVscode,
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      require("gitsigns").setup()
+    end,
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    cond = notVscode,
+    event = { "BufRead", "BufNewFile" },
+    config = function()
+      require("ibl").setup({
+        indent = {
+          char = "▏"
+        },
+        scope = {
+          enabled = false,
+          show_start = false,
+          show_end = false,
+        }
+      })
+    end,
   },
 
 }

@@ -14,6 +14,11 @@ keymap("n", "<CR>", "o<ESC>")
 
 -- vscode
 if vim.g.vscode then
+  -- save
+  keymapVsc("n", "<Space>s", "workbench.action.files.save")
+  keymapVsc("n", "<Space>S", "workbench.action.files.saveWithoutFormatting")
+  -- close
+  keymapVsc("n", "<Space>w", "workbench.action.closeActiveEditor")
   -- filer
   keymapVsc("n", "<Space>c", "workbench.action.closeSidebar")
   keymapVsc("n", "<Space>e", "workbench.view.explorer")
@@ -42,4 +47,5 @@ else
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<C-q>", "<C-w>w")
+  keymap("n", "<Space>s", ":<C-u>write<CR>")
 end

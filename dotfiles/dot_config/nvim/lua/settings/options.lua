@@ -9,7 +9,7 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.o.termgouicolors = true
 vim.opt.list = true
-vim.opt.listchars = { tab = "»-", trail = "⋅", space = " " }
+vim.opt.listchars = { tab = "»-", trail = "●", space = " " }
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.signcolumn = "yes"
