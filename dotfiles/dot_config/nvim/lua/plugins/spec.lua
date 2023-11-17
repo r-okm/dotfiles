@@ -295,10 +295,36 @@ return {
               ["q"] = actions.close
             }
           },
+          vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--line-number",
+            "--column",
+            "--only-matching",
+            "--hidden",
+            "--glob",
+            "!**/.git/*",
+            "--glob",
+            "!**/node_modules/*",
+            "--glob",
+            "!**/package-lock.json",
+          }
         },
         pickers = {
-          find_files = { hidden = true, },
-          git_files = { show_untracked = true, },
+          find_files = {
+            find_command = {
+              "rg",
+              "--color=never",
+              "--files",
+              "--hidden",
+              "--no-ignore",
+              "--glob",
+              "!**/.git/*",
+              "--glob",
+              "!**/node_modules/*",
+            },
+          },
           grep_string = { initial_mode = "normal" },
         },
         extensions = {
@@ -315,12 +341,8 @@ return {
 
       telescope.load_extension("fzy_native")
       telescope.load_extension("file_browser")
-      telescope.project_files = function()
-        local ok = pcall(builtin.git_files)
-        if not ok then builtin.find_files() end
-      end
 
-      keymap("n", "<C-p>", telescope.project_files)
+      keymap("n", "<C-p>", builtin.find_files)
       keymap("n", "<C-f>", builtin.live_grep)
       keymap("n", "#", builtin.grep_string)
       keymap("x", "#", function()
