@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
@@ -305,7 +305,7 @@
             "font": 
             {
                 "face": "HackGen Console NF",
-                "size": 10.0
+                "size": 11.0
             },
             "opacity": 100,
             "suppressApplicationTitle": true,
