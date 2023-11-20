@@ -155,7 +155,14 @@ fzf-git-log() {
 }
 
 awsp() {
-  local profile=$(aws configure list-profiles | sed "/default/d" | fzf )
+  local profile=$(
+    aws configure list-profiles |
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --height 20% \
+      --prompt='SWITCH AWS PROFILE > ' \
+      --header='ESC to unset'
+  )
+
   if [ ! -z "$profile" ]; then
     export AWS_PROFILE="$profile"
     echo "export AWS_PROFILE=\"$profile\""
