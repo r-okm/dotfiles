@@ -127,7 +127,7 @@ return {
       "JoosepAlviste/nvim-ts-context-commentstring"
     },
     cond = notVscode,
-    event = { "BufRead" },
+    event = { "BufReadPost" },
     build = { ":TSUpdate" },
     config = function()
       require("nvim-treesitter.configs").setup({
@@ -145,7 +145,7 @@ return {
 
   {
     "numToStr/Comment.nvim",
-    event = { "BufRead", "BufNewFile", },
+    event = { "BufReadPost", "BufNewFile", },
     cond = notVscode,
     config = function()
       require("ts_context_commentstring").setup()
@@ -161,7 +161,7 @@ return {
       "nvim-treesitter/nvim-treesitter"
     },
     cond = notVscode,
-    event = { "BufRead", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
   },
 
   {
@@ -367,7 +367,7 @@ return {
       "nvim-tree/nvim-web-devicons"
     },
     cond = notVscode,
-    event = { "BufRead", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       keymap("n", "<C-l>", ":BufferLineCycleNext<CR>")
       keymap("n", "<C-h>", ":BufferLineCyclePrev<CR>")
@@ -405,7 +405,7 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     cond = notVscode,
-    event = { "BufRead", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("gitsigns").setup()
     end,
@@ -415,7 +415,7 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     cond = notVscode,
-    event = { "BufRead", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("ibl").setup({
         indent = {
