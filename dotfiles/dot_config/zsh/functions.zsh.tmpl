@@ -120,14 +120,21 @@ fzf-git-checkout() {
   remote_only_brs=$(echo $local_remote_brs\\n$remote_brs_trim | sort | uniq -u)
   target_brs=$(echo $local_brs\\n$remote_brs\\n$remote_only_brs)
 
+  get_branch_name="echo {} | tr -d ' *'"
+  delete_branch="$get_branch_name | xargs git branch -D"
+  checkout_branch="$get_branch_name | xargs git checkout"
+
   target_br=$(
     echo $target_brs |
-      fzf --preview-window="right,65%" --prompt="CHECKOUT BRANCH > " --preview="echo {} | tr -d ' *' | xargs git lg --color=always" |
-      sed -e 's/* //'
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --height 50% \
+      --prompt='CHECKOUT BRANCH > '  \
+      --header='ENTER to checkout, CTRL-d to delete' \
+      --preview-window='right,65%' \
+      --preview="$get_branch_name | xargs -I % sh -c 'git lg %'" \
+      --bind "enter:become:$checkout_branch" \
+      --bind "ctrl-d:become:$delete_branch"
   )
-  if [ -n "$target_br" ]; then
-    git checkout $target_br
-  fi
 }
 
 fzf-git-log() {
@@ -137,10 +144,10 @@ fzf-git-log() {
   local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
   local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
 
-  git lg | \
+  git lga | \
     fzf --ansi --no-sort --reverse --tiebreak=index \
       --preview=$preview_commit \
-      --header="ENTER to view, CTRL-X to checkout, CTRL-y to copy hash, q to exit" \
+      --header='ENTER to view, CTRL-x to checkout, CTRL-y to copy hash, q to exit' \
       --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
       --bind "enter:execute:$show_commit" \
       --bind "ctrl-x:become:$checkout_commit" \
