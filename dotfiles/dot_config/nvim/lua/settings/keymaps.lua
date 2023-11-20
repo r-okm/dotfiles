@@ -43,6 +43,10 @@ if vim.g.vscode then
   -- notification
   keymapVsc("n", "zn", "notifications.showList")
   keymapVsc("n", "zc", "notifications.clearAll")
+  -- project_files
+  keymapVsc("n", "zp", "workbench.action.quickOpen")
+  -- find_files
+  keymapVsc("n", "zf", "workbench.action.findInFiles")
 else
   keymap("n", "<C-h>", ":<C-u>bprev<CR>")
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")

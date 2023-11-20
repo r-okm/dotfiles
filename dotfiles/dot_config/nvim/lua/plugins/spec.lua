@@ -182,6 +182,18 @@ return {
         end
       end
 
+      local scroll_down_float_window = function()
+        if vim.api.nvim_eval('coc#float#has_scroll()') then
+          vim.api.nvim_eval( 'coc#float#scroll(1)')
+        end
+      end
+
+      local scroll_up_float_window = function()
+        if vim.api.nvim_eval('coc#float#has_scroll()') then
+          vim.api.nvim_eval( 'coc#float#scroll(0)')
+        end
+      end
+
       -- completion
       keymap("i", "<CR>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"]],
         { expr = true })
@@ -194,6 +206,9 @@ return {
       keymap("n", "gD", "<Plug>(coc-implementation)")
       -- hover code action
       keymap("n", "K", show_docs)
+      -- scroll float window
+      keymap("n", "<C-n>", scroll_down_float_window)
+      keymap("n", "<C-p>", scroll_up_float_window)
       -- symbol rename
       keymap("n", "gr", "<Plug>(coc-rename)")
       -- format
@@ -343,8 +358,8 @@ return {
       telescope.load_extension("fzy_native")
       telescope.load_extension("file_browser")
 
-      keymap("n", "<C-p>", builtin.find_files)
-      keymap("n", "<C-f>", builtin.live_grep)
+      keymap("n", "zp", builtin.find_files)
+      keymap("n", "zf", builtin.live_grep)
       keymap("n", "#", builtin.grep_string)
       keymap("x", "#", function()
         local text = getVisualSelection()
