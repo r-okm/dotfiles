@@ -305,7 +305,7 @@
             "font": 
             {
                 "face": "HackGen Console NF",
-                "size": 11.0
+                "size": 10.0
             },
             "opacity": 100,
             "suppressApplicationTitle": true,
