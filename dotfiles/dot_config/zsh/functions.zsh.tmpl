@@ -30,7 +30,7 @@ custom-git() {
   fi
 }
 
-prompt-format() {
+prompt_format_1() {
   local reset='%{\e[0m%}'
 
   {{ if eq .chezmoi.os "linux" }}
@@ -76,6 +76,22 @@ prompt-format() {
 
   echo "
 ${user}${dir}${gitbranch}${awsprofile}${previouscode}\n$ "
+}
+
+prompt_format_2() {
+  local reset='%{\e[0m%}'
+
+  local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) && \
+    local commit=$(git rev-parse --short HEAD 2>/dev/null)
+  local git=''
+  if [ -n "${branch}" ]; then
+    git="($branch) "
+  elif [ -n "${commit}" ]; then
+    git="($commit) "
+  fi
+
+  echo "
+%F{blue}%~%f${reset} ${git}$ "
 }
 
 fzf-command-history() {
