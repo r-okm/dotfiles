@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
@@ -322,13 +322,12 @@
                 "startingDirectory": "%USERPROFILE%"
             },
             {
-                "commandline": "wsl.exe -d Ubuntu-main",
-                "guid": "{17bf3de4-5353-5709-bcf9-835bd952a95e}",
+                "commandline": "C:\\Windows\\system32\\wsl.exe -d Ubuntu-main",
+                "guid": "{b074cf41-edfb-4a49-9ec1-1a80ce661762}",
                 "hidden": false,
                 "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
                 "name": "Ubuntu-main",
-                "source": "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc",
-                "startingDirectory": "//wsl$/Ubuntu-main/home/okmt"
+                "startingDirectory": "~"
             },
             {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
