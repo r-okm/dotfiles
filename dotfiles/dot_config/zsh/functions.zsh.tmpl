@@ -75,7 +75,7 @@ prompt_format_1() {
   fi
 
   echo "
-${user}${dir}${gitbranch}${awsprofile}${previouscode}\n$ "
+${user}${dir}${gitbranch}${awsprofile}${previouscode}\n%# "
 }
 
 prompt_format_2() {
@@ -87,39 +87,16 @@ prompt_format_2() {
   local git=''
   if [ -n "${branch}" ]; then
     git="($branch) "
-    options+=("\ue725 $branch")
   elif [ -n "${commit}" ]; then
     git="($commit) "
-    options+=("\uf417 $commit")
-  fi
-
-  local aws_profile=''
-  if [ -n "${AWS_PROFILE}" ]; then
-    aws_profile="${AWS_PROFILE}"
-    options+=("\uf270 $aws_profile")
-  fi
-
-  local option_str=''
-  if [[ $#options -ne 0 ]]; then
-    local idx=0
-    for opt in $options; do
-      if [[ idx -eq 0 ]]; then
-        option_str+='('
-      else
-        option_str+=' | '
-      fi
-      option_str+="$opt"
-      ((idx++))
-    done
-    option_str+=') '
   fi
 
   echo "
-%F{blue}%~%f${reset} ${option_str}$ "
+%F{yellow}%3/%f${reset} ${git}%# "
 }
 
 fzf-command-history() {
-  BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ll" | grep -v "cd" | fzf --query "$LBUFFER")
+  BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ls" | grep -v "cd" | fzf --query "$LBUFFER")
   CURSOR=$#BUFFER
   zle reset-prompt
 }
