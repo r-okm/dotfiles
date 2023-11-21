@@ -1,6 +1,15 @@
 {
   "typescript.preferences.importModuleSpecifier": "non-relative",
+  "eslint.validate": [
+    "vue",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
   "eslint.autoFixOnSave": true,
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -Xlog:disable -javaagent:/home/okmt/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar -Xbootclasspath/a:/home/okmt/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar",
   "yaml.format.enable": true,
   "yaml.customTags": [
     "!Base64 scalar",
