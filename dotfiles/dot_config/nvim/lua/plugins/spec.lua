@@ -184,13 +184,13 @@ return {
 
       local scroll_down_float_window = function()
         if vim.api.nvim_eval('coc#float#has_scroll()') then
-          vim.api.nvim_eval( 'coc#float#scroll(1)')
+          vim.api.nvim_eval('coc#float#scroll(1)')
         end
       end
 
       local scroll_up_float_window = function()
         if vim.api.nvim_eval('coc#float#has_scroll()') then
-          vim.api.nvim_eval( 'coc#float#scroll(0)')
+          vim.api.nvim_eval('coc#float#scroll(0)')
         end
       end
 
@@ -216,6 +216,10 @@ return {
       keymap("x", "gf", "<Plug>(coc-format-selected)")
       -- code action
       keymap("n", "ga", "<Plug>(coc-codeaction-cursor)")
+      -- organize import
+      keymap("n", "go", function()
+        vim.fn.CocActionAsync('organizeImport')
+      end)
     end,
   },
 
