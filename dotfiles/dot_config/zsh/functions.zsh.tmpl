@@ -158,8 +158,7 @@ awsp() {
     aws configure list-profiles |
     fzf --ansi --no-sort --reverse --tiebreak=index \
       --height 20% \
-      --prompt='SWITCH AWS PROFILE > ' \
-      --header='ESC to unset'
+      --prompt='SWITCH AWS PROFILE > '
   )
 
   if [ ! -z "$profile" ]; then
