@@ -385,6 +385,24 @@ return {
   },
 
   {
+    "sindrets/diffview.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons"
+    },
+    cond = notVscode,
+    keys = {
+      { "zh", mode = { "n" } }
+    },
+    cmd = { "DiffviewFileHistory" },
+    config = function()
+      -- require("diffview").setup({
+      --   enhanced_diff_hl = true,
+      -- })
+      keymap("n", "zh", ":<C-u>DiffviewFileHistory %<CR>")
+    end,
+  },
+
+  {
     "akinsho/bufferline.nvim",
     dependencies = {
       "nvim-tree/nvim-web-devicons"
