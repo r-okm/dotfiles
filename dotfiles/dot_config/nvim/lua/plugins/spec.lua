@@ -168,6 +168,23 @@ return {
   },
 
   {
+    "windwp/nvim-ts-autotag",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter"
+    },
+    cond = notVscode,
+    event = { "BufReadPost", "BufNewFile" },
+    config = function ()
+      require("nvim-ts-autotag").setup({
+        enable = true,
+        enable_rename = true,
+        enable_close = true,
+        enable_close_on_slash = true,
+      })
+    end
+  },
+
+  {
     "neoclide/coc.nvim",
     cond = notVscode,
     branch = "release",
