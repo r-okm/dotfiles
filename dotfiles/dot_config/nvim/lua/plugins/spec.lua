@@ -110,14 +110,15 @@ return {
 
   -- not vscode
   {
-    "sainnhe/gruvbox-material",
+    "rebelot/kanagawa.nvim",
     cond = notVscode,
     config = function()
-      vim.o.background = "dark"
-      vim.g.gruvbox_material_background = "medium"
-      vim.g.gruvbox_material_disable_italic_comment = 1
-      vim.g.gruvbox_material_diagnostic_text_highlight = 1
-      vim.cmd([[colorscheme gruvbox-material]])
+      require("kanagawa").setup({
+        commentStyle = { italic = false },
+        keywordStyle = { italic = false },
+        variablebuiltinStyle = { italic = false },
+      })
+      vim.cmd([[colorscheme kanagawa]])
     end,
   },
 
@@ -272,9 +273,7 @@ return {
     config = function()
       require("lualine").setup({
         options = {
-          theme = "gruvbox-material",
-          component_separators = { left = "|", right = "|" },
-          section_separators = { left = "", right = "" },
+          theme = "kanagawa",
           globalstatus = true,
         },
         sections = {
@@ -395,9 +394,6 @@ return {
     },
     cmd = { "DiffviewFileHistory" },
     config = function()
-      -- require("diffview").setup({
-      --   enhanced_diff_hl = true,
-      -- })
       keymap("n", "zh", ":<C-u>DiffviewFileHistory %<CR>")
     end,
   },
@@ -420,12 +416,8 @@ return {
         options = {
           middle_mouse_command = "Bdelete %d",
           diagnostics = "coc",
-          separator_style = { "│", "│" },
+          separator_style = "slant",
           show_buffer_close_icons = false,
-          indicator = {
-            icon = "",
-            style = "icon",
-          },
         },
       })
     end,
