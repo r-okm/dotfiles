@@ -485,11 +485,23 @@ return {
         },
         scope = {
           enabled = false,
-          show_start = false,
-          show_end = false,
         }
       })
     end,
   },
+
+  {
+    "echasnovski/mini.indentscope",
+    cond = notVscode,
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      local mi = require("mini.indentscope")
+      mi.setup({
+        delay = 1,
+        animation = mi.gen_animation.none(),
+        symbol = "▏",
+      })
+    end,
+  }
 
 }
