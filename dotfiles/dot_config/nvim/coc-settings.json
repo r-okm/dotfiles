@@ -1,4 +1,5 @@
 {
+  "coc.preferences.formatOnSave": false,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "eslint.validate": [
     "vue",
@@ -8,6 +9,8 @@
     "typescriptreact"
   ],
   "eslint.autoFixOnSave": true,
+  "prettier.requireConfig": true,
+  "prettier.resolveGlobalModules": false,
   "java.compile.nullAnalysis.mode": "automatic",
   "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -Xlog:disable -javaagent:/home/okmt/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar -Xbootclasspath/a:/home/okmt/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar",
   "yaml.format.enable": true,
