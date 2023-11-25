@@ -5,9 +5,6 @@ local keymap = u_setKeymap.keymap
 local getVisualSelection = u_buffer.getVisualSelection
 
 local notVscode = not vim.g.vscode
-local function telescope_buffer_dir()
-  return vim.fn.expand("%:p:h")
-end
 
 return {
   -- keys
@@ -174,7 +171,7 @@ return {
     },
     cond = notVscode,
     event = { "BufReadPost", "BufNewFile" },
-    config = function ()
+    config = function()
       require("nvim-ts-autotag").setup({
         enable = true,
         enable_rename = true,
@@ -311,7 +308,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-fzy-native.nvim",
-      "nvim-telescope/telescope-file-browser.nvim",
       "nvim-tree/nvim-web-devicons",
     },
     cond = notVscode,
@@ -378,7 +374,6 @@ return {
       local builtin = require("telescope.builtin")
 
       telescope.load_extension("fzy_native")
-      telescope.load_extension("file_browser")
 
       keymap("n", "zp", builtin.find_files)
       keymap("n", "zf", builtin.live_grep)
@@ -387,16 +382,33 @@ return {
         local text = getVisualSelection()
         builtin.grep_string({ search = text })
       end)
-      keymap("n", "<Space>e", function()
-        telescope.extensions.file_browser.file_browser({
-          hidden = {
-            file_browser = true,
-            folder_browser = true,
-          },
-          cwd = telescope_buffer_dir(),
-          initial_mode = "normal",
-        })
-      end)
+    end
+  },
+
+  {
+    "lambdalisue/fern.vim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      "TheLeoP/fern-renderer-web-devicons.nvim",
+    },
+    cond = notVscode,
+    keys = {
+      { "<Space>e", mode = { "n" } }
+    },
+    config = function()
+      keymap("n", "<Space>e", ":<C-u>Fern . -reveal=%<CR>")
+      vim.g["fern#default_hidden"] = 1
+      vim.g["fern#renderer"] = "nvim-web-devicons"
+      vim.cmd([[
+        function! s:init_fern() abort
+          nmap <buffer> D <Plug>(fern-action-remove)
+        endfunction
+
+        augroup fern-custom
+          autocmd! *
+          autocmd FileType fern call s:init_fern()
+        augroup END
+      ]])
     end
   },
 
