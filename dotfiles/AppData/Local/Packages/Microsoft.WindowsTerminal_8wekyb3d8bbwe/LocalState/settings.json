@@ -304,8 +304,8 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "JetBrainsMono NF",
-                "size": 10.0
+                "face": "UDEV Gothic NF",
+                "size": 12.0
             },
             "opacity": 100,
             "suppressApplicationTitle": true,
