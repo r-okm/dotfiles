@@ -3,6 +3,7 @@ local keymap = require("utils.setKeymap").keymap
 return {
   "neoclide/coc.nvim",
   branch = "release",
+  event = { "BufReadPost", "BufNewFile", },
   config = function()
     local show_docs = function()
       local cw = vim.fn.expand('<cword>')

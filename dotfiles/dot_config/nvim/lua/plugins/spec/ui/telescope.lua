@@ -10,13 +10,13 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "<C-p>", mode = { "n" } },
-    { "<C-g>", mode = { "n" } },
-    { "<C-f>", mode = { "n" } },
+    { "zp", mode = { "n" } },
+    { "zf", mode = { "n" } },
+    { "#", mode = { "n", "x" } },
   },
-  init = function()
-    local actions = require("telescope.actions")
+  config = function()
     local telescope = require("telescope")
+    local actions = require("telescope.actions")
 
     telescope.setup {
       defaults = {
@@ -66,13 +66,9 @@ return {
         },
       },
     }
-  end,
-  config = function()
-    local telescope = require("telescope")
-    local builtin = require("telescope.builtin")
-
     telescope.load_extension("fzy_native")
 
+    local builtin = require("telescope.builtin")
     keymap("n", "zp", builtin.find_files)
     keymap("n", "zf", builtin.live_grep)
     keymap("n", "#", builtin.grep_string)
