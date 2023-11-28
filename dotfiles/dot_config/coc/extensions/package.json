@@ -9,6 +9,8 @@
     "coc-eslint": ">=1.6.0",
     "coc-cfn-lint": ">=0.1.2",
     "coc-yaml": ">=1.9.0",
-    "coc-prettier": ">=9.3.2"
+    "coc-prettier": ">=9.3.2",
+    "coc-copilot": ">=0.0.6",
+    "coc-snippets": ">=3.1.10"
   }
 }
