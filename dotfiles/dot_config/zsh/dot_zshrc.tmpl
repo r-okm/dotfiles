@@ -51,9 +51,6 @@ source $ZDOTDIR/alias.zsh
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-# custom-git
-alias git="custom-git"
-compdef custom-git=git
 # custom-code
 alias code='custom-code'
 compdef custom-code=code
