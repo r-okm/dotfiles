@@ -4,6 +4,9 @@ return {
   "github/copilot.vim",
   event = { "InsertEnter", "CmdlineEnter" },
   config = function()
+    keymap("i", "<C-K>", "<Plug>(copilot-suggest)")
+    keymap("i", "<C-N>", "<Plug>(copilot-next)")
+    keymap("i", "<C-P>", "<Plug>(copilot-previous)")
     keymap("i", "<Tab>", "copilot#Accept('<Tab>')", {
       expr = true,
       replace_keycodes = false

@@ -31,7 +31,7 @@ return {
     -- completion
     keymap("i", "<CR>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"]],
       { expr = true })
-    keymap("i", "<C-Space>", [[coc#refresh()]], { expr = true })
+    keymap("i", "<C-Space>", [[coc#start()]], { expr = true })
     -- diagnostic
     keymap("n", "g.", "<Plug>(coc-diagnostic-next)")
     keymap("n", "g,", "<Plug>(coc-diagnostic-prev)")
