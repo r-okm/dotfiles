@@ -36,6 +36,7 @@ return {
     -- diagnostic
     keymap("n", "g.", "<Plug>(coc-diagnostic-next)")
     keymap("n", "g,", "<Plug>(coc-diagnostic-prev)")
+    keymap("n", "gm", ":<C-u>CocList diagnostics<CR>")
     -- code navigation
     keymap("n", "gd", "<Plug>(coc-definition)")
     keymap("n", "gD", "<Plug>(coc-implementation)")
