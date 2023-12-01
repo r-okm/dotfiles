@@ -6,8 +6,9 @@ return {
     "nvim-tree/nvim-web-devicons",
     "TheLeoP/fern-renderer-web-devicons.nvim",
     "yuki-yano/fern-preview.vim",
+    "lambdalisue/fern-hijack.vim",
   },
-  event = { "CmdlineEnter", },
+  event = { "CmdlineEnter", "BufEnter" },
   keys = {
     { "<Space>e", mode = { "n" } }
   },
