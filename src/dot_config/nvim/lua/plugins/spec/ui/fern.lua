@@ -5,17 +5,33 @@ return {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
     "TheLeoP/fern-renderer-web-devicons.nvim",
+    "yuki-yano/fern-preview.vim",
   },
+  event = { "CmdlineEnter", },
   keys = {
     { "<Space>e", mode = { "n" } }
   },
   config = function()
-    keymap("n", "<Space>e", ":<C-u>Fern . -reveal=%<CR>")
+    keymap("n", "<Space>e", ":<C-u>Fern . -reveal=% -drawer -toggle -width=40<CR>")
     vim.g["fern#default_hidden"] = 1
     vim.g["fern#renderer"] = "nvim-web-devicons"
     vim.cmd([[
       function! s:init_fern() abort
-        nmap <buffer> D <Plug>(fern-action-remove)
+        nnoremap <silent> <Plug>(fern-my-close-drawer) :<C-u>FernDo close -drawer -stay<CR>
+        nnoremap <silent> <expr>
+          \ <Plug>(fern-my-open-or-expand)
+          \ fern#smart#leaf(
+          \  "<Plug>(fern-action-open)<Plug>(fern-my-close-drawer)",
+          \  "<Plug>(fern-action-expand)",
+          \ )
+
+        nmap <silent> <buffer> <CR> <Plug>(fern-my-open-or-expand)
+        nmap <silent> <buffer> l <Plug>(fern-my-open-or-expand)
+        nmap <silent> <buffer> q <Plug>(fern-my-close-drawer)
+        nmap <silent> <buffer> D <Plug>(fern-action-remove)
+        nmap <silent> <buffer> <C-v> <Plug>(fern-action-preview:auto:toggle)
+        nmap <silent> <buffer> <C-d> <Plug>(fern-action-preview:scroll:down:half)
+        nmap <silent> <buffer> <C-u> <Plug>(fern-action-preview:scroll:up:half)
       endfunction
 
       augroup fern-custom
