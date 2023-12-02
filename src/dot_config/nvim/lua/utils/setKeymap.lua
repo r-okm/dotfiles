@@ -1,4 +1,6 @@
-local getModesTableFromStr = function(modeStr)
+local M = {}
+
+local function getModesTableFromStr(modeStr)
   -- 文字列を1字ずつ分割し配列に変換
   -- ex) "nx" => {"n", "x"}
   local modes = {}
@@ -13,7 +15,7 @@ local getModesTableFromStr = function(modeStr)
   return modes
 end
 
-local appendCommonOpts = function(opts)
+local function appendCommonOpts(opts)
   local _opts = opts or {}
 
   if _opts.noremap == nil then
@@ -26,7 +28,7 @@ local appendCommonOpts = function(opts)
   return _opts
 end
 
-local getRhsFromVsCmd = function(cmd, vs_args)
+local function getRhsFromVsCmd(cmd, vs_args)
   local rhs
   if vs_args ~= nil then
     rhs = string.format("<Cmd> call VSCodeNotify('%s', %s)<Cr>", cmd, vs_args)
@@ -37,7 +39,7 @@ local getRhsFromVsCmd = function(cmd, vs_args)
   return rhs
 end
 
-local getRhsFromVsVisualCmd = function(cmd, vs_args)
+local function getRhsFromVsVisualCmd(cmd, vs_args)
   local rhs
   if vs_args ~= nil then
     -- <Cmd> call VSCodeNotifyVisual()<Cr> の後に <Esc> を追記することでコマンド実行後にノーマルモードに移行する
@@ -50,16 +52,14 @@ local getRhsFromVsVisualCmd = function(cmd, vs_args)
   return rhs
 end
 
-local M = {}
-
-M.keymap = function(modeStr, lhs, rhs, opts)
+function M.keymap(modeStr, lhs, rhs, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _opts = appendCommonOpts(opts)
 
   vim.keymap.set(_modes, lhs, rhs, _opts)
 end
 
-M.keymapVsc = function(modeStr, lhs, cmd, vs_args, opts)
+function M.keymapVsc(modeStr, lhs, cmd, vs_args, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _rhs = getRhsFromVsCmd(cmd, vs_args)
   local _opts = appendCommonOpts(opts)
@@ -67,7 +67,7 @@ M.keymapVsc = function(modeStr, lhs, cmd, vs_args, opts)
   vim.keymap.set(_modes, lhs, _rhs, _opts)
 end
 
-M.keymapVscVisual = function(modeStr, lhs, cmd, vs_args, opts)
+function M.keymapVscVisual(modeStr, lhs, cmd, vs_args, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _rhs = getRhsFromVsVisualCmd(cmd, vs_args)
   local _opts = appendCommonOpts(opts)

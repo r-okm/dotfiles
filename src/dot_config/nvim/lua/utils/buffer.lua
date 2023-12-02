@@ -1,6 +1,6 @@
 local M = {}
 
-M.getVisualSelection = function()
+function M.getVisualSelection()
   -- Visualモードの確認
   local mode = vim.fn.mode()
 
