@@ -3,7 +3,6 @@
 [credential]
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-  helper = store --file /mnt/c/Users/{{ index . "wsl_windows_username" | default "" }}/.config/git/credentials
   helper = "/mnt/c/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe"
 {{   end }}
 {{ else }}
