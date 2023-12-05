@@ -63,13 +63,13 @@ prompt_format_2() {
 %F{yellow}%3/%f${reset} ${git}%# "
 }
 
-fzf-command-history() {
+fzf_command_history() {
   BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ls" | grep -v "cd" | fzf --query "$LBUFFER")
   CURSOR=$#BUFFER
   zle reset-prompt
 }
 
-fzf-cd() {
+fzf_cd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
@@ -79,7 +79,7 @@ fzf-cd() {
   fi
 }
 
-fzf-git-checkout() {
+fzf_git_branch() {
   local_brs=$(git branch | sort -r | sed -e 's/^ *//') && \
   local_brs_trim=$(git branch | sed -e 's/\*//' | sed -e 's/ //g') && \
   remote_brs=$(git branch -r | grep -v HEAD | sed -e 's/^.* //g') && \
@@ -104,9 +104,9 @@ fzf-git-checkout() {
     --bind "ctrl-d:become:$delete_branch"
 }
 
-fzf-git-log() {
+fzf_git_log() {
   local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'echo -n %'"
-  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=fzf-git-log'"
+  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=fzf_git_log'"
   local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=git --paging=always'"
   local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
   local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
@@ -138,7 +138,7 @@ awsp() {
   fi
 }
 
-custom-code() {
+custom_code() {
   if [[ $PWD == /mnt/* ]]; then
     # /mnt 配下のディレクトリをホスト側の vscode で開く
     $CMD_COMMAND /c "code $@"

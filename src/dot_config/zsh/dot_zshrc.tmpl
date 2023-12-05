@@ -6,8 +6,8 @@ bindkey "^[[3~" delete-char
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 
-zle -N fzf-command-history
-bindkey '^r' fzf-command-history
+zle -N fzf_command_history
+bindkey '^r' fzf_command_history
 
 # setopt
 setopt nobeep
@@ -51,9 +51,9 @@ source $ZDOTDIR/alias.zsh
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-# custom-code
-alias code='custom-code'
-compdef custom-code=code
+# custom_code
+alias code='custom_code'
+compdef custom_code=code
 {{   end }}
 {{ end }}
 
