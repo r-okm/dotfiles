@@ -184,3 +184,11 @@ function _windows_terminal_osc_9_9 {
     printf '\e]9;9;%s\e\' "$(cygpath --windows "$(pwd)")"
   {{ end }}
 }
+
+# local-ssl-proxy
+local_ssl_proxy() {
+  local source=${1:-8081}
+  local target=${2:-8080}
+
+  npx local-ssl-proxy --key ~/pem/localhost-key.pem --cert ~/pem/localhost.pem --source $source --target $target
+}
