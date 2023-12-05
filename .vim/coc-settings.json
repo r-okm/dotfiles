@@ -1,8 +1,6 @@
 {
   "coc.preferences.formatOnSave": true,
-  "Lua.diagnostics.globals": [
-    "vim"
-  ],
+  "Lua.diagnostics.globals": ["vim"],
   "yaml.schemas": {
     "https://raw.githubusercontent.com/mattn/efm-langserver/master/schema.json": [
       "src/dot_config/efm-langserver/config.yaml"

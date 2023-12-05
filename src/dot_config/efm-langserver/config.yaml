@@ -5,9 +5,9 @@ root-markers:
 tools:
   hadolint-lint: &hadolint-lint
     prefix: hadolint
-    lint-command: 'hadolint --no-color'
+    lint-command: "hadolint --no-color"
     lint-formats:
-      - '%f:%l %m'
+      - "%f:%l %m"
 
 languages:
   dockerfile:

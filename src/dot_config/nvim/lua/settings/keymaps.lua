@@ -52,4 +52,5 @@ else
   keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<C-q>", "<C-w>w")
   keymap("n", "<Space>s", ":<C-u>write<CR>")
+  keymap("n", "<Space>S", ":<C-u>noa write<CR>")
 end

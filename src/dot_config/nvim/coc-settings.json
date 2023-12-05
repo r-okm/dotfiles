@@ -15,8 +15,9 @@
     "typescriptreact"
   ],
   "eslint.autoFixOnSave": true,
-  "prettier.requireConfig": true,
   "prettier.resolveGlobalModules": false,
+  "prettier.semi": false,
+  "prettier.trailingComma": "none",
   "yaml.format.enable": true,
   "yaml.customTags": [
     "!Base64 scalar",
