@@ -1,5 +1,11 @@
 {
   "coc.preferences.formatOnSave": false,
+  "languageserver": {
+    "efm": {
+      "command": "efm-langserver",
+      "filetypes": ["dockerfile"]
+    }
+  },
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "eslint.validate": [
     "vue",

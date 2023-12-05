@@ -1,0 +1,14 @@
+version: 2
+root-markers:
+  - .git/
+
+tools:
+  hadolint-lint: &hadolint-lint
+    prefix: hadolint
+    lint-command: 'hadolint --no-color'
+    lint-formats:
+      - '%f:%l %m'
+
+languages:
+  dockerfile:
+    - <<: *hadolint-lint
