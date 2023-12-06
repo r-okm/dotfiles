@@ -10,7 +10,7 @@ return {
   },
   event = { "CmdlineEnter", "BufEnter" },
   keys = {
-    { "<Space>e", mode = { "n" } }
+    { "<Space>e", mode = { "n" } },
   },
   config = function()
     keymap("n", "<Space>e", ":<C-u>Fern . -reveal=% -drawer -toggle -width=40<CR>")
@@ -40,5 +40,5 @@ return {
         autocmd FileType fern call s:init_fern()
       augroup END
     ]])
-  end
+  end,
 }

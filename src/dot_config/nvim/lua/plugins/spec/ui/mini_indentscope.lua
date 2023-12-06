@@ -7,17 +7,22 @@ return {
     -- 特定のファイルタイプでは無効にする
     local fts = const.HIGHLIGHT_DISABLED_FILETYPES
     for _, ft in ipairs(fts) do
-      local cmd = string.format([[
+      local cmd = string.format(
+        [[
         augroup mini_indentscope_disable_%s
           autocmd!
           autocmd FileType %s lua vim.b.miniindentscope_disable = true
         augroup END
-      ]], ft, ft)
+      ]],
+        ft,
+        ft
+      )
       vim.cmd(cmd)
     end
 
     -- 規定の行数以上のファイルでは無効にする
-    local cmd = string.format([[
+    local cmd = string.format(
+      [[
       function! s:disable_module()
         if line('$') > %d
           lua vim.b.miniindentscope_disable = true
@@ -28,7 +33,9 @@ return {
         autocmd!
         autocmd BufReadPost,BufNewFile * call s:disable_module()
       augroup END
-    ]], const.LARGE_FILE_LINE_COUNT)
+    ]],
+      const.LARGE_FILE_LINE_COUNT
+    )
     vim.cmd(cmd)
   end,
   config = function()

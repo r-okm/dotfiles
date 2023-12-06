@@ -12,6 +12,8 @@ return {
         enabled = false,
       },
     })
-    keymap("nx", ",", function() substitute.operator() end)
+    keymap("nx", ",", function()
+      substitute.operator()
+    end)
   end,
 }

@@ -10,7 +10,7 @@ return {
     keymap("i", "<C-P>", "<Plug>(copilot-previous)")
     keymap("i", "<Tab>", "copilot#Accept('<Tab>')", {
       expr = true,
-      replace_keycodes = false
+      replace_keycodes = false,
     })
-  end
+  end,
 }

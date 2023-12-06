@@ -1,7 +1,7 @@
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = {
-    "nvim-tree/nvim-web-devicons"
+    "nvim-tree/nvim-web-devicons",
   },
   config = function()
     require("lualine").setup({
@@ -15,7 +15,7 @@ return {
         lualine_c = { "filename" },
         lualine_x = { "g:coc_status" },
         lualine_y = { "encoding", "filetype" },
-        lualine_z = { "location" }
+        lualine_z = { "location" },
       },
     })
   end,

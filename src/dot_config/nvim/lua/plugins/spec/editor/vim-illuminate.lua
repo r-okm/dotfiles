@@ -3,7 +3,7 @@ local const = require("utils.const")
 return {
   "RRethy/vim-illuminate",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter"
+    "nvim-treesitter/nvim-treesitter",
   },
   event = { "BufReadPost", "BufNewFile" },
   config = function()
@@ -11,5 +11,5 @@ return {
       filetypes_denylist = const.HIGHLIGHT_DISABLED_FILETYPES,
       large_file_cutoff = const.LARGE_FILE_LINE_COUNT,
     })
-  end
+  end,
 }

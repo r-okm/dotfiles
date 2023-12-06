@@ -9,8 +9,8 @@ return {
         comments = false,
         operators = false,
         folds = false,
-      }
+      },
     })
     vim.cmd([[colorscheme gruvbox]])
-  end
+  end,
 }

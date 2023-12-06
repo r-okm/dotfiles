@@ -3,10 +3,10 @@ local keymap = require("utils.setKeymap").keymap
 return {
   "sindrets/diffview.nvim",
   dependencies = {
-    "nvim-tree/nvim-web-devicons"
+    "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "zh", mode = { "n" } }
+    { "zh", mode = { "n" } },
   },
   cmd = { "DiffviewFileHistory" },
   config = function()

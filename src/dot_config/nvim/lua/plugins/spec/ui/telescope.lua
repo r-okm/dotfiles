@@ -18,12 +18,12 @@ return {
     local telescope = require("telescope")
     local actions = require("telescope.actions")
 
-    telescope.setup {
+    telescope.setup({
       defaults = {
         mappings = {
           n = {
-            ["q"] = actions.close
-          }
+            ["q"] = actions.close,
+          },
         },
         vimgrep_arguments = {
           "rg",
@@ -40,7 +40,7 @@ return {
           "!**/node_modules/*",
           "--glob",
           "!**/package-lock.json",
-        }
+        },
       },
       pickers = {
         find_files = {
@@ -65,7 +65,7 @@ return {
           override_file_sorter = true,
         },
       },
-    }
+    })
     telescope.load_extension("fzy_native")
 
     local builtin = require("telescope.builtin")
@@ -76,5 +76,5 @@ return {
       local text = getVisualSelection()
       builtin.grep_string({ search = text })
     end)
-  end
+  end,
 }

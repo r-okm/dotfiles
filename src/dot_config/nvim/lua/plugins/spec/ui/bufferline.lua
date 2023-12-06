@@ -3,7 +3,7 @@ local keymap = require("utils.setKeymap").keymap
 return {
   "akinsho/bufferline.nvim",
   dependencies = {
-    "nvim-tree/nvim-web-devicons"
+    "nvim-tree/nvim-web-devicons",
   },
   event = { "BufReadPost", "BufNewFile" },
   config = function()
