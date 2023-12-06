@@ -22,6 +22,16 @@ vim.api.nvim_create_user_command("H", function(opts)
   vim.cmd(command)
 end, { nargs = 1, complete = "help" })
 
+-- quit 時にセッションファイルを作成する
+local session_file_name = os.getenv("NEOVIM_SESSION_FILE_NAME") or "Session.vim"
+vim.api.nvim_create_user_command("Q", function(_)
+  local session_cmd = "mksession! " .. session_file_name
+  local quit_cmd = "quitall!"
+
+  vim.cmd(session_cmd)
+  vim.cmd(quit_cmd)
+end, {})
+
 -- os のクリップボードと同期
 local yank_command = os.getenv("YANK_COMMAND")
 local paste_command = os.getenv("PASTE_COMMAND")

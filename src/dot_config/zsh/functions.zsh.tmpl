@@ -147,6 +147,15 @@ custom_code() {
   fi
 }
 
+custom_nvim() {
+  # セッションファイルが存在する場合は、セッションファイルを読み込んで nvim を起動する
+  if [ -f $NEOVIM_SESSION_FILE_NAME ]; then
+    nvim -S $NEOVIM_SESSION_FILE_NAME
+  else
+    nvim
+  fi
+}
+
 # zsh-abbr, fast-syntax-highlighting
 chroma_single_word() {
   (( next_word = 2 | 8192 ))
