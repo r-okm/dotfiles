@@ -15,7 +15,7 @@ tools:
     prefix: hadolint
     lint-command: "hadolint --no-color"
     lint-formats:
-      - "%f:%l %m"
+      - "%f:%l DL%n %t%*[a-z]: %m"
 
 languages:
   lua:
