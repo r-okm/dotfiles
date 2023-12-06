@@ -1,5 +1,7 @@
 local M = {}
 
+---通常 visual モード時の選択範囲のテキストを取得する
+---@return string|nil selected_text 選択範囲のテキスト
 function M.getVisualSelection()
   -- Visualモードの確認
   local mode = vim.fn.mode()

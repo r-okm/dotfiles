@@ -52,6 +52,11 @@ local function getRhsFromVsVisualCmd(cmd, vs_args)
   return rhs
 end
 
+---vim,neovim コマンドのキーマップを設定する
+---@param modeStr string コマンドを有効化するモード
+---@param lhs string コマンドを発火させるキー
+---@param rhs string|function コマンドの実行内容
+---@param opts? table オプション
 function M.keymap(modeStr, lhs, rhs, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _opts = appendCommonOpts(opts)
@@ -59,6 +64,12 @@ function M.keymap(modeStr, lhs, rhs, opts)
   vim.keymap.set(_modes, lhs, rhs, _opts)
 end
 
+---vscode コマンドのキーマップを設定する
+---@param modeStr string コマンドを有効化するモード
+---@param lhs string コマンドを発火させるキー
+---@param cmd string vscode command id
+---@param vs_args? string vscode コマンドの引数
+---@param opts? table オプション
 function M.keymapVsc(modeStr, lhs, cmd, vs_args, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _rhs = getRhsFromVsCmd(cmd, vs_args)
@@ -67,6 +78,12 @@ function M.keymapVsc(modeStr, lhs, cmd, vs_args, opts)
   vim.keymap.set(_modes, lhs, _rhs, _opts)
 end
 
+---visual モード時の vscode コマンドのキーマップを設定する
+---@param modeStr string コマンドを有効化するモード
+---@param lhs string コマンドを発火させるキー
+---@param cmd string vscode command id
+---@param vs_args? string vscode コマンドの引数
+---@param opts? table オプション
 function M.keymapVscVisual(modeStr, lhs, cmd, vs_args, opts)
   local _modes = getModesTableFromStr(modeStr)
   local _rhs = getRhsFromVsVisualCmd(cmd, vs_args)
