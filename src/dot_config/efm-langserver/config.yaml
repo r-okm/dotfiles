@@ -1,14 +1,25 @@
 version: 2
 root-markers:
   - .git/
+log-file: "/tmp/efm.log"
 
 tools:
-  hadolint-lint: &hadolint-lint
+  stylua: &stylua
+    format-command: "stylua --search-parent-directories -"
+    format-stdin: true
+    root-markers:
+      - .stylua.toml
+      - stylua.toml
+
+  hadolint: &hadolint
     prefix: hadolint
     lint-command: "hadolint --no-color"
     lint-formats:
       - "%f:%l %m"
 
 languages:
+  lua:
+    - <<: *stylua
+
   dockerfile:
-    - <<: *hadolint-lint
+    - <<: *hadolint

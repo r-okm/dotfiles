@@ -3,7 +3,8 @@
   "languageserver": {
     "efm": {
       "command": "efm-langserver",
-      "filetypes": ["dockerfile"]
+      "filetypes": ["lua", "dockerfile"],
+      "formatterPriority": 1
     }
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
