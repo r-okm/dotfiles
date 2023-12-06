@@ -28,6 +28,11 @@ return {
       end
     end
 
+    -- textobj
+    keymap("xo", "if", "<Plug>(coc-funcobj-i)")
+    keymap("xo", "af", "<Plug>(coc-funcobj-a)")
+    keymap("xo", "ic", "<Plug>(coc-classobj-i)")
+    keymap("xo", "ac", "<Plug>(coc-classobj-a)")
     -- completion
     keymap(
       "i",
