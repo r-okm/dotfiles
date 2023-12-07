@@ -13,7 +13,7 @@ return {
     { "<Space>e", mode = { "n" } },
   },
   config = function()
-    keymap("n", "<Space>e", ":<C-u>Fern . -reveal=% -drawer -toggle -width=40<CR>")
+    keymap("n", "<Space>e", ":<C-u>Fern . -reveal=% -drawer -width=40<CR>")
     vim.g["fern#default_hidden"] = 1
     vim.g["fern#renderer"] = "nvim-web-devicons"
     vim.cmd([[
