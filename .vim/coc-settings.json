@@ -4,6 +4,7 @@
   "yaml.schemas": {
     "https://raw.githubusercontent.com/mattn/efm-langserver/master/schema.json": [
       "src/dot_config/efm-langserver/config.yaml"
-    ]
+    ],
+    "https://json.schemastore.org/lazygit.json": ["src/dot_config/lazygit/"]
   }
 }

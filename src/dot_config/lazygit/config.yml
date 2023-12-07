@@ -3,6 +3,10 @@ git:
     colorArg: always
     pager: delta --features=git --paging=never
 os:
-  editPreset: "vscode"
+  editPreset: "nvim"
+keybinding:
+  files:
+    commitChanges: C
+    commitChangesWithEditor: c
 gui:
   nerdFontsVersion: "3"
