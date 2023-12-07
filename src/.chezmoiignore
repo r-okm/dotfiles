@@ -1,3 +1,5 @@
+symlink
+
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
 .config/sheldon
