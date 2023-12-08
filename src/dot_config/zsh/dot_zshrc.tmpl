@@ -85,6 +85,10 @@ precmd() {
 
   # Promptの更新
   PROMPT=`prompt_format_2`
+
+  # windows terminal のタブタイトルを指定する
+  local current_dir=$(basename $PWD)
+  windows_terminal_tab_title $current_dir
 }
 precmd_functions+=(_windows_terminal_osc_9_9)
 

@@ -194,6 +194,10 @@ function _windows_terminal_osc_9_9 {
   {{ end }}
 }
 
+windows_terminal_tab_title() {
+  echo -ne '\033]0;'"$1"'\a'
+}
+
 # local-ssl-proxy
 local_ssl_proxy() {
   local source=${1:-8081}
