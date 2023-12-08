@@ -298,8 +298,10 @@
         {
             "adjustIndistinguishableColors": "never",
             "antialiasingMode": "grayscale",
+            "backgroundImage": null,
+            "backgroundImageOpacity": 0.05,
             "closeOnExit": "always",
-            "colorScheme": "GruvboxDark",
+            "colorScheme": "One Half Dark",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
             "font": 
@@ -307,9 +309,9 @@
                 "face": "PlemolJP Console NF",
                 "size": 12.0
             },
-            "opacity": 100,
+            "opacity": 80,
             "suppressApplicationTitle": true,
-            "useAcrylic": false
+            "useAcrylic": true
         },
         "list": 
         [
@@ -582,6 +584,52 @@
             "selectionBackground": "#FFFFFF",
             "white": "#D3D7CF",
             "yellow": "#C4A000"
+        },
+        {
+            "background": "#1A2B3C",
+            "black": "#65737E",
+            "blue": "#0E9BD1",
+            "brightBlack": "#ACACAC",
+            "brightBlue": "#7899BA",
+            "brightCyan": "#0099AD",
+            "brightGreen": "#0DE1B1",
+            "brightPurple": "#AB43AA",
+            "brightRed": "#D47186",
+            "brightWhite": "#FEF8EC",
+            "brightYellow": "#D8CB32",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#008486",
+            "foreground": "#E09887",
+            "green": "#0099AD",
+            "name": "Thanatos Dark",
+            "purple": "#928BA6",
+            "red": "#CE4559",
+            "selectionBackground": "#FEF8EC",
+            "white": "#FEF8EC",
+            "yellow": "#D8CB32"
+        },
+        {
+            "background": "#F6F6F0",
+            "black": "#36475B",
+            "blue": "#0E9BD1",
+            "brightBlack": "#65737E",
+            "brightBlue": "#7899BA",
+            "brightCyan": "#008A8E",
+            "brightGreen": "#0DE1B1",
+            "brightPurple": "#AB43AA",
+            "brightRed": "#D47186",
+            "brightWhite": "#1A2B3C",
+            "brightYellow": "#EAA221",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#008486",
+            "foreground": "#3F5060",
+            "green": "#008A8E",
+            "name": "Thanatos Light",
+            "purple": "#AB43AA",
+            "red": "#E19887",
+            "selectionBackground": "#0E639C",
+            "white": "#7899BA",
+            "yellow": "#EAA221"
         },
         {
             "background": "#300A24",
