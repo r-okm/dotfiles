@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {

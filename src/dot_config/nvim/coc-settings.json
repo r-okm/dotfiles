@@ -41,9 +41,6 @@
     "!Transform mapping",
     "!Ref scalar"
   ],
-  "snippets.extends": {
-    "typescriptreact": ["typescript"]
-  },
   "snippets.textmateSnippetsRoots": ["~/.config/nvim/snippets"],
   "snippets.ultisnips.pythonPrompt": false
 }

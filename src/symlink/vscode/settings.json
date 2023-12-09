@@ -1,0 +1,328 @@
+{
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "terminal.integrated.profiles.windows": {
+    "Command Prompt": null,
+    "Git Bash": null,
+    "JavaScript Debug Terminal": null,
+    "GitBash": {
+      "path": "C:\\scoop\\shims\\bash.exe",
+      "icon": "terminal-bash"
+    },
+    "zsh(msys2)": {
+      "path": "C:\\scoop\\apps\\msys2\\current\\usr\\bin\\zsh.exe",
+      "args": ["-l"],
+      "env": {
+        "MSYSTEM": "MINGW64",
+        "CHERE_INVOKING": "1",
+        "MSYS2_PATH_TYPE": "inherit"
+      }
+    }
+  },
+  "terminal.integrated.profiles.linux": {
+    "bash": null,
+    "fish": null,
+    "tmux": null,
+    "pwsh": null,
+    "JavaScript Debug Terminal": null,
+    "zsh": {
+      "path": "/home/linuxbrew/.linuxbrew/bin/zsh",
+      "args": ["-l"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "zsh(msys2)",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.shellIntegration.enabled": false,
+  "terminal.integrated.showExitAlert": false,
+  "terminal.integrated.defaultLocation": "editor",
+  "vscode-neovim.neovimExecutablePaths.linux": "/home/linuxbrew/.linuxbrew/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.lua",
+  "vscode-neovim.useWSL": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.git": true,
+    "**/package-lock.json": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[javascript][typescript][javascriptreact][typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.addMissingImports": "explicit",
+      "source.fixAll": "explicit",
+      "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.addMissingImports": "explicit",
+      "source.fixAll": "explicit",
+      "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css][postcss][scss][stylus]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    }
+  },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java",
+    "editor.tabSize": 4,
+    "editor.formatOnSave": false
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "files.trimTrailingWhitespace": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+  "[ahk]": {
+    "editor.defaultFormatter": "cweijan.vscode-autohotkey-plus",
+    "files.encoding": "utf8bom",
+    "files.autoGuessEncoding": false
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "prettier.semi": false,
+  "prettier.trailingComma": "none",
+  "eslint.validate": [
+    "vue",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "eslint.options": {
+    "ignorePath": ".gitignore"
+  },
+  "cSpell.diagnosticLevel": "Hint",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.refactoring.autoSave": false,
+  "files.readonlyInclude": {
+    "**/node_modules/**": true
+  },
+  "explorer.openEditors.minVisible": 0,
+  "explorer.openEditors.visible": 100,
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "editor.suggestSelection": "first",
+  "editor.suggest.matchOnWordStartOnly": false,
+  "editor.quickSuggestionsDelay": 0,
+  "editor.stickyTabStops": true,
+  "editor.tabSize": 2,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment, comment.block.html",
+        "settings": {
+          "fontStyle": ""
+        }
+      }
+    ]
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.minimap.showSlider": "always",
+  "editor.minimap.maxColumn": 70,
+  "editor.lineNumbers": "relative",
+  "editor.renderWhitespace": "selection",
+  "editor.suggest.snippetsPreventQuickSuggestions": true,
+  "editor.linkedEditing": true,
+  "breadcrumbs.symbolPath": "last",
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.pinnedTabSizing": "shrink",
+  "workbench.sash.hoverDelay": 0,
+  "workbench.colorCustomizations": {
+    "editorHint.foreground": "#ff0000",
+    "[Slime]": {
+      "tab.activeBorder": "#ffbb00b2",
+      "editorWhitespace.foreground": "#ff0000",
+      "editor.wordHighlightBorder": "#aaaaaab0",
+      "editor.wordHighlightBackground": "#ffffff00",
+      "editor.wordHighlightStrongBorder": "#24a81fa0",
+      "editor.wordHighlightStrongBackground": "#ffffff00",
+      "editor.selectionHighlightBorder": "#aaaaaab0",
+      "editor.selectionHighlightBackground": "#ffffff00",
+      "editorBracketMatch.border": "#00aeffc0",
+      "editor.selectionBackground": "#6c516eb0"
+    },
+    "[Gruvbox Dark Medium][Gruvbox Dark Hard]": {
+      "editorBracketHighlight.foreground1": "#cc241d",
+      "editorBracketHighlight.foreground2": "#b16286",
+      "editorBracketHighlight.foreground5": "#ebdbb2",
+      "editorBracketHighlight.foreground6": "#8ec07c",
+      "editorBracketHighlight.foreground4": "#d3869b",
+      "editorBracketHighlight.foreground3": "#fabd2f",
+      "editorWhitespace.foreground": "#575757"
+    }
+  },
+  "window.newWindowDimensions": "inherit",
+  "window.restoreWindows": "none",
+  "vetur.completion.tagCasing": "initial",
+  "vetur.experimental.templateInterpolationService": true,
+  "debug.toolBarLocation": "commandCenter",
+  "scm.defaultViewMode": "tree",
+  "git.branchProtectionPrompt": "alwaysCommitToNewBranch",
+  "git.branchProtection": ["master"],
+  "github.gitProtocol": "ssh",
+  "gitlens.defaultGravatarsStyle": "retro",
+  "gitlens.keymap": "none",
+  "gitlens.views.stashes.files.layout": "tree",
+  "gitlens.codeLens.enabled": false,
+  "gitlens.remotes": [
+    {
+      "domain": "172.26.100.12",
+      "type": "AzureDevOps",
+      "name": "My Company",
+      "protocol": "http"
+    }
+  ],
+  "yaml.format.enable": true,
+  "yaml.customTags": [
+    "!Base64 scalar",
+    "!Cidr scalar",
+    "!And sequence",
+    "!Equals sequence",
+    "!If sequence",
+    "!Not sequence",
+    "!Or sequence",
+    "!Condition scalar",
+    "!FindInMap sequence",
+    "!GetAtt scalar",
+    "!GetAtt sequence",
+    "!GetAZs scalar",
+    "!ImportValue scalar",
+    "!Join sequence",
+    "!Select sequence",
+    "!Split sequence",
+    "!Sub scalar",
+    "!Transform mapping",
+    "!Ref scalar"
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "java.project.importOnFirstTimeStartup": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.inlayHints.parameterNames.enabled": "none",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "redhat.telemetry.enabled": false,
+  "markdown.editor.pasteUrlAsFormattedLink.enabled": "smart",
+  "markdownlint.config": {
+    "MD024": false,
+    "MD025": false,
+    "MD033": false
+  },
+  "security.workspace.trust.untrustedFiles": "open",
+  "cSpell.userWords": [
+    "autocrlf",
+    "chezmoi",
+    "chsh",
+    "composables",
+    "Corretto",
+    "defterm",
+    "devcontainer",
+    "dotfiles",
+    "endregion",
+    "fildir",
+    "Gruvbox",
+    "Jwts",
+    "keymap",
+    "linuxbrew",
+    "liveshare",
+    "neovim",
+    "nuxt",
+    "nuxtjs",
+    "nvim",
+    "openapi",
+    "pinia",
+    "pnpm",
+    "Servlet",
+    "styl",
+    "stylelint",
+    "tailwindcss",
+    "vetur",
+    "vite",
+    "vitejs",
+    "vuetify",
+    "webclip",
+    "winsymlinks"
+  ],
+  "xml.server.binary.trustedHashes": [
+    "f890562bf3264367a5a781f3bfb746efc3cf7fcce460cf2d9c785b32a756e509",
+    "e3c601b34832ce46f8da1d8f7ecd7bc8c32357c16f93115dfc22e458ed17915c"
+  ],
+  "editor.accessibilitySupport": "off",
+  "editor.fontFamily": "HackGen35 Console NF",
+  "terminal.integrated.fontFamily": "HackGen35 Console NF",
+  "vscode-neovim.neovimInitVimPaths.win32": "C:\\Users\\%USERNAME%\\AppData\\Local\\nvim\\init.vim",
+  "markdown-preview-enhanced.previewTheme": "one-dark.css",
+  "workbench.iconTheme": "easy-icons",
+  "git.confirmSync": false,
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "boot-java.highlight-codelens.on": false,
+  "java.debug.settings.enableRunDebugCodeLens": false,
+  "git.openRepositoryInParentFolders": "never",
+  "VSCodeCounter.languages": {
+    "typescript": {
+      "aliases": [],
+      "filenames": [],
+      "extensions": [".ts"],
+      "lineComments": ["//"],
+      "blockComments": [["/*", "*/"]],
+      "blockStrings": [["`", "`"]]
+    },
+    "typescriptreact": {
+      "aliases": [],
+      "filenames": [],
+      "extensions": [".tsx"],
+      "lineComments": ["//"],
+      "blockComments": [["{/*", "*/}"]],
+      "blockStrings": [["`", "`"]]
+    },
+    "xml": {
+      "aliases": [],
+      "filenames": [],
+      "extensions": [".xml"],
+      "lineComments": [],
+      "blockComments": [["<!--", "-->"]],
+      "blockStrings": []
+    },
+    "java": {
+      "aliases": ["Java", "java"],
+      "filenames": [],
+      "extensions": [".java", ".class", ".jav"],
+      "lineComments": ["//"],
+      "blockComments": [["/*", "*/"]],
+      "blockStrings": []
+    },
+    "java-properties": {
+      "aliases": ["Java Properties"],
+      "filenames": [],
+      "extensions": [".properties"],
+      "lineComments": ["#"],
+      "blockComments": [],
+      "blockStrings": []
+    }
+  },
+  "security.allowedUNCHosts": ["wsl.localhost"],
+  "window.menuBarVisibility": "compact",
+  "workbench.editor.tabActionCloseVisibility": false
+}
