@@ -205,3 +205,20 @@ local_ssl_proxy() {
 
   npx local-ssl-proxy --key ~/pem/localhost-key.pem --cert ~/pem/localhost.pem --source $source --target $target
 }
+
+update_plugins() {
+  if [ -x "$(command -v brew)" ]; then
+    brew bundle
+    brew update
+  fi
+
+  if [ -x "$(command -v apt)" ]; then
+    sudo apt update
+    sudo apt upgrade -y
+  fi
+
+  if [ -x "$(command -v scoop)" ]; then
+    scoop update
+    scoop status
+  fi
+}
