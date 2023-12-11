@@ -17,6 +17,7 @@ return {
         "gitcommit",
         "gitignore",
         "html",
+        "java",
         "javascript",
         "jq",
         "jsdoc",
@@ -25,6 +26,7 @@ return {
         "lua",
         "markdown",
         "markdown_inline",
+        "scss",
         "terraform",
         "toml",
         "tsx",
@@ -33,7 +35,7 @@ return {
         "vimdoc",
       },
       highlight = {
-        enable = true,
+        enable = not vim.g.vscode,
         disable = function(_, bufnr)
           return vim.api.nvim_buf_line_count(bufnr) > const.LARGE_FILE_LINE_COUNT
         end,
