@@ -5,6 +5,21 @@ return {
   branch = "release",
   event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
   config = function()
+    vim.g.coc_global_extensions = {
+      "coc-cfn-lint",
+      "coc-docker",
+      "coc-eslint",
+      "coc-json",
+      "coc-pairs",
+      "coc-prettier",
+      "coc-sh",
+      "coc-snippets",
+      "coc-sumneko-lua",
+      "coc-toml",
+      "coc-tsserver",
+      "coc-yaml",
+    }
+
     local show_docs = function()
       local cw = vim.fn.expand("<cword>")
       if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
