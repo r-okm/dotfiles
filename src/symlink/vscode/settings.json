@@ -324,5 +324,6 @@
   },
   "security.allowedUNCHosts": ["wsl.localhost"],
   "window.menuBarVisibility": "compact",
-  "workbench.editor.tabActionCloseVisibility": false
+  "workbench.editor.tabActionCloseVisibility": false,
+  "remote.autoForwardPortsSource": "hybrid"
 }
