@@ -1,4 +1,8 @@
 symlink
+bin/symlink_cmd.exe
+bin/symlink_code
+bin/symlink_explorer.exe
+bin/symlink_win32yank.exe
 
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
@@ -11,6 +15,11 @@ AppData
 .ideavimrc
 {{ end }}
 
-{{ if eq (env "REMOTE_CONTAINERS") "true" }}
-.config/git
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+!bin/symlink_cmd.exe
+!bin/symlink_code
+!bin/symlink_explorer.exe
+!bin/symlink_win32yank.exe
+{{   end }}
 {{ end }}

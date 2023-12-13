@@ -141,7 +141,7 @@ awsp() {
 custom_code() {
   if [[ $PWD == /mnt/* ]]; then
     # /mnt 配下のディレクトリをホスト側の vscode で開く
-    $CMD_COMMAND /c "code $@"
+    cmd.exe /c "code $@"
   else
     command code "$@"
   fi
