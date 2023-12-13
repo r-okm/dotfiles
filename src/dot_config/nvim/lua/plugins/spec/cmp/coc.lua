@@ -59,13 +59,16 @@ return {
     -- code navigation
     keymap("n", "gd", "<Plug>(coc-definition)")
     keymap("n", "gD", "<Plug>(coc-implementation)")
+    keymap("n", "gt", "<Plug>(coc-type-definition)")
+    keymap("n", "grr", "<Plug>(coc-references)")
+    keymap("n", "grR", "<Plug>(coc-references-used)")
     -- hover code action
     keymap("n", "K", show_docs)
     -- scroll float window
     keymap("n", "<C-n>", scroll_down_float_window)
     keymap("n", "<C-p>", scroll_up_float_window)
     -- symbol rename
-    keymap("n", "gr", "<Plug>(coc-rename)")
+    keymap("n", "grn", "<Plug>(coc-rename)")
     -- format
     keymap("n", "gf", "<Plug>(coc-format)")
     keymap("x", "gf", "<Plug>(coc-format-selected)")
