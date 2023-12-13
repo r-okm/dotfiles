@@ -1,8 +1,8 @@
 symlink
-bin/symlink_cmd.exe
-bin/symlink_code
-bin/symlink_explorer.exe
-bin/symlink_win32yank.exe
+bin/cmd.exe
+bin/code
+bin/explorer.exe
+bin/win32yank.exe
 
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
@@ -17,9 +17,9 @@ AppData
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-!bin/symlink_cmd.exe
-!bin/symlink_code
-!bin/symlink_explorer.exe
-!bin/symlink_win32yank.exe
+!bin/cmd.exe
+!bin/code
+!bin/explorer.exe
+!bin/win32yank.exe
 {{   end }}
 {{ end }}
