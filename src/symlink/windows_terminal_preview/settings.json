@@ -11,6 +11,14 @@
             "keys": "ctrl+pgdn"
         },
         {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+shift+c"
+        },
+        {
             "command": "unbound",
             "keys": "alt+shift+minus"
         },
@@ -237,14 +245,6 @@
         {
             "command": 
             {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+shift+c"
-        },
-        {
-            "command": 
-            {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
@@ -355,7 +355,8 @@
                 "guid": "{e636fd95-8db6-56fc-969f-5647553fa92b}",
                 "hidden": false,
                 "name": "wsl-vpnkit",
-                "source": "Windows.Terminal.Wsl"
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "/app"
             }
         ]
     },
