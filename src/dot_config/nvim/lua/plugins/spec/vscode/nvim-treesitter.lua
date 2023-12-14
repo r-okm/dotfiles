@@ -41,5 +41,10 @@ return {
         end,
       },
     })
+    vim.cmd([[
+      set nofoldenable
+      set foldmethod=expr
+      set foldexpr=nvim_treesitter#foldexpr()
+    ]])
   end,
 }
