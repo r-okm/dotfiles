@@ -270,7 +270,8 @@
     "e3c601b34832ce46f8da1d8f7ecd7bc8c32357c16f93115dfc22e458ed17915c"
   ],
   "editor.accessibilitySupport": "off",
-  "editor.fontFamily": "UDEV Gothic 35JPDOC",
+  "editor.fontFamily": "HackGen35 Console NF",
+  "editor.fontSize": 14,
   "vscode-neovim.neovimInitVimPaths.win32": "C:\\Users\\%USERNAME%\\AppData\\Local\\nvim\\init.vim",
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
   "workbench.iconTheme": "easy-icons",
