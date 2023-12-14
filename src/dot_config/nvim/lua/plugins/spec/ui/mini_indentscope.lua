@@ -2,6 +2,7 @@ local const = require("utils.const")
 
 return {
   "echasnovski/mini.indentscope",
+  cond = false,
   event = { "BufReadPost", "BufNewFile" },
   init = function()
     -- 特定のファイルタイプでは無効にする
