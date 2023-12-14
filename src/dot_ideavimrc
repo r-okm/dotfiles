@@ -15,9 +15,20 @@ nnoremap gs :<C-u><CR>:%s/
 nnoremap <CR> o<ESC>
 nnoremap <C-h> gT
 nnoremap <C-l> gt
+nnoremap <Space>s :<C-u>write<CR>
+nnoremap <Space>w :<C-u>q<CR>
 nnoremap gn :<C-u>noh<CR>
+
+nnoremap gcc :action CommentByLineComment<CR>
+nnoremap gbc :action CommentByBlockComment<CR>
+xnoremap gc :action CommentByLineComment<CR>
+xnoremap gb :action CommentByBlockComment<CR>
+
+nnoremap zh :action Back<CR>
+nnoremap zl :action Forward<CR>
+
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap gD :action GotoImplementation<CR>
 nnoremap gf :action ReformatCode<CR>
 nnoremap go :action OptimizeImports<CR>
-nnoremap K :action QuickJavaDoc<CR>
+nnoremap K :action ShowErrorDescription<CR>
