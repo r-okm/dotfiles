@@ -3,10 +3,14 @@ local keymap = require("utils.setKeymap").keymap
 return {
   "neoclide/coc.nvim",
   branch = "release",
+  dependencies = {
+    "fannheyward/telescope-coc.nvim",
+  },
   event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
   config = function()
     vim.g.coc_global_extensions = {
       "coc-cfn-lint",
+      "coc-css",
       "coc-docker",
       "coc-eslint",
       "coc-json",
@@ -19,6 +23,16 @@ return {
       "coc-tsserver",
       "coc-yaml",
     }
+
+    local telescope = require("telescope")
+    telescope.setup({
+      extensions = {
+        coc = {
+          prefer_locations = true,
+        },
+      },
+    })
+    telescope.load_extension("coc")
 
     local show_docs = function()
       local cw = vim.fn.expand("<cword>")
@@ -55,13 +69,12 @@ return {
     -- diagnostic
     keymap("n", "g.", "<Plug>(coc-diagnostic-next)")
     keymap("n", "g,", "<Plug>(coc-diagnostic-prev)")
-    keymap("n", "gm", ":<C-u>CocList diagnostics<CR>")
+    keymap("n", "gm", ":<C-u>Telescope coc workspace_diagnostics<CR>")
     -- code navigation
-    keymap("n", "gd", "<Plug>(coc-definition)")
-    keymap("n", "gD", "<Plug>(coc-implementation)")
-    keymap("n", "gt", "<Plug>(coc-type-definition)")
-    keymap("n", "grr", "<Plug>(coc-references)")
-    keymap("n", "grR", "<Plug>(coc-references-used)")
+    keymap("n", "gd", ":<C-u>Telescope coc definitions<CR>")
+    keymap("n", "gD", ":<C-u>Telescope coc implementations<CR>")
+    keymap("n", "gt", ":<C-u>Telescope coc type_definitions<CR>")
+    keymap("n", "grr", ":<C-u>Telescope coc references<CR>")
     -- hover code action
     keymap("n", "K", show_docs)
     -- scroll float window
@@ -74,6 +87,7 @@ return {
     keymap("x", "gf", "<Plug>(coc-format-selected)")
     -- code action
     keymap("n", "ga", "<Plug>(coc-codeaction-cursor)")
+    keymap("n", "gA", ":<C-u>Telescope coc code_actions<CR>")
     -- organize import
     keymap("n", "go", function()
       vim.fn.CocActionAsync("organizeImport")
