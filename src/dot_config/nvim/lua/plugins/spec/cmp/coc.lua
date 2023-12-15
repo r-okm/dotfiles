@@ -24,15 +24,7 @@ return {
       "coc-yaml",
     }
 
-    local telescope = require("telescope")
-    telescope.setup({
-      extensions = {
-        coc = {
-          prefer_locations = true,
-        },
-      },
-    })
-    telescope.load_extension("coc")
+    require("telescope").load_extension("coc")
 
     local show_docs = function()
       local cw = vim.fn.expand("<cword>")
