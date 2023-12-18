@@ -28,8 +28,8 @@
   line-numbers = true
 [user]
   useConfigOnly = true
-  name = {{ index . "git_user_name" | default "" }}
-  email = {{ index . "git_user_email" | default "" }}
+  name = r-okm
+  email = r.okm.00113@gmail.com
 [alias]
   lg = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M:%S' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)(%h)%C(reset)'
   lga = lg --all
@@ -43,6 +43,7 @@
   rebase = false
 [commit]
   verbose = true
+  gpgsign = true
 [merge]
   tool = nvim
 [mergetool "code"]
@@ -62,3 +63,5 @@
 [safe]
   directory = *
 {{ end }}
+[includeIf "hasconfig:remote.*.url:{{ index . "git_repository_host_work" | default "" }}/**"]
+  path = ~/.config/git/work.gitconfig

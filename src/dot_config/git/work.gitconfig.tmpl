@@ -1,0 +1,5 @@
+[user]
+  name = {{ index . "git_user_name" | default "" }}
+  email = {{ index . "git_user_email" | default "" }}
+[commit]
+  gpgsign = false
