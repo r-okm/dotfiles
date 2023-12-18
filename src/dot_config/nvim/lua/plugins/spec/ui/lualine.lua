@@ -6,7 +6,7 @@ return {
   config = function()
     require("lualine").setup({
       options = {
-        theme = "kanagawa",
+        theme = "onedark",
         globalstatus = true,
       },
       sections = {
