@@ -11,14 +11,6 @@
             "keys": "ctrl+pgdn"
         },
         {
-            "command": 
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+shift+c"
-        },
-        {
             "command": "unbound",
             "keys": "alt+shift+minus"
         },
@@ -245,6 +237,14 @@
         {
             "command": 
             {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+shift+c"
+        },
+        {
+            "command": 
+            {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
@@ -307,7 +307,7 @@
             "font": 
             {
                 "face": "PlemolJP Console NF",
-                "size": 12.0
+                "size": 11.0
             },
             "opacity": 80,
             "suppressApplicationTitle": true,
