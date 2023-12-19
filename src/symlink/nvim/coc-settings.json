@@ -5,6 +5,12 @@
       "command": "efm-langserver",
       "filetypes": ["lua", "dockerfile"],
       "formatterPriority": 1
+    },
+    "sql": {
+      "command": "sqls",
+      "args": ["-config", "$HOME/.config/sqls/config.yml"],
+      "filetypes": ["sql"],
+      "shell": true
     }
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
