@@ -3,6 +3,7 @@ return {
   cond = true,
   config = function()
     local onedark = require("onedark")
+    local colors = require("onedark.palette").dark
     onedark.setup({
       style = "dark",
       code_style = {
@@ -13,7 +14,7 @@ return {
         variables = "none",
       },
       highlights = {
-        IblIndent = { fg = "#3d5566" },
+        IblIndent = { fg = colors.bg2 },
       },
     })
     onedark.load()
