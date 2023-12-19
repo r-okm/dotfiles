@@ -276,7 +276,7 @@
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
   "workbench.iconTheme": "easy-icons",
   "git.confirmSync": false,
-  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "workbench.colorTheme": "One Dark Pro Darker",
   "boot-java.highlight-codelens.on": false,
   "java.debug.settings.enableRunDebugCodeLens": false,
   "git.openRepositoryInParentFolders": "never",
