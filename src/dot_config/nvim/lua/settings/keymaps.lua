@@ -53,4 +53,6 @@ else
   keymap("n", "<C-q>", "<C-w>w")
   keymap("n", "<Space>s", ":<C-u>write<CR>")
   keymap("n", "<Space>S", ":<C-u>noa write<CR>")
+  -- terminal-job モードへ切り替える
+  keymap("t", "<C-k><C-n>", "<C-\\><C-n>")
 end
