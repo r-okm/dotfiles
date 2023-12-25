@@ -10,3 +10,4 @@ keybinding:
     commitChangesWithEditor: c
 gui:
   nerdFontsVersion: "3"
+  sidePanelWidth: 0.25
