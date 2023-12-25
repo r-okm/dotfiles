@@ -6,6 +6,9 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   event = { "BufReadPost", "BufNewFile" },
+  init = function()
+    vim.cmd("set sessionoptions+=globals")
+  end,
   config = function()
     keymap("n", "<C-l>", ":BufferLineCycleNext<CR>")
     keymap("n", "<C-h>", ":BufferLineCyclePrev<CR>")
