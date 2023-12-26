@@ -3,7 +3,7 @@ local keymap = require("utils.setKeymap").keymap
 return {
   "akinsho/toggleterm.nvim",
   keys = {
-    { "<C-k><C-g>", mode = { "n" } },
+    { "zg", mode = { "n" } },
   },
   config = function()
     local Terminal = require("toggleterm.terminal").Terminal
@@ -17,6 +17,6 @@ return {
       lazygit:toggle()
     end
 
-    keymap("n", "<C-k><C-g>", "<cmd>lua LazygitToggle()<CR>")
+    keymap("n", "zg", "<cmd>lua LazygitToggle()<CR>")
   end,
 }
