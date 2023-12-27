@@ -9,7 +9,7 @@ return {
   config = function()
     require("illuminate").configure({
       filetypes_denylist = const.HIGHLIGHT_DISABLED_FILETYPES,
-      large_file_cutoff = const.LARGE_FILE_LINE_COUNT,
+      large_file_cutoff = 1000,
     })
   end,
 }

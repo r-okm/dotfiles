@@ -1,5 +1,3 @@
-local const = require("utils.const")
-
 return {
   "nvim-treesitter/nvim-treesitter",
   event = { "BufReadPost" },
@@ -37,7 +35,7 @@ return {
       highlight = {
         enable = not vim.g.vscode,
         disable = function(_, bufnr)
-          return vim.api.nvim_buf_line_count(bufnr) > const.LARGE_FILE_LINE_COUNT
+          return vim.api.nvim_buf_line_count(bufnr) > 5000
         end,
       },
     })
