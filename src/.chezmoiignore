@@ -5,6 +5,7 @@ bin/explorer.exe
 bin/win32yank.exe
 
 {{ if eq .chezmoi.os "windows"}}
+.chezmoiscripts/*.zsh
 .config/homebrew
 {{ end }}
 
