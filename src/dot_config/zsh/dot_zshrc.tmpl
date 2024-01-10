@@ -81,18 +81,10 @@ if [ -e "$HOME/.asdf/plugins/java/set-java-home.zsh" ]; then
 fi
 
 # ========================== zsh-hooks ==========================
-precmd() {
-  # 前回のコマンドの終了コードを記録
-  export PREVIOUS_EXIT_CODE=$?
-
-  # Promptの更新
-  PROMPT=`prompt_format_2`
-
-  # windows terminal のタブタイトルを指定する
-  local current_dir=$(basename $PWD)
-  windows_terminal_tab_title $current_dir
-}
-precmd_functions+=(_windows_terminal_osc_9_9)
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt_format_2
+add-zsh-hook precmd windows_terminal_tab_title
+add-zsh-hook precmd _windows_terminal_osc_9_9
 
 # ========================== source ==========================
 # sheldon

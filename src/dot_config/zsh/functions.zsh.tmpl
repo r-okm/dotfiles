@@ -1,6 +1,8 @@
 # vim: set ft=sh:
 
 prompt_format_1() {
+  export PREVIOUS_EXIT_CODE=$?
+
   local reset='%{\e[0m%}'
 
   {{ if eq .chezmoi.os "linux" }}
@@ -44,14 +46,11 @@ prompt_format_1() {
     previouscode=" ${reset}[%F{red}${PREVIOUS_EXIT_CODE}%f]"
   fi
 
-  echo "
+  PROMPT="
 ${user}${dir}${gitbranch}${awsprofile}${previouscode}\n%# "
 }
 
 prompt_format_2() {
-  local reset='%{\e[0m%}'
-  local -a options
-
   local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) && \
     local commit=$(git rev-parse --short HEAD 2>/dev/null)
   local git=''
@@ -61,8 +60,8 @@ prompt_format_2() {
     git="($commit) "
   fi
 
-  echo "
-%F{yellow}%3/%f${reset} ${git}%# "
+  PROMPT="
+%F{yellow}%3/%f ${git}%# "
 }
 
 fzf_command_history() {
@@ -197,7 +196,8 @@ function _windows_terminal_osc_9_9 {
 }
 
 windows_terminal_tab_title() {
-  echo -ne '\033]0;'"$1"'\a'
+  local current_dir=$(basename $PWD)
+  echo -ne '\033]0;'"$current_dir"'\a'
 }
 
 # local-ssl-proxy
