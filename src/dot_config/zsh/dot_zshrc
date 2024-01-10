@@ -1,0 +1,25 @@
+# vim: set ft=sh:
+
+autoload -Uz compinit && compinit
+
+# load functions
+source $ZDOTDIR/functions.zsh
+
+# load zsh-defer
+source $ZDOTDIR/plugins/zsh-defer/zsh-defer.plugin.zsh
+
+# load configs
+for f ($ZDOTDIR/sync/*(N-.)) source $f
+for f ($ZDOTDIR/defer/*(N-.)) zsh-defer source $f
+
+# load plugins
+fpath=(
+  $ZDOTDIR/plugins/zsh-completions/src(N-/)
+  $fpath
+)
+zsh-defer source $ZDOTDIR/plugins/zsh-abbr/zsh-abbr.zsh
+zsh-defer source $ZDOTDIR/plugins/autosuggestions/zsh-autosuggestions.zsh
+zsh-defer source $ZDOTDIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+zsh-defer source $ZDOTDIR/plugins/zsh-better-npm-completion/zsh-better-npm-completion.plugin.zsh
+
+zsh-defer source $ZDOTDIR/setup-abbr-fast-syntax-highlighting.zsh

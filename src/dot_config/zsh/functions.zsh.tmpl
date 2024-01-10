@@ -139,15 +139,6 @@ awsp() {
   fi
 }
 
-custom_code() {
-  if [[ $PWD == /mnt/* ]]; then
-    # /mnt 配下のディレクトリをホスト側の vscode で開く
-    cmd.exe /c "code $@"
-  else
-    command code "$@"
-  fi
-}
-
 custom_nvim() {
   # セッションファイルが存在する場合は、セッションファイルを読み込んで nvim を起動する
   if [ -f $NEOVIM_SESSION_FILE_NAME ]; then
@@ -170,16 +161,6 @@ chroma_single_word() {
   (( this_word = next_word ))
   _start_pos=$_end_pos
 
-  return 0
-}
-
-register_single_word_chroma() {
-  local word=$1
-  if [[ -x $(command -v $word) ]] || [[ -n $FAST_HIGHLIGHT["chroma-$word"] ]]; then
-    return 1
-  fi
-
-  FAST_HIGHLIGHT+=( "chroma-$word" chroma_single_word )
   return 0
 }
 
