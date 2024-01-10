@@ -6,8 +6,6 @@ bin/win32yank.exe
 
 {{ if eq .chezmoi.os "windows"}}
 .config/homebrew
-.config/sheldon
-.config/zsh-abbr
 {{ end }}
 
 {{ if ne .chezmoi.os "windows"}}
