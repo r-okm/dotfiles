@@ -6,8 +6,8 @@ os:
   editPreset: "nvim"
 keybinding:
   files:
-    commitChanges: C
-    commitChangesWithEditor: c
+    commitChanges: c
+    commitChangesWithEditor: C
 gui:
   nerdFontsVersion: "3"
   sidePanelWidth: 0.25
