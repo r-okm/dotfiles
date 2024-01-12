@@ -1,75 +1,5 @@
 # vim: set ft=sh:
 
-prompt_format_1() {
-  export PREVIOUS_EXIT_CODE=$?
-
-  local reset='%{\e[0m%}'
-
-  {{ if eq .chezmoi.os "linux" }}
-  local usericon="\uf17c"
-  {{ else if eq .chezmoi.os "windows" }}
-  local usericon="\uf17a"
-  {{ else }}
-  local usericon="\uf007"
-  {{ end }}
-  local user="%F{blue}${usericon} ${USER}%f"
-
-  local diricon
-  if [ $PWD = $HOME ]; then
-    diricon="\uf015"
-  else
-    diricon="\ue5fe"
-  fi
-  local dir=" ${reset}in %F{yellow}${diricon} %~%f"
-
-  local gitbranch
-  local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null)
-  if [ -n "${branch}" ]; then
-    gitbranch=" ${reset}on %F{magenta}\ue725 ${branch}%f"
-  else
-    local commit=$(git branch --contains 2>/dev/null)
-    if [ -n "${commit}" ]; then
-      local remotebranch=$(echo $commit | grep '*' | sed -e 's/* (HEAD detached at //' | sed -e 's/)//')
-      gitbranch=" ${reset}on %F{magenta}\uf417 ${remotebranch}%f"
-    fi
-  fi
-
-  local awsprofile
-  if [ -n "${AWS_PROFILE}" ]; then
-    awsprofile=" ${reset}- %F{red}\uf270 ${AWS_PROFILE}%f"
-  fi
-
-  local previouscode
-  if [ $PREVIOUS_EXIT_CODE -eq 0 ]; then
-    previouscode=" ${reset}[${PREVIOUS_EXIT_CODE}]"
-  else
-    previouscode=" ${reset}[%F{red}${PREVIOUS_EXIT_CODE}%f]"
-  fi
-
-  PROMPT="
-${user}${dir}${gitbranch}${awsprofile}${previouscode}\n%# "
-}
-
-prompt_format_2() {
-  local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) && \
-    local commit=$(git rev-parse --short HEAD 2>/dev/null)
-  local git=''
-  if [ -n "${branch}" ]; then
-    git="($branch) "
-  elif [ -n "${commit}" ]; then
-    git="($commit) "
-  fi
-
-  PROMPT="
-%F{yellow}%3/%f ${git}%# "
-}
-
-fzf_command_history() {
-  BUFFER=$(history -n -r 1 | awk '!a[$0]++{print}' | grep -v "ls" | grep -v "cd" | fzf --query "$LBUFFER")
-  CURSOR=$#BUFFER
-  zle reset-prompt
-}
-
 fzf_cd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
@@ -140,45 +70,15 @@ awsp() {
 }
 
 custom_nvim() {
+  # 引数が有る場合は、引数を指定して nvim を起動する
+  if [ $# -gt 0 ]; then
+    nvim $@
   # セッションファイルが存在する場合は、セッションファイルを読み込んで nvim を起動する
-  if [ -f $NEOVIM_SESSION_FILE_NAME ]; then
+  elif [ -f $NEOVIM_SESSION_FILE_NAME ]; then
     nvim -S $NEOVIM_SESSION_FILE_NAME
   else
     nvim
   fi
-}
-
-# zsh-abbr, fast-syntax-highlighting
-chroma_single_word() {
-  (( next_word = 2 | 8192 ))
-
-  local __first_call="$1" __wrd="$2" __start_pos="$3" __end_pos="$4"
-  local __style
-
-  (( __first_call )) && { __style=${FAST_THEME_NAME}alias }
-  [[ -n "$__style" ]] && (( __start=__start_pos-${#PREBUFFER}, __end=__end_pos-${#PREBUFFER}, __start >= 0 )) && reply+=("$__start $__end ${FAST_HIGHLIGHT_STYLES[$__style]}")
-
-  (( this_word = next_word ))
-  _start_pos=$_end_pos
-
-  return 0
-}
-
-function _windows_terminal_osc_9_9 {
-  # Inform Terminal about shell current working directory
-  # see: https://github.com/microsoft/terminal/issues/8166
-  {{ if eq .chezmoi.os "linux" }}
-  {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-    printf '\e]9;9;%s\e\' "$(wslpath -w "$(pwd)")"
-  {{   end}}
-  {{ else if eq .chezmoi.os "windows" }}
-    printf '\e]9;9;%s\e\' "$(cygpath --windows "$(pwd)")"
-  {{ end }}
-}
-
-windows_terminal_tab_title() {
-  local current_dir=$(basename $PWD)
-  echo -ne '\033]0;'"$current_dir"'\a'
 }
 
 # local-ssl-proxy
