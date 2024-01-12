@@ -55,5 +55,5 @@ else
   keymap("n", "<Space>S", ":<C-u>noa write<CR>")
   -- terminal-job モードへ切り替える
   keymap("t", "<C-k><C-n>", "<C-\\><C-n>")
-  keymap("n", "zt", ":<C-u>terminal<CR>")
+  keymap("n", "<C-k><C-n>", ":<C-u>terminal<CR>")
 end
