@@ -1,8 +1,5 @@
 symlink
-bin/cmd.exe
-bin/code
-bin/explorer.exe
-bin/win32yank.exe
+bin/*
 
 {{ if eq .chezmoi.os "windows"}}
 .chezmoiscripts/*.zsh
@@ -16,9 +13,6 @@ AppData
 
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-!bin/cmd.exe
-!bin/code
-!bin/explorer.exe
-!bin/win32yank.exe
+!bin/*
 {{   end }}
 {{ end }}
