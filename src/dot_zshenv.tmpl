@@ -20,6 +20,9 @@ if [ -e "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
   export HOMEBREW_BUNDLE_FILE=$XDG_CONFIG_HOME/homebrew/.Brewfile
 fi
 
+# asdf
+export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/.asdfrc"
+
 # pnpm
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 PATH="$PNPM_HOME:$PATH"
