@@ -48,3 +48,8 @@ vim.g.clipboard = {
   },
   cache_enable = 0,
 }
+
+-- insert モードを抜けたときに IME を OFF
+if vim.fn.executable("zenhan.exe") then
+  vim.api.nvim_create_autocmd({ "InsertLeave", "CmdlineLeave" }, { command = "call system('zenhan.exe 0')" })
+end
