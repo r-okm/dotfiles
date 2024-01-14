@@ -1,11 +1,20 @@
+call plug#begin()
+Plug 'joshdick/onedark.vim'
+call plug#end()
+
+colorscheme onedark
+hi StatusLine guibg=#282c34 guibg=#abb2bf
+
 set clipboard=unnamed
 set whichwrap=b,s,h,l,<,>,~,[,]
 set smartcase
 set ignorecase
 set incsearch
 set hlsearch
+
 set number
 set relativenumber
+set showtabline=2
 
 nnoremap gh ^
 xnoremap gh ^

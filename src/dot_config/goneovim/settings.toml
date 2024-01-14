@@ -1,5 +1,6 @@
 [Editor]
-Transparent = 0.7
+Borderless = false
+# Transparent = 0.9
 RestoreWindowGeometry = true
 FontFamily = "PlemolJP Console NF"
 FontSize = 11
@@ -9,6 +10,18 @@ DisableLigatures = true
 Clipboard = true
 ModeEnablingIME = ["insert", "cmdline_normal"]
 IndentGuide = true
+Macmeta = true
+DrawBorder = true
+
+[Lint]
+Visible = true
+
+[Statusline]
+Visible = true
+ModeIndicatorType = "textLabel"
+
+[Tabline]
+Visible = true
 
 [ScrollBar]
 Visible = true
