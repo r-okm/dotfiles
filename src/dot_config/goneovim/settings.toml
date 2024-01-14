@@ -1,0 +1,23 @@
+[Editor]
+Transparent = 0.7
+RestoreWindowGeometry = true
+FontFamily = "PlemolJP Console NF"
+FontSize = 11
+CachedDrawing = true
+CacheSize = 400
+DisableLigatures = true
+Clipboard = true
+ModeEnablingIME = ["insert", "cmdline_normal"]
+IndentGuide = true
+
+[ScrollBar]
+Visible = true
+
+[SideBar]
+Visible = false
+Width = 200
+DropShadow = false
+AccentColor = "#5596ea"
+
+[FileExplore]
+MaxDisplayItems = 30
