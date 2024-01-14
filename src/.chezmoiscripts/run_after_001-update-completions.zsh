@@ -6,5 +6,3 @@ if [[ ! -d "$completions_dir" ]]; then
 fi
 
 chezmoi completion zsh --output="${completions_dir}/_chezmoi"
-
-npm completion > "${ZDOTDIR:-${HOME}/zsh}/defer/npm-completion"

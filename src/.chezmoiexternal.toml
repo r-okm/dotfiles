@@ -19,13 +19,6 @@ exact = true
 stripComponents = 1
 refreshPeriod = "168h"
 
-[".config/zsh/plugins/zsh-better-npm-completion"]
-type = "archive"
-url = "https://github.com/zsh-users/zsh-completions/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
-
 [".config/zsh/plugins/autosuggestions"]
 type = "archive"
 url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
@@ -38,6 +31,11 @@ type = "archive"
 url = "https://github.com/zdharma-continuum/fast-syntax-highlighting/archive/master.tar.gz"
 exact = true
 stripComponents = 1
+refreshPeriod = "168h"
+
+[".config/zsh/defer/ni.zsh"]
+type = "file"
+url = "https://raw.githubusercontent.com/azu/ni.zsh/main/ni.zsh"
 refreshPeriod = "168h"
 
 [".config/zsh/defer/aws_zsh_completer.sh"]
