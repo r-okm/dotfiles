@@ -1,7 +1,5 @@
 # vim: set ft=sh:
 
-autoload -Uz compinit && compinit
-
 # load zsh-defer
 source $ZDOTDIR/plugins/manual/zsh-defer/zsh-defer.plugin.zsh
 
@@ -14,3 +12,6 @@ for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source $f
 
 # load depend configs
 zsh-defer source $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
+
+autoload -Uz compinit
+compinit
