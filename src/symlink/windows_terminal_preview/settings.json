@@ -11,6 +11,14 @@
             "keys": "ctrl+pgdn"
         },
         {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+shift+c"
+        },
+        {
             "command": "unbound",
             "keys": "alt+shift+minus"
         },
@@ -237,14 +245,6 @@
         {
             "command": 
             {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+shift+c"
-        },
-        {
-            "command": 
-            {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
@@ -283,7 +283,7 @@
     "alwaysShowTabs": true,
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
     "experimental.rendering.forceFullRepaint": true,
     "newTabMenu": 
     [
@@ -316,13 +316,9 @@
         "list": 
         [
             {
-                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
-                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
-                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
-                "name": "MSYS2",
-                "startingDirectory": "%USERPROFILE%",
-                "suppressApplicationTitle": false
+                "name": "Windows PowerShell"
             },
             {
                 "commandline": "C:\\Windows\\system32\\wsl.exe -d Ubuntu-main",
@@ -334,17 +330,21 @@
                 "suppressApplicationTitle": false
             },
             {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },
-            {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
                 "hidden": false,
                 "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "commandline": "cmd.exe /c set MSYS=winsymlinks:nativestrict & set CHERE_INVOKING=1 && C:/scoop/apps/msys2/current/msys2_shell.cmd -defterm -no-start -full-path -shell zsh",
+                "guid": "{9e63e5dd-d71b-410c-983e-4fc42ca8153a}",
+                "hidden": false,
+                "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
+                "name": "MSYS2",
+                "startingDirectory": "%USERPROFILE%",
+                "suppressApplicationTitle": false
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
