@@ -353,10 +353,9 @@
             },
             {
                 "guid": "{e636fd95-8db6-56fc-969f-5647553fa92b}",
+                "commandline": "C:\\Windows\\system32\\wsl.exe -d wsl-vpnkit -e /app/wsl-vpnkit",
                 "hidden": false,
-                "name": "wsl-vpnkit",
-                "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "/app"
+                "name": "wsl-vpnkit"
             }
         ]
     },
