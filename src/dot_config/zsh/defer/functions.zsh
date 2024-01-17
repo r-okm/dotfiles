@@ -2,8 +2,8 @@
 
 fzf_cd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
+  dir=$(fd --type directory \
+           --exclude node_modules | fzf +m) &&
   if [ -n "$dir" ]; then
     cd "$dir"
     echo "cd $dir"
