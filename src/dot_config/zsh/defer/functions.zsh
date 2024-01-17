@@ -1,12 +1,32 @@
 # vim: set ft=sh:
 
 fzf_cd() {
-  local dir
-  dir=$(fd --type directory \
-           --exclude node_modules | fzf +m) &&
-  if [ -n "$dir" ]; then
-    cd "$dir"
-    echo "cd $dir"
+  local target_dir=$(fd --type directory \
+                  --exclude node_modules \
+                  . $@ | fzf +m) &&
+  if [ -n "$target_dir" ]; then
+    cd "$target_dir"
+    echo "cd $target_dir"
+  fi
+}
+
+fzf_cd_hidden() {
+  local target_dir=$(fd --type directory \
+                  --exclude node_modules \
+                  --hidden \
+                  . $@ | fzf +m) &&
+  if [ -n "$target_dir" ]; then
+    cd "$target_dir"
+    echo "cd $target_dir"
+  fi
+}
+
+fzf_cd_cdpath() {
+  local search_dirs=$(for p ($cdpath) ls -1 $p)
+  local target_dir=$(echo $search_dirs | fzf +m) &&
+  if [ -n "$target_dir" ]; then
+    cd "$target_dir"
+    echo "cd $target_dir"
   fi
 }
 
