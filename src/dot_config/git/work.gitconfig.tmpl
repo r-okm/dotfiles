@@ -1,7 +1,7 @@
 # vim: set ft=conf:
 
 [user]
-  name = {{ index . "git_user_name" | default "" }}
-  email = {{ index . "git_user_email" | default "" }}
+  name = {{ index . "git_user_name_work" | default "" }}
+  email = {{ index . "git_user_email_work" | default "" }}
 [commit]
   gpgsign = false

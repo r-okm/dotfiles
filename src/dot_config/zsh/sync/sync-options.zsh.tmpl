@@ -7,10 +7,7 @@ setopt correct
 setopt auto_cd
 
 # cdpath
-cdpath=(
-  $PROJECT_DIR
-  $cdpath
-)
+cdpath=({{ index . "cdpath" | default "" }} $cdpath)
 
 # fpath
 fpath=(
