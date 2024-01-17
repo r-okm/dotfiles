@@ -3,10 +3,10 @@
 fzf_cd() {
   local target_dir=$(fd --type directory \
                   --exclude node_modules \
-                  . $@ | fzf +m) &&
+                  . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
   if [ -n "$target_dir" ]; then
-    cd "$target_dir"
     echo "cd $target_dir"
+    cd "$target_dir"
   fi
 }
 
@@ -14,19 +14,19 @@ fzf_cd_hidden() {
   local target_dir=$(fd --type directory \
                   --exclude node_modules \
                   --hidden \
-                  . $@ | fzf +m) &&
+                  . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
   if [ -n "$target_dir" ]; then
-    cd "$target_dir"
     echo "cd $target_dir"
+    cd "$target_dir"
   fi
 }
 
 fzf_cd_cdpath() {
   local search_dirs=$(for p ($cdpath) ls -1 $p)
-  local target_dir=$(echo $search_dirs | fzf +m) &&
+  local target_dir=$(echo $search_dirs | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
   if [ -n "$target_dir" ]; then
-    cd "$target_dir"
     echo "cd $target_dir"
+    cd "$target_dir"
   fi
 }
 
