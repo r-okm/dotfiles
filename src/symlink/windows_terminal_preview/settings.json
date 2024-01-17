@@ -316,11 +316,6 @@
         "list": 
         [
             {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },
-            {
                 "commandline": "C:\\Windows\\system32\\wsl.exe -d Ubuntu-main",
                 "guid": "{b074cf41-edfb-4a49-9ec1-1a80ce661762}",
                 "hidden": false,
@@ -328,6 +323,11 @@
                 "name": "Ubuntu-main",
                 "startingDirectory": "~",
                 "suppressApplicationTitle": false
+            },
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
             },
             {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
