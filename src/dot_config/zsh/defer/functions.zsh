@@ -23,7 +23,7 @@ fzf_cd_hidden() {
 
 fzf_cd_cdpath() {
   local search_dirs=$(for p ($cdpath) ls -1 $p)
-  local target_dir=$(echo $search_dirs | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
+  local target_dir=$(echo $search_dirs | fzf --height 50% --reverse --prompt='CHANGE DIRECTORY > ') &&
   if [ -n "$target_dir" ]; then
     echo "cd $target_dir"
     cd "$target_dir"
