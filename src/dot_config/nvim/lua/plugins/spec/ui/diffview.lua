@@ -7,6 +7,7 @@ return {
   },
   keys = {
     { "zh", mode = { "n" } },
+    { "zl", mode = { "n" } },
   },
   cmd = { "DiffviewFileHistory" },
   config = function()
@@ -19,7 +20,10 @@ return {
         end
       end,
     })
+
     keymap("n", "zh", ":<C-u>DiffviewFileHistory %<CR>")
+    keymap("n", "zl", ":<C-u>DiffviewFileHistory<CR>")
+
     require("diffview").setup({
       keymaps = {
         view = {
