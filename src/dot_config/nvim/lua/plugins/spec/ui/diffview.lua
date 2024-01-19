@@ -7,6 +7,7 @@ return {
   },
   keys = {
     { "zh", mode = { "n" } },
+    { "zh", mode = { "x" } },
     { "zl", mode = { "n" } },
   },
   cmd = { "DiffviewFileHistory" },
@@ -16,12 +17,13 @@ return {
       callback = function()
         local diffview = require("diffview.lib").get_current_view()
         if diffview then
-          require("ibl").setup_buffer(0, { enabled = false })
+          DisableIblCurrentBuf()
         end
       end,
     })
 
     keymap("n", "zh", ":<C-u>DiffviewFileHistory %<CR>")
+    keymap("x", "zh", ":'<,'>DiffviewFileHistory<CR>")
     keymap("n", "zl", ":<C-u>DiffviewFileHistory<CR>")
 
     require("diffview").setup({
