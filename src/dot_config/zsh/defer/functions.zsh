@@ -14,6 +14,7 @@ fzf_cd_hidden() {
   local target_dir=$(fd --type directory \
                   --exclude node_modules \
                   --hidden \
+                  --no-ignore \
                   . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
   if [ -n "$target_dir" ]; then
     echo "cd $target_dir"
