@@ -2,7 +2,7 @@ local keymap = require("utils.setKeymap").keymap
 
 return {
   "github/copilot.vim",
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "BufReadPost", "CmdlineEnter" },
   config = function()
     vim.g.copilot_filetypes = { gitcommit = true }
     keymap("i", "<C-K>", "<Plug>(copilot-suggest)")
