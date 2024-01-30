@@ -1,0 +1,26 @@
+import = [
+  "C:\\Users\\52005\\AppData\\Roaming\\alacritty\\alacritty-theme\\themes\\afterglow.toml"
+]
+
+[shell]
+program = "wsl"
+args = ["-d", "Ubuntu-main", "--cd", "~"]
+
+[font]
+size = 11.00
+
+[font.offset]
+x = 1
+
+[font.normal]
+family = "UDEV Gothic NF"
+style = "Regular"
+
+[window.padding]
+x = 0
+y = 0
+
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control"
+chars = "\u0000"

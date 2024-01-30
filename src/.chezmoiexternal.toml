@@ -66,3 +66,10 @@ url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.tar.gz"
 exact = true
 stripComponents = 1
 refreshPeriod = "168h"
+
+["AppData/Roaming/alacritty/alacritty-theme"]
+type = "archive"
+url = "https://github.com/alacritty/alacritty-theme/archive/refs/heads/master.tar.gz"
+exact = true
+stripComponents = 1
+refreshPeriod = "168h"
