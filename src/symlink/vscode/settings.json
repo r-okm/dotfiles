@@ -232,6 +232,7 @@
   },
   "security.workspace.trust.untrustedFiles": "open",
   "cSpell.userWords": [
+    "alacritty",
     "autocrlf",
     "chezmoi",
     "chsh",
