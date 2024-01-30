@@ -15,6 +15,9 @@ return {
       },
       highlights = {
         IblIndent = { fg = colors.bg2 },
+        IlluminatedWordText = { bg = colors.bg3, fmt = "NONE" },
+        IlluminatedWordRead = { bg = colors.bg3, fmt = "NONE" },
+        IlluminatedWordWrite = { bg = colors.bg3, fmt = "NONE" },
       },
     })
     onedark.load()
