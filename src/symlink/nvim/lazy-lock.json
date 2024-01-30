@@ -1,7 +1,7 @@
 {
-  "ChatGPT.nvim": { "branch": "main", "commit": "4e34343cd01e796c235f5760e59f99a025711efa" },
+  "ChatGPT.nvim": { "branch": "main", "commit": "16eddf50d92fd089726f78d039982f8561bf90e6" },
   "Comment.nvim": { "branch": "master", "commit": "e51f2b142d88bb666dcaa77d93a07f4b419aca70" },
-  "CopilotChat.nvim": { "branch": "main", "commit": "b250ac3a5289f2df6c2736faf8a67cbb44d47969" },
+  "CopilotChat.nvim": { "branch": "main", "commit": "79cbb0ad7094e35a10d19bbd21179b78039b9a2a" },
   "bufdelete.nvim": { "branch": "master", "commit": "0b9c0f182b09c51170bb9f252f15de7695e4d507" },
   "bufferline.nvim": { "branch": "main", "commit": "d6cb9b7cac52887bcac65f8698e67479553c0748" },
   "cmp-cmdline": { "branch": "main", "commit": "8ee981b4a91f536f52add291594e89fb6645e451" },
