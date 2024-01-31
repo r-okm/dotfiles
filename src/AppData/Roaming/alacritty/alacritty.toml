@@ -6,6 +6,9 @@ import = [
 program = "wsl"
 args = ["-d", "Ubuntu-main", "--cd", "~"]
 
+[env]
+TERM = "alacritty"
+
 [font]
 size = 11.00
 
