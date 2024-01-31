@@ -38,7 +38,6 @@
   "terminal.integrated.defaultLocation": "editor",
   "vscode-neovim.neovimExecutablePaths.linux": "/home/linuxbrew/.linuxbrew/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.lua",
-  "vscode-neovim.useWSL": true,
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
@@ -271,9 +270,10 @@
     "e3c601b34832ce46f8da1d8f7ecd7bc8c32357c16f93115dfc22e458ed17915c"
   ],
   "editor.accessibilitySupport": "off",
-  "editor.fontFamily": "HackGen35 Console NF",
+  "editor.fontFamily": "UDEV Gothic 35NF",
   "editor.fontSize": 14,
-  "vscode-neovim.neovimInitVimPaths.win32": "C:\\Users\\%USERNAME%\\AppData\\Local\\nvim\\init.vim",
+  "terminal.integrated.fontFamily": "UDEV Gothic NF",
+  "vscode-neovim.neovimInitVimPaths.win32": "$XDG_CONFIG_HOME\\nvim\\init.lua",
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
   "workbench.iconTheme": "easy-icons",
   "git.confirmSync": false,
