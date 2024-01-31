@@ -17,8 +17,8 @@ family = "UDEV Gothic NF"
 style = "Regular"
 
 [window.padding]
-x = 0
-y = 0
+x = 8
+y = 1
 
 [[keyboard.bindings]]
 key = "Space"
