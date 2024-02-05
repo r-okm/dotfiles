@@ -19,6 +19,9 @@ if vim.g.vscode then
   keymapVsc("n", "<Space>S", "workbench.action.files.saveWithoutFormatting")
   -- close
   keymapVsc("n", "<Space>w", "workbench.action.closeActiveEditor")
+  -- tab
+  keymapVsc("n", "L", "workbench.action.moveEditorRightInGroup")
+  keymapVsc("n", "H", "workbench.action.moveEditorLeftInGroup")
   -- filer
   keymapVsc("n", "<Space>c", "workbench.action.closeSidebar")
   keymapVsc("n", "<Space>e", "workbench.view.explorer")
@@ -27,9 +30,8 @@ if vim.g.vscode then
   -- comment
   keymapVsc("n", "gcc", "editor.action.commentLine")
   keymapVscVisual("x", "gc", "editor.action.commentLine")
-  -- 戻る､進む
-  keymapVsc("n", "zh", "workbench.action.navigateBack")
-  keymapVsc("n", "zl", "workbench.action.navigateForward")
+  keymapVsc("n", "gbc", "editor.action.blockComment")
+  keymapVscVisual("x", "gb", "editor.action.blockComment")
   -- エラージャンプ
   keymapVsc("n", "g.", "editor.action.marker.nextInFiles")
   keymapVsc("n", "g,", "editor.action.marker.prevInFiles")

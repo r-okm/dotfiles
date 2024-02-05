@@ -1,10 +1,10 @@
-local keymap = require("utils.setKeymap").keymap
-
 return {
   "ggandor/leap.nvim",
-  keys = {
-    { "m", mode = { "n", "x", "o" } },
-  },
+  init = function()
+    local keymap = require("utils.setKeymap").keymap
+    keymap("nxo", "m", "<Plug>(leap-forward)")
+    keymap("nxo", "M", "<Plug>(leap-backward)")
+  end,
   config = function()
     local leap = require("leap")
     leap.opts.safe_labels = {}
@@ -33,8 +33,5 @@ return {
       "/",
       "z",
     }
-    keymap("nxo", "m", function()
-      leap.leap({ target_windows = { vim.fn.win_getid() } })
-    end)
   end,
 }
