@@ -1,5 +1,6 @@
 return {
   "nvim-treesitter/nvim-treesitter-textobjects",
+  cond = false,
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
   },
