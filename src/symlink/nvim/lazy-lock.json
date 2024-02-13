@@ -13,6 +13,7 @@
   "fern-preview.vim": { "branch": "main", "commit": "74f2c1c45eb48fe9b7e4aa87032f053808944e17" },
   "fern-renderer-web-devicons.nvim": { "branch": "master", "commit": "1806c1e45376b8b2021a1b8ac7ae80e6a63e030b" },
   "fern.vim": { "branch": "main", "commit": "56f8e4c79da01eecb0f7f3803c051cd23c803b35" },
+  "flit.nvim": { "branch": "main", "commit": "39e3399ed2cbc328778258ac0d497ece9ed8fe32" },
   "gitsigns.nvim": { "branch": "main", "commit": "6ef8c54fb526bf3a0bc4efb0b2fe8e6d9a7daed2" },
   "indent-blankline.nvim": { "branch": "master", "commit": "12e92044d313c54c438bd786d11684c88f6f78cd" },
   "indent-rainbowline.nvim": { "branch": "master", "commit": "4977a9735583f13d5c1114f373342745dd35b3b4" },
