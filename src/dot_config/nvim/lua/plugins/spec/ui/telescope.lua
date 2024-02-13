@@ -17,12 +17,26 @@ return {
   config = function()
     local telescope = require("telescope")
     local actions = require("telescope.actions")
+    local builtin = require("telescope.builtin")
+    local previewers = require("telescope.previewers")
 
     telescope.setup({
       defaults = {
         mappings = {
           n = {
             ["q"] = actions.close,
+          },
+          i = {
+            ["<esc>"] = actions.close,
+          },
+        },
+        layout_config = {
+          horizontal = {
+            height = 0.9,
+            preview_cutoff = 120,
+            prompt_position = "bottom",
+            width = 0.9,
+            preview_width = 0.7,
           },
         },
         vimgrep_arguments = {
@@ -34,6 +48,7 @@ return {
           "--only-matching",
           "--hidden",
           "--smart-case",
+          "--trim",
           "--glob",
           "!**/.git/*",
           "--glob",
@@ -45,16 +60,16 @@ return {
       pickers = {
         find_files = {
           find_command = {
-            "rg",
-            "--color=never",
-            "--files",
+            "fd",
+            "--type",
+            "f",
             "--hidden",
             "--no-ignore",
-            "--smart-case",
-            "--glob",
-            "!**/.git/*",
-            "--glob",
-            "!**/node_modules/*",
+            "--strip-cwd-prefix",
+            "--exclude",
+            ".git",
+            "--exclude",
+            "node_modules",
           },
         },
         grep_string = { initial_mode = "normal" },
@@ -68,9 +83,20 @@ return {
     })
     telescope.load_extension("fzy_native")
 
-    local builtin = require("telescope.builtin")
+    local my_git_status = function(opts)
+      opts = opts or {}
+      opts.previewer = previewers.new_termopen_previewer({
+        get_command = function(entry)
+          return { "git", "-c", "delta.side-by-side=true", "diff", entry.value }
+        end,
+      })
+
+      builtin.git_status(opts)
+    end
+
     keymap("n", "zp", builtin.find_files)
     keymap("n", "zf", builtin.live_grep)
+    keymap("n", "zo", my_git_status)
     keymap("n", "#", builtin.grep_string)
     keymap("x", "#", function()
       local text = getVisualSelection()
