@@ -1,6 +1,6 @@
 return {
   "navarasu/onedark.nvim",
-  cond = true,
+  cond = false,
   config = function()
     local onedark = require("onedark")
     local colors = require("onedark.palette").dark
