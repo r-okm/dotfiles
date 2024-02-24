@@ -4,6 +4,7 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    "zapling/mason-lock.nvim",
   },
   init = function()
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -54,6 +55,10 @@ return {
         -- code action
         vim.keymap.set({ "n", "v" }, "ga", "<cmd>Lspsaga code_action<CR>", opts)
       end,
+    })
+
+    require("mason-lock").setup({
+      lockfile_path = vim.fn.stdpath("config") .. "/mason-lock.json",
     })
   end,
   config = function()
