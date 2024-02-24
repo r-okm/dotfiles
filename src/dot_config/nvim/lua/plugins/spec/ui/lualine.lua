@@ -11,13 +11,17 @@ return {
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { { "branch", icon = "󰘬" }, "diff", "diagnostics" },
+        lualine_b = {
+          { "branch", icon = "󰘬" },
+          "diff",
+          { "diagnostics", sources = { "nvim_lsp", "nvim_diagnostic", "nvim_workspace_diagnostic" } },
+        },
         lualine_c = { {
           "filename",
           path = 1,
         } },
-        lualine_x = { "g:coc_status" },
-        lualine_y = { "encoding", "filetype" },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
         lualine_z = { "location" },
       },
     })

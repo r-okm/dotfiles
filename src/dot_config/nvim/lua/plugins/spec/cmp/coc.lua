@@ -2,6 +2,7 @@ local keymap = require("utils.setKeymap").keymap
 
 return {
   "neoclide/coc.nvim",
+  cond = false,
   branch = "release",
   dependencies = {
     "fannheyward/telescope-coc.nvim",

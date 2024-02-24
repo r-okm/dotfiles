@@ -16,6 +16,7 @@ require("lazy").setup({
   spec = {
     { import = "plugins.spec.cmp", cond = notVscode },
     { import = "plugins.spec.editor", cond = notVscode },
+    { import = "plugins.spec.lsp", cond = notVscode },
     { import = "plugins.spec.theme", cond = notVscode },
     { import = "plugins.spec.ui", cond = notVscode },
     { import = "plugins.spec.vscode" },

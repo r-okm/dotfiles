@@ -4,6 +4,22 @@ root-markers:
 log-file: "/tmp/efm.log"
 
 tools:
+  prettierd: &prettierd
+    format-command: >
+      prettierd ${INPUT} ${--range-start=charStart} ${--range-end=charEnd} \
+        ${--tab-width=tabSize}
+    format-stdin: true
+    root-markers:
+      - .prettierrc
+      - .prettierrc.json
+      - .prettierrc.js
+      - .prettierrc.yml
+      - .prettierrc.yaml
+      - .prettierrc.json5
+      - .prettierrc.mjs
+      - .prettierrc.cjs
+      - .prettierrc.toml
+
   stylua: &stylua
     format-command: "stylua --search-parent-directories -"
     format-stdin: true
@@ -18,6 +34,21 @@ tools:
       - "%f:%l DL%n %t%*[a-z]: %m"
 
 languages:
+  javascript:
+    - <<: *prettierd
+
+  javascriptreact:
+    - <<: *prettierd
+
+  typescript:
+    - <<: *prettierd
+
+  typescriptreact:
+    - <<: *prettierd
+
+  vue:
+    - <<: *prettierd
+
   lua:
     - <<: *stylua
 

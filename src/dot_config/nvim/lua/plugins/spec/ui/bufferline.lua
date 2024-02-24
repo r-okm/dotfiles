@@ -19,7 +19,7 @@ return {
     bufferline.setup({
       options = {
         middle_mouse_command = "Bdelete %d",
-        diagnostics = "coc",
+        diagnostics = "nvim_lsp",
         separator_style = "slant",
         show_buffer_close_icons = false,
       },
