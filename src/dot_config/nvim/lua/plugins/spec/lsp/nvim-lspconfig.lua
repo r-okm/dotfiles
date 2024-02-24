@@ -10,7 +10,7 @@ return {
     vim.api.nvim_create_autocmd("BufWritePre", {
       group = vim.api.nvim_create_augroup("PreWriteFormat", {}),
       callback = function()
-        vim.lsp.buf.format({})
+        vim.lsp.buf.format()
       end,
     })
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -98,10 +98,11 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
-          on_attach = function(_, _)
+          on_attach = function(_, bufnr)
             vim.api.nvim_create_autocmd("BufWritePre", {
               group = vim.api.nvim_create_augroup("PreWriteEslintFix", {}),
-              cmd = "EslintFixAll",
+              buffer = bufnr,
+              command = "EslintFixAll",
             })
           end,
         })
