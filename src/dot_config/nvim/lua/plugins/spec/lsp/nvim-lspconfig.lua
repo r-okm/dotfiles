@@ -93,7 +93,7 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
-          on_attach = function(client, bufnr)
+          on_attach = function(_, _)
             vim.api.nvim_create_autocmd("BufWritePre", {
               group = vim.api.nvim_create_augroup("PreWriteEslintFix", {}),
               cmd = "EslintFixAll",
