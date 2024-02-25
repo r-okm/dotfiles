@@ -6,6 +6,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     "zapling/mason-lock.nvim",
     "jose-elias-alvarez/typescript.nvim",
+    "b0o/schemastore.nvim",
   },
   init = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -103,6 +104,7 @@ return {
         "jsonls",
         "lua_ls",
         "tsserver",
+        "yamlls",
       },
     })
 
@@ -201,6 +203,40 @@ return {
       ["lua_ls"] = function()
         lspconfig.lua_ls.setup({
           settings = { Lua = { diagnostics = { globals = { "vim" } } } },
+          capabilities = capabilities,
+          on_init = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        })
+      end,
+      ["jsonls"] = function()
+        lspconfig.jsonls.setup({
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true },
+            },
+          },
+          capabilities = capabilities,
+          on_init = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        })
+      end,
+      ["yamlls"] = function()
+        lspconfig.yamlls.setup({
+          settings = {
+            yaml = {
+              schemaStore = {
+                -- You must disable built-in schemaStore support if you want to use
+                -- this plugin and its advanced options like `ignore`.
+                enable = false,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = "",
+              },
+              schemas = require("schemastore").yaml.schemas(),
+            },
+          },
           capabilities = capabilities,
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
