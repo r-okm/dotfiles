@@ -49,6 +49,30 @@ return {
         end, opts)
         -- code action
         vim.keymap.set({ "n", "v" }, "ga", "<cmd>Lspsaga code_action<CR>", opts)
+
+        -- setup diagnostic signs
+        local signs = {
+          Error = " ",
+          Warn = " ",
+          Info = " ",
+          Hint = " ",
+        }
+        for type, icon in pairs(signs) do
+          local hl = "DiagnosticSign" .. type
+          vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        end
+
+        local function diagnostic_formatter(diagnostic)
+          return string.format("[%s] %s (%s)", diagnostic.message, diagnostic.source, diagnostic.code)
+        end
+        vim.diagnostic.config({
+          virtual_text = true,
+          severity_sort = true,
+          underline = false,
+          signs = true,
+          update_in_insert = false,
+          float = { sformat = diagnostic_formatter },
+        })
       end,
     })
 
@@ -172,11 +196,6 @@ return {
           settings = { Lua = { diagnostics = { globals = { "vim" } } } },
         })
       end,
-    })
-
-    vim.diagnostic.config({
-      virtual_text = true,
-      severity_sort = true,
     })
   end,
 }
