@@ -7,12 +7,6 @@ return {
     "zapling/mason-lock.nvim",
   },
   init = function()
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("PreWriteFormat", {}),
-      callback = function()
-        vim.lsp.buf.format()
-      end,
-    })
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
       callback = function(ev)
@@ -90,6 +84,16 @@ return {
     })
 
     local capabilities = cmp_nvim_lsp.default_capabilities()
+    local function on_attach(_, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format()
+        end,
+      })
+    end
+
     mlc.setup_handlers({
       ["eslint"] = function(server)
         lspconfig[server].setup({
@@ -97,13 +101,6 @@ return {
           init_options = { documentFormatting = false, documentRangeFormatting = false },
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
-          end,
-          on_attach = function(_, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = vim.api.nvim_create_augroup("PreWriteEslintFix", {}),
-              buffer = bufnr,
-              command = "EslintFixAll",
-            })
           end,
         })
       end,
@@ -114,6 +111,19 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
+          on_attach = function(_, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
+              buffer = bufnr,
+              callback = function()
+                vim.cmd("EslintFixAll")
+                vim.lsp.buf.format({
+                  async = false,
+                  bufnr = bufnr,
+                })
+              end,
+            })
+          end,
         })
       end,
       ["lua_ls"] = function(server)
@@ -123,6 +133,7 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
+          on_attach = on_attach,
           settings = { Lua = { diagnostics = { globals = { "vim" } } } },
         })
       end,
