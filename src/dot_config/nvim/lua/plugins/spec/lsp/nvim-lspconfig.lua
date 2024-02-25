@@ -74,6 +74,7 @@ return {
 
     mlc.setup({
       ensure_installed = {
+        "clangd",
         "eslint",
         "lua_ls",
         "tsserver",
@@ -111,6 +112,20 @@ return {
       end,
     })
     mlc.setup_handlers({
+      function(server_name)
+        require("lspconfig")[server_name].setup({
+          capabilities = capabilities,
+          on_attach = function(_, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format()
+              end,
+            })
+          end,
+        })
+      end,
       ["eslint"] = function()
         lspconfig.eslint.setup({
           capabilities = capabilities,
