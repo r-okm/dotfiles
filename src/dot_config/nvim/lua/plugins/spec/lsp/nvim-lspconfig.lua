@@ -80,21 +80,36 @@ return {
       },
     })
 
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
     lspconfig.efm.setup({
-      init_options = { documentFormatting = true },
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+        "lua",
+        "json",
+        "yaml",
+        "dockerfile",
+      },
+      on_attach = function(_, bufnr)
+        local formatEnableFiletypes = { "lua", "json", "yaml" }
+        for _, ft in ipairs(formatEnableFiletypes) do
+          if vim.bo[bufnr].filetype == ft then
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("PreWriteEfm", {}),
+              buffer = bufnr,
+              callback = function()
+                vim.lsp.buf.format()
+              end,
+            })
+          end
+        end
+      end,
     })
-
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-    local function on_attach(_, bufnr)
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format()
-        end,
-      })
-    end
-
     mlc.setup_handlers({
       ["eslint"] = function()
         lspconfig.eslint.setup({
@@ -139,7 +154,6 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
-          on_attach = on_attach,
           settings = { Lua = { diagnostics = { globals = { "vim" } } } },
         })
       end,

@@ -36,21 +36,19 @@ tools:
 languages:
   javascript:
     - <<: *prettierd
-
   javascriptreact:
     - <<: *prettierd
-
   typescript:
     - <<: *prettierd
-
   typescriptreact:
     - <<: *prettierd
-
   vue:
     - <<: *prettierd
-
   lua:
     - <<: *stylua
-
+  json:
+    - <<: *prettierd
+  yaml:
+    - <<: *prettierd
   dockerfile:
     - <<: *hadolint
