@@ -5,6 +5,7 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "zapling/mason-lock.nvim",
+    "jose-elias-alvarez/typescript.nvim",
   },
   init = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -95,8 +96,8 @@ return {
     end
 
     mlc.setup_handlers({
-      ["eslint"] = function(server)
-        lspconfig[server].setup({
+      ["eslint"] = function()
+        lspconfig.eslint.setup({
           capabilities = capabilities,
           init_options = { documentFormatting = false, documentRangeFormatting = false },
           on_init = function(client)
@@ -104,30 +105,35 @@ return {
           end,
         })
       end,
-      ["tsserver"] = function(server)
-        lspconfig[server].setup({
-          capabilities = capabilities,
-          init_options = { documentFormatting = false, documentRangeFormatting = false },
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-          end,
-          on_attach = function(_, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
-              buffer = bufnr,
-              callback = function()
-                vim.cmd("EslintFixAll")
-                vim.lsp.buf.format({
-                  async = false,
-                  bufnr = bufnr,
-                })
-              end,
-            })
-          end,
+      ["tsserver"] = function()
+        local typescript = require("typescript")
+        typescript.setup({
+          server = {
+            capabilities = capabilities,
+            init_options = { documentFormatting = false, documentRangeFormatting = false },
+            on_init = function(client)
+              client.server_capabilities.documentFormattingProvider = false
+            end,
+            on_attach = function(_, bufnr)
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
+                buffer = bufnr,
+                callback = function()
+                  vim.cmd("EslintFixAll")
+                  typescript.actions.addMissingImports({ sync = true })
+                  typescript.actions.organizeImports({ sync = true })
+                  vim.lsp.buf.format({
+                    async = false,
+                    bufnr = bufnr,
+                  })
+                end,
+              })
+            end,
+          },
         })
       end,
-      ["lua_ls"] = function(server)
-        lspconfig[server].setup({
+      ["lua_ls"] = function()
+        lspconfig.lua_ls.setup({
           capabilities = capabilities,
           init_options = { documentFormatting = false, documentRangeFormatting = false },
           on_init = function(client)
