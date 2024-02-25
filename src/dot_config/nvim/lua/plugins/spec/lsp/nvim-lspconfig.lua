@@ -190,7 +190,7 @@ return {
                 callback = function()
                   vim.cmd("EslintFixAll")
                   typescript.actions.addMissingImports({ sync = true })
-                  typescript.actions.organizeImports({ sync = true })
+                  -- typescript.actions.organizeImports({ sync = true })
                   vim.lsp.buf.format({
                     async = false,
                     bufnr = bufnr,
