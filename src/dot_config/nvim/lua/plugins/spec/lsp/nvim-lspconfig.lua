@@ -100,6 +100,7 @@ return {
       ensure_installed = {
         "clangd",
         "eslint",
+        "jsonls",
         "lua_ls",
         "tsserver",
       },
@@ -117,11 +118,12 @@ return {
         "vue",
         "lua",
         "json",
+        "jsonc",
         "yaml",
         "dockerfile",
       },
       on_attach = function(_, bufnr)
-        local formatEnableFiletypes = { "lua", "json", "yaml" }
+        local formatEnableFiletypes = { "lua", "json", "jsonc", "yaml" }
         for _, ft in ipairs(formatEnableFiletypes) do
           if vim.bo[bufnr].filetype == ft then
             vim.api.nvim_create_autocmd("BufWritePre", {
@@ -137,25 +139,31 @@ return {
     })
     mlc.setup_handlers({
       function(server_name)
-        require("lspconfig")[server_name].setup({
+        local formatEnableServerNames = {
+          "clangd",
+        }
+        local isFormatEnable = false
+        for _, server in ipairs(formatEnableServerNames) do
+          if server == server_name then
+            isFormatEnable = true
+          end
+        end
+
+        lspconfig[server_name].setup({
           capabilities = capabilities,
-          on_attach = function(_, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format()
-              end,
-            })
-          end,
-        })
-      end,
-      ["eslint"] = function()
-        lspconfig.eslint.setup({
-          capabilities = capabilities,
-          init_options = { documentFormatting = false, documentRangeFormatting = false },
           on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentFormattingProvider = isFormatEnable
+          end,
+          on_attach = function(_, bufnr)
+            if isFormatEnable then
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
+                buffer = bufnr,
+                callback = function()
+                  vim.lsp.buf.format()
+                end,
+              })
+            end
           end,
         })
       end,
@@ -163,8 +171,12 @@ return {
         local typescript = require("typescript")
         typescript.setup({
           server = {
+            init_options = {
+              preferences = {
+                importModuleSpecifierPreference = "non-relative",
+              },
+            },
             capabilities = capabilities,
-            init_options = { documentFormatting = false, documentRangeFormatting = false },
             on_init = function(client)
               client.server_capabilities.documentFormattingProvider = false
             end,
@@ -188,12 +200,11 @@ return {
       end,
       ["lua_ls"] = function()
         lspconfig.lua_ls.setup({
+          settings = { Lua = { diagnostics = { globals = { "vim" } } } },
           capabilities = capabilities,
-          init_options = { documentFormatting = false, documentRangeFormatting = false },
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = false
           end,
-          settings = { Lua = { diagnostics = { globals = { "vim" } } } },
         })
       end,
     })

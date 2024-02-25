@@ -48,6 +48,8 @@ languages:
     - <<: *stylua
   json:
     - <<: *prettierd
+  jsonc:
+    - <<: *prettierd
   yaml:
     - <<: *prettierd
   dockerfile:

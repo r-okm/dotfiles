@@ -1,6 +1,7 @@
 {
   "clangd": "17.0.3",
   "eslint-lsp": "4.8.0",
+  "json-lsp": "4.8.0",
   "lua-language-server": "3.7.4",
   "typescript-language-server": "4.3.3"
 }
