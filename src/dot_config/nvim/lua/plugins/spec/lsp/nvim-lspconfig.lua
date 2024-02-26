@@ -184,13 +184,17 @@ return {
               client.server_capabilities.documentFormattingProvider = false
             end,
             on_attach = function(_, bufnr)
+              vim.keymap.set("n", "go", function()
+                typescript.actions.removeUnused({ sync = true })
+                typescript.actions.addMissingImports({ sync = true })
+                typescript.actions.organizeImports({ sync = true })
+              end)
               vim.api.nvim_create_autocmd("BufWritePre", {
                 group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
                 buffer = bufnr,
                 callback = function()
                   vim.cmd("EslintFixAll")
                   typescript.actions.addMissingImports({ sync = true })
-                  -- typescript.actions.organizeImports({ sync = true })
                   vim.lsp.buf.format({
                     async = false,
                     bufnr = bufnr,
