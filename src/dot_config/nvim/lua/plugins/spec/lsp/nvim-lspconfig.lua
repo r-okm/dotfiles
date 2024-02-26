@@ -7,6 +7,7 @@ return {
     "zapling/mason-lock.nvim",
     "jose-elias-alvarez/typescript.nvim",
     "b0o/schemastore.nvim",
+    "mfussenegger/nvim-jdtls",
   },
   init = function()
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -205,6 +206,7 @@ return {
           },
         })
       end,
+      ["jdtls"] = function() end,
       ["lua_ls"] = function()
         lspconfig.lua_ls.setup({
           settings = { Lua = { diagnostics = { globals = { "vim" } } } },

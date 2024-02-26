@@ -1,5 +1,5 @@
 {
-  "ChatGPT.nvim": { "branch": "main", "commit": "aadb607038d53d97be4da368b07355f65ad3f047" },
+  "ChatGPT.nvim": { "branch": "main", "commit": "ff458cbbd4333560eb9c5093c03f38de19470bc5" },
   "Comment.nvim": { "branch": "master", "commit": "e51f2b142d88bb666dcaa77d93a07f4b419aca70" },
   "CopilotChat.nvim": { "branch": "main", "commit": "ef6386b5d89323c41c02d3f67357865a6cda2710" },
   "bufdelete.nvim": { "branch": "master", "commit": "f6bcea78afb3060b198125256f897040538bcb81" },
@@ -29,9 +29,10 @@
   "mason-lspconfig.nvim": { "branch": "main", "commit": "56e435e09f8729af2d41973e81a0db440f8fe9c9" },
   "mason.nvim": { "branch": "main", "commit": "c43eeb5614a09dc17c03a7fb49de2e05de203924" },
   "nui.nvim": { "branch": "main", "commit": "a0fd35fcbb4cb479366f1dc5f20145fd718a3733" },
-  "nvim-autopairs": { "branch": "master", "commit": "1efb4f2e754d282762a1413ea0528d9a45143cdd" },
+  "nvim-autopairs": { "branch": "master", "commit": "c6139ca0d5ad7af129ea6c89cb4c56093f2c034a" },
   "nvim-cmp": { "branch": "main", "commit": "983453e32cb35533a119725883c04436d16c0120" },
   "nvim-hlslens": { "branch": "main", "commit": "9234f0fd7ec6042e8b4c70d41d25478a6cbf3a8e" },
+  "nvim-jdtls": { "branch": "master", "commit": "a5c6f38f8151d7b4f5b32c005a95022fa66f4c9d" },
   "nvim-lspconfig": { "branch": "master", "commit": "cf3dd4a290084a868fac0e2e876039321d57111c" },
   "nvim-scrollbar": { "branch": "main", "commit": "35f99d559041c7c0eff3a41f9093581ceea534e8" },
   "nvim-treesitter": { "branch": "master", "commit": "f197a15b0d1e8d555263af20add51450e5aaa1f0" },
