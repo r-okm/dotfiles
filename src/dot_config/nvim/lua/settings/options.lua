@@ -8,7 +8,7 @@ vim.opt.hlsearch = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
-vim.o.termgouicolors = true
+vim.o.termguicolors = true
 vim.opt.list = true
 vim.opt.listchars = { tab = "»-", trail = "●", space = " " }
 vim.opt.fillchars = vim.opt.fillchars + "diff: "
