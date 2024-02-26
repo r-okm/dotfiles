@@ -11,14 +11,6 @@
             "keys": "ctrl+pgdn"
         },
         {
-            "command": 
-            {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+shift+c"
-        },
-        {
             "command": "unbound",
             "keys": "alt+shift+minus"
         },
@@ -245,6 +237,14 @@
         {
             "command": 
             {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+shift+c"
+        },
+        {
+            "command": 
+            {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
@@ -306,11 +306,11 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "PlemolJP Console NF",
-                "size": 11.0
+                "face": "UDEV Gothic NF",
+                "size": 11.5
             },
             "opacity": 80,
-            "suppressApplicationTitle": true,
+            "suppressApplicationTitle": false,
             "useAcrylic": true
         },
         "list": 
@@ -321,8 +321,7 @@
                 "hidden": false,
                 "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
                 "name": "Ubuntu-main",
-                "startingDirectory": "~",
-                "suppressApplicationTitle": false
+                "startingDirectory": "~"
             },
             {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -343,19 +342,12 @@
                 "hidden": false,
                 "icon": "C:\\scoop\\apps\\msys2\\current\\msys2.ico",
                 "name": "MSYS2",
-                "startingDirectory": "%USERPROFILE%",
-                "suppressApplicationTitle": false
+                "startingDirectory": "%USERPROFILE%"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
                 "name": "\u30b3\u30de\u30f3\u30c9 \u30d7\u30ed\u30f3\u30d7\u30c8"
-            },
-            {
-                "guid": "{e636fd95-8db6-56fc-969f-5647553fa92b}",
-                "commandline": "C:\\Windows\\system32\\wsl.exe -d wsl-vpnkit -e /app/wsl-vpnkit",
-                "hidden": false,
-                "name": "wsl-vpnkit"
             }
         ]
     },
