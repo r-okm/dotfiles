@@ -27,8 +27,6 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<Tab>"] = cmp.mapping.select_next_item(),
-        ["<S-Tab>"] = cmp.mapping.select_prev_item(),
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(),
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -38,6 +36,9 @@ return {
     })
     cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "buffer" },
+      }),
     })
 
     cmp.setup.cmdline(":", {
@@ -51,11 +52,11 @@ return {
 
     vim.cmd([[
       " Jump forward or backward
-      imap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
-      smap <expr> <Tab>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<Tab>'
-      imap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
-      smap <expr> <S-Tab> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-Tab>'
-      let g:vsnip_snippet_dir = '$HOME/.config/nvim/external/vsnip'
+      imap <expr> <C-j>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
+      smap <expr> <C-j>   vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-j>'
+      imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
+      smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
+      let g:vsnip_snippet_dir = '$HOME/.config/nvim/snippets'
       " If you want to use snippet for multiple filetypes, you can `g:vsnip_filetypes` for it.
       let g:vsnip_filetypes = {}
       let g:vsnip_filetypes.javascriptreact = ['javascript']
