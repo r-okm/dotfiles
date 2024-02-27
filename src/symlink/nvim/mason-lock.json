@@ -4,6 +4,7 @@
   "jdtls": "v1.33.0",
   "json-lsp": "4.8.0",
   "lua-language-server": "3.7.4",
+  "sqls": "v0.2.28",
   "typescript-language-server": "4.3.3",
   "yaml-language-server": "1.14.0"
 }

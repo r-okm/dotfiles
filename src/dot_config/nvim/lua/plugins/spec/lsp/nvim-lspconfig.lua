@@ -1,6 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
-  event = { "BUfReadPre" },
+  branch = "master",
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -9,7 +9,9 @@ return {
     "jose-elias-alvarez/typescript.nvim",
     "b0o/schemastore.nvim",
     "mfussenegger/nvim-jdtls",
+    "nanotee/sqls.nvim",
   },
+  event = { "BUfReadPre" },
   init = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -114,6 +116,7 @@ return {
         "eslint",
         "jsonls",
         "lua_ls",
+        "sqls",
         "tsserver",
         "yamlls",
       },
@@ -217,6 +220,15 @@ return {
         })
       end,
       ["jdtls"] = function() end,
+      ["sqls"] = function()
+        lspconfig.sqls.setup({
+          cmd = { "sqls", "-config", vim.loop.cwd() .. "/myignore/sqls.config.yml" },
+          capabilities = capabilities,
+          on_attach = function(client, bufnr)
+            require("sqls").on_attach(client, bufnr)
+          end,
+        })
+      end,
       ["jsonls"] = function()
         lspconfig.jsonls.setup({
           settings = {
