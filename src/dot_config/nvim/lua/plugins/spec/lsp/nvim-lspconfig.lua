@@ -113,6 +113,8 @@ return {
     mlc.setup({
       ensure_installed = {
         "clangd",
+        "dockerls",
+        "docker_compose_language_service",
         "eslint",
         "jsonls",
         "lua_ls",
