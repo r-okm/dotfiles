@@ -7,6 +7,7 @@ return {
     "hrsh7th/cmp-path",
     "hrsh7th/vim-vsnip",
     "hrsh7th/cmp-vsnip",
+    "hrsh7th/cmp-nvim-lua",
   },
   event = { "CmdlineEnter", "InsertEnter" },
   config = function()
@@ -19,6 +20,7 @@ return {
         end,
       },
       sources = cmp.config.sources({
+        { name = "nvim_lua" },
         { name = "nvim_lsp" },
         { name = "vsnip" },
       }, {
