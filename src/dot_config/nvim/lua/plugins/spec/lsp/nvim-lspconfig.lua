@@ -125,34 +125,6 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
-    lspconfig.efm.setup({
-      filetypes = {
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact",
-        "vue",
-        "lua",
-        "json",
-        "jsonc",
-        "yaml",
-        "dockerfile",
-      },
-      on_attach = function(_, bufnr)
-        local formatEnableFiletypes = { "lua", "json", "jsonc", "yaml" }
-        for _, ft in ipairs(formatEnableFiletypes) do
-          if vim.bo[bufnr].filetype == ft then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = vim.api.nvim_create_augroup("PreWriteEfm", {}),
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format()
-              end,
-            })
-          end
-        end
-      end,
-    })
     mlc.setup_handlers({
       function(server_name)
         local formatEnableServerNames = {
@@ -179,6 +151,36 @@ return {
                   vim.lsp.buf.format()
                 end,
               })
+            end
+          end,
+        })
+      end,
+      ["efm"] = function()
+        lspconfig.efm.setup({
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+            "vue",
+            "lua",
+            "json",
+            "jsonc",
+            "yaml",
+            "dockerfile",
+          },
+          on_attach = function(_, bufnr)
+            local formatEnableFiletypes = { "lua", "json", "jsonc", "yaml" }
+            for _, ft in ipairs(formatEnableFiletypes) do
+              if vim.bo[bufnr].filetype == ft then
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  group = vim.api.nvim_create_augroup("PreWriteEfm", {}),
+                  buffer = bufnr,
+                  callback = function()
+                    vim.lsp.buf.format()
+                  end,
+                })
+              end
             end
           end,
         })
