@@ -5,7 +5,6 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "zapling/mason-lock.nvim",
-    "folke/neoconf.nvim",
     "jose-elias-alvarez/typescript.nvim",
     "b0o/schemastore.nvim",
     "mfussenegger/nvim-jdtls",
@@ -90,15 +89,6 @@ return {
     local mason = require("mason")
     local mlc = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
-    local neoconf = require("neoconf")
-
-    neoconf.setup({
-      import = {
-        vscode = false,
-        coc = false,
-        nlsp = false,
-      },
-    })
 
     mason.setup({
       ui = {
@@ -224,6 +214,15 @@ return {
         })
       end,
       ["jdtls"] = function() end,
+      ["lua_ls"] = function()
+        lspconfig.lua_ls.setup({
+          settings = { Lua = { diagnostics = { globals = { "vim" } } } },
+          capabilities = capabilities,
+          on_init = function(client)
+            client.server_capabilities.documentFormattingProvider = false
+          end,
+        })
+      end,
       ["sqls"] = function()
         lspconfig.sqls.setup({
           cmd = { "sqls", "-config", vim.loop.cwd() .. "/myignore/sqls.config.yml" },
