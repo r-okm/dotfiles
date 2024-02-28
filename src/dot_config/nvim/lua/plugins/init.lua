@@ -25,9 +25,3 @@ require("lazy").setup({
     version = "*",
   },
 })
-
--- print plugins
-local function printPlugins()
-  vim.print(vim.tbl_keys(require("lazy.core.config").plugins))
-end
-vim.api.nvim_create_user_command("Plugins", printPlugins, {})
