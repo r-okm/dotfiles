@@ -10,7 +10,7 @@ return {
     "mfussenegger/nvim-jdtls",
     "nanotee/sqls.nvim",
   },
-  event = { "BUfReadPre" },
+  event = { "BufReadPre" },
   init = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -147,36 +147,6 @@ return {
           end,
         })
       end,
-      ["efm"] = function()
-        lspconfig.efm.setup({
-          filetypes = {
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact",
-            "vue",
-            "lua",
-            "json",
-            "jsonc",
-            "yaml",
-            "dockerfile",
-          },
-          on_attach = function(_, bufnr)
-            local formatEnableFiletypes = { "lua", "json", "jsonc", "yaml" }
-            for _, ft in ipairs(formatEnableFiletypes) do
-              if vim.bo[bufnr].filetype == ft then
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                  group = vim.api.nvim_create_augroup("PreWriteEfm", {}),
-                  buffer = bufnr,
-                  callback = function()
-                    vim.lsp.buf.format()
-                  end,
-                })
-              end
-            end
-          end,
-        })
-      end,
       ["tsserver"] = function()
         local typescript = require("typescript")
         typescript.setup({
@@ -206,6 +176,9 @@ return {
                   vim.lsp.buf.format({
                     async = false,
                     bufnr = bufnr,
+                    filter = function(format_client)
+                      return format_client.name == "null-ls"
+                    end,
                   })
                 end,
               })
