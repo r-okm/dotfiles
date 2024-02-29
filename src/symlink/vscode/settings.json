@@ -31,13 +31,14 @@
       "args": ["-l"]
     }
   },
-  "terminal.integrated.defaultProfile.windows": "zsh(msys2)",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.shellIntegration.enabled": false,
   "terminal.integrated.showExitAlert": false,
   "terminal.integrated.defaultLocation": "editor",
   "vscode-neovim.neovimExecutablePaths.linux": "/home/linuxbrew/.linuxbrew/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.lua",
+  "vscode-neovim.useWSL": true,
   "search.exclude": {
     "**/node_modules": true,
     "**/bower_components": true,
@@ -93,6 +94,10 @@
   },
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "[lua]": {
+    "editor.defaultFormatter": "JohnnyMorganz.stylua",
+    "editor.formatOnSave": true
   },
   "prettier.semi": false,
   "prettier.trailingComma": "none",
@@ -277,7 +282,7 @@
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
   "workbench.iconTheme": "easy-icons",
   "git.confirmSync": false,
-  "workbench.colorTheme": "One Dark Pro Darker",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
   "boot-java.highlight-codelens.on": false,
   "java.debug.settings.enableRunDebugCodeLens": false,
   "git.openRepositoryInParentFolders": "never",
@@ -326,5 +331,6 @@
   "security.allowedUNCHosts": ["wsl.localhost"],
   "window.menuBarVisibility": "compact",
   "workbench.editor.tabActionCloseVisibility": false,
-  "remote.autoForwardPortsSource": "hybrid"
+  "remote.autoForwardPortsSource": "hybrid",
+  "window.confirmBeforeClose": "keyboardOnly"
 }
