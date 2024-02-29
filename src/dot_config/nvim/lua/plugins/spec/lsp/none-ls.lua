@@ -7,6 +7,7 @@ return {
   config = function()
     require("mason-null-ls").setup({
       ensure_installed = {
+        "cfn-lint",
         "hadolint",
         "prettierd",
         "stylua",
@@ -27,6 +28,7 @@ return {
           },
         }),
         formatting.stylua,
+        diagnostics.cfn_lint,
         diagnostics.hadolint,
       },
       on_attach = function(client, bufnr)
