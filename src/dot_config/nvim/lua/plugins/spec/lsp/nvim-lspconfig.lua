@@ -10,7 +10,7 @@ return {
     "mfussenegger/nvim-jdtls",
     "nanotee/sqls.nvim",
   },
-  event = { "BufReadPre" },
+  event = { "BufReadPre", "BufNewFile" },
   init = function()
     require("mason-lock").setup({
       lockfile_path = vim.fn.stdpath("config") .. "/mason-lock.json",
