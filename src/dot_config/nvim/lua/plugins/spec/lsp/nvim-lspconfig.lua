@@ -66,17 +66,6 @@ return {
           on_init = function(client)
             client.server_capabilities.documentFormattingProvider = isFormatEnable
           end,
-          on_attach = function(_, bufnr)
-            if isFormatEnable then
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("PreWriteGeneralLsp", {}),
-                buffer = bufnr,
-                callback = function()
-                  vim.lsp.buf.format()
-                end,
-              })
-            end
-          end,
         })
       end,
       ["tsserver"] = function()
