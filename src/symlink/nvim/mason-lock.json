@@ -7,6 +7,7 @@
   "hadolint": "v2.12.0",
   "jdtls": "v1.33.0",
   "json-lsp": "4.8.0",
+  "lemminx": "0.26.1",
   "lua-language-server": "3.7.4",
   "prettierd": "0.25.2",
   "sqls": "v0.2.28",

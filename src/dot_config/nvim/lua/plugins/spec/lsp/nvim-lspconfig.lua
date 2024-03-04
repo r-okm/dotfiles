@@ -39,6 +39,7 @@ return {
         "docker_compose_language_service",
         "eslint",
         "jsonls",
+        "lemminx",
         "lua_ls",
         "sqls",
         "tsserver",
@@ -53,6 +54,7 @@ return {
       function(server_name)
         local formatEnableServerNames = {
           "clangd",
+          "lemminx",
         }
         local isFormatEnable = false
         for _, server in ipairs(formatEnableServerNames) do
