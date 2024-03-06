@@ -1,25 +1,62 @@
 return {
-  "jellydn/CopilotChat.nvim",
-  opts = {
-    mode = "split", -- newbuffer or split  , default: newbuffer
-    prompts = {
-      Explain = "Please explain how the following code works. Answer in Japansese.",
-      Tests = "Please explain how the selected code works, then generate unit tests for it. Answer in Japansese.",
-      Review = "Please review the following code and provide suggestions for improvement. Answer in Japansese.",
-      Refactor = "Please refactor the following code to improve its clarity and readability. Answer in Japansese.",
-    },
+  "CopilotC-Nvim/CopilotChat.nvim",
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+    "nvim-lua/plenary.nvim",
   },
   build = function()
-    vim.defer_fn(function()
-      vim.cmd("UpdateRemotePlugins")
-      vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
-    end, 3000)
+    vim.notify("Update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
   end,
   event = "VeryLazy",
+  opts = {
+    language = "Japanese",
+    prompts = {
+      Explain = "Explain the functionality of the provided code snippet.",
+      Tests = "Generate corresponding unit tests for the provided code.",
+      Review = "Review the provided code and suggest possible improvements.",
+      Refactor = "Improve the clarity and readability of the provided code through refactoring.",
+      Japanese = "Translate the provided English sentence into Japanese.",
+      English = "Translate the provided Japanese sentence into English.",
+    },
+  },
   keys = {
-    { "<Space>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-    { "<Space>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
-    { "<Space>ccr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
-    { "<Space>ccR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor tests" },
+    {
+      "zu",
+      mode = "n",
+      function()
+        local input = vim.fn.input("Quick Chat: ")
+        if input ~= "" then
+          vim.cmd("CopilotChatBuffer " .. input)
+        end
+      end,
+      desc = "CopilotChat - Quick chat",
+    },
+    {
+      "zu",
+      mode = "x",
+      function()
+        local input = vim.fn.input("Quick Chat: ")
+        if input ~= "" then
+          vim.cmd("CopilotChatVisual " .. input)
+        end
+      end,
+      desc = "CopilotChat - Quick chat",
+    },
+    {
+      "zi",
+      mode = "n",
+      function()
+        -- 現在開いているバッファ全体をヤンクする
+        vim.cmd("%yank")
+        require("CopilotChat.code_actions").show_prompt_actions()
+      end,
+      desc = "CopilotChat - Prompt actions",
+    },
+    {
+      "zi",
+      mode = "x",
+      ":lua require('CopilotChat.code_actions').show_prompt_actions(true)<CR>",
+      desc = "CopilotChat - Prompt actions",
+    },
   },
 }
