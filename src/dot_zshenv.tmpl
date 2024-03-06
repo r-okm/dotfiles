@@ -44,7 +44,7 @@ export PASTE_COMMAND
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # wsl
-YANK_COMMAND='win32yank.exe -i --crlf'
+YANK_COMMAND='clip.exe'
 PASTE_COMMAND='win32yank.exe -o --lf'
 {{   end }}
 {{ else if eq .chezmoi.os "windows" }}

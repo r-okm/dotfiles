@@ -4,6 +4,7 @@ git:
     pager: delta --features=git --paging=never
 os:
   editPreset: "nvim"
+  copyToClipboardCmd: echo -n {{text}} | $YANK_COMMAND
 keybinding:
   files:
     commitChanges: c
