@@ -1,0 +1,20 @@
+{
+  "React FC TS": {
+    "prefix": "tsx",
+    "scope": "typescriptreact",
+    "body": [
+      "import type { FC } from \"react\"",
+      "",
+      "type Props = {}",
+      "",
+      "export const ${TM_FILENAME_BASE}: FC<Props> = ({}) => {$0",
+      "  return (",
+      "    <>",
+      "      <div />",
+      "      <div />",
+      "    </>",
+      "  )",
+      "}"
+    ]
+  }
+}
