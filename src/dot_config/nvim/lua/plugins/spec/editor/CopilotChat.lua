@@ -47,7 +47,7 @@ return {
       mode = "n",
       function()
         -- 現在開いているバッファ全体をヤンクする
-        vim.cmd("%yank")
+        vim.cmd("silent %yank")
         require("CopilotChat.code_actions").show_prompt_actions()
       end,
       desc = "CopilotChat - Prompt actions",
