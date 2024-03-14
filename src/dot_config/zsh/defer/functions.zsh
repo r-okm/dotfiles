@@ -58,8 +58,8 @@ fzf_git_branch() {
 
 fzf_git_log() {
   local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'echo -n %'"
-  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=fzf_git_log'"
-  local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show % | delta --features=git --paging=always'"
+  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=fzf_git_log'"
+  local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=git --paging=always'"
   local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
   local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
 
