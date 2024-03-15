@@ -1,4 +1,4 @@
-# vim: set ft=sh:
+# vim: set ft=zsh:
 
 source_if_exists() {
   if [ -f "$1" ]; then

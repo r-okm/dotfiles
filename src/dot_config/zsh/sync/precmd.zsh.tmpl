@@ -1,4 +1,4 @@
-# vim: set ft=sh:
+# vim: set ft=zsh:
 
 prompt_format() {
   local branch=$(git --no-optional-locks symbolic-ref --short HEAD 2>/dev/null) && \
@@ -32,6 +32,9 @@ windows_terminal_tab_title() {
 }
 
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd prompt_format
+# add-zsh-hook precmd prompt_format
 add-zsh-hook precmd windows_terminal_osc_9_9
 add-zsh-hook precmd windows_terminal_tab_title
+
+PROMPT="
+%F{yellow}%~%f %# "

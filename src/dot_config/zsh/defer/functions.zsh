@@ -1,4 +1,4 @@
-# vim: set ft=sh:
+# vim: set ft=zsh:
 
 fzf_cd() {
   local target_dir=$(fd --type directory \
