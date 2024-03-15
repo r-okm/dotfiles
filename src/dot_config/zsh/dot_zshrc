@@ -1,17 +1,24 @@
 # vim: set ft=sh:
 
+source_if_exists() {
+  if [ -f "$1" ]; then
+    source "$1"
+  else
+    echo "Not found: $1"
+  fi
+}
+
 # load zsh-defer
-source $ZDOTDIR/plugins/manual/zsh-defer/zsh-defer.plugin.zsh
+source_if_exists $ZDOTDIR/plugins/manual/zsh-defer/zsh-defer.plugin.zsh
 
 # load configs
-for f ($ZDOTDIR/sync/*(N-.)) source $f
-for f ($ZDOTDIR/defer/*(N-.)) zsh-defer source $f
+for f ($ZDOTDIR/sync/*(N-.)) source_if_exists $f
+for f ($ZDOTDIR/defer/*(N-.)) zsh-defer source_if_exists $f
 
 # load plugins
-for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source $f
+for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source_if_exists $f
 
 # load depend configs
-zsh-defer source $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
+zsh-defer source_if_exists $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && zsh-defer compinit
