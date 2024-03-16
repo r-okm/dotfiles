@@ -94,7 +94,9 @@ return {
                 group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
                 buffer = bufnr,
                 callback = function()
-                  vim.cmd("EslintFixAll")
+                  pcall(function()
+                    vim.cmd("EslintFixAll")
+                  end)
                   typescript.actions.addMissingImports({ sync = true })
                   vim.lsp.buf.format({
                     async = false,
