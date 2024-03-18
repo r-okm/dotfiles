@@ -28,7 +28,7 @@ windows_terminal_osc_9_9() {
 
 windows_terminal_tab_title() {
   local current_dir=$(basename $PWD)
-  echo -ne '\033]0;'"$current_dir"'\a'
+  echo -ne '\033]0;'"[$WSL_DISTRO_NAME] $current_dir"'\a'
 }
 
 autoload -Uz add-zsh-hook
