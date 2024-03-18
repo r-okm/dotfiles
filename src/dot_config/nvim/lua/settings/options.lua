@@ -17,8 +17,6 @@ vim.opt.shiftwidth = 2
 vim.opt.signcolumn = "yes"
 vim.opt.splitright = true
 
-vim.g.python3_host_prog = vim.fn.executable("python3") and vim.fn.exepath("python3") or "python3"
-
 -- os のクリップボードと同期
 local yank_command = os.getenv("YANK_COMMAND")
 local paste_command = os.getenv("PASTE_COMMAND")
