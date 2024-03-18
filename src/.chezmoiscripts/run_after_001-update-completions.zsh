@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-local completions_dir="${ZDOTDIR:-${HOME}/zsh}/fpath"
+completions_dir="${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/fpath"
 if [[ ! -d "$completions_dir" ]]; then
   mkdir -p "$completions_dir"
 fi
