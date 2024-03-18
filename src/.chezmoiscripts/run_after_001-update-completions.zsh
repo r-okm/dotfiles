@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env bash
 
 local completions_dir="${ZDOTDIR:-${HOME}/zsh}/fpath"
 if [[ ! -d "$completions_dir" ]]; then

@@ -1,6 +1,6 @@
-#!/bin/bash
-set -e
-set -x
+#!/usr/bin/env bash
+
+set -euxo pipefail
 
 # install prerequisites
 sudo apt update
@@ -8,11 +8,12 @@ sudo apt install -y build-essential procps curl file git
 
 # install chezmoi then apply dotfiles
 TMP_DIR='/tmp'
-CHEZMOI_BIN="$TMP_DIR/chezmoi"
+TMP_PATH=$PATH
+PATH="$TMP_DIR:$PATH"
 GITHUB_USERNAME='r-okm'
 
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $TMP_DIR
-$CHEZMOI_BIN init $GITHUB_USERNAME --apply
+chezmoi init $GITHUB_USERNAME --apply
 
 # install linuxbrew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -28,3 +29,5 @@ if [ -e "$LOCALE_JA" ]; then
   sudo localedef --add-to-archive /usr/lib/locale/ja_JP.UTF-8
   sudo localectl set-locale LANG=ja_JP.UTF-8
 fi
+
+PATH=$TMP_PATH
