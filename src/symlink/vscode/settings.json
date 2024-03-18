@@ -31,7 +31,7 @@
       "args": ["-l"]
     }
   },
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.windows": "GitBash",
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.shellIntegration.enabled": false,
   "terminal.integrated.showExitAlert": false,
