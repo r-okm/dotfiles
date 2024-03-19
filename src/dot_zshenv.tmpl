@@ -1,13 +1,10 @@
 # vim: set ft=zsh:
 
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-  PATH="$HOME/bin:$PATH"
-fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
@@ -22,10 +19,6 @@ fi
 
 # asdf
 export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/.asdfrc"
-
-# pnpm
-export PNPM_HOME="$XDG_DATA_HOME/pnpm"
-PATH="$PNPM_HOME:$PATH"
 
 # go
 export GOPATH="$HOME/go"
@@ -44,10 +37,10 @@ export PASTE_COMMAND
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 # wsl
-YANK_COMMAND='clip.exe'
+YANK_COMMAND='win32yank.exe -i --crlf'
 PASTE_COMMAND='win32yank.exe -o --lf'
 {{   end }}
 {{ else if eq .chezmoi.os "windows" }}
-YANK_COMMAND='clip.exe'
+YANK_COMMAND='win32yank.exe -i --crlf'
 PASTE_COMMAND='win32yank.exe -o --lf'
 {{ end }}

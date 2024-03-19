@@ -2,7 +2,9 @@ local keymap = require("utils.setKeymap").keymap
 
 return {
   "iamcco/markdown-preview.nvim",
-  build = "cd app && yarn install --frozen-lockfile",
+  build = function()
+    vim.fn["mkdp#util#install"]()
+  end,
   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
   ft = { "markdown" },
   init = function()
