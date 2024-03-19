@@ -32,21 +32,6 @@ return {
       },
     })
 
-    mlc.setup({
-      ensure_installed = {
-        "clangd",
-        "dockerls",
-        "docker_compose_language_service",
-        "eslint",
-        "jsonls",
-        "lemminx",
-        "lua_ls",
-        "sqls",
-        "tsserver",
-        "yamlls",
-      },
-    })
-
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 

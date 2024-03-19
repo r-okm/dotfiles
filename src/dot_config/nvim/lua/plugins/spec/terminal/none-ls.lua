@@ -5,15 +5,6 @@ return {
   },
   event = { "BufReadPre", "BufNewFile" },
   config = function()
-    require("mason-null-ls").setup({
-      ensure_installed = {
-        "cfn-lint",
-        "hadolint",
-        "prettierd",
-        "stylua",
-      },
-    })
-
     local nls = require("null-ls")
     local formatting = nls.builtins.formatting
     local diagnostics = nls.builtins.diagnostics

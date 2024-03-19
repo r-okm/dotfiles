@@ -3,16 +3,22 @@
 set -euxo pipefail
 
 # install prerequisites
-sudo apt update
-sudo apt install -y build-essential procps curl file git
+sudo apt-get update
+sudo apt-get install -y \
+  build-essential \
+  procps \
+  curl \
+  file \
+  git \
+  unzip
 
 # install chezmoi then apply dotfiles
-TMP_DIR='/tmp'
-TMP_PATH=$PATH
-PATH="$TMP_DIR:$PATH"
+BIN_DIR="$HOME/.local/bin"
+mkdir -p "$BIN_DIR"
+PATH="$BIN_DIR:$PATH"
 GITHUB_USERNAME='r-okm'
 
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $TMP_DIR
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $BIN_DIR
 chezmoi init $GITHUB_USERNAME --apply
 
 # install linuxbrew
@@ -30,4 +36,15 @@ if [ -e "$LOCALE_JA" ]; then
   sudo localectl set-locale LANG=ja_JP.UTF-8
 fi
 
-PATH=$TMP_PATH
+# install docker
+sudo apt-get remove -y docker docker-engine docker.io containerd runc
+sudo apt-get install -y \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+sudo usermod -aG docker $USER

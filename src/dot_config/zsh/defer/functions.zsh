@@ -111,6 +111,10 @@ local_ssl_proxy() {
 }
 
 update_plugins() {
+  if [ -x "$(command -v chezmoi)" ]; then
+    chezmoi upgrade
+  fi
+
   if [ -x "$(command -v brew)" ]; then
     brew bundle
     brew update
