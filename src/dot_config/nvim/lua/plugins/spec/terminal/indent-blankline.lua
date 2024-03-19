@@ -14,7 +14,7 @@ return {
   end,
   opts = {
     indent = {
-      char = "▏",
+      char = "▎", -- :h ibl.config.indent.char
     },
     scope = {
       enabled = false,
