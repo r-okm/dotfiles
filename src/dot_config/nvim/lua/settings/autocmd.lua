@@ -57,12 +57,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return string.format("[%s] %s (%s)", diagnostic.message, diagnostic.source, diagnostic.code)
     end
     vim.diagnostic.config({
-      virtual_text = true,
+      virtual_text = false,
       severity_sort = true,
-      underline = false,
+      underline = true,
       signs = true,
       update_in_insert = false,
-      float = { sformat = diagnostic_formatter },
+      float = { format = diagnostic_formatter },
     })
   end,
 })

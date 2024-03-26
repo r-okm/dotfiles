@@ -19,6 +19,15 @@ return {
           enabled = true,
           lsp = true,
         },
+        native_lsp = {
+          enabled = true,
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
+        },
       },
       color_overrides = {
         mocha = {
