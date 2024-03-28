@@ -91,6 +91,7 @@ awsp() {
 }
 
 custom_nvim() {
+  TERM=owlterm-256color
   # 引数が有る場合は、引数を指定して nvim を起動する
   if [ $# -gt 0 ]; then
     nvim $@

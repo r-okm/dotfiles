@@ -15,13 +15,15 @@ return {
     keymap("n", "L", ":BufferLineMoveNext<CR>")
     keymap("n", "H", ":BufferLineMovePrev<CR>")
 
-    local bufferline = require("bufferline")
-    bufferline.setup({
+    require("bufferline").setup({
       options = {
         middle_mouse_command = "Bdelete %d",
         diagnostics = "nvim_lsp",
-        separator_style = "slant",
+        separator_style = "thick",
         show_buffer_close_icons = false,
+        indicator = {
+          style = "underline",
+        },
       },
     })
   end,
