@@ -12,8 +12,8 @@ Usage:
   vpnkit [command]
 
 Available Commands:
-  on       Launch wsl-vpnkit
-  off      Terminate wsl-vpnkit
+  start    Launch wsl-vpnkit
+  stop     Terminate wsl-vpnkit
   status   Show wsl status
 
 Flags:
@@ -40,11 +40,11 @@ while [ -n "${1}" ] ; do
             usage
             exit 0
             ;;
-        on)
+        start)
             start
             exit 0
             ;;
-        off)
+        stop)
             stop
             exit 0
             ;;
