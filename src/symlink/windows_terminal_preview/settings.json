@@ -11,6 +11,14 @@
             "keys": "ctrl+pgdn"
         },
         {
+            "command": 
+            {
+                "action": "copy",
+                "singleLine": false
+            },
+            "keys": "ctrl+shift+c"
+        },
+        {
             "command": "unbound",
             "keys": "alt+shift+minus"
         },
@@ -237,14 +245,6 @@
         {
             "command": 
             {
-                "action": "copy",
-                "singleLine": false
-            },
-            "keys": "ctrl+shift+c"
-        },
-        {
-            "command": 
-            {
                 "action": "prevTab"
             },
             "keys": "ctrl+pgup"
@@ -257,14 +257,14 @@
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "left"
+                "direction": "right"
             }
         },
         {
             "command": 
             {
                 "action": "moveFocus",
-                "direction": "right"
+                "direction": "left"
             }
         },
         {
@@ -300,6 +300,7 @@
             "antialiasingMode": "grayscale",
             "backgroundImage": null,
             "backgroundImageOpacity": 0.05,
+            "bellStyle": "none",
             "closeOnExit": "always",
             "colorScheme": "One Half Dark",
             "cursorShape": "filledBox",
@@ -309,7 +310,9 @@
                 "face": "UDEV Gothic NF",
                 "size": 11.5
             },
-            "opacity": 80,
+            "intenseTextStyle": "none",
+            "opacity": 75,
+            "padding": "8, 8, -12, 0",
             "suppressApplicationTitle": false,
             "useAcrylic": true
         },
