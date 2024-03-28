@@ -70,27 +70,29 @@ return {
               client.server_capabilities.documentFormattingProvider = false
             end,
             on_attach = function(_, bufnr)
-              vim.keymap.set("n", "go", function()
-                typescript.actions.removeUnused({ sync = true })
+              local organizeImports = function()
                 typescript.actions.addMissingImports({ sync = true })
                 typescript.actions.organizeImports({ sync = true })
-              end)
+              end
+              local lintAndFormat = function()
+                pcall(function()
+                  vim.cmd("EslintFixAll")
+                end)
+                typescript.actions.addMissingImports({ sync = true })
+                vim.lsp.buf.format({
+                  async = false,
+                  bufnr = bufnr,
+                  filter = function(format_client)
+                    return format_client.name == "null-ls"
+                  end,
+                })
+              end
+              vim.keymap.set("n", "go", organizeImports)
+              vim.keymap.set("n", "ge", lintAndFormat)
               vim.api.nvim_create_autocmd("BufWritePre", {
                 group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
                 buffer = bufnr,
-                callback = function()
-                  pcall(function()
-                    vim.cmd("EslintFixAll")
-                  end)
-                  typescript.actions.addMissingImports({ sync = true })
-                  vim.lsp.buf.format({
-                    async = false,
-                    bufnr = bufnr,
-                    filter = function(format_client)
-                      return format_client.name == "null-ls"
-                    end,
-                  })
-                end,
+                callback = lintAndFormat,
               })
             end,
           },

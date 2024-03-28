@@ -16,7 +16,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gW", function()
       tb.diagnostics({ bufnr = nil })
     end)
-    vim.keymap.set("n", "ge", "<cmd>Lspsaga show_line_diagnostics<CR>")
     -- code navigation
     vim.keymap.set("n", "gd", function()
       tb.lsp_definitions()
