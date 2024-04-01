@@ -40,6 +40,7 @@ return {
         local formatEnableServerNames = {
           "clangd",
           "lemminx",
+          "rust_analyzer",
         }
         local isFormatEnable = false
         for _, server in ipairs(formatEnableServerNames) do
