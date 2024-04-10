@@ -23,7 +23,7 @@ return {
         diagnostics.hadolint,
       },
       on_attach = function(client, bufnr)
-        local formatEnableFiletypes = { "lua", "json", "jsonc", "yaml" }
+        local formatEnableFiletypes = { "css", "lua", "json", "jsonc", "yaml" }
         for _, ft in ipairs(formatEnableFiletypes) do
           if vim.bo[bufnr].filetype == ft and client.supports_method("textDocument/formatting") then
             vim.api.nvim_create_autocmd("BufWritePre", {
