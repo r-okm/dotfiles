@@ -3,9 +3,9 @@
     "prefix": "tsx",
     "body": [
       "\"use client\"",
-      "import type { FC } from \"react\"",
+      "import type { JSX } from \"react\"",
       "",
-      "export const ${TM_FILENAME_BASE}: FC<{}> = ({}) => {$0",
+      "export default function ${TM_FILENAME_BASE}(): JSX.Element {$0",
       "  return (",
       "    <>",
       "      <div>a</div>",
