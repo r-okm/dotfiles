@@ -38,7 +38,6 @@ return {
     mlc.setup_handlers({
       function(server_name)
         local formatEnableServerNames = {
-          "clangd",
           "lemminx",
           "rust_analyzer",
         }
