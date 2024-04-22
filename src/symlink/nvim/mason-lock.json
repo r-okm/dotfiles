@@ -9,9 +9,9 @@
   "json-lsp": "4.8.0",
   "lemminx": "0.26.1",
   "lua-language-server": "3.7.4",
-  "prettierd": "0.25.2",
   "sqls": "v0.2.28",
-  "rust-analyzer": "2024-04-08",
+  "prettierd": "0.25.3",
+  "rust-analyzer": "2024-04-22",
   "stylua": "v0.20.0",
   "typescript-language-server": "4.3.3",
   "yaml-language-server": "1.14.0"
