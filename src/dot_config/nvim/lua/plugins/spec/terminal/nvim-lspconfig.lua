@@ -87,10 +87,12 @@ return {
                     return format_client.name == "null-ls"
                   end,
                 })
+                vim.cmd("write")
+                vim.cmd("edit")
               end
               vim.keymap.set("n", "go", organizeImports)
               vim.keymap.set("n", "ge", lintAndFormat)
-              vim.api.nvim_create_autocmd("BufWritePre", {
+              vim.api.nvim_create_autocmd("BufWritePost", {
                 group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
                 buffer = bufnr,
                 callback = lintAndFormat,
