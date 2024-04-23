@@ -101,15 +101,6 @@ return {
         })
       end,
       ["jdtls"] = function() end,
-      ["lua_ls"] = function()
-        lspconfig.lua_ls.setup({
-          settings = { Lua = { diagnostics = { globals = { "vim" } } } },
-          capabilities = capabilities,
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-          end,
-        })
-      end,
       ["sqls"] = function()
         lspconfig.sqls.setup({
           cmd = { "sqls", "-config", vim.loop.cwd() .. "/.nvim/sqls.config.yml" },
