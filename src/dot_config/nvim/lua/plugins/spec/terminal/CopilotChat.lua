@@ -56,10 +56,7 @@ return {
     })
 
     vim.keymap.set({ "n" }, "zu", function()
-      local input = vim.fn.input("Quick Chat: ")
-      if input ~= "" then
-        chat.ask(input, { seletion = select.buffer })
-      end
+      vim.cmd("CopilotChatOpen")
     end)
     vim.keymap.set({ "x" }, "zu", function()
       local input = vim.fn.input("Quick Chat: ")
