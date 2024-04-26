@@ -5,6 +5,10 @@ return {
   },
   event = { "BufReadPost" },
   config = function()
-    require("rainbow-delimiters.setup").setup()
+    require("rainbow-delimiters.setup").setup({
+      query = {
+        tsx = "rainbow-parens",
+      },
+    })
   end,
 }
