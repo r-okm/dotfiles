@@ -3,7 +3,7 @@ local getVisualSelection = require("utils.buffer").getVisualSelection
 
 return {
   "nvim-telescope/telescope.nvim",
-  version = "0.1.4",
+  commit = "fac83a556e7b710dc31433dec727361ca062dbe9",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-fzy-native.nvim",
@@ -39,6 +39,7 @@ return {
             preview_width = 0.7,
           },
         },
+        layout_strategy = "vertical",
         vimgrep_arguments = {
           "rg",
           "--color=never",
@@ -55,6 +56,11 @@ return {
           "!**/node_modules/*",
           "--glob",
           "!**/package-lock.json",
+        },
+        path_display = {
+          filename_first = {
+            reverse_directories = true,
+          },
         },
       },
       pickers = {
