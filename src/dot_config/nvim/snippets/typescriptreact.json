@@ -3,6 +3,7 @@
     "prefix": "tsx",
     "body": [
       "\"use client\"",
+      "",
       "import type { JSX } from \"react\"",
       "",
       "export default function ${TM_FILENAME_BASE}(): JSX.Element {$0",
