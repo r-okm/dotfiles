@@ -8,7 +8,7 @@ vim.api.nvim_create_user_command("H", openHelpVertically, { nargs = 1, complete 
 -- 終了時にセッションファイルを作成する
 local function saveSessionAndQuit(_)
   local session_file_name = os.getenv("NEOVIM_SESSION_FILE_NAME") or "Session.vim"
-  local session_cmd = "Mksession! " .. session_file_name
+  local session_cmd = "mksession! " .. session_file_name
   local quit_cmd = "quitall!"
 
   vim.cmd(session_cmd)

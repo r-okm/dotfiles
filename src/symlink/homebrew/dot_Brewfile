@@ -10,6 +10,6 @@ brew "gh"
 brew "git"
 brew "git-delta"
 brew "lazygit"
-brew "neovim", args: ["HEAD"]
+brew "neovim"
 brew "ripgrep"
 brew "zsh"

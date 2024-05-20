@@ -50,10 +50,7 @@ if vim.g.vscode then
   -- find_files
   keymapVsc("n", "zf", "workbench.action.findInFiles")
 else
-  keymap("n", "<C-h>", ":<C-u>bprev<CR>")
-  keymap("n", "<C-l>", ":<C-u>bnext<CR>")
   keymap("n", "<C-q>", "<C-w>w")
-  keymap("n", "<Space>w", ":<C-u>bdelete<CR>")
   keymap("n", "<Space>s", ":<C-u>write<CR>")
   keymap("n", "<Space>S", ":<C-u>noa write<CR>")
   -- terminal-job モードへ切り替える
