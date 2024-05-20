@@ -1,5 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
+  branch = "main",
   dependencies = {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-cmdline",
