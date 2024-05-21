@@ -11,7 +11,7 @@
   "sqls": "v0.2.28",
   "lua-language-server": "3.9.1",
   "prettierd": "0.25.3",
-  "rust-analyzer": "2024-05-13",
+  "rust-analyzer": "2024-05-20",
   "stylua": "v0.20.0",
   "typescript-language-server": "4.3.3",
   "yaml-language-server": "1.14.0"
