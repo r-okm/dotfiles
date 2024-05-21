@@ -5,6 +5,6 @@ return {
   },
   cmd = { "Bdelete", "Bwipeout" },
   config = function()
-    vim.keymap.set("n", "<Space>w", ":<C-u>Bdelete<CR>")
+    vim.keymap.set("n", "<Space>w", ":<C-u>Bdelete<CR>", { noremap = true, silent = true })
   end,
 }
