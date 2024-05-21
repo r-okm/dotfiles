@@ -88,9 +88,8 @@ return {
                 })
               end
               vim.keymap.set("n", "go", organizeImports)
-              vim.keymap.set("n", "ge", lintAndFormat)
               vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("PreWriteTsserver", {}),
+                group = vim.api.nvim_create_augroup("PreWriteTsserver" .. bufnr, {}),
                 buffer = bufnr,
                 callback = lintAndFormat,
               })
