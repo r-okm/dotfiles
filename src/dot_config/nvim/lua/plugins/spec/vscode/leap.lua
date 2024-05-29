@@ -1,9 +1,7 @@
 return {
   "ggandor/leap.nvim",
   init = function()
-    local keymap = require("utils.setKeymap").keymap
-    keymap("nxo", "m", "<Plug>(leap-forward)")
-    keymap("nxo", "M", "<Plug>(leap-backward)")
+    vim.keymap.set({ "n", "x", "o" }, "m", "<Plug>(leap)")
   end,
   config = function()
     local leap = require("leap")
