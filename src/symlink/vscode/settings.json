@@ -275,9 +275,8 @@
     "e3c601b34832ce46f8da1d8f7ecd7bc8c32357c16f93115dfc22e458ed17915c"
   ],
   "editor.accessibilitySupport": "off",
-  "editor.fontFamily": "UDEV Gothic 35NF",
+  "editor.fontFamily": "JetBrainsMono NF, BIZ UDGothic",
   "editor.fontSize": 14,
-  "terminal.integrated.fontFamily": "UDEV Gothic NF",
   "vscode-neovim.neovimInitVimPaths.win32": "$XDG_CONFIG_HOME\\nvim\\init.lua",
   "markdown-preview-enhanced.previewTheme": "one-dark.css",
   "workbench.iconTheme": "easy-icons",
@@ -332,5 +331,6 @@
   "window.menuBarVisibility": "compact",
   "workbench.editor.tabActionCloseVisibility": false,
   "remote.autoForwardPortsSource": "hybrid",
-  "window.confirmBeforeClose": "keyboardOnly"
+  "window.confirmBeforeClose": "keyboardOnly",
+  "github.copilot.editor.enableAutoCompletions": true
 }

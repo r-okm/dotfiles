@@ -307,8 +307,8 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "UDEV Gothic NF",
-                "size": 11.5
+                "face": "JetBrainsMono NF, BIZ UDGothic",
+                "size": 11
             },
             "intenseTextStyle": "none",
             "opacity": 70,
