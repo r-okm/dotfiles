@@ -70,6 +70,8 @@ return {
             "--type",
             "f",
             "--hidden",
+            "--exclude",
+            ".git",
           },
         },
         grep_string = { initial_mode = "normal" },

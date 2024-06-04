@@ -6,10 +6,6 @@ return {
     "github/copilot.vim",
   },
   branch = "canary",
-  build = function()
-    vim.notify("Update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
-  end,
-  event = "VeryLazy",
   config = function()
     local chat = require("CopilotChat")
     local select = require("CopilotChat.select")
