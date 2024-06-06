@@ -2,6 +2,7 @@ local utils = require("utils.setKeymap")
 local keymap = utils.keymap
 local keymapVsc = utils.keymapVsc
 local keymapVscVisual = utils.keymapVscVisual
+local opts = { noremap = true, silent = true }
 
 -- map prefix
 keymap("", "<Space>", "")
@@ -11,6 +12,12 @@ keymap("nxo", "gl", "$")
 keymap("n", "gn", ":<C-u>noh<CR>")
 keymap("n", "gs", ":<C-u><CR>:%s/", { silent = false })
 keymap("n", "<CR>", "o<ESC>")
+
+for _, quote in ipairs({ '"', "'", "`" }) do
+  local lhs = "a" .. quote
+  local rhs = "2i" .. quote
+  vim.keymap.set({ "x", "o" }, lhs, rhs, opts)
+end
 
 -- vscode
 if vim.g.vscode then
