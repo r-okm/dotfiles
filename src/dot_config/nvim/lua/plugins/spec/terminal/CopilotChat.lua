@@ -6,6 +6,7 @@ return {
     "github/copilot.vim",
   },
   branch = "canary",
+  cond = os.getenv("GITHUB_COPILOT_ENABLED") == "1",
   config = function()
     local chat = require("CopilotChat")
     local select = require("CopilotChat.select")
