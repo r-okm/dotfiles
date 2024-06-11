@@ -25,6 +25,13 @@ return {
         Japanese = "Translate the provided English sentence into Japanese.",
         English = "Translate the provided Japanese sentence into English.",
       },
+      mappings = {
+        complete = {
+          detail = "Use @<Tab> or /<Tab> for options.",
+          -- Default <Tab> setting conflicts with cmp and coc-nvim
+          insert = "<S-Tab>",
+        },
+      },
     })
 
     vim.keymap.set({ "n" }, "zu", function()
