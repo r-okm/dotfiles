@@ -10,44 +10,20 @@ return {
     local chat = require("CopilotChat")
     local select = require("CopilotChat.select")
     local actions = require("CopilotChat.actions")
+    local prompts = require("CopilotChat.prompts")
     local telescope = require("CopilotChat.integrations.telescope")
 
+    local additional_system_prompt = [[以下の規約に従う。
+    * 日本語で回答する
+    * 敬体を使用せず、常体を使用する
+    * 英語の回答は日本語に翻訳して回答する
+    ]]
+
     chat.setup({
+      system_prompt = prompts.COPILOT_INSTRUCTIONS .. additional_system_prompt,
       prompts = {
-        Review = "Review the provided code and suggest possible improvements. Answer in Japanese.",
-        Refactor = "Improve the clarity and readability of the provided code through refactoring. Answer in Japanese.",
-        Japanese = "Translate the provided English sentence into Japanese. Answer in Japanese.",
-        English = "Translate the provided Japanese sentence into English. Answer in English.",
-        -- default prompt
-        Explain = {
-          prompt = "/COPILOT_EXPLAIN Write an explanation for the code above as paragraphs of text. Answer in Japanese.",
-        },
-        Tests = {
-          prompt = "/COPILOT_TESTS Write a set of detailed unit test functions for the code above. Answer in Japanese.",
-        },
-        Fix = {
-          prompt = "/COPILOT_FIX There is a problem in this code. Rewrite the code to show it with the bug fixed. Answer in Japanese.",
-        },
-        Optimize = {
-          prompt = "/COPILOT_REFACTOR Optimize the selected code to improve performance and readablilty. Answer in Japanese.",
-        },
-        Docs = {
-          prompt = "/COPILOT_REFACTOR Write documentation for the selected code. The reply should be a codeblock containing the original code with the documentation added as comments. Use the most appropriate documentation style for the programming language used (e.g. JSDoc for JavaScript, docstrings for Python etc. Answer in Japanese.",
-        },
-        FixDiagnostic = {
-          prompt = "Answer in Japanese. Please assist with the following diagnostic issue in file:",
-          selection = select.diagnostics,
-        },
-        Commit = {
-          prompt = "Write commit message for the change with commitizen convention. Make sure the title has maximum 50 characters and message is wrapped at 72 characters. Wrap the whole message in code block with language gitcommit. Answer in Japanese.",
-          selection = select.gitdiff,
-        },
-        CommitStaged = {
-          prompt = "Write commit message for the change with commitizen convention. Make sure the title has maximum 50 characters and message is wrapped at 72 characters. Wrap the whole message in code block with language gitcommit. Answer in Japanese.",
-          selection = function(source)
-            return select.gitdiff(source, true)
-          end,
-        },
+        Japanese = "Translate the provided English sentence into Japanese.",
+        English = "Translate the provided Japanese sentence into English.",
       },
     })
 
@@ -55,10 +31,7 @@ return {
       vim.cmd("CopilotChatOpen")
     end)
     vim.keymap.set({ "x" }, "zu", function()
-      local input = vim.fn.input("Quick Chat: ")
-      if input ~= "" then
-        chat.ask(input, { seletion = select.visual })
-      end
+      vim.cmd("CopilotChat")
     end)
     vim.keymap.set({ "n" }, "zi", function()
       telescope.pick(actions.prompt_actions({ seletion = select.buffer }))
