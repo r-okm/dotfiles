@@ -37,61 +37,51 @@ return {
 
     mlc.setup_handlers({
       function(server_name)
-        local formatEnableServerNames = {
-          "lemminx",
-          "rust_analyzer",
-        }
-        local isFormatEnable = false
-        for _, server in ipairs(formatEnableServerNames) do
-          if server == server_name then
-            isFormatEnable = true
-          end
-        end
-
         lspconfig[server_name].setup({
           capabilities = capabilities,
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = isFormatEnable
-          end,
         })
       end,
       ["tsserver"] = function()
         local typescript = require("typescript")
         typescript.setup({
           server = {
+            capabilities = capabilities,
             init_options = {
               preferences = {
                 importModuleSpecifierPreference = "non-relative",
                 importModuleSpecifier = "non-relative",
               },
             },
-            capabilities = capabilities,
-            on_init = function(client)
-              client.server_capabilities.documentFormattingProvider = false
-            end,
             on_attach = function(_, bufnr)
-              local organizeImports = function()
-                typescript.actions.addMissingImports({ sync = true })
-                typescript.actions.organizeImports({ sync = true })
-              end
-              local lintAndFormat = function()
-                pcall(function()
-                  vim.cmd("EslintFixAll")
-                end)
-                typescript.actions.addMissingImports({ sync = true })
+              vim.keymap.set("n", "go", function()
+                typescript.actions.addMissingImports({ sync = false })
+                typescript.actions.organizeImports({ sync = false })
+              end, { buffer = bufnr })
+              vim.keymap.set("n", "gf", function()
                 vim.lsp.buf.format({
-                  async = false,
+                  async = true,
                   bufnr = bufnr,
                   filter = function(format_client)
                     return format_client.name == "null-ls"
                   end,
                 })
-              end
-              vim.keymap.set("n", "go", organizeImports)
+              end, { buffer = bufnr })
               vim.api.nvim_create_autocmd("BufWritePre", {
                 group = vim.api.nvim_create_augroup("PreWriteTsserver" .. bufnr, {}),
                 buffer = bufnr,
-                callback = lintAndFormat,
+                callback = function()
+                  pcall(function()
+                    vim.cmd("EslintFixAll")
+                  end)
+                  typescript.actions.addMissingImports({ sync = true })
+                  vim.lsp.buf.format({
+                    async = false,
+                    bufnr = bufnr,
+                    filter = function(format_client)
+                      return format_client.name == "null-ls"
+                    end,
+                  })
+                end,
               })
             end,
           },
@@ -100,8 +90,8 @@ return {
       ["jdtls"] = function() end,
       ["sqls"] = function()
         lspconfig.sqls.setup({
-          cmd = { "sqls", "-config", vim.loop.cwd() .. "/.nvim/sqls.config.yml" },
           capabilities = capabilities,
+          cmd = { "sqls", "-config", vim.loop.cwd() .. "/.nvim/sqls.config.yml" },
           on_attach = function(client, bufnr)
             require("sqls").on_attach(client, bufnr)
           end,
@@ -109,20 +99,18 @@ return {
       end,
       ["jsonls"] = function()
         lspconfig.jsonls.setup({
+          capabilities = capabilities,
           settings = {
             json = {
               schemas = require("schemastore").json.schemas(),
               validate = { enable = true },
             },
           },
-          capabilities = capabilities,
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-          end,
         })
       end,
       ["yamlls"] = function()
         lspconfig.yamlls.setup({
+          capabilities = capabilities,
           settings = {
             yaml = {
               schemaStore = {
@@ -156,10 +144,6 @@ return {
               },
             },
           },
-          capabilities = capabilities,
-          on_init = function(client)
-            client.server_capabilities.documentFormattingProvider = false
-          end,
         })
       end,
     })

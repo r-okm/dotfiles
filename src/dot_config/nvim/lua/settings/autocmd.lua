@@ -1,44 +1,95 @@
 -- LSP
+local lsp_configs = {
+  -- tsserver と null-ls は別で設定するため未記載
+  ["lemminx"] = {
+    format_cmd_enable = true,
+    format_on_save = false,
+  },
+  ["rust_analyzer"] = {
+    format_cmd_enable = true,
+    format_on_save = true,
+  },
+}
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
+  callback = function(args)
     local tb = require("telescope.builtin")
 
-    -- Buffer local mappings.
-    local opts = { buffer = ev.buf }
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+    local format_cmd_enable = false
+    local format_on_save = false
+    for lsp, config in pairs(lsp_configs) do
+      if client.name == lsp then
+        format_cmd_enable = config.format_cmd_enable
+        format_on_save = config.format_on_save
+        break
+      end
+    end
+
+    -- set keymap to current buffer
+    local set_buf_key = function(modes, lhs, rhs)
+      vim.keymap.set(modes, lhs, rhs, { buffer = bufnr })
+    end
 
     -- diagnostic
-    vim.keymap.set("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>")
-    vim.keymap.set("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-    vim.keymap.set("n", "gw", function()
+    set_buf_key("n", "g.", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+    set_buf_key("n", "g,", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+    set_buf_key("n", "gw", function()
       tb.diagnostics({ bufnr = 0 })
     end)
-    vim.keymap.set("n", "gW", function()
+    set_buf_key("n", "gW", function()
       tb.diagnostics({ bufnr = nil })
     end)
     -- code navigation
-    vim.keymap.set("n", "gd", function()
+    set_buf_key("n", "gd", function()
       tb.lsp_definitions()
-    end, opts)
-    vim.keymap.set("n", "gD", function()
+    end)
+    set_buf_key("n", "gD", function()
       tb.lsp_implementations()
-    end, opts)
-    vim.keymap.set("n", "gt", function()
+    end)
+    set_buf_key("n", "gt", function()
       tb.lsp_type_definitions()
-    end, opts)
-    vim.keymap.set("n", "grr", function()
+    end)
+    set_buf_key("n", "grr", function()
       tb.lsp_references()
-    end, opts)
-    -- hover code action
-    vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+    end)
+    -- hover document
+    if client.supports_method("textDocument/hover") then
+      set_buf_key("n", "K", "<cmd>Lspsaga hover_doc<CR>")
+    end
     -- symbol rename
-    vim.keymap.set("n", "grn", "<cmd>Lspsaga rename<CR>", opts)
-    -- format
-    vim.keymap.set("n", "gf", function()
-      vim.lsp.buf.format({ async = true })
-    end, opts)
+    set_buf_key("n", "grn", "<cmd>Lspsaga rename<CR>")
     -- code action
-    vim.keymap.set({ "n", "v" }, "ga", "<cmd>Lspsaga code_action<CR>", opts)
+    set_buf_key({ "n", "v" }, "ga", "<cmd>Lspsaga code_action<CR>")
+    -- format
+    if format_cmd_enable then
+      set_buf_key("n", "gf", function()
+        vim.lsp.buf.format({
+          async = true,
+          bufnr = bufnr,
+          filter = function(format_client)
+            return format_client.name == client.name
+          end,
+        })
+      end)
+    end
+    if format_on_save then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = vim.api.nvim_create_augroup("PreWrite" .. client.name .. bufnr, {}),
+        callback = function()
+          vim.lsp.buf.format({
+            async = false,
+            bufnr = bufnr,
+            filter = function(format_client)
+              return format_client.name == client.name
+            end,
+          })
+        end,
+      })
+    end
 
     -- setup diagnostic signs
     local signs = {
