@@ -58,9 +58,20 @@ if vim.g.vscode then
   keymapVsc("n", "zf", "workbench.action.findInFiles")
 else
   keymap("n", "<C-q>", "<C-w>w")
+
   keymap("n", "<Space>s", ":<C-u>write<CR>")
   keymap("n", "<Space>S", ":<C-u>noa write<CR>")
   -- terminal-job モードへ切り替える
   keymap("t", "<C-k><C-n>", "<C-\\><C-n>")
   keymap("n", "<C-k><C-n>", ":<C-u>terminal<CR>")
+
+  local function saveSessionAndQuit()
+    local session_file_name = os.getenv("NEOVIM_SESSION_FILE_NAME") or ".session.vim"
+    local session_cmd = "mksession! " .. session_file_name
+    local quit_cmd = "quitall"
+
+    vim.cmd(session_cmd)
+    vim.cmd(quit_cmd)
+  end
+  vim.keymap.set("ca", "qq", saveSessionAndQuit)
 end
