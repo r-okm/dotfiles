@@ -7,11 +7,11 @@
   "hadolint": "v2.12.0",
   "jdtls": "v1.33.0",
   "json-lsp": "4.10.0",
-  "sqls": "v0.2.28",
   "lemminx": "0.27.1",
   "lua-language-server": "3.9.3",
   "prettierd": "0.25.3",
   "rust-analyzer": "2024-06-11",
+  "sqls": "v0.2.28",
   "stylua": "v0.20.0",
   "typescript-language-server": "4.3.3",
   "yaml-language-server": "1.15.0"
