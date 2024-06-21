@@ -24,6 +24,7 @@ return {
         "lua",
         "markdown",
         "markdown_inline",
+        "rust",
         "scss",
         "terraform",
         "toml",
@@ -31,6 +32,7 @@ return {
         "typescript",
         "vim",
         "vimdoc",
+        "yaml",
       },
       highlight = {
         disable = function(_, bufnr)
