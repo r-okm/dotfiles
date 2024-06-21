@@ -65,13 +65,18 @@ else
   keymap("t", "<C-k><C-n>", "<C-\\><C-n>")
   keymap("n", "<C-k><C-n>", ":<C-u>terminal<CR>")
 
-  local function saveSessionAndQuit()
+  local function saveSession()
     local session_file_name = os.getenv("NEOVIM_SESSION_FILE_NAME") or ".session.vim"
-    local session_cmd = "mksession! " .. session_file_name
-    local quit_cmd = "quitall"
-
-    vim.cmd(session_cmd)
-    vim.cmd(quit_cmd)
+    vim.cmd("mksession! " .. session_file_name)
+    vim.schedule(function()
+      vim.print("session file saved: " .. session_file_name)
+    end)
   end
+  local function saveSessionAndQuit()
+    saveSession()
+    vim.cmd("quitall")
+  end
+
+  vim.keymap.set("ca", "ms", saveSession)
   vim.keymap.set("ca", "qq", saveSessionAndQuit)
 end
