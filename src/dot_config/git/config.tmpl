@@ -69,3 +69,5 @@
 {{ end }}
 [includeIf "hasconfig:remote.*.url:{{ index . "git_repository_host_work" | default "" }}/**"]
   path = ~/.config/git/work.gitconfig
+[includeIf "hasconfig:remote.*.url:git@github.com.work:*/**"]
+  path = ~/.config/git/work.gitconfig
