@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 completions_dir="${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/fpath"
 if [[ ! -d "$completions_dir" ]]; then
