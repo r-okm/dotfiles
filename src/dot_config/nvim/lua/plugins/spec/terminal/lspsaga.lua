@@ -5,9 +5,12 @@ return {
     require("lspsaga").setup({
       breadcrumbs = { enable = false },
       lightbulb = { enable = false },
-      rename = { in_select = false },
+      rename = {
+        in_select = false,
+        keys = { quit = "q" },
+      },
       symbol_in_winbar = { enable = false },
-      ui = { border = "single" },
+      ui = { border = "rounded" },
     })
   end,
 }
