@@ -7,7 +7,6 @@ return {
       lightbulb = { enable = false },
       rename = {
         in_select = false,
-        keys = { quit = "q" },
       },
       symbol_in_winbar = { enable = false },
       ui = { border = "rounded" },
