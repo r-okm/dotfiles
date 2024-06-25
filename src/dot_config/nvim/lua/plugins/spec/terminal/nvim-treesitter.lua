@@ -24,6 +24,7 @@ return {
         "lua",
         "markdown",
         "markdown_inline",
+        "proto",
         "rust",
         "scss",
         "terraform",
