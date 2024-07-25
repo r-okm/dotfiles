@@ -7,18 +7,18 @@ return {
     require("catppuccin").setup({
       flavour = "mocha",
       integrations = {
-        fern = true,
-        gitsigns = true,
-        leap = true,
         cmp = true,
-        treesitter = true,
-        telescope = {
-          enabled = true,
-        },
+        diffview = true,
+        fern = true,
+        fidget = true,
+        gitsigns = true,
         illuminate = {
           enabled = true,
           lsp = true,
         },
+        leap = true,
+        lsp_saga = true,
+        mason = true,
         native_lsp = {
           enabled = true,
           underlines = {
@@ -27,6 +27,11 @@ return {
             warnings = { "undercurl" },
             information = { "undercurl" },
           },
+        },
+        sandwich = true,
+        treesitter = true,
+        telescope = {
+          enabled = true,
         },
       },
       color_overrides = {

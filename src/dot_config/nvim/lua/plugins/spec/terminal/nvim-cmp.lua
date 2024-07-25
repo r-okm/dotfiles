@@ -34,6 +34,15 @@ return {
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
       }),
+      window = {
+        completion = {
+          border = "rounded",
+          winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        },
+        documentation = {
+          border = "rounded",
+        },
+      },
     })
     cmp.setup.cmdline({ "/", "?" }, {
       mapping = cmp.mapping.preset.cmdline(),

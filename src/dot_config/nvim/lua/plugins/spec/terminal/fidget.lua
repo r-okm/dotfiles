@@ -5,6 +5,11 @@ return {
       progress = {
         ignore = { "null-ls" },
       },
+      notification = {
+        window = {
+          winblend = 0,
+        },
+      },
     })
   end,
 }
