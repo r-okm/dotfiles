@@ -63,6 +63,23 @@ fzf_git_log() {
   local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
   local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
 
+  git lg | \
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --preview=$preview_commit \
+      --header='ENTER to view, CTRL-x to checkout, CTRL-y to copy hash, q to exit' \
+      --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:abort' \
+      --bind "enter:execute:$show_commit" \
+      --bind "ctrl-x:become:$checkout_commit" \
+      --bind "ctrl-y:execute-silent:$copy_commit_hash"
+}
+
+fzf_git_log_all() {
+  local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'echo -n %'"
+  local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=fzf_git_log'"
+  local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=git --paging=always'"
+  local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
+  local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
+
   git lga | \
     fzf --ansi --no-sort --reverse --tiebreak=index \
       --preview=$preview_commit \
