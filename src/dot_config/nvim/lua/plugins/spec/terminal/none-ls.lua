@@ -21,6 +21,7 @@ return {
         formatting.stylua,
         diagnostics.cfn_lint,
         diagnostics.hadolint,
+        diagnostics.markdownlint,
       },
       on_attach = function(_, bufnr)
         local filtype_configs = {
@@ -38,6 +39,10 @@ return {
             format_on_save = true,
           },
           ["jsonc"] = {
+            format_cmd_enable = true,
+            format_on_save = true,
+          },
+          ["markdown"] = {
             format_cmd_enable = true,
             format_on_save = true,
           },
