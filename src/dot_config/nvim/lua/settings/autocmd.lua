@@ -1,6 +1,10 @@
 -- LSP
 local lsp_configs = {
   -- tsserver と null-ls は別で設定するため未記載
+  ["bashls"] = {
+    format_cmd_enable = true,
+    format_on_save = false,
+  },
   ["lemminx"] = {
     format_cmd_enable = true,
     format_on_save = false,

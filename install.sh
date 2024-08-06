@@ -18,7 +18,7 @@ mkdir -p "$BIN_DIR"
 PATH="$BIN_DIR:$PATH"
 GITHUB_USERNAME='r-okm'
 
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $BIN_DIR
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$BIN_DIR"
 chezmoi init $GITHUB_USERNAME --apply
 
 # install linuxbrew
@@ -44,7 +44,7 @@ sudo apt-get install -y \
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt-get update
 sudo apt-get install -y \
   docker-ce \
@@ -52,4 +52,4 @@ sudo apt-get install -y \
   containerd.io \
   docker-compose-plugin
 
-sudo usermod -aG docker $USER
+sudo usermod -aG docker "$USER"
