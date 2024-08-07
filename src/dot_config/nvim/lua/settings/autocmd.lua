@@ -122,11 +122,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- insert モードを抜けたときに IME を OFF
-if vim.fn.executable("zenhan.exe") then
-  vim.api.nvim_create_autocmd({ "InsertLeave", "CmdlineLeave" }, { command = "call system('zenhan.exe 0')" })
-end
-
 -- terminal モードで nonumber
 vim.api.nvim_create_autocmd("TermOpen", {
   pattern = "*",
