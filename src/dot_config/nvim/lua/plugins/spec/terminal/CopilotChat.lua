@@ -34,6 +34,7 @@ return {
       .. "* コードの変更内容は箇条書きで記述する"
 
     chat.setup({
+      auto_insert_mode = true,
       prompts = prompts,
       mappings = {
         complete = {
