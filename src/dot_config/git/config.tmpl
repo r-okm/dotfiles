@@ -38,8 +38,11 @@
   lga = lg --all
 [init]
   defaultBranch = main
+[submodule]
+  recurse = true
 [fetch]
   prune = true
+  recurseSubmodules = on-demand
 [push]
   default = current
   autoSetupRemote = true
