@@ -8,7 +8,7 @@ mkdir -p "$BIN_DIR"
 PATH="$BIN_DIR:$PATH"
 
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$BIN_DIR"
-chezmoi --apply
+chezmoi apply
 
 # install linuxbrew
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
