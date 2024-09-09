@@ -1,6 +1,6 @@
 {
   "bash-language-server": "5.4.0",
-  "cfn-lint": "1.10.3",
+  "cfn-lint": "1.12.4",
   "css-lsp": "4.10.0",
   "docker-compose-language-service": "0.2.0",
   "dockerfile-language-server": "0.13.0",
@@ -12,11 +12,11 @@
   "lua-language-server": "3.10.5",
   "markdownlint": "0.41.0",
   "prettierd": "0.25.3",
-  "rust-analyzer": "2024-08-19",
+  "rust-analyzer": "2024-09-02",
   "shellcheck": "v0.10.0",
   "shfmt": "v3.9.0",
   "sqls": "v0.2.28",
   "stylua": "v0.20.0",
-  "typescript-language-server": "4.3.3",
+  "vtsls": "0.2.5",
   "yaml-language-server": "1.15.0"
 }

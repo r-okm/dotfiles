@@ -5,7 +5,7 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "zapling/mason-lock.nvim",
-    "jose-elias-alvarez/typescript.nvim",
+    "yioneko/nvim-vtsls",
     "b0o/schemastore.nvim",
     "mfussenegger/nvim-jdtls",
     "nanotee/sqls.nvim",
@@ -18,11 +18,10 @@ return {
   end,
   config = function()
     local lspconfig = require("lspconfig")
-    local mason = require("mason")
     local mlc = require("mason-lspconfig")
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-    mason.setup({
+    require("mason").setup({
       ui = {
         icons = {
           package_installed = "✓",
@@ -31,6 +30,7 @@ return {
         },
       },
     })
+    require("lspconfig.configs").vtsls = require("vtsls").lspconfig
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
@@ -41,50 +41,57 @@ return {
           capabilities = capabilities,
         })
       end,
-      ["tsserver"] = function()
-        local typescript = require("typescript")
-        typescript.setup({
-          server = {
-            capabilities = capabilities,
-            init_options = {
+      ["vtsls"] = function()
+        lspconfig.vtsls.setup({
+          capabilities = capabilities,
+          settings = {
+            vtsls = {
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
+            },
+            typescript = {
               preferences = {
                 importModuleSpecifierPreference = "non-relative",
                 importModuleSpecifier = "non-relative",
               },
             },
-            on_attach = function(_, bufnr)
-              vim.keymap.set("n", "go", function()
-                typescript.actions.addMissingImports({ sync = false })
-                typescript.actions.organizeImports({ sync = false })
-              end, { buffer = bufnr })
-              vim.keymap.set("n", "gf", function()
+          },
+          on_attach = function(_, bufnr)
+            local vtsls = require("vtsls")
+            vim.keymap.set("n", "go", function()
+              vtsls.commands.add_missing_imports(bufnr)
+              vtsls.commands.organize_imports(bufnr)
+            end, { buffer = bufnr })
+            vim.keymap.set("n", "gf", function()
+              vim.lsp.buf.format({
+                async = true,
+                bufnr = bufnr,
+                filter = function(format_client)
+                  return format_client.name == "null-ls"
+                end,
+              })
+            end, { buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("PreWriteVtsls" .. bufnr, {}),
+              buffer = bufnr,
+              callback = function()
+                pcall(function()
+                  vim.cmd("EslintFixAll")
+                end)
                 vim.lsp.buf.format({
-                  async = true,
+                  async = false,
                   bufnr = bufnr,
                   filter = function(format_client)
                     return format_client.name == "null-ls"
                   end,
                 })
-              end, { buffer = bufnr })
-              vim.api.nvim_create_autocmd("BufWritePre", {
-                group = vim.api.nvim_create_augroup("PreWriteTsserver" .. bufnr, {}),
-                buffer = bufnr,
-                callback = function()
-                  pcall(function()
-                    vim.cmd("EslintFixAll")
-                  end)
-                  typescript.actions.addMissingImports({ sync = true })
-                  vim.lsp.buf.format({
-                    async = false,
-                    bufnr = bufnr,
-                    filter = function(format_client)
-                      return format_client.name == "null-ls"
-                    end,
-                  })
-                end,
-              })
-            end,
-          },
+              end,
+            })
+          end,
         })
       end,
       ["jdtls"] = function() end,

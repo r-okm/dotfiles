@@ -25,7 +25,7 @@ return {
       },
       on_attach = function(_, bufnr)
         local filtype_configs = {
-          -- typescript は tsserver で設定するため未記載
+          -- typescript は vtsls で設定するため未記載
           ["css"] = {
             format_cmd_enable = true,
             format_on_save = true,
