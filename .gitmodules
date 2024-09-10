@@ -1,0 +1,3 @@
+[submodule "src/private_dot_config/external_nvim"]
+	path = src/private_dot_config/external_nvim
+	url = git@github.com:r-okm/nvim-config.git
