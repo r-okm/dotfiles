@@ -1,70 +1,77 @@
+[".config/nvim"]
+  type = "archive"
+  url = "https://github.com/r-okm/nvim-config/archive/main.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "0"
+
 [".config/zsh/plugins/manual/zsh-defer"]
-type = "archive"
-url = "https://github.com/romkatv/zsh-defer/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/romkatv/zsh-defer/archive/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 [".config/zsh/plugins/autoload/zsh-abbr"]
-type = "archive"
-url = "https://github.com/olets/zsh-abbr/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/olets/zsh-abbr/archive/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 [".config/zsh/plugins/autoload/zsh-completions"]
-type = "archive"
-url = "https://github.com/zsh-users/zsh-completions/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/zsh-users/zsh-completions/archive/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 [".config/zsh/plugins/autoload/autosuggestions"]
-type = "archive"
-url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 [".config/zsh/plugins/autoload/fast-syntax-highlighting"]
-type = "archive"
-url = "https://github.com/zdharma-continuum/fast-syntax-highlighting/archive/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/zdharma-continuum/fast-syntax-highlighting/archive/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 [".config/zsh/defer/aws_zsh_completer.sh"]
-type = "file"
-url = "https://raw.githubusercontent.com/aws/aws-cli/v2/bin/aws_zsh_completer.sh"
-refreshPeriod = "168h"
+  type = "file"
+  url = "https://raw.githubusercontent.com/aws/aws-cli/v2/bin/aws_zsh_completer.sh"
+  refreshPeriod = "168h"
 
 [".config/zsh/fpath/_docker"]
-type = "file"
-url = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"
-refreshPeriod = "168h"
+  type = "file"
+  url = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"
+  refreshPeriod = "168h"
 
 [".config/zsh/fpath/git-completion.zsh"]
-type = "file"
-url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
-refreshPeriod = "168h"
+  type = "file"
+  url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+  refreshPeriod = "168h"
 
 [".config/git/themes.gitconfig"]
-type = "file"
-url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig"
-refreshPeriod = "168h"
+  type = "file"
+  url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig"
+  refreshPeriod = "168h"
 
 [".config/tmux/plugins/tpm"]
-type = "archive"
-url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 
 {{ if eq .chezmoi.os "windows"}}
 ["AppData/Roaming/alacritty/alacritty-theme"]
-type = "archive"
-url = "https://github.com/alacritty/alacritty-theme/archive/refs/heads/master.tar.gz"
-exact = true
-stripComponents = 1
-refreshPeriod = "168h"
+  type = "archive"
+  url = "https://github.com/alacritty/alacritty-theme/archive/refs/heads/master.tar.gz"
+  exact = true
+  stripComponents = 1
+  refreshPeriod = "168h"
 {{ end }}

@@ -1,5 +1,5 @@
 symlink
-bin/*
+**/*/.git
 
 {{ if eq .chezmoi.os "windows"}}
 .chezmoiscripts/*.zsh
