@@ -1,5 +1,5 @@
 symlink
-**/*/.git
+.config/nvim
 
 {{ if eq .chezmoi.os "windows"}}
 .chezmoiscripts/*.zsh
