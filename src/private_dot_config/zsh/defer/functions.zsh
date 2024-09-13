@@ -1,4 +1,4 @@
-# vim: set ft=zsh:
+# vim: set ft=sh:
 
 fzf_cd() {
   local target_dir=$(fd --type directory \
@@ -104,18 +104,6 @@ awsp() {
   else
     unset AWS_PROFILE
     echo "unset AWS_PROFILE"
-  fi
-}
-
-custom_nvim() {
-  # 引数が有る場合は、引数を指定して nvim を起動する
-  if [ $# -gt 0 ]; then
-    nvim $@
-  # セッションファイルが存在する場合は、セッションファイルを読み込んで nvim を起動する
-  elif [ -f $NEOVIM_SESSION_FILE_NAME ]; then
-    nvim -S $NEOVIM_SESSION_FILE_NAME
-  else
-    nvim
   fi
 }
 
