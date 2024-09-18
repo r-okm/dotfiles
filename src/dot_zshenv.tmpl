@@ -27,7 +27,7 @@ export PATH="$GOBIN:$PATH"
 
 export LC_ALL=ja_JP.UTF-8
 export CLICOLOR=1
-export EDITOR=nvim
+export EDITOR='NEOVIM_SESSION_ENABLE=0 nvim'
 export MANPAGER='nvim +Man!'
 export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
 export NEOVIM_SESSION_FILE_NAME='{{ index . "neovim_session_file_name" | default "" }}'
