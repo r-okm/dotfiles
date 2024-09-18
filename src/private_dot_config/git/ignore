@@ -1,3 +1,11 @@
+# vim: set ft=gitignore:
+
+# git temp files
+*.orig
+
+# neovim
 *.session.vim
-myignore/
 .nvim/
+
+# personal ignore directory
+myignore/
