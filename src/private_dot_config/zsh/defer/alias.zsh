@@ -8,6 +8,8 @@ if [ -x /usr/bin/dircolors ]; then
   alias egrep='egrep --color=auto'
 fi
 
+alias l='ls -alFh --group-directories-first'
+
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
