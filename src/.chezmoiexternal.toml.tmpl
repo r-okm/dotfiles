@@ -1,3 +1,9 @@
+[".config/git/themes.gitconfig"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig"
+  refreshPeriod = "168h"
+
+{{ if ne .chezmoi.os "windows"}}
 [".config/nvim"]
   type = "archive"
   url = "https://github.com/r-okm/nvim-config/archive/main.tar.gz"
@@ -53,25 +59,5 @@
 [".config/zsh/fpath/git-completion.zsh"]
   type = "file"
   url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
-  refreshPeriod = "168h"
-
-[".config/git/themes.gitconfig"]
-  type = "file"
-  url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig"
-  refreshPeriod = "168h"
-
-[".config/tmux/plugins/tpm"]
-  type = "archive"
-  url = "https://github.com/tmux-plugins/tpm/archive/refs/heads/master.tar.gz"
-  exact = true
-  stripComponents = 1
-  refreshPeriod = "168h"
-
-{{ if eq .chezmoi.os "windows"}}
-["AppData/Roaming/alacritty/alacritty-theme"]
-  type = "archive"
-  url = "https://github.com/alacritty/alacritty-theme/archive/refs/heads/master.tar.gz"
-  exact = true
-  stripComponents = 1
   refreshPeriod = "168h"
 {{ end }}
