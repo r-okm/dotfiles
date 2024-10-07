@@ -6,6 +6,14 @@
         {
             "command": 
             {
+                "action": "sendInput",
+                "input": "\u001b[13;2u"
+            },
+            "id": "User.sendInput.8882FD6D"
+        },
+        {
+            "command": 
+            {
                 "action": "nextTab"
             },
             "id": "User.nextTab.0"
@@ -21,13 +29,6 @@
         {
             "command": 
             {
-                "action": "prevTab"
-            },
-            "id": "User.prevTab.0"
-        },
-        {
-            "command": 
-            {
                 "action": "moveFocus",
                 "direction": "left"
             },
@@ -36,6 +37,13 @@
         {
             "command": "duplicateTab",
             "id": "User.duplicateTab"
+        },
+        {
+            "command": 
+            {
+                "action": "prevTab"
+            },
+            "id": "User.prevTab.0"
         },
         {
             "command": 
@@ -66,6 +74,10 @@
     "keybindings": 
     [
         {
+            "id": "User.sendInput.8882FD6D",
+            "keys": "shift+enter"
+        },
+        {
             "id": "User.nextTab.0",
             "keys": "ctrl+pgdn"
         },
@@ -83,15 +95,7 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+down"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+tab"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+d"
+            "keys": "ctrl+shift+tab"
         },
         {
             "id": null,
@@ -99,7 +103,15 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+tab"
+            "keys": "ctrl+shift+d"
+        },
+        {
+            "id": null,
+            "keys": "alt+shift+down"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+tab"
         },
         {
             "id": null,
@@ -111,7 +123,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+v"
+            "keys": "ctrl+comma"
         },
         {
             "id": null,
@@ -119,11 +131,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+comma"
-        },
-        {
-            "id": null,
-            "keys": "win+sc(41)"
+            "keys": "ctrl+v"
         },
         {
             "id": null,
@@ -131,11 +139,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+a"
+            "keys": "win+sc(41)"
         },
         {
             "id": null,
-            "keys": "alt+shift+up"
+            "keys": "ctrl+shift+a"
         },
         {
             "id": null,
@@ -143,7 +151,7 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+left"
+            "keys": "alt+shift+up"
         },
         {
             "id": null,
@@ -151,7 +159,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+2"
+            "keys": "alt+shift+left"
         },
         {
             "id": null,
@@ -159,19 +167,23 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+3"
+            "keys": "ctrl+alt+2"
         },
         {
             "id": null,
-            "keys": "ctrl+alt+4"
+            "keys": "ctrl+alt+3"
+        },
+        {
+            "id": "User.prevTab.0",
+            "keys": "ctrl+pgup"
         },
         {
             "id": null,
             "keys": "ctrl+alt+7"
         },
         {
-            "id": "User.prevTab.0",
-            "keys": "ctrl+pgup"
+            "id": null,
+            "keys": "ctrl+alt+4"
         },
         {
             "id": null,
@@ -187,11 +199,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+insert"
+            "keys": "ctrl+shift+6"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+6"
+            "keys": "ctrl+insert"
         },
         {
             "id": null,
@@ -199,11 +211,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+0"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+2"
+            "keys": "ctrl+shift+comma"
         },
         {
             "id": null,
@@ -211,7 +219,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+comma"
+            "keys": "ctrl+shift+2"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+0"
         },
         {
             "id": null,
@@ -219,7 +231,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+plus"
+            "keys": "ctrl+shift+3"
         },
         {
             "id": null,
@@ -227,11 +239,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+3"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+numpad_minus"
+            "keys": "ctrl+plus"
         },
         {
             "id": null,
@@ -239,15 +247,19 @@
         },
         {
             "id": null,
+            "keys": "ctrl+numpad_minus"
+        },
+        {
+            "id": null,
             "keys": "alt+up"
         },
         {
             "id": null,
-            "keys": "alt+down"
+            "keys": "ctrl+shift+4"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+4"
+            "keys": "alt+down"
         },
         {
             "id": null,
@@ -282,12 +294,12 @@
             "keys": "ctrl+shift+9"
         },
         {
-            "id": null,
-            "keys": "shift+insert"
-        },
-        {
             "id": "User.openNewTabDropdown",
             "keys": "ctrl+@"
+        },
+        {
+            "id": null,
+            "keys": "shift+insert"
         },
         {
             "id": null,
