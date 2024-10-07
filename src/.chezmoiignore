@@ -3,6 +3,7 @@ symlink
 
 {{ if eq .chezmoi.os "windows"}}
 *
+.chezmoiscripts
 !AppData
 !.config/git
 {{ else }}
