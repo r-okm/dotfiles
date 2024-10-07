@@ -6,6 +6,7 @@ symlink
 .chezmoiscripts/*
 !AppData
 !.config/git
+!.gnupg
 {{ else }}
 AppData
 .ideavimrc
