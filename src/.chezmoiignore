@@ -2,11 +2,12 @@ symlink
 .config/nvim
 
 {{ if eq .chezmoi.os "windows"}}
-.chezmoiscripts/*.zsh
-.config/homebrew
-{{ end }}
-
-{{ if ne .chezmoi.os "windows"}}
+*
+.chezmoiscripts/*
+!AppData
+!.config/git
+!.gnupg
+{{ else }}
 AppData
 .ideavimrc
 {{ end }}

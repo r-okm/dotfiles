@@ -1,3 +1,4 @@
+{{ if ne .chezmoi.os "windows" }}
 [merge]
 command = "nvim"
 args = [
@@ -8,6 +9,7 @@ args = [
 [diff]
 pager = "delta --features=git"
 exclude = ["scripts"]
+{{ end }}
 [data]
 git_user_name_work = ""
 git_user_email_work = ""
