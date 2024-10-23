@@ -22,12 +22,18 @@ fzf_cd_hidden() {
   fi
 }
 
-fzf_cd_cdpath() {
-  local search_dirs=$(for p ($cdpath) ls -1 $p)
-  local target_dir=$(echo $search_dirs | fzf --height 50% --reverse --prompt='CHANGE DIRECTORY > ') &&
+fzf_cd_ghq() {
+  local ghq_root=$(ghq root)
+  local target_dir=$(ghq list | fzf \
+    --height 50% \
+    --reverse \
+    --prompt='CHANGE DIRECTORY > ' \
+    --preview="bat --color=always --style=auto $ghq_root/{}/README.md" \
+  )
   if [ -n "$target_dir" ]; then
-    echo "cd $target_dir"
-    cd "$target_dir"
+    local path=$ghq_root/$target_dir
+    echo "cd $path"
+    cd "$path"
   fi
 }
 
