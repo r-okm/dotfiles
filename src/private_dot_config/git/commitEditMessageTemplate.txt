@@ -1,9 +1,10 @@
 
-# feat: 新機能
-# fix: バグ修正
-# docs: ドキュメントのみの変更
-# style: コードの意味に影響を与えない変更（空白、フォーマット、セミコロンの欠如など）
-# refactor: 生産性や保守性の向上のためのコード変更
-# perf: パフォーマンスを向上させるコード変更
-# test: 欠陥がないことを確認するテストの追加、変更
-# chore: ビルドプロセスの変更、または補助ツールやライブラリの変更
+# build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+# ci: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)
+# docs: Documentation only changes
+# feat: A new feature
+# fix: A bug fix
+# perf: A code change that improves performance
+# refactor: A code change that neither fixes a bug nor adds a feature
+# test: Adding missing tests or correcting existing tests
+# chore: Changes to the build process or auxiliary tools and libraries
