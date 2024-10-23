@@ -48,18 +48,20 @@ fzf_git_branch() {
   target_brs=$(echo $local_brs\\n$remote_brs\\n$remote_only_brs)
 
   get_branch_name="echo {} | tr -d ' *'"
-  delete_branch="$get_branch_name | xargs git branch -D"
   checkout_branch="$get_branch_name | xargs git checkout"
+  delete_branch="$get_branch_name | xargs git branch -D"
+  view_diff="$get_branch_name | xargs git diff"
 
   echo $target_brs |
   fzf --ansi --no-sort --reverse --tiebreak=index \
     --height 50% \
     --prompt='CHECKOUT BRANCH > '  \
-    --header='ENTER to checkout, CTRL-d to delete' \
+    --header='ENTER to checkout, CTRL-d to view diff, CTRL-x to delete' \
     --preview-window='right,65%' \
     --preview="$get_branch_name | xargs -I % sh -c 'git lg %'" \
     --bind "enter:become:$checkout_branch" \
-    --bind "ctrl-d:become:$delete_branch"
+    --bind "ctrl-x:become:$delete_branch" \
+    --bind "ctrl-d:execute:$view_diff" \
 }
 
 fzf_git_log() {
