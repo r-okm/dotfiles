@@ -37,7 +37,7 @@ fzf_cd_ghq() {
   fi
 }
 
-fzf_grep() {
+fzf_fd_file() {
   local target_dir="."
   if [ -n "$1" ]; then
     target_dir="$1"
@@ -46,8 +46,8 @@ fzf_grep() {
   local target_file=$(
     fd --type file \
       --hidden \
-      --no-ignore \
-      . $target_dir \
+      --exclude .git \
+      $target_dir \
     | fzf \
     --reverse \
     --prompt='GREP FILE > ' \
