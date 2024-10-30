@@ -37,6 +37,29 @@ fzf_cd_ghq() {
   fi
 }
 
+fzf_grep() {
+  local target_dir="."
+  if [ -n "$1" ]; then
+    target_dir="$1"
+  fi
+
+  local target_file=$(
+    fd --type file \
+      --hidden \
+      --no-ignore \
+      . $target_dir \
+    | fzf \
+    --reverse \
+    --prompt='GREP FILE > ' \
+    --header='ENTER to edit' \
+    --preview="bat --color=always --style=auto {}"
+  )
+
+  if [ -n "$target_file" ]; then
+    $EDITOR "$target_file"
+  fi
+}
+
 fzf_git_branch() {
   local_brs=$(git branch | sort -r | sed -e 's/^ *//') && \
   local_brs_trim=$(git branch | sed -e 's/\*//' | sed -e 's/ //g') && \
