@@ -8,7 +8,7 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
 ```
 
-- dotfiles and nvim-config
+- dotfiles and nvim-config (git required)
 
 ```sh
 INSTALL_NVIM_CONFIG=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
