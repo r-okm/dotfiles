@@ -4,7 +4,7 @@ git:
     pager: delta --features=git --paging=never
 os:
   editPreset: "nvim-remote"
-  copyToClipboardCmd: echo -n {{text}} | $YANK_COMMAND
+  copyToClipboardCmd: echo -n {{text}} | clipboard -y
 keybinding:
   files:
     commitChanges: c

@@ -1,0 +1,22 @@
+# vim: set ft=sh:
+
+source_if_exists() {
+  local file_to_source="$1"
+  if [ -f "$file_to_source" ]; then
+    # shellcheck disable=SC1090
+    source "$file_to_source"
+  else
+    local current_script_file
+    current_script_file=$(basename "$0")
+    echo "[WARN][$current_script_file] File '$file_to_source' does not exist."
+  fi
+}
+
+main() {
+  source_if_exists "$HOME/.profile"
+
+  # zsh specific configuration
+  export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
+}
+
+main "$@"

@@ -97,7 +97,7 @@ fzf_git_log() {
   local preview_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=fzf_git_log'"
   local show_commit="$log_line_to_hash | xargs -I % sh -c 'git show -m % | delta --features=git --paging=always'"
   local checkout_commit="$log_line_to_hash | xargs -I % sh -c 'git switch -d %'"
-  local copy_commit_hash="$log_line_to_hash | $YANK_COMMAND"
+  local copy_commit_hash="$log_line_to_hash | clipboard -y"
 
   local result=$(
     eval "$command" | \

@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+help() {
+  echo "TODO: implement help"
+}
+
+yank() {
+  local cmd
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  cmd='/mnt/c/scoop/shims/win32yank.exe -i --crlf'
+{{   end }}
+{{ end }}
+
+  if [[ -z $cmd ]]; then
+    echo "Error: no yank executable found." >&2
+    exit 1
+  fi
+
+  $cmd "$@"
+}
+
+paste() {
+  local cmd
+
+{{ if eq .chezmoi.os "linux" }}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+  cmd='/mnt/c/scoop/shims/win32yank.exe -o --lf'
+{{   end }}
+{{ end }}
+
+  if [[ -z "$cmd" ]]; then
+    echo "Error: no paste executable found." >&2
+    exit 1
+  fi
+
+  $cmd
+}
+
+main() {
+  if [[ "$#" -lt 1 ]]; then
+    help
+    exit 1
+  fi
+
+  while getopts :hyp OPT; do
+    case $OPT in
+      h)
+        help
+        ;;
+      y)
+        shift
+        yank "$@"
+        ;;
+      p)
+        shift
+        paste "$@"
+        ;;
+      *)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 1
+        ;;
+    esac
+  done
+}
+
+main "$@"
+
+# vim: set ft=sh:

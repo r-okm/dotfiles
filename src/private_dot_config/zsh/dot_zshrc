@@ -1,10 +1,14 @@
 # vim: set ft=zsh:
 
 source_if_exists() {
-  if [ -f "$1" ]; then
-    source "$1"
+  local file_to_source="$1"
+  if [ -f "$file_to_source" ]; then
+    # shellcheck disable=SC1090
+    source "$file_to_source"
   else
-    echo "Not found: $1"
+    local current_script_file
+    current_script_file=$(basename "$0")
+    echo "[WARN][$current_script_file] File '$file_to_source' does not exist."
   fi
 }
 
