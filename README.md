@@ -2,16 +2,8 @@
 
 ## Apply dotfiles
 
-- dotfiles only
-
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
-```
-
-- dotfiles and nvim-config (git required)
-
-```sh
-INSTALL_NVIM_CONFIG=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
 ```
 
 ## Update machine-specific settings using chezmoi data

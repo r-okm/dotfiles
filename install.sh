@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-install_nvim_config() {
-  local NVIM_CONFIG_DIR="$HOME/.config/nvim"
-  local REPO_URL='https://github.com/r-okm/nvim-config.git'
-
-  git clone "$REPO_URL" "$NVIM_CONFIG_DIR"
-}
-
 main() {
   # Install chezmoi executable
   BIN_DIR="$HOME/.local/bin"
@@ -23,9 +16,6 @@ main() {
     GITHUB_USERNAME='r-okm'
     $CHEZMOI_EXECUTABLE init $GITHUB_USERNAME --apply
   fi
-
-  # Install neovim config if needed
-  [[ $INSTALL_NVIM_CONFIG -eq 1 ]] && install_nvim_config
 }
 
 main
