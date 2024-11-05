@@ -2,12 +2,14 @@ symlink
 .config/nvim
 .local/bin/xdg-open
 
-{{ if eq .chezmoi.os "windows"}}
+{{ if eq .chezmoi.os "windows" }}
 *
 .chezmoiscripts/*
 !AppData
+!.bash*
 !.config/git
 !.gnupg
+!.ideavimrc
 {{ else }}
 AppData
 .ideavimrc
