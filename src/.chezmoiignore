@@ -11,9 +11,3 @@ symlink
 AppData
 .ideavimrc
 {{ end }}
-
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-!bin/*
-{{   end }}
-{{ end }}
