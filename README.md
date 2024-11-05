@@ -68,3 +68,7 @@ sudo apt-get install -y \
 
 sudo usermod -aG docker "$USER"
 ```
+
+## Related repositories
+
+- [r-okm/nvim-config](https://github.com/r-okm/nvim-config)
