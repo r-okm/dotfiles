@@ -56,12 +56,6 @@ main() {
   export GITHUB_COPILOT_ENABLED={{ index . "github_copilot_enabled" | default 0 }}
 
   source_if_exists "$HOME/.cargo/env"
-
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-  alias xdg-open='npx wsl-open'
-{{   end }}
-{{ end }}
 }
 
 main
