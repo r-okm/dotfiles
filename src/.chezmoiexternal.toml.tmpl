@@ -19,11 +19,13 @@
   refreshPeriod = "168h"
 
 [".config/zsh/plugins/autoload/zsh-abbr"]
-  type = "archive"
-  url = "https://github.com/olets/zsh-abbr/archive/master.tar.gz"
-  exact = true
-  stripComponents = 1
+  type = "git-repo"
+  url = "https://github.com/olets/zsh-abbr.git"
   refreshPeriod = "168h"
+  [".config/zsh/plugins/autoload/zsh-abbr".clone]
+    args = ["--recurse-submodules", "--single-branch", "--branch", "main", "--depth", "1"]
+  [".config/zsh/plugins/autoload/zsh-abbr".pull]
+    args = ["--recurse-submodules"]
 
 [".config/zsh/plugins/autoload/zsh-completions"]
   type = "archive"
