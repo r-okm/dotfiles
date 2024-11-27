@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+yank() {
+  local cmd
+  cmd='/mnt/c/scoop/shims/win32yank.exe -i --crlf'
+
+  $cmd "$@"
+}
+
+paste() {
+  local cmd
+  cmd='/mnt/c/scoop/shims/win32yank.exe -o --lf'
+
+  $cmd "$@"
+}
+
+main() {
+  [[ "$#" -lt 2 ]] && return 1
+  [[ "$1" != '-selection' && "$2" != 'clipboard' ]] && return 1
+
+  shift 2
+  if [[ "$#" -ge 1 ]] ; then
+    if [[ "$1" == '-out' ]]; then
+      shift
+      paste "$@"
+    fi
+  else
+    yank "$@"
+  fi
+}
+
+main "$@"
+
+# vim: set ft=sh:
