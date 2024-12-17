@@ -145,14 +145,4 @@ update_plugins() {
     brew bundle
     brew update
   fi
-
-  if [ -x "$(command -v apt)" ]; then
-    sudo apt update
-    sudo apt upgrade -y
-  fi
-
-  if [ -x "$(command -v scoop)" ]; then
-    scoop update
-    scoop status
-  fi
 }
