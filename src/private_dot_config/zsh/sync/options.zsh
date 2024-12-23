@@ -1,5 +1,3 @@
-# vim: set ft=zsh:
-
 # bindkey
 bindkey -e
 bindkey "^[[3~" delete-char
