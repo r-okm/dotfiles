@@ -344,7 +344,7 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "JetBrainsMono NF, BIZ UDGothic",
+                "face": "JetBrainsMonoNL NF, BIZ UDGothic",
                 "size": 11
             },
             "intenseTextStyle": "none",
