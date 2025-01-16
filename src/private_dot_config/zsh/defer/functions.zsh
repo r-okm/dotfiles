@@ -81,16 +81,16 @@ fzf_git_branch() {
     --prompt='CHECKOUT BRANCH > '  \
     --header='ENTER to checkout, CTRL-d to view diff, CTRL-x to delete' \
     --preview-window='right,65%' \
-    --preview="$get_branch_name | xargs -I % sh -c 'git lg %'" \
+    --preview="$get_branch_name | xargs -I % sh -c 'git fzf-log %'" \
     --bind "enter:become:$checkout_branch" \
     --bind "ctrl-x:become:$delete_branch" \
     --bind "ctrl-d:execute:$view_diff" \
 }
 
 fzf_git_log() {
-  local command="git lg"
+  local command="git fzf-log"
   if [ "$1" = "--all" ]; then
-    command="git lg $1"
+    command="git fzf-log $1"
   fi
 
   local log_line_to_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs -I % sh -c 'echo -n %'"
