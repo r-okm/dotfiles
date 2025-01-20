@@ -56,11 +56,13 @@
 [gpg]
   format = ssh
 [merge]
-  tool = nvim
+  tool = diffview.nvim
 [mergetool "code"]
   cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 [mergetool "nvim"]
-  cmd = "nvim -d -c \"4wincmd w | wincmd J\" \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\""
+  cmd = "nvim -d -c \"3wincmd w | wincmd J\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+[mergetool "diffview.nvim"]
+  cmd = "nvim -c 'DiffviewOpen'"
 [mergetool]
   prompt = false
 [advice]
