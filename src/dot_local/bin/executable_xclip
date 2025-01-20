@@ -3,14 +3,14 @@ set -euo pipefail
 
 yank() {
   local cmd
-  cmd='/mnt/c/scoop/shims/win32yank.exe -i --crlf'
+  cmd='win32yank -i --crlf'
 
   $cmd "$@"
 }
 
 paste() {
   local cmd
-  cmd='/mnt/c/scoop/shims/win32yank.exe -o --lf'
+  cmd='win32yank -o --lf'
 
   $cmd "$@"
 }

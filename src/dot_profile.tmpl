@@ -27,9 +27,7 @@ setup_ssh_agent_wsl() {
 
   if ! ss -a | grep -q "$SSH_AUTH_SOCK"; then
       rm -f "$SSH_AUTH_SOCK"
-      local windows_username='{{ index . "wsl_windows_username" | default "" }}'
-      local npiperelay_cmd="/mnt/c/Users/${windows_username}/AppData/Local/Microsoft/WinGet/Links/npiperelay.exe"
-      (setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork EXEC:"${npiperelay_cmd} -ei -s //./pipe/openssh-ssh-agent",nofork &) >/dev/null 2>&1
+      (setsid socat UNIX-LISTEN:"$SSH_AUTH_SOCK",fork EXEC:'npiperelay -ei -s //./pipe/openssh-ssh-agent',nofork &) >/dev/null 2>&1
   fi
 }
 
@@ -65,6 +63,11 @@ main() {
   export MANPAGER='nvim +Man!'
   export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
   export GITHUB_COPILOT_ENABLED={{ index . "github_copilot_enabled" | default 0 }}
+
+  # add Windows bin directory to PATH(for WSL2)
+  if [ -d '/mnt/c/bin' ]; then
+    export PATH="$PATH:/mnt/c/bin"
+  fi
 
   source_if_exists "$HOME/.cargo/env"
 
