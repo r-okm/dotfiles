@@ -28,7 +28,7 @@ fzf_cd_ghq() {
     --height 50% \
     --reverse \
     --prompt='CHANGE DIRECTORY > ' \
-    --preview="bat --color=always --style=auto $ghq_root/{}/README.md" \
+    --preview="tree $ghq_root/{} -aCFl -L 1 --dirsfirst --noreport" \
   )
   if [ -n "$target_dir" ]; then
     local path=$ghq_root/$target_dir
