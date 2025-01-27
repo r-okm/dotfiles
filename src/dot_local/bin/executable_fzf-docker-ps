@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REQUIRED_CMDS=(
+  docker
+  fzf
+)
+CONTAINER_SHELL=${CONTAINER_SHELL:-bash}
+
+check_required_cmds() {
+  for cmd in "${REQUIRED_CMDS[@]}"; do
+    if ! command -v "$cmd" &>/dev/null; then
+      echo "Error: $cmd is not installed" >&2
+      exit 1
+    fi
+  done
+}
+
+main() {
+  local input_container_id="echo {} | awk '{print \$1}'"
+
+  docker ps -as \
+    | fzf --header-lines=1 --ansi --no-sort --reverse \
+    --tiebreak=index \
+    --height=90% \
+    --preview-window='down:80%,follow' \
+    --preview='docker logs -f --details {1}' \
+    --header='| exec: <cr> | start: a | restart: r | stop: o | rm: d | yank: y | exit: q, <esc> |' \
+    --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:accept,esc:accept' \
+    --bind="enter:become:$input_container_id | xargs -I {} docker exec -it {} $CONTAINER_SHELL" \
+    --bind="a:become:$input_container_id | xargs -I {} docker start {}" \
+    --bind="r:become:$input_container_id | xargs -I {} docker restart {}" \
+    --bind="o:become:$input_container_id | xargs -I {} docker stop {}" \
+    --bind="d:become:$input_container_id | xargs -I {} docker rm {}" \
+    > /dev/null
+}
+
+check_required_cmds
+main "$@"
+
+# vim: set ft=sh:
