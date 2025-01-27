@@ -25,13 +25,13 @@ main() {
     --height=90% \
     --preview-window='down:80%,follow' \
     --preview='docker logs -f --details {1}' \
-    --header='| exec: <cr> | start: a | restart: r | stop: o | rm: d | yank: y | exit: q, <esc> |' \
+    --header='| exec: <cr> | start: <C-a> | restart: <C-r> | stop: <C-o> | rm: <C-d> | yank: <C-y> | exit: q, <esc> |' \
     --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:accept,esc:accept' \
     --bind="enter:become:$input_container_id | xargs -I {} docker exec -it {} $CONTAINER_SHELL" \
-    --bind="a:become:$input_container_id | xargs -I {} docker start {}" \
-    --bind="r:become:$input_container_id | xargs -I {} docker restart {}" \
-    --bind="o:become:$input_container_id | xargs -I {} docker stop {}" \
-    --bind="d:become:$input_container_id | xargs -I {} docker rm {}" \
+    --bind="ctrl-a:become:$input_container_id | xargs -I {} docker start {}" \
+    --bind="ctrl-r:become:$input_container_id | xargs -I {} docker restart {}" \
+    --bind="ctrl-o:become:$input_container_id | xargs -I {} docker stop {}" \
+    --bind="ctrl-d:become:$input_container_id | xargs -I {} docker rm {}" \
     > /dev/null
 }
 
