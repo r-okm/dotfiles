@@ -26,7 +26,7 @@ main() {
     --preview-window='down:80%,follow' \
     --preview='docker logs -f --details {1}' \
     --header='| exec: <cr> | start: <C-a> | restart: <C-r> | stop: <C-o> | rm: <C-d> | yank: <C-y> | exit: q, <esc> |' \
-    --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:accept,esc:accept' \
+    --bind='j:down,k:up,d:half-page-down,u:half-page-up,q:accept,esc:accept,change:clear-query' \
     --bind="enter:become:$input_container_id | xargs -I {} docker exec -it {} $CONTAINER_SHELL" \
     --bind="ctrl-a:become:$input_container_id | xargs -I {} docker start {}" \
     --bind="ctrl-r:become:$input_container_id | xargs -I {} docker restart {}" \
