@@ -4,13 +4,6 @@
   refreshPeriod = "168h"
 
 {{ if ne .chezmoi.os "windows"}}
-[".config/nvim"]
-  type = "archive"
-  url = "https://github.com/r-okm/nvim-config/archive/main.tar.gz"
-  exact = true
-  stripComponents = 1
-  refreshPeriod = "0"
-
 [".config/zsh/plugins/manual/zsh-defer"]
   type = "archive"
   url = "https://github.com/romkatv/zsh-defer/archive/master.tar.gz"
@@ -53,12 +46,12 @@
   url = "https://raw.githubusercontent.com/aws/aws-cli/v2/bin/aws_zsh_completer.sh"
   refreshPeriod = "168h"
 
-[".config/zsh/fpath/_docker"]
+[".config/zsh/completions/_docker.zsh"]
   type = "file"
   url = "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"
   refreshPeriod = "168h"
 
-[".config/zsh/fpath/git-completion.zsh"]
+[".config/zsh/completions/_git.zsh"]
   type = "file"
   url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
   refreshPeriod = "168h"

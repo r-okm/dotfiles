@@ -64,6 +64,10 @@ main() {
   export FZF_DEFAULT_OPTS='--bind ctrl-v:toggle-preview,ctrl-f:half-page-down,ctrl-b:half-page-up,ctrl-d:preview-half-page-down,ctrl-u:preview-half-page-up'
   export GITHUB_COPILOT_ENABLED={{ index . "github_copilot_enabled" | default 0 }}
 
+  # deno
+  export DENO_INSTALL="$HOME/.deno"
+  export PATH="$DENO_INSTALL/bin:$PATH"
+
   # add Windows bin directory to PATH(for WSL2)
   if [ -d '/mnt/c/bin' ]; then
     export PATH="$PATH:/mnt/c/bin"

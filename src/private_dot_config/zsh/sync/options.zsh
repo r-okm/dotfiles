@@ -19,6 +19,6 @@ zstyle ':completion:*' menu select
 
 # fpath
 fpath=(
-  $ZDOTDIR/fpath(N-/)
+  $ZDOTDIR/completions(N-/)
   $fpath
 )

@@ -64,3 +64,13 @@ update_plugins() {
     brew update
   fi
 }
+
+setup_zsh_completions() {
+  local completions_dir="${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/completions"
+  if [[ ! -d "$completions_dir" ]]; then
+    mkdir -p "$completions_dir"
+  fi
+
+  chezmoi completion zsh --output="${completions_dir}/_chezmoi.zsh"
+  deno completions zsh > "${completions_dir}/_deno.zsh"
+}
