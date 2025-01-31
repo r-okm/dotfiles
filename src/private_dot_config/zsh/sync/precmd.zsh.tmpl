@@ -40,6 +40,12 @@ windows_terminal_tab_title() {
 }
 
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd prompt_format_2
+# add-zsh-hook precmd prompt_format_2
 add-zsh-hook precmd windows_terminal_osc_9_9
 add-zsh-hook precmd windows_terminal_tab_title
+
+SUCCESS=$'\n%F{yellow}%~%f [%F{reset}%?%f] %# '
+FAILURE=$'\n%F{yellow}%~%f [%F{red}%?%f] %# '
+PROMPT=%(?.$SUCCESS.$FAILURE)
+
+unset SUCCESS FAILURE
