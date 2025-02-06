@@ -6,15 +6,14 @@ main() {
   BIN_DIR="$HOME/.local/bin"
   [[ ! -d "$BIN_DIR" ]] && mkdir -p "$BIN_DIR"
   sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$BIN_DIR"
-  CHEZMOI_EXECUTABLE="$BIN_DIR/chezmoi"
+  CHEZMOI_BIN="$BIN_DIR/chezmoi"
 
   # Install dotfiles using chezmoi
-  SOURCE_DIR="${XDG_SHARE_HOME:-$HOME/.local/share}/chezmoi"
-  if [[ -d "$SOURCE_DIR" ]]; then
-    $CHEZMOI_EXECUTABLE apply
+  CHEZMOI_SOURCE_DIR="${XDG_SHARE_HOME:-$HOME/.local/share}/chezmoi"
+  if [[ -d "$CHEZMOI_SOURCE_DIR" ]]; then
+    $CHEZMOI_BIN apply
   else
-    GITHUB_USERNAME='r-okm'
-    $CHEZMOI_EXECUTABLE init $GITHUB_USERNAME --apply
+    $CHEZMOI_BIN init r-okm --apply
   fi
 }
 
