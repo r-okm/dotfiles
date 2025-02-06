@@ -20,13 +20,14 @@ jobs:
         os: [ubuntu-24.04, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v4
       - name: Install requirements
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends curl
-      - name: Run install.sh
+      - name: Install dotfiles
         run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
+          sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply -S .
       - name: Exec zsh
         run: |
           zsh_bin='/home/linuxbrew/.linuxbrew/bin/zsh'
