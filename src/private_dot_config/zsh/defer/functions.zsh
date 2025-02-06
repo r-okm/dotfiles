@@ -73,4 +73,5 @@ setup_zsh_completions() {
 
   chezmoi completion zsh --output="${completions_dir}/_chezmoi.zsh"
   deno completions zsh > "${completions_dir}/_deno.zsh"
+  asdf completion zsh > "${completions_dir}/_asdf.zsh"
 }
