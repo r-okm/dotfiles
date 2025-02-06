@@ -10,4 +10,4 @@ main() {
   /home/linuxbrew/.linuxbrew/bin/brew bundle
 }
 
-main
+# main
