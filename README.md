@@ -3,7 +3,7 @@
 ## Apply dotfiles
 
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm
 ```
 
 ## Update machine-specific settings using chezmoi data
