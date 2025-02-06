@@ -7,7 +7,8 @@ main() {
 
   # restore brew bundle
   brew_bin='/home/linuxbrew/.linuxbrew/bin/brew'
-  HOMEBREW_BUNDLE_FILE="$HOME/.config/homebrew/.Brewfile" $brew_bin bundle
+  export HOMEBREW_BUNDLE_FILE="$HOME/.config/homebrew/.Brewfile"
+  $brew_bin bundle
 }
 
 main
