@@ -1,0 +1,33 @@
+name: Installation on Ubuntu x86_64
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  install:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends curl
+      - name: Run install.sh
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
+      - name: Exec zsh
+        run: |
+          zsh_bin='/home/linuxbrew/.linuxbrew/bin/zsh'
+          exec $zsh_bin -l
