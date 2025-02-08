@@ -32,6 +32,6 @@ jobs:
         run: |
           exec zsh -l
       - name: Source zshrc
-        shell: zsh
+        shell: zsh {0}
         run: |
           source ${ZDOTDIR}/.zshrc
