@@ -25,9 +25,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends curl
       - name: Install dotfiles
+        env:
+          BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
-          branch='${{ github.head_ref }}' || '${{ github.ref_name }}'
-          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $branch
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $BRANCH
       - name: Source .zshrc
         shell: zsh -el --pipefail {0}
         run: |
