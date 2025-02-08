@@ -1,9 +1,15 @@
 # dotfiles
 
+dotfiles managed by chezmoi
+
+## Requirements
+
+- curl
+
 ## Apply dotfiles
 
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/r-okm/dotfiles/main/install.sh)"
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm
 ```
 
 ## Update machine-specific settings using chezmoi data
@@ -19,14 +25,6 @@
    ```sh
    chezmoi apply
    ```
-
-## Change login shell
-
-```sh
-zsh_bin='/home/linuxbrew/.linuxbrew/bin/zsh'
-echo $zsh_bin | sudo tee -a /etc/shells
-chsh -s $zsh_bin
-```
 
 ## Related repositories
 

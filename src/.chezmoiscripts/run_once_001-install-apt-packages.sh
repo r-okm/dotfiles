@@ -3,20 +3,23 @@ set -euxo pipefail
 
 apt_packages=(
   # basic tools
-  'curl'
-  'wget'
-  'unzip'
-  'make'
-  'tree'
   'ca-certificates'
+  'curl'
+  'gnupg'
+  'make'
+  'software-properties-common'
+  'tree'
+  'unzip'
+  'wget'
+  'zsh'
   # runtime
   'python3'
   # neovim build
-  'ninja-build'
-  'gettext'
-  'cmake'
   'build-essential'
+  'cmake'
   'gcc'
+  'gettext'
+  'ninja-build'
   # wsl-ssh-agent
   'socat'
 )
