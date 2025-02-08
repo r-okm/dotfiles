@@ -29,6 +29,6 @@ jobs:
           branch=${{ github.head_ref }} || ${{ github.ref_name }}
           sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $branch
       - name: Source .zshrc
-        shell: zsh -l {0}
+        shell: zsh -el --pipefail {0}
         run: |
-          source ${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/.zshrc
+          source ${ZDOTDIR}/.zshrc
