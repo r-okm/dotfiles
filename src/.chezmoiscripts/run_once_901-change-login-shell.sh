@@ -14,7 +14,7 @@ main() {
     echo "${shell_bin} is already in /etc/shells"
   fi
 
-  chsh -s "$shell_bin"
+  sudo chsh -s "$shell_bin" "$USER"
 }
 
 main
