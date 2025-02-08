@@ -30,5 +30,8 @@ jobs:
           sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $branch
       - name: Exec zsh
         run: |
-          zsh_bin='/usr/bin/zsh'
-          exec $zsh_bin -l
+          exec zsh -l
+      - name: Source zshrc
+        shell: zsh
+        run: |
+          source ${ZDOTDIR}/.zshrc
