@@ -33,5 +33,8 @@ jobs:
           exec zsh -l
       - name: Source zshrc
         shell: zsh {0}
+        env:
+          SHELL: /usr/bin/zsh
+          ZDOTDIR: /home/runner/.config/zsh
         run: |
           source ${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/.zshrc
