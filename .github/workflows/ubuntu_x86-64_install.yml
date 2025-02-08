@@ -34,4 +34,4 @@ jobs:
       - name: Source zshrc
         shell: zsh {0}
         run: |
-          source ${ZDOTDIR}/.zshrc
+          source ${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/.zshrc
