@@ -1,4 +1,4 @@
-name: Installation on Ubuntu x86_64
+name: CI
 
 on:
   pull_request:
