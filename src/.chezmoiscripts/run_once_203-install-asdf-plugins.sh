@@ -5,7 +5,7 @@ main() {
   echo 'Installing asdf plugins...'
 
   local tool_versions installed_plugins
-  tool_versions=$(cat ~/.tool-versions)
+  tool_versions=$(cat ~/.local/share/chezmoi/src/symlink/asdf/dot_tool-versions)
   installed_plugins=$(asdf plugin list)
 
   # tool_versions を改行区切りで while ループで回す
