@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env zsh -l
 set -euo pipefail
 
 ASDF_BIN="$HOME/go/bin/asdf"
