@@ -6,6 +6,7 @@ apt_packages=(
   'ca-certificates'
   'curl'
   'gnupg'
+  'jq'
   'make'
   'software-properties-common'
   'tree'
