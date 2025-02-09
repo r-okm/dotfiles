@@ -76,12 +76,12 @@ main() {
   fi
 
   source_if_exists "$HOME/.cargo/env"
+  {{ if eq .chezmoi.os "linux" -}}
+  {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 
-  {{ if eq .chezmoi.os "linux" }}
-  {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
   setup_ssh_agent_wsl
-  {{   end }}
-  {{ end }}
+  {{   end -}}
+  {{ end -}}
 }
 
 main

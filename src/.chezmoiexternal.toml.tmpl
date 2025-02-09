@@ -3,7 +3,7 @@
   url = "https://raw.githubusercontent.com/dandavison/delta/main/themes.gitconfig"
   refreshPeriod = "168h"
 
-{{ if ne .chezmoi.os "windows"}}
+{{ if ne .chezmoi.os "windows" -}}
 [".config/zsh/plugins/manual/zsh-defer"]
   type = "archive"
   url = "https://github.com/romkatv/zsh-defer/archive/master.tar.gz"
@@ -55,4 +55,4 @@
   type = "file"
   url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
   refreshPeriod = "168h"
-{{ end }}
+{{ end -}}

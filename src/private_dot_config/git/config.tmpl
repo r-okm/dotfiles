@@ -3,13 +3,13 @@
 [include]
   path = ~/.config/git/themes.gitconfig
 [credential]
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+{{ if eq .chezmoi.os "linux" -}}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
   helper = "/mnt/c/bin/git-credential-manager"
-{{   end }}
-{{ else }}
+{{   end -}}
+{{ else -}}
   provider = generic
-{{ end }}
+{{ end -}}
 [core]
   editor = nvim
   autocrlf = false
@@ -72,10 +72,10 @@
   diff = always
 [http "{{ index . "git_repository_host_work" | default "" }}"]
   sslVerify = false
-{{ if eq .chezmoi.os "windows" }}
+{{ if eq .chezmoi.os "windows" -}}
 [safe]
   directory = *
-{{ end }}
+{{ end -}}
 [includeIf "hasconfig:remote.*.url:{{ index . "git_repository_host_work" | default "" }}/**"]
   path = ~/.config/git/work.gitconfig
 [includeIf "hasconfig:remote.*.url:git@github.com.work:*/**"]
