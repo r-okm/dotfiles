@@ -54,19 +54,8 @@ awsp() {
   fi
 }
 
-update_plugins() {
-  if [ -x "$(command -v chezmoi)" ]; then
-    chezmoi upgrade
-  fi
-
-  if [ -x "$(command -v brew)" ]; then
-    brew bundle
-    brew update
-  fi
-}
-
-setup_zsh_completions() {
-  local completions_dir="${ZDOTDIR:-${XDG_CONFIG_HOME:-${HOME}/.config}/zsh}/completions"
+completions_generate() {
+  local completions_dir="$ZDOTDIR/completions"
   if [[ ! -d "$completions_dir" ]]; then
     mkdir -p "$completions_dir"
   fi

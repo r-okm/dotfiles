@@ -50,13 +50,6 @@ main() {
     PATH="$HOME/.local/bin:$PATH"
   fi
 
-  # Set PATH, MANPATH, etc., for Homebrew.
-  local brew_executable='/home/linuxbrew/.linuxbrew/bin/brew'
-  if [ -e "$brew_executable" ]; then
-    eval "$($brew_executable shellenv)"
-    export HOMEBREW_BUNDLE_FILE=$XDG_CONFIG_HOME/homebrew/.Brewfile
-  fi
-
   # asdf
   export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
   export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/.asdfrc"
