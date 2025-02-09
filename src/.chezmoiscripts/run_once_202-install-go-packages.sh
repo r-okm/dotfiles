@@ -13,11 +13,6 @@ main() {
 
   for p in "${packages[@]}"; do
     go install "github.com/${p}"
-
-    # Check if bin is installed
-    local bin
-    bin=$(echo "$p" | awk -F '[/@]' '{print $(NF-1)}')
-    command -v "$bin"
   done
 }
 
