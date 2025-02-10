@@ -1,14 +1,12 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env -S zsh -l
 set -euo pipefail
-
-ASDF_BIN="$HOME/go/bin/asdf"
 
 main() {
   echo 'Installing asdf plugins...'
 
   local tool_versions installed_plugins
   tool_versions=$(cat ~/.local/share/chezmoi/src/symlink/asdf/dot_tool-versions)
-  installed_plugins=$($ASDF_BIN plugin list)
+  installed_plugins=$(asdf plugin list)
 
   # Process tool_versions line by line
   while IFS= read -r line; do
@@ -20,14 +18,14 @@ main() {
       echo "Plugin '$plugin' is already installed."
     else
       echo "Installing 'plugin:$plugin'"
-      $ASDF_BIN plugin add "$plugin"
+      asdf plugin add "$plugin"
     fi
 
-    if $ASDF_BIN list "$plugin" | grep -Fq "$version"; then
+    if asdf list "$plugin" | grep -Fq "$version"; then
       echo "Version '$plugin:$version' is already installed."
     else
       echo "Installing '$plugin:$version'"
-      $ASDF_BIN install "$plugin" "$version"
+      asdf install "$plugin" "$version"
     fi
   done <<< "$tool_versions"
 }
