@@ -1,4 +1,4 @@
-#!/usr/bin/env -S zsh -l
+#!/usr/bin/env zsh
 set -euxo pipefail
 
 packages=(
