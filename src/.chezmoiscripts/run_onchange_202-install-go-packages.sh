@@ -11,9 +11,13 @@ packages=(
 main() {
   echo 'Installing Go packages...'
 
+  env
+
   for p in "${packages[@]}"; do
     go install "github.com/${p}"
   done
+
+  env
 }
 
 main

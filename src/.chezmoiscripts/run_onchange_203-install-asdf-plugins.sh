@@ -6,6 +6,8 @@ ASDF_BIN="$HOME/go/bin/asdf"
 main() {
   echo 'Installing asdf plugins...'
 
+  env
+
   local tool_versions installed_plugins
   tool_versions=$(cat ~/.local/share/chezmoi/src/symlink/asdf/dot_tool-versions)
   installed_plugins=$($ASDF_BIN plugin list)
@@ -30,6 +32,8 @@ main() {
       $ASDF_BIN install "$plugin" "$version"
     fi
   done <<< "$tool_versions"
+
+  env
 }
 
 main
