@@ -27,6 +27,13 @@ jobs:
       - name: Install dotfiles
         env:
           BRANCH: ${{ github.head_ref || github.ref_name }}
+          XDG_DATA_HOME: "$HOME/.local/share"
+          ASDF_DATA_DIR: "$XDG_DATA_HOME/asdf"
+          ASDF_CONFIG_FILE: "$XDG_CONFIG_HOME/asdf/.asdfrc"
+          GOPATH: "$HOME/go"
+          GOBIN: "$GOPATH/bin"
+          DENO_INSTALL: "$HOME/.deno"
+          PATH: "$ASDF_DATA_DIR/shims:$GOBIN:$DENO_INSTALL/bin:$PATH"
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $BRANCH
       - name: Source .zshrc
