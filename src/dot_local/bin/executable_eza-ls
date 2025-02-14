@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+main() {
+  eza \
+    -ahlmM \
+    -F=always \
+    --color=always \
+    --icons=always \
+    --group-directories-first \
+    --git \
+    --time-style=relative \
+    "$@"
+}
+
+main "$@"
+
+# vim: set ft=sh:

@@ -3,6 +3,7 @@ set -euxo pipefail
 
 packages=(
   'bat'
+  'eza'
   'fd-find'
   'git-delta'
   'ripgrep'
