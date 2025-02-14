@@ -1,9 +1,9 @@
 symlink
 .local/bin/xclip
-.local/bin/xdg-open
 
 {{ if eq .chezmoi.os "windows" }}
 *
+**/*.sh
 !AppData
 !.bash*
 !.config/git
@@ -16,6 +16,5 @@ AppData
 {{ if eq .chezmoi.os "linux" }}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
 !.local/bin/xclip
-!.local/bin/xdg-open
 {{   end }}
 {{ end }}
