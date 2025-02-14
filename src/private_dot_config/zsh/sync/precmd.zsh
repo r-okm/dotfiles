@@ -15,8 +15,8 @@ if [[ -n "$WSL_DISTRO_NAME" ]] && [[ -x "$(command -v wslpath)" ]]; then
   add-zsh-hook precmd windows_terminal_tab_title
 fi
 
-SUCCESS=$'\n%F{yellow}%~%f [%F{reset}%?%f] %# '
-FAILURE=$'\n%F{yellow}%~%f [%F{red}%?%f] %# '
+SUCCESS=$'\n%F{yellow}%~%f [%F{reset}%?%f]\n%F{green}❯%f '
+FAILURE=$'\n%F{yellow}%~%f [%F{red}%?%f]\n%F{red}❯%f '
 PROMPT=%(?.$SUCCESS.$FAILURE)
 
 unset SUCCESS FAILURE
