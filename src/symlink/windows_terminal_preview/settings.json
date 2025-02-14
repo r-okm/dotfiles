@@ -342,7 +342,7 @@
             "backgroundImageOpacity": 0.05,
             "bellStyle": "none",
             "closeOnExit": "always",
-            "colorScheme": "GruvboxDark",
+            "colorScheme": "Catppuccin Mocha",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
             "font": 
@@ -511,7 +511,32 @@
     ],
     "showTabsInTitlebar": true,
     "tabSwitcherMode": "inOrder",
-    "theme": "dark",
-    "themes": [],
+    "theme": "Catppuccin Mocha",
+    "themes": 
+    [
+        {
+            "name": "Catppuccin Mocha",
+            "tab": 
+            {
+                "background": "#1E1E2EFF",
+                "iconStyle": "default",
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "tabRow": 
+            {
+                "background": "#181825FF",
+                "unfocusedBackground": "#11111BFF"
+            },
+            "window": 
+            {
+                "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
+                "useMica": false
+            }
+        }
+    ],
     "useAcrylicInTabRow": true
 }
