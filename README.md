@@ -1,7 +1,6 @@
 # dotfiles
 
-[![CI](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml)  
-dotfiles managed by chezmoi
+[![CI](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml)
 
 ## Requirements
 
