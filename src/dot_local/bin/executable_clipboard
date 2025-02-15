@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YANK_CMD="win32yank -i --crlf"
+PUT_CMD="win32yank -o --lf"
+
+# show help
+help() {
+  cat << EOF
+Usage: $(basename "$0") [OPTIONS]
+Options:
+  --yank, -y    Yank stdin to clipboard
+  --put, -p     Put clipboard content to stdout
+  --help, -h    Display this help message
+EOF
+}
+
+# yank stdin to clipboard
+yank() {
+  $YANK_CMD
+}
+
+# stdout clipboard content
+put() {
+  $PUT_CMD
+}
+
+# main function
+main() {
+  local opt="${1:-help}"
+
+  case "$opt" in
+    --yank|-y)
+      yank
+      ;;
+    --put|-p)
+      put
+      ;;
+    --help|-h)
+      help
+      ;;
+    *)
+      echo "Invalid option: $*"
+      echo
+      help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
+
+# vim: set ft=sh:

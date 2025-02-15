@@ -23,7 +23,7 @@ main() {
   local preview_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=fzf_git_log"
   local show_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=git --paging=always"
   local checkout_commit="$input_commit_hash | xargs -I % git switch -d %"
-  local copy_commit_hash="$input_commit_hash | xclip -selection clipboard"
+  local copy_commit_hash="$input_commit_hash | clipboard --yank"
 
   eval "$command" | \
     fzf --ansi --no-sort --reverse --tiebreak=index \

@@ -1,5 +1,4 @@
 symlink
-.local/bin/xclip
 
 {{ if eq .chezmoi.os "windows" }}
 *
@@ -11,10 +10,4 @@ symlink
 {{ else }}
 AppData
 .ideavimrc
-{{ end }}
-
-{{ if eq .chezmoi.os "linux" }}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-!.local/bin/xclip
-{{   end }}
 {{ end }}
