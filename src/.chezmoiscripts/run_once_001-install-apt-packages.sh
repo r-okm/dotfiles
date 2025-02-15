@@ -12,6 +12,7 @@ apt_packages=(
   'tree'
   'unzip'
   'wget'
+  'xdg-utils'
   'zsh'
   # runtime
   'python3'
