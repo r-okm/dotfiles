@@ -23,18 +23,17 @@ fzf_cd_hidden() {
 }
 
 fzf_cd_ghq() {
-  local ghq_root=$(ghq root)
-  local target_dir=$(
+  local repo=$(
     ghq list | fzf \
       --height 50% \
       --reverse \
       --prompt='CHANGE DIRECTORY > ' \
-      --preview="eza-tree $ghq_root/{} --git-ignore"
+      --preview="ghq list --full-path --exact {} | xargs -I {} eza-tree {} --git-ignore"
   )
-  if [ -n "$target_dir" ]; then
-    local path=$ghq_root/$target_dir
-    echo "cd $path"
-    cd "$path"
+  if [ -n "$repo" ]; then
+    repo=$(ghq list --full-path --exact $repo)
+    echo "cd $repo"
+    cd "$repo"
   fi
 }
 

@@ -1,11 +1,7 @@
 {{ if ne .chezmoi.os "windows" -}}
 [merge]
 command = "nvim"
-args = [
-  "-d",
-  "{{ "{{" }} .Destination {{ "}}" }}",
-  "{{ "{{" }} .Source {{ "}}" }}"
-]
+args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
 [diff]
 pager = "delta --features=git"
 exclude = ["scripts"]
@@ -13,4 +9,4 @@ exclude = ["scripts"]
 [data]
 git_user_name_work = ""
 git_user_email_work = ""
-git_repository_host_work = ""
+work_git_repo_hosts = []

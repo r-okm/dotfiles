@@ -10,6 +10,10 @@
 {{ else -}}
   provider = generic
 {{ end -}}
+{{ if eq .chezmoi.os "windows" -}}
+[safe]
+  directory = *
+{{ end -}}
 [core]
   editor = nvim
   autocrlf = false
@@ -70,13 +74,15 @@
 [color]
   status = always
   diff = always
-[http "{{ index . "git_repository_host_work" | default "" }}"]
+[url "git@github.com:"]
+  pushinsteadof = "git://github.com/"
+  pushinsteadof = "https://github.com/"
+[ghq]
+  root = ~/src
+  user = r-okm
+{{ range .work_git_repo_hosts -}}
+[includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
+  path = ~/.config/git/work.gitconfig
+[http "https://{{ . }}"]
   sslVerify = false
-{{ if eq .chezmoi.os "windows" -}}
-[safe]
-  directory = *
 {{ end -}}
-[includeIf "hasconfig:remote.*.url:{{ index . "git_repository_host_work" | default "" }}/**"]
-  path = ~/.config/git/work.gitconfig
-[includeIf "hasconfig:remote.*.url:git@github.com.work:*/**"]
-  path = ~/.config/git/work.gitconfig

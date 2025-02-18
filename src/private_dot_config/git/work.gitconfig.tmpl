@@ -1,7 +1,14 @@
 # vim: set ft=conf:
 
 [user]
-  name = {{ index . "git_user_name_work" | default "" }}
-  email = {{ index . "git_user_email_work" | default "" }}
+  name = {{ .git_user_name_work }}
+  email = {{ .git_user_email_work }}
 [commit]
   gpgsign = false
+[url "work.github.com:"]
+  insteadOf = git@github.com:
+  insteadOf = ssh://git@github.com/
+  insteadOf = https://github.com/
+  pushInsteadOf = git@github.com:
+  pushInsteadOf = ssh://git@github.com/
+  pushInsteadOf = https://github.com/
