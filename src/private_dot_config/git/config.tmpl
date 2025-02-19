@@ -86,3 +86,11 @@
 [http "https://{{ . }}"]
   sslVerify = false
 {{ end -}}
+{{ range .work_github_orgs -}}
+[includeIf "hasconfig:remote.*.url:git@github.com:{{ . }}/**"]
+  path = ~/.config/git/work.gitconfig
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/{{ . }}/**"]
+  path = ~/.config/git/work.gitconfig
+[includeIf "hasconfig:remote.*.url:https://github.com/{{ . }}/**"]
+  path = ~/.config/git/work.gitconfig
+{{ end -}}
