@@ -6,11 +6,12 @@ packages=(
   'eza'
   'fd-find'
   'git-delta'
+  'oxker'
   'ripgrep'
 )
 
 main() {
-  echo 'Installing Rust packages...'
+  echo 'Installing cargo packages...'
 
   cargo install --locked "${packages[@]}"
 }
