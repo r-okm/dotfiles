@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REQUIRED_CMDS=(
+  fzf
+  aws
+)
+
+check_required_cmds() {
+  for cmd in "${REQUIRED_CMDS[@]}"; do
+    if ! command -v "$cmd" &>/dev/null; then
+      echo "Error: $cmd is not installed" >&2
+      exit 1
+    fi
+  done
+}
+
+main() {
+  local profile
+  profile=$(
+    aws configure list-profiles |
+      fzf --ansi --no-sort --reverse --tiebreak=index \
+        --height 20% \
+        --prompt='SWITCH AWS PROFILE > '
+  )
+
+  if [[ -n "$profile" ]]; then
+    export AWS_PROFILE="$profile"
+    echo "export AWS_PROFILE=\"$profile\""
+  else
+    unset AWS_PROFILE
+    echo "unset AWS_PROFILE"
+  fi
+}
+
+
+check_required_cmds
+main "$@"
+
+# vim: set ft=sh:

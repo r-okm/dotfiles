@@ -37,23 +37,6 @@ fzf_cd_ghq() {
   fi
 }
 
-awsp() {
-  local profile=$(
-    aws configure list-profiles |
-      fzf --ansi --no-sort --reverse --tiebreak=index \
-        --height 20% \
-        --prompt='SWITCH AWS PROFILE > '
-  )
-
-  if [ ! -z "$profile" ]; then
-    export AWS_PROFILE="$profile"
-    echo "export AWS_PROFILE=\"$profile\""
-  else
-    unset AWS_PROFILE
-    echo "unset AWS_PROFILE"
-  fi
-}
-
 completions_generate() {
   local completions_dir="$ZDOTDIR/completions"
   if [[ ! -d "$completions_dir" ]]; then
