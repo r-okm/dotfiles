@@ -1,15 +1,12 @@
-# dotfiles
+# dotfiles [![CI](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml)
 
-[![CI](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml)
+My dotfiles managed with chezmoi.
 
-## Requirements
-
-- curl
-
-## Apply dotfiles
+## Installation
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm
+git clone https://github.com/r-okm/dotfiles.git
+./install.sh
 ```
 
 ## Update machine-specific settings using chezmoi data
