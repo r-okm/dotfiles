@@ -1,18 +1,18 @@
 #!/usr/bin/env -S zsh -l
 set -euo pipefail
 
+TOOL_VERSIONS_FILE=${TOOL_VERSIONS_FILE:-"$HOME/.tool-versions"}
+
 main() {
   echo 'Installing asdf plugins...'
 
-  local tool_versions installed_plugins
-  tool_versions=$(cat ~/.local/share/chezmoi/src/symlink/asdf/dot_tool-versions)
+  local installed_plugins
   installed_plugins=$(asdf plugin list)
 
   # Process tool_versions line by line
   while IFS= read -r line; do
     local plugin version
-    plugin=$(echo "$line" | awk '{print $1}')
-    version=$(echo "$line" | awk '{print $2}')
+    read -r plugin version <<< "$line"
 
     if echo "$installed_plugins" | grep -Fq "$plugin"; then
       echo "Plugin '$plugin' is already installed."
@@ -27,7 +27,7 @@ main() {
       echo "Installing '$plugin:$version'"
       asdf install "$plugin" "$version"
     fi
-  done <<< "$tool_versions"
+  done < "$TOOL_VERSIONS_FILE"
 }
 
 main

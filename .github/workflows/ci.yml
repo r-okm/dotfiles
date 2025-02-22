@@ -6,11 +6,13 @@ on:
       - "main"
     paths:
       - "src/**"
+      - "install.sh"
   push:
     branches:
       - "main"
     paths:
       - "src/**"
+      - "install.sh"
   workflow_dispatch:
 
 defaults:
@@ -24,16 +26,9 @@ jobs:
         os: [ubuntu-24.04, ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install requirements
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends curl
-      - name: Install dotfiles
-        env:
-          BRANCH: ${{ github.head_ref || github.ref_name }}
-        run: |
-          sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply r-okm --branch $BRANCH
-      - name: Source .zshrc
-        shell: zsh -el --pipefail {0}
-        run: |
+      - uses: actions/checkout@v3
+      - run: |
+          ./install.sh
+      - run: |
           source ${ZDOTDIR}/.zshrc
+        shell: zsh -el --pipefail {0}
