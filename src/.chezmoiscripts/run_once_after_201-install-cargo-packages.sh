@@ -1,19 +1,30 @@
 #!/usr/bin/env -S zsh -l
-set -euxo pipefail
+set -euo pipefail
 
+# Define packages with their versions (no @ needed for latest)
 packages=(
   'bat'
   'eza'
   'fd-find'
   'git-delta'
-  'oxker'
+  'oxker@0.9.0'
   'ripgrep'
 )
 
 main() {
   echo 'Installing cargo packages...'
 
-  cargo install --locked "${packages[@]}"
+  for package in "${packages[@]}"; do
+    if [[ "$package" == *@* ]]; then
+      name="${package%@*}"
+      version="${package#*@}"
+      echo "Installing $name version $version..."
+      cargo install --locked "$name" --version "$version"
+    else
+      echo "Installing $package latest version..."
+      cargo install --locked "$package"
+    fi
+  done
 }
 
 main
