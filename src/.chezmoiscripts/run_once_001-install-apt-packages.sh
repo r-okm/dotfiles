@@ -16,6 +16,7 @@ apt_packages=(
   'zsh'
   # runtime
   'python3'
+  'python3-pip'
   'python3-venv'
   # neovim build
   'build-essential'
