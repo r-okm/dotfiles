@@ -1,102 +1,103 @@
 # vim: set ft=conf:
+# vim: set noexpandtab:
 
 [include]
-  path = ~/.config/git/themes.gitconfig
+	path = ~/.config/git/themes.gitconfig
 [credential]
 {{ if eq .chezmoi.os "linux" -}}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-  helper = "/mnt/c/bin/git-credential-manager"
+	helper = "/mnt/c/bin/git-credential-manager"
 {{   end -}}
 {{ else -}}
-  provider = generic
+	provider = generic
 {{ end -}}
 {{ if eq .chezmoi.os "windows" -}}
 [safe]
-  directory = *
+	directory = *
 {{ end -}}
 [core]
-  editor = nvim
-  autocrlf = false
-  pager = delta --features=git
-  filemode = false
+	editor = nvim
+	autocrlf = false
+	pager = delta --features=git
+	filemode = false
 [interactive]
-  diffFilter = delta --color-only
+	diffFilter = delta --color-only
 [delta "git"]
-  features = chameleon
-  navigate = true
-  light = false
-  side-by-side = true
-  line-numbers = true
+	features = chameleon
+	navigate = true
+	light = false
+	side-by-side = true
+	line-numbers = true
 [delta "fzf_git_log"]
-  features = chameleon
-  navigate = true
-  light = false
-  side-by-side = false
-  line-numbers = true
+	features = chameleon
+	navigate = true
+	light = false
+	side-by-side = false
+	line-numbers = true
 [user]
-  useConfigOnly = true
-  name = r-okm
-  email = 65703649+r-okm@users.noreply.github.com
-  signingkey = {{ .chezmoi.homeDir }}/.ssh/keypair/git/sign_gh_gmail.pub
+	useConfigOnly = true
+	name = r-okm
+	email = 65703649+r-okm@users.noreply.github.com
+	signingkey = {{ .chezmoi.homeDir }}/.ssh/keypair/git/sign_gh_gmail.pub
 [alias]
-  msg = commit --amend --edit
-  append = commit --amend --no-edit
-  pretty-log = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)- %an (%h)%C(reset)'
+	msg = commit --amend --edit
+	append = commit --amend --no-edit
+	pretty-log = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)- %an (%h)%C(reset)'
 [init]
-  defaultBranch = main
+	defaultBranch = main
 [submodule]
-  recurse = true
+	recurse = true
 [fetch]
-  prune = true
-  recurseSubmodules = on-demand
+	prune = true
+	recurseSubmodules = on-demand
 [push]
-  default = current
-  autoSetupRemote = true
-  recurseSubmodules = no
+	default = current
+	autoSetupRemote = true
+	recurseSubmodules = no
 [pull]
-  rebase = false
+	rebase = false
 [commit]
-  verbose = true
-  gpgsign = true
+	verbose = true
+	gpgsign = true
 [gpg]
-  format = ssh
+	format = ssh
 [merge]
-  tool = diffview.nvim
+	tool = diffview.nvim
 [mergetool "code"]
-  cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 [mergetool "nvim"]
-  cmd = "nvim -d -c \"3wincmd w | wincmd J\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
+	cmd = "nvim -d -c \"3wincmd w | wincmd J\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 [mergetool "diffview.nvim"]
-  cmd = "nvim -c 'DiffviewOpen'"
+	cmd = "nvim -c 'DiffviewOpen'"
 [mergetool]
-  prompt = false
+	prompt = false
 [advice]
-  detachedHead = false
+	detachedHead = false
 [color]
-  status = always
-  diff = always
+	status = always
+	diff = always
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
 [url "git@github.com:"]
-  pushinsteadof = "git://github.com/"
-  pushinsteadof = "https://github.com/"
+	pushinsteadof = "git://github.com/"
+	pushinsteadof = "https://github.com/"
 [ghq]
-  root = ~/src
-  user = r-okm
+	root = ~/src
+	user = r-okm
 {{ range .work_git_repo_hosts -}}
 [includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
-  path = ~/.config/git/work.gitconfig
+	path = ~/.config/git/work.gitconfig
 [http "https://{{ . }}"]
-  sslVerify = false
+	sslVerify = false
 {{ end -}}
 {{ range .work_github_orgs -}}
 [includeIf "hasconfig:remote.*.url:git@github.com:{{ . }}/**"]
-  path = ~/.config/git/work.gitconfig
+	path = ~/.config/git/work.gitconfig
 [includeIf "hasconfig:remote.*.url:ssh://git@github.com/{{ . }}/**"]
-  path = ~/.config/git/work.gitconfig
+	path = ~/.config/git/work.gitconfig
 [includeIf "hasconfig:remote.*.url:https://github.com/{{ . }}/**"]
-  path = ~/.config/git/work.gitconfig
+	path = ~/.config/git/work.gitconfig
 {{ end -}}
