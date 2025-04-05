@@ -75,6 +75,9 @@ main() {
   setup_ssh_agent_wsl
   {{   end -}}
   {{ end -}}
+
+  # env vars managed with chezmoi
+  export GITHUB_COPILOT_MODEL='{{ .github_copilot_model }}'
 }
 
 main
