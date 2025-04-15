@@ -80,7 +80,8 @@ completions_generate() {
     mkdir -p "$completions_dir"
   fi
 
-  chezmoi completion zsh --output="${completions_dir}/_chezmoi.zsh"
-  deno completions zsh >"${completions_dir}/_deno.zsh"
-  asdf completion zsh >"${completions_dir}/_asdf.zsh"
+  chezmoi completion zsh --output="${completions_dir}/_chezmoi"
+  deno completions zsh >"${completions_dir}/_deno"
+  asdf completion zsh >"${completions_dir}/_asdf"
+  gh completion -s zsh >"${completions_dir}/_gh"
 }
