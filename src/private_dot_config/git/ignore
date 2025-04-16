@@ -5,7 +5,7 @@
 
 # neovim
 *.session.vim
-.nvim/
+.nvim
 
 # personal ignore directory
 myignore/
