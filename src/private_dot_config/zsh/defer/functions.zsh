@@ -5,6 +5,7 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_cd_hidden'
   'fzf_cd_ghq'
   'fzf_nvim_delete_sessions'
+  'awsp'
   'completions_generate'
 )
 
@@ -71,6 +72,24 @@ fzf_nvim_delete_sessions() {
   if [[ -n "$session_file" ]]; then
     echo "rm $session_file"
     rm "$session_file"
+  fi
+}
+
+awsp() {
+  local profile
+  profile=$(
+    aws configure list-profiles |
+      fzf --ansi --no-sort --reverse --tiebreak=index \
+        --height 20% \
+        --prompt='SWITCH AWS PROFILE > '
+  )
+
+  if [[ -n "$profile" ]]; then
+    export AWS_PROFILE="$profile"
+    echo "export AWS_PROFILE=\"$profile\""
+  else
+    unset AWS_PROFILE
+    echo "unset AWS_PROFILE"
   fi
 }
 
