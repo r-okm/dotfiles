@@ -15,8 +15,11 @@ if [[ -n "$WSL_DISTRO_NAME" ]] && [[ -x "$(command -v wslpath)" ]]; then
   add-zsh-hook precmd windows_terminal_tab_title
 fi
 
-SUCCESS=$'\n%F{yellow}%~%f [%F{reset}%?%f]\n%F{green}❯%f '
-FAILURE=$'\n%F{yellow}%~%f [%F{red}%?%f]\n%F{red}❯%f '
-PROMPT=%(?.$SUCCESS.$FAILURE)
+if [[ -f "$ZDOTDIR/plugins/manual/git-prompt.sh" ]]; then
+  source "$ZDOTDIR/plugins/manual/git-prompt.sh"
+  export GIT_PS1_SHOWDIRTYSTATE=1
+fi
 
-unset SUCCESS FAILURE
+precmd() { __git_ps1 "
+%F{yellow}%~%f " "[%F{reset}%?%f]
+%F{green}❯%f " "󰘬 %s " }
