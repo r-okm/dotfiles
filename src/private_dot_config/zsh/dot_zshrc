@@ -25,4 +25,9 @@ for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source_if_exists
 # load depend configs
 # zsh-defer source_if_exists $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+if [[ -n "${GITHUB_ACTIONS}" ]]; then
+  compinit -u
+else
+  compinit
+fi
