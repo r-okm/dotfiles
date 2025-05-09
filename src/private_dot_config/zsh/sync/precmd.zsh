@@ -17,18 +17,9 @@ fi
 
 if [[ -f "$ZDOTDIR/plugins/manual/git-prompt.sh" ]]; then
   source "$ZDOTDIR/plugins/manual/git-prompt.sh"
-  export GIT_PS1_ENABLE=1
   export GIT_PS1_SHOWDIRTYSTATE=1
 fi
 
-precmd() {
-  if [[ "$GIT_PS1_ENABLE" = '1' ]]; then
-    __git_ps1 "
-%F{yellow}%~%f " "[%?]
-%F{green}❯%f " "󰘬 %s "
-  else
-    PS1="
-%F{yellow}%~%f [%?]
-%F{green}❯%f "
-  fi
-}
+precmd() { __git_ps1 "
+%F{yellow}%~%f " "[%F{reset}%?%f]
+%F{green}❯%f " "󰘬 %s " }
