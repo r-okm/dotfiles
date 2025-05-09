@@ -23,6 +23,6 @@ for f ($ZDOTDIR/defer/*(N-.)) zsh-defer source_if_exists $f
 for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source_if_exists $f
 
 # load depend configs
-zsh-defer source_if_exists $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
+# zsh-defer source_if_exists $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
 
-autoload -Uz compinit && zsh-defer compinit
+autoload -Uz compinit && compinit
