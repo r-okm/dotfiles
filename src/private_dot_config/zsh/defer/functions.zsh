@@ -1,6 +1,7 @@
 # vim: set ft=sh:
 
 FUNCTIONS_IN_THIS_FILE=(
+  'fzf_command_history'
   'fzf_cd'
   'fzf_cd_hidden'
   'fzf_cd_ghq'
@@ -9,20 +10,43 @@ FUNCTIONS_IN_THIS_FILE=(
   'completions_generate'
 )
 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^e" edit-command-line
+
 fzf_functions() {
   BUFFER=$(
-    print -l -- "${FUNCTIONS_IN_THIS_FILE[@]}" | fzf \
-      --height 50% \
-      --reverse \
-      --prompt='FUNCTIONS > ' \
-      --query "$LBUFFER"
+    print -l -- "${FUNCTIONS_IN_THIS_FILE[@]}" \
+      | fzf \
+        --height 50% \
+        --reverse \
+        --prompt='FUNCTIONS > ' \
+        --query "$LBUFFER"
   )
-  CURSOR=$#BUFFER
+  CURSOR=${#BUFFER}
   zle reset-prompt
 }
 
 zle -N fzf_functions
 bindkey '^f' fzf_functions
+
+fzf_command_history() {
+  local commands=$(
+    history -n -r 1 \
+      | awk '!seen[$0]++ && !/^(ls|eza)/' \
+      | fzf \
+        --height 50% \
+        --reverse \
+        --prompt='HISTORY > ' \
+        --query "$LBUFFER"
+  )
+  BUFFER=$commands
+  CURSOR=${#BUFFER}
+  zle reset-prompt
+}
+
+zle -N fzf_command_history
+bindkey '^r' fzf_command_history
 
 fzf_cd() {
   local target_dir=$(fd --type directory \
