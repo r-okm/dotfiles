@@ -1,14 +1,11 @@
 # vim: set ft=conf:
+# vim: set noexpandtab:
 
 [user]
-  name = {{ .git_user_name_work }}
-  email = {{ .git_user_email_work }}
+	name = {{ .git_user_name_work }}
+	email = {{ .git_user_email_work }}
 [commit]
-  gpgsign = false
+	gpgsign = false
 [url "work.github.com:"]
-  insteadOf = git@github.com:
-  insteadOf = ssh://git@github.com/
-  insteadOf = https://github.com/
-  pushInsteadOf = git@github.com:
-  pushInsteadOf = ssh://git@github.com/
-  pushInsteadOf = https://github.com/
+	insteadOf = git@github.com:
+	pushInsteadOf = git@github.com:
