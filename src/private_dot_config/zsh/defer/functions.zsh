@@ -5,6 +5,7 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_cd'
   'fzf_cd_hidden'
   'fzf_cd_ghq'
+  'fzf_git_log'
   'fzf_nvim_delete_sessions'
   'awsp'
   'completions_generate'
@@ -85,6 +86,27 @@ fzf_cd_ghq() {
   fi
 }
 
+fzf_git_log() {
+  local command="git pretty-log"
+  [[ "$#" -gt 0 ]] && command="git pretty-log $1"
+
+  local input_commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+  local preview_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=fzf_git_log"
+  local show_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=git --paging=always"
+  local checkout_commit="$input_commit_hash | xargs -I % git switch -d %"
+  local copy_commit_hash="$input_commit_hash | clipboard --yank"
+
+  eval "$command" | \
+    fzf --ansi --no-sort --reverse --tiebreak=index \
+      --preview="$preview_commit" \
+      --header='| show: <cr> | checkout: <C-x> | yank: <C-y> |' \
+      --bind='j:down+down,k:up+up,d:half-page-down,u:half-page-up,q:accept,esc:accept,change:clear-query' \
+      --bind "enter:execute:$show_commit" \
+      --bind "ctrl-x:become:$checkout_commit" \
+      --bind "ctrl-y:execute:$copy_commit_hash" \
+      > /dev/null
+}
+
 fzf_nvim_delete_sessions() {
   local sessions_dir="$XDG_STATE_HOME/nvim/sessions"
   local session_file=$(
@@ -127,4 +149,26 @@ completions_generate() {
   deno completions zsh >"${completions_dir}/_deno"
   asdf completion zsh >"${completions_dir}/_asdf"
   gh completion -s zsh >"${completions_dir}/_gh"
+}
+
+eza_ls() {
+  eza \
+    -ahlmM \
+    -F=always \
+    --color=always \
+    --icons=always \
+    --group-directories-first \
+    --time-style=relative \
+    "$@"
+}
+
+eza_tree() {
+  eza \
+    -amMT \
+    -L 2 \
+    -F=always \
+    --color=always \
+    --icons=always \
+    --group-directories-first \
+    "$@"
 }
