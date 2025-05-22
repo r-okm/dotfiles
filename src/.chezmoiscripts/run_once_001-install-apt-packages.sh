@@ -12,6 +12,7 @@ apt_packages=(
   'tree'
   'unzip'
   'wget'
+  'wl-clipboard'
   'xdg-utils'
   'zsh'
   # runtime
