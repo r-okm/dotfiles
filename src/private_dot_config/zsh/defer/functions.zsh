@@ -150,25 +150,3 @@ completions_generate() {
   asdf completion zsh >"${completions_dir}/_asdf"
   gh completion -s zsh >"${completions_dir}/_gh"
 }
-
-eza_ls() {
-  eza \
-    -ahlmM \
-    -F=always \
-    --color=always \
-    --icons=always \
-    --group-directories-first \
-    --time-style=relative \
-    "$@"
-}
-
-eza_tree() {
-  eza \
-    -amMT \
-    -L 2 \
-    -F=always \
-    --color=always \
-    --icons=always \
-    --group-directories-first \
-    "$@"
-}
