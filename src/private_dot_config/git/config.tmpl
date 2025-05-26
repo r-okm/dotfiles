@@ -47,8 +47,8 @@
 	pretty-log = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)- %an (%h)%C(reset)'
 	# https://zenn.dev/kawarimidoll/articles/94fe6d900ed4d6
 	remote-head = symbolic-ref refs/remotes/origin/HEAD
-	checkout-remote-head = !git fetch --quiet && git switch -d $(git remote-head)
-	new-branch = "!f() { git fetch --quiet && git switch --no-track --create \"$(git config rokm.branchPrefix)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
+	checkout-remote-head = !git fetch && git switch -d $(git remote-head)
+	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config rokm.branchPrefix)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
 [init]
 	defaultBranch = main
 [submodule]
