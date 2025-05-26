@@ -1,0 +1,17 @@
+{
+  "nativeMCPServers": [
+    
+  ],
+  "mcpServers": {
+    "terraform": {
+      "command": "docker",
+      "disabled": true,
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "hashicorp/terraform-mcp-server"
+      ]
+    }
+  }
+}
