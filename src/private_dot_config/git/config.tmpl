@@ -1,8 +1,6 @@
 # vim: set ft=conf:
 # vim: set noexpandtab:
 
-[rokm]
-	branchPrefix = r-okm
 [include]
 	path = ~/.config/git/themes.gitconfig
 [credential]
@@ -48,7 +46,7 @@
 	# https://zenn.dev/kawarimidoll/articles/94fe6d900ed4d6
 	remote-head = symbolic-ref refs/remotes/origin/HEAD
 	checkout-remote-head = !git fetch && git switch -d $(git remote-head)
-	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config rokm.branchPrefix)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
+	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config user.name)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
 [init]
 	defaultBranch = main
 [submodule]
