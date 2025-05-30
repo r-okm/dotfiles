@@ -3,7 +3,6 @@
 FUNCTIONS_IN_THIS_FILE=(
   'fzf_command_history'
   'fzf_cd'
-  'fzf_cd_hidden'
   'fzf_cd_ghq'
   'fzf_git_log'
   'fzf_nvim_delete_sessions'
@@ -34,7 +33,7 @@ bindkey '^f' fzf_functions
 fzf_command_history() {
   local commands=$(
     history -n -r 1 |
-      awk '!seen[$0]++ && !/^(ls|eza)/' |
+      awk '!seen[$0]++ && !/^(ls|eza|fzf_cd)/' |
       fzf \
         --height 50% \
         --reverse \
@@ -50,25 +49,18 @@ zle -N fzf_command_history
 bindkey '^r' fzf_command_history
 
 fzf_cd() {
-  local target_dir=$(fd --type directory \
-    --exclude node_modules \
-    . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
-    if [ -n "$target_dir" ]; then
-      echo "cd $target_dir"
-      cd "$target_dir"
-    fi
-}
+  local fd_args=(--type directory --exclude node_modules)
 
-fzf_cd_hidden() {
-  local target_dir=$(fd --type directory \
-    --exclude node_modules \
-    --hidden \
-    --no-ignore \
-    . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ') &&
-    if [ -n "$target_dir" ]; then
-      echo "cd $target_dir"
-      cd "$target_dir"
-    fi
+  # Check if --hidden flag is passed
+  if [[ "$@" =~ "--hidden" ]]; then
+    fd_args+=(--hidden --no-ignore)
+  fi
+
+  local target_dir=$(fd "${fd_args[@]}" . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ')
+  if [[ -n "$target_dir" ]]; then
+    target_dir=$(realpath "$target_dir")
+    print -z "cd $target_dir"
+  fi
 }
 
 fzf_cd_ghq() {
@@ -79,10 +71,9 @@ fzf_cd_ghq() {
       --prompt='CHANGE DIRECTORY > ' \
       --preview="ghq list --full-path --exact {} | xargs -I {} eza-tree {} --git-ignore"
   )
-  if [ -n "$repo" ]; then
+  if [[ -n "$repo" ]]; then
     repo=$(ghq list --full-path --exact $repo)
-    echo "cd $repo"
-    cd "$repo"
+    print -z "cd $repo"
   fi
 }
 
