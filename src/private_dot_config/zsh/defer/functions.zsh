@@ -17,8 +17,8 @@ bindkey "^e" edit-command-line
 
 fzf_functions() {
   BUFFER=$(
-    print -l -- "${FUNCTIONS_IN_THIS_FILE[@]}" \
-      | fzf \
+    print -l -- "${FUNCTIONS_IN_THIS_FILE[@]}" |
+      fzf \
         --height 50% \
         --reverse \
         --prompt='FUNCTIONS > ' \
@@ -33,9 +33,9 @@ bindkey '^f' fzf_functions
 
 fzf_command_history() {
   local commands=$(
-    history -n -r 1 \
-      | awk '!seen[$0]++ && !/^(ls|eza)/' \
-      | fzf \
+    history -n -r 1 |
+      awk '!seen[$0]++ && !/^(ls|eza)/' |
+      fzf \
         --height 50% \
         --reverse \
         --prompt='HISTORY > ' \
@@ -96,7 +96,7 @@ fzf_git_log() {
   local checkout_commit="$input_commit_hash | xargs -I % git switch -d %"
   local copy_commit_hash="$input_commit_hash | clipboard --yank"
 
-  eval "$command" | \
+  eval "$command" |
     fzf --ansi --no-sort --reverse --tiebreak=index \
       --preview="$preview_commit" \
       --header='| show: <cr> | checkout: <C-x> | yank: <C-y> |' \
@@ -104,7 +104,7 @@ fzf_git_log() {
       --bind "enter:execute:$show_commit" \
       --bind "ctrl-x:become:$checkout_commit" \
       --bind "ctrl-y:execute:$copy_commit_hash" \
-      > /dev/null
+      >/dev/null
 }
 
 fzf_nvim_delete_sessions() {
