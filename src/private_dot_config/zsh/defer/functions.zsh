@@ -15,7 +15,7 @@ zle -N edit-command-line
 bindkey "^e" edit-command-line
 
 fzf_functions() {
-  BUFFER=$(
+  local fn=$(
     print -l -- "${FUNCTIONS_IN_THIS_FILE[@]}" |
       fzf \
         --height 50% \
@@ -23,15 +23,13 @@ fzf_functions() {
         --prompt='FUNCTIONS > ' \
         --query "$LBUFFER"
   )
-  CURSOR=${#BUFFER}
-  zle reset-prompt
+  [[ -n "$fn" ]] && _update_prompt "$fn"
 }
-
 zle -N fzf_functions
 bindkey '^f' fzf_functions
 
 fzf_command_history() {
-  local commands=$(
+  local command=$(
     history -n -r 1 |
       awk '!seen[$0]++ && !/^(ls|eza|fzf_cd)/' |
       fzf \
@@ -40,11 +38,8 @@ fzf_command_history() {
         --prompt='HISTORY > ' \
         --query "$LBUFFER"
   )
-  BUFFER=$commands
-  CURSOR=${#BUFFER}
-  zle reset-prompt
+  [[ -n "$command" ]] && _update_prompt "$command"
 }
-
 zle -N fzf_command_history
 bindkey '^r' fzf_command_history
 
@@ -59,7 +54,7 @@ fzf_cd() {
   local target_dir=$(fd "${fd_args[@]}" . $@ | fzf --height 90% --reverse --prompt='CHANGE DIRECTORY > ')
   if [[ -n "$target_dir" ]]; then
     target_dir=$(realpath "$target_dir")
-    print -z "cd $target_dir"
+    _execute_prompt "cd $target_dir"
   fi
 }
 
@@ -73,7 +68,7 @@ fzf_cd_ghq() {
   )
   if [[ -n "$repo" ]]; then
     repo=$(ghq list --full-path --exact $repo)
-    print -z "cd $repo"
+    _execute_prompt "cd $repo"
   fi
 }
 
@@ -140,4 +135,30 @@ completions_generate() {
   deno completions zsh >"${completions_dir}/_deno"
   asdf completion zsh >"${completions_dir}/_asdf"
   gh completion -s zsh >"${completions_dir}/_gh"
+}
+
+_update_prompt() {
+  local cmd="$1"
+
+  if [[ -n "$WIDGET" ]]; then
+    BUFFER="$cmd"
+    CURSOR=${#BUFFER}
+    zle reset-prompt
+  else
+    print -z "$cmd"
+  fi
+}
+
+_execute_prompt() {
+  local cmd="$1"
+
+  if [[ -n "$WIDGET" ]]; then
+    BUFFER="$cmd"
+    CURSOR=${#BUFFER}
+    zle accept-line
+  else
+    print -s "$cmd"
+    echo "$cmd"
+    eval "$cmd"
+  fi
 }
