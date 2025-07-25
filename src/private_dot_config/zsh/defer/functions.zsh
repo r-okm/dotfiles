@@ -11,8 +11,11 @@ FUNCTIONS_IN_THIS_FILE=(
 )
 
 autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey "^e" edit-command-line
+edit-command-line2() {
+  EDITOR="${EDITOR_EDIT_COMMAND_LINE:-$EDITOR}" edit-command-line
+}
+zle -N edit-command-line2
+bindkey "^e" edit-command-line2
 
 fzf_functions() {
   local fn=$(
