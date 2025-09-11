@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 VERSIONS_JSON_URL='https://raw.githubusercontent.com/docker-library/golang/refs/heads/master/versions.json'
-VERSION_KEY='1.23'
+VERSION_KEY='1.25'
 ARCH='amd64'
 
 main() {
