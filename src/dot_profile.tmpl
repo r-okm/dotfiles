@@ -59,9 +59,7 @@ main() {
   export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/.asdfrc"
 
   # go
-  export GOPATH="$HOME/go"
-  export GOBIN="$GOPATH/bin"
-  export PATH="$GOBIN:$PATH"
+  PATH="${GOROOT:-/usr/local/go}/bin:${GOPATH:-$HOME/go}/bin:$PATH"
 
   # deno
   export DENO_INSTALL="$HOME/.deno"

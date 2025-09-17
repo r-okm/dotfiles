@@ -27,8 +27,7 @@ main() {
   gpgconf --kill all
   rm -rf "$GNUPGHOME" go.tgz.asc
 
-  go_dir=$(dirname "${GOPATH:-${HOME}/go}")
-  tar -C "$go_dir" -xzf go.tgz
+  sudo tar -C /usr/local -xzf go.tgz
   rm go.tgz
 }
 
