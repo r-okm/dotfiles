@@ -1,13 +1,17 @@
 symlink
 
-{{ if eq .chezmoi.os "windows" }}
-*
-**/*.sh
-!AppData
-!.bash*
+{{ if ne .chezmoi.os "linux" -}}
+.chezmoiscripts/linux
+.local
+.config
 !.config/git
-!.ideavimrc
-{{ else }}
+.bash*
+.profile
+.tool-versions
+.zprofile
+
+{{ else if ne .chezmoi.os "windows" -}}
 AppData
 .ideavimrc
-{{ end }}
+
+{{ end -}}
