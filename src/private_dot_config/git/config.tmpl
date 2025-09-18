@@ -47,6 +47,7 @@
 	remote-head = symbolic-ref refs/remotes/origin/HEAD
 	checkout-remote-head = !git fetch && git switch -d $(git remote-head)
 	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config user.name)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
+	delete-gone-branches = "!git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D"
 [init]
 	defaultBranch = main
 [submodule]
