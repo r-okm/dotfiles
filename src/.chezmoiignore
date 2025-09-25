@@ -3,9 +3,12 @@ symlink
 {{ if ne .chezmoi.os "linux" -}}
 .chezmoiscripts/linux/**
 .local
-.config
-!.config/git
-.bash*
+.config/asdf
+.config/mcphub
+.config/zsh
+.config/zsh-abbr
+.config/hadolint.yaml
+.config/mimeapps.list
 .profile
 .tool-versions
 .zprofile
@@ -13,5 +16,6 @@ symlink
 {{ else if ne .chezmoi.os "windows" -}}
 AppData
 .ideavimrc
+.bash_aliases
 
 {{ end -}}
