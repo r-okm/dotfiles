@@ -6,17 +6,17 @@
         {
             "command": 
             {
-                "action": "sendInput",
-                "input": "\u001b[13;2u"
+                "action": "nextTab"
             },
-            "id": "User.sendInput.8882FD6D"
+            "id": "User.nextTab.0"
         },
         {
             "command": 
             {
-                "action": "nextTab"
+                "action": "sendInput",
+                "input": "\u001b[13;2u"
             },
-            "id": "User.nextTab.0"
+            "id": "User.sendInput.8882FD6D"
         },
         {
             "command": 
@@ -29,10 +29,9 @@
         {
             "command": 
             {
-                "action": "moveFocus",
-                "direction": "left"
+                "action": "prevTab"
             },
-            "id": "User.moveFocus.2A0DA8E0"
+            "id": "User.prevTab.0"
         },
         {
             "command": "duplicateTab",
@@ -41,9 +40,10 @@
         {
             "command": 
             {
-                "action": "prevTab"
+                "action": "moveFocus",
+                "direction": "left"
             },
-            "id": "User.prevTab.0"
+            "id": "User.moveFocus.2A0DA8E0"
         },
         {
             "command": 
@@ -70,10 +70,20 @@
     "alwaysShowTabs": true,
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
+    "disabledProfileSources": 
+    [
+        "Windows.Terminal.Azure",
+        "Windows.Terminal.PowershellCore",
+        "Windows.Terminal.SSH",
+        "CanonicalGroupLimited.Ubuntu20.04LTS_79rhkp1fndgsc",
+        "Windows.Terminal.VisualStudio",
+        "Windows.Terminal.Wsl",
+        "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc"
+    ],
+    "initialCols": 187,
     "initialPosition": "1721,2",
     "initialRows": 70,
-    "initialCols": 187,
     "keybindings": 
     [
         {
@@ -85,24 +95,16 @@
             "keys": "ctrl+pgdn"
         },
         {
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+shift+c"
+            "id": null,
+            "keys": "ctrl+alt+5"
         },
         {
             "id": null,
             "keys": "alt+shift+right"
         },
         {
-            "id": null,
-            "keys": "ctrl+alt+5"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+tab"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+c"
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+shift+c"
         },
         {
             "id": null,
@@ -110,11 +112,19 @@
         },
         {
             "id": null,
-            "keys": "alt+shift+down"
+            "keys": "ctrl+c"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+tab"
         },
         {
             "id": null,
             "keys": "ctrl+tab"
+        },
+        {
+            "id": null,
+            "keys": "alt+shift+down"
         },
         {
             "id": null,
@@ -126,7 +136,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+comma"
+            "keys": "ctrl+v"
         },
         {
             "id": null,
@@ -134,11 +144,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+v"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+alt+comma"
+            "keys": "ctrl+comma"
         },
         {
             "id": null,
@@ -146,11 +152,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+a"
+            "keys": "ctrl+alt+comma"
         },
         {
             "id": null,
-            "keys": "ctrl+h"
+            "keys": "ctrl+shift+a"
         },
         {
             "id": null,
@@ -158,7 +164,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+1"
+            "keys": "ctrl+h"
         },
         {
             "id": null,
@@ -166,7 +172,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+alt+9"
+            "keys": "ctrl+alt+1"
         },
         {
             "id": null,
@@ -174,19 +180,23 @@
         },
         {
             "id": null,
+            "keys": "ctrl+alt+9"
+        },
+        {
+            "id": null,
             "keys": "ctrl+alt+3"
         },
         {
-            "id": "User.prevTab.0",
-            "keys": "ctrl+pgup"
+            "id": null,
+            "keys": "ctrl+alt+4"
         },
         {
             "id": null,
             "keys": "ctrl+alt+7"
         },
         {
-            "id": null,
-            "keys": "ctrl+alt+4"
+            "id": "User.prevTab.0",
+            "keys": "ctrl+pgup"
         },
         {
             "id": null,
@@ -202,11 +212,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+6"
+            "keys": "ctrl+insert"
         },
         {
             "id": null,
-            "keys": "ctrl+insert"
+            "keys": "ctrl+shift+6"
         },
         {
             "id": null,
@@ -214,11 +224,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+comma"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+shift+5"
+            "keys": "ctrl+0"
         },
         {
             "id": null,
@@ -226,7 +232,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+0"
+            "keys": "ctrl+shift+5"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+comma"
         },
         {
             "id": null,
@@ -234,7 +244,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+3"
+            "keys": "ctrl+plus"
         },
         {
             "id": null,
@@ -242,11 +252,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+plus"
-        },
-        {
-            "id": null,
-            "keys": "alt+right"
+            "keys": "ctrl+shift+3"
         },
         {
             "id": null,
@@ -254,15 +260,19 @@
         },
         {
             "id": null,
+            "keys": "alt+right"
+        },
+        {
+            "id": null,
             "keys": "alt+up"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+4"
+            "keys": "alt+down"
         },
         {
             "id": null,
-            "keys": "alt+down"
+            "keys": "ctrl+shift+4"
         },
         {
             "id": null,
@@ -297,12 +307,12 @@
             "keys": "ctrl+shift+9"
         },
         {
-            "id": "User.openNewTabDropdown",
-            "keys": "ctrl+@"
-        },
-        {
             "id": null,
             "keys": "shift+insert"
+        },
+        {
+            "id": "User.openNewTabDropdown",
+            "keys": "ctrl+@"
         },
         {
             "id": null,
@@ -366,17 +376,17 @@
                 "startingDirectory": "~"
             },
             {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "hidden": false,
-                "name": "Windows PowerShell"
-            },
-            {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
                 "hidden": false,
                 "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
+            },
+            {
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
             },
             {
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
