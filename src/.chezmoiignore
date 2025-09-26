@@ -5,6 +5,7 @@ symlink
 .local
 .config/asdf
 .config/mcphub
+.config/systemd
 .config/zsh
 .config/zsh-abbr
 .config/hadolint.yaml
@@ -12,6 +13,10 @@ symlink
 .profile
 .tool-versions
 .zprofile
+
+{{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+.config/systemd/user/ssh-agent-relay.service
+{{   end -}}
 
 {{ else if ne .chezmoi.os "windows" -}}
 AppData

@@ -1,0 +1,11 @@
+[Unit]
+Description="ssh agent relay (socat and npiperelay)"
+
+[Service]
+Type=exec
+ExecStartPre=/bin/sh -c 'test -S %h/.ssh/agent.sock && rm %h/.ssh/agent.sock || true'
+ExecStart=socat UNIX-LISTEN:%h/.ssh/agent.sock,mode=600,fork EXEC:'/mnt/c/bin/npiperelay -ei -s //./pipe/openssh-ssh-agent',nofork
+ExecStopPost=/bin/sh -c 'test -S %h/.ssh/agent.sock && rm %h/.ssh/agent.sock || true'
+
+[Install]
+WantedBy=default.target
