@@ -1,3 +1,7 @@
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I'
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias amp='amplify'

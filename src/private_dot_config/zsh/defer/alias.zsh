@@ -11,3 +11,4 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
+alias eza-ls='eza -ahlmM -F=always --color=always --icons=always --group-directories-first --time-style=relative'
