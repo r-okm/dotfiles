@@ -85,8 +85,8 @@
 	diff = always
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
 	required = true
 [url "git@github.com:"]
 	pushinsteadof = "git://github.com/"
