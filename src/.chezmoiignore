@@ -6,6 +6,7 @@ symlink
 .config/asdf
 .config/mcphub
 .config/systemd
+.config/tmux
 .config/zsh
 .config/zsh-abbr
 .config/hadolint.yaml
