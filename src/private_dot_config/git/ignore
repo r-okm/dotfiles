@@ -3,9 +3,5 @@
 # git temp files
 *.orig
 
-# neovim
-*.session.vim
-.nvim
-
 # personal ignore directory
-myignore/
+.ignore
