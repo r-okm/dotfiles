@@ -15,10 +15,6 @@ symlink
 .tool-versions
 .zprofile
 
-{{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-.config/systemd/user/ssh-agent-relay.service
-{{   end -}}
-
 {{ else if ne .chezmoi.os "windows" -}}
 AppData
 .ideavimrc
