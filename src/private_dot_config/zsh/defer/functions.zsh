@@ -140,6 +140,17 @@ completions_generate() {
   gh completion -s zsh >"${completions_dir}/_gh"
 }
 
+tmux_cwd_session() {
+  if [[ -z "$TMUX" ]]; then
+    local session_name=$(basename "$PWD")
+    # If the session already exists, attach to it; otherwise, create
+    tmux new -s "$session_name" || tmux attach -t "$session_name"
+  else
+    echo "Already inside a tmux session."
+    return 1
+  fi
+}
+
 _update_prompt() {
   local cmd="$1"
 
