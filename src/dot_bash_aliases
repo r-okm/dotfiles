@@ -41,5 +41,6 @@ alias hh='gh repo set-default'
 alias hex2dec="printf '%d\n'"
 alias l='ls -laF --group-directories-first'
 alias nr='npm run'
+alias tf='terraform'
 alias v='code'
 alias zg='lazygit'
