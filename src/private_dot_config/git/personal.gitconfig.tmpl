@@ -1,0 +1,11 @@
+# vim: set ft=conf:
+# vim: set noexpandtab:
+
+[core]
+	sshCommand = ssh -i {{ .chezmoi.homeDir }}/.ssh/keypair/git/id_gh_personal
+[user]
+	name = r-okm
+	email = 65703649+r-okm@users.noreply.github.com
+	signingkey = {{ .chezmoi.homeDir }}/.ssh/keypair/git/sign_gh_personal.pub
+[commit]
+	gpgsign = true

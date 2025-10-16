@@ -3,6 +3,7 @@
 
 [include]
 	path = ~/.config/git/themes.gitconfig
+	path = ~/.config/git/personal.gitconfig
 [credential]
 {{ if eq .chezmoi.os "linux" -}}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
@@ -36,9 +37,6 @@
 	line-numbers = true
 [user]
 	useConfigOnly = true
-	name = r-okm
-	email = 65703649+r-okm@users.noreply.github.com
-	signingkey = {{ .chezmoi.homeDir }}/.ssh/keypair/git/sign_gh_gmail.pub
 [alias]
 	reword = commit --amend --edit
 	append = commit --amend --no-edit
@@ -64,7 +62,6 @@
 	rebase = false
 [commit]
 	verbose = true
-	gpgsign = true
 [gpg]
 	format = ssh
 [merge]

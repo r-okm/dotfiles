@@ -1,11 +1,10 @@
 # vim: set ft=conf:
 # vim: set noexpandtab:
 
+[core]
+	sshCommand = ssh -i {{ .chezmoi.homeDir }}/.ssh/keypair/git/id_gh_work
 [user]
 	name = {{ .git_user_name_work }}
 	email = {{ .git_user_email_work }}
 [commit]
 	gpgsign = false
-[url "work.github.com:"]
-	insteadOf = git@github.com:
-	pushInsteadOf = git@github.com:
