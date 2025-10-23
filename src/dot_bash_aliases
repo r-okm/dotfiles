@@ -36,6 +36,7 @@ alias gst='git status --short'
 alias gsu='git submodule update --init --recursive'
 alias gul='git pull'
 alias gus='git push'
+alias gusf='git push --force-with-lease'
 alias h='gh repo set-default -v'
 alias hh='gh repo set-default'
 alias hex2dec="printf '%d\n'"
