@@ -11,6 +11,7 @@ apt_packages=(
   'software-properties-common'
   'tree'
   'unzip'
+  'urlview'
   'wget'
   'wl-clipboard'
   'xdg-utils'
