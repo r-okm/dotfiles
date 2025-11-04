@@ -17,6 +17,7 @@ main() {
 
   # zsh specific configuration
   export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
+  export NI_USE_SOCKET_FIREWALL=1
 }
 
 main
