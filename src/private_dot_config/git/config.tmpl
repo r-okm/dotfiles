@@ -46,7 +46,7 @@
 	checkout-remote-head = !git fetch && git switch -d $(git remote-head)
 	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config user.name)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
 	delete-gone-branches = "!git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D"
-	list-branches = "!git branch --sort=-committerdate --format='%(HEAD) %(if)%(HEAD)%(then)%(color:green)%(else)%(color:default)%(end)%(refname:short)%(color:reset)|[%(upstream:trackshort,nobracket) %(upstream:rstrip=-3)]' --color=always | sed 's:refs/remotes/::g' | column -ts'|'"
+	list-branches = "!git branch --sort=-committerdate --format='%(HEAD) %(if)%(HEAD)%(then)%(color:green)%(else)%(color:default)%(end)%(refname:short)%(color:reset)|[%(color:blue)%(upstream:short)%(color:default)%(if)%(upstream:track)%(then): %(upstream:track,nobracket)%(end)]' --color=always | column -ts'|'"
 [init]
 	defaultBranch = main
 [submodule]
