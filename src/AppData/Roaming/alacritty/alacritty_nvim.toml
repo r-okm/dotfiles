@@ -1,0 +1,13 @@
+[general]
+import = ["alacritty.toml"]
+
+[terminal.shell]
+program = "wsl"
+args = ["--cd", "~", "-e", "zsh", "-l", "-c", "nvim"]
+
+[window]
+title = "Neovim - Alacritty"
+
+[window.dimensions]
+columns = 120
+lines = 30
