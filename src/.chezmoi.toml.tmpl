@@ -6,9 +6,8 @@ args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" 
 pager = "delta --features=git"
 exclude = ["scripts"]
 {{ end -}}
-[data]
-git_user_name_work = ""
-git_user_email_work = ""
-work_git_repo_hosts = []
-work_github_orgs = []
-github_copilot_model = "claude-3.5-sonnet"
+[data.work]
+git_user_name = ""
+git_user_email = ""
+git_repo_hosts = []
+github_orgs = []

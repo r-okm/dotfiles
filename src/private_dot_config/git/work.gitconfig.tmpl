@@ -4,7 +4,7 @@
 [core]
 	sshCommand = ssh -i {{ .chezmoi.homeDir }}/.ssh/keypair/git/id_gh_work
 [user]
-	name = {{ .git_user_name_work }}
-	email = {{ .git_user_email_work }}
+	name = {{ .work.git_user_name }}
+	email = {{ .work.git_user_email }}
 [commit]
 	gpgsign = false

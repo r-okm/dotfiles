@@ -92,13 +92,13 @@
 [ghq]
 	root = ~/src
 	user = r-okm
-{{ range .work_git_repo_hosts -}}
+{{ range .work.git_repo_hosts -}}
 [includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
 	path = ~/.config/git/work.gitconfig
 [http "https://{{ . }}"]
 	sslVerify = false
 {{ end -}}
-{{ range .work_github_orgs -}}
+{{ range .work.github_orgs -}}
 [includeIf "hasconfig:remote.*.url:git@github.com:{{ . }}/**"]
 	path = ~/.config/git/work.gitconfig
 [includeIf "hasconfig:remote.*.url:ssh://git@github.com/{{ . }}/**"]

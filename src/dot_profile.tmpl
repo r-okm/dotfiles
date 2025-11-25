@@ -67,7 +67,7 @@ main() {
   fi
 
   # env vars managed with chezmoi
-  export GITHUB_COPILOT_MODEL='{{ .github_copilot_model }}'
+  export WORK_GITHUB_ORG_ACTIVE='{{ if gt (len .work.github_orgs) 0 }}1{{ else }}0{{ end }}'
 }
 
 main
