@@ -2,7 +2,7 @@
 # vim: set noexpandtab:
 
 [core]
-	sshCommand = ssh -i {{ .chezmoi.homeDir }}/.ssh/keypair/git/id_gh_work
+	sshCommand = ssh -i {{ .chezmoi.homeDir }}/.ssh/keypair/git/id_gh_work -o IdentitiesOnly=yes -F none
 [user]
 	name = {{ .work.git_user_name }}
 	email = {{ .work.git_user_email }}
