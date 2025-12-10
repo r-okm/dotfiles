@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SESSION_NAME="htop"
+
+main() {
+  if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+    echo "Session '$SESSION_NAME' already exists"
+  else
+    tmux new-session -d -s "$SESSION_NAME" -c "$HOME" "htop"
+    echo "Created session '$SESSION_NAME' with htop"
+  fi
+}
+
+main "$@"
+
+# vim: set ft=sh:

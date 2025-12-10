@@ -1,0 +1,12 @@
+[Unit]
+Description=Start tmux session with htop
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/tmux-htop-session
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
+

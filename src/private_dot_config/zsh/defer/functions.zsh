@@ -62,16 +62,29 @@ fzf_cd() {
 }
 
 fzf_cd_ghq() {
-  local repo=$(
+  local result=$(
     ghq list | fzf \
       --height 50% \
       --reverse \
       --prompt='CHANGE DIRECTORY > ' \
+      --header='| cd: <cr> | tmux session: <C-s> |' \
+      --expect=ctrl-s \
       --preview="ghq list --full-path --exact {} | xargs -I {} eza-tree {} --git-ignore"
   )
-  if [[ -n "$repo" ]]; then
-    repo=$(ghq list --full-path --exact $repo)
-    _execute_prompt "cd $repo"
+
+  if [[ -n "$result" ]]; then
+    local key=$(echo "$result" | head -1)
+    local repo=$(echo "$result" | tail -1)
+
+    if [[ -n "$repo" ]]; then
+      local full_path=$(ghq list --full-path --exact "$repo")
+
+      if [[ "$key" == "ctrl-s" ]]; then
+        tmux_cwd_session "$full_path"
+      else
+        _execute_prompt "cd $full_path"
+      fi
+    fi
   fi
 }
 
@@ -141,13 +154,20 @@ completions_generate() {
 }
 
 tmux_cwd_session() {
+  local target_dir="${1:-$PWD}"
+  local session_name=$(basename "$target_dir")
+
   if [[ -z "$TMUX" ]]; then
-    local session_name=$(basename "$PWD")
-    # If the session already exists, attach to it; otherwise, create
-    tmux new -s "$session_name" || tmux attach -t "$session_name"
+    # Outside tmux: create a new session or attach to an existing one
+    tmux new -s "$session_name" -c "$target_dir" 2>/dev/null || tmux attach -t "$session_name"
   else
-    echo "Already inside a tmux session."
-    return 1
+    # Inside tmux: create a new session and switch to it
+    if tmux has-session -t "$session_name" 2>/dev/null; then
+      tmux switch-client -t "$session_name"
+    else
+      tmux new-session -d -s "$session_name" -c "$target_dir"
+      tmux switch-client -t "$session_name"
+    fi
   fi
 }
 
