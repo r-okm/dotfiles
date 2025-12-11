@@ -10,3 +10,8 @@ offset = { x = 1, y = 1 }
 [window]
 dynamic_title = false
 padding = { x = 8, y = 8 }
+
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control"
+chars = "\u0000"
