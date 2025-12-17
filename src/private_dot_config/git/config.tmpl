@@ -72,7 +72,7 @@
 [mergetool "nvim"]
 	cmd = "nvim -d -c \"3wincmd w | wincmd J\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\""
 [mergetool "diffview.nvim"]
-	cmd = "nvim -c 'DiffviewOpen'"
+	cmd = "nvim -u '$XDG_CONFIG_HOME/nvim/git_editor.lua' -c 'DiffviewOpen'"
 [mergetool]
 	prompt = false
 [advice]
