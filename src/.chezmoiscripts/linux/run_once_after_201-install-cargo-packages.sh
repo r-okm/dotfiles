@@ -9,6 +9,7 @@ packages=(
   'git-delta'
   'oxker@0.9.0'
   'ripgrep'
+  'tree-sitter-cli'
 )
 
 main() {

@@ -25,6 +25,7 @@ apt_packages=(
   'cmake'
   'gcc'
   'gettext'
+  'libclang-dev'
   'ninja-build'
   # wsl-ssh-agent
   'socat'
