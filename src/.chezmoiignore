@@ -1,4 +1,5 @@
 symlink
+**/__pycache__/**
 
 {{ if ne .chezmoi.os "linux" -}}
 .chezmoiscripts/linux/**
