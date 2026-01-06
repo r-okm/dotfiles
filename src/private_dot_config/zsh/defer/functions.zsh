@@ -80,8 +80,10 @@ fzf_cd_ghq() {
       local full_path=$(ghq list --full-path --exact "$repo")
 
       if [[ "$key" == "ctrl-s" ]]; then
+        echo "tmux_cwd_session $full_path"
         tmux_cwd_session "$full_path"
       else
+        echo "cd $full_path"
         _execute_prompt "cd $full_path"
       fi
     fi
