@@ -1,0 +1,9 @@
+[general]
+import = ["alacritty.toml"]
+
+[terminal.shell]
+program = "wsl"
+args = ["--cd", "~", "-d", "kali-linux"]
+
+[window]
+title = "Kali-linux - Alacritty"
