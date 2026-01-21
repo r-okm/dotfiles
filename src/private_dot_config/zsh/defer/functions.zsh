@@ -6,6 +6,7 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_cd_ghq'
   'fzf_git_log'
   'fzf_nvim_delete_sessions'
+  'fzf_copilot_prompt'
   'awsp'
   'completions_generate'
 )
@@ -122,6 +123,27 @@ fzf_nvim_delete_sessions() {
   if [[ -n "$session_file" ]]; then
     echo "rm $session_file"
     rm "$session_file"
+  fi
+}
+
+fzf_copilot_prompt() {
+  local prompts_dir="${XDG_CONFIG_HOME:-${HOME}/.config}/prompts"
+  [[ ! -d "$prompts_dir" ]] && return 1
+
+  local selected=$(
+    fd . "$prompts_dir" --type f --max-depth 1 |
+      xargs -n1 basename |
+      fzf \
+        --height 50% \
+        --reverse \
+        --prompt='COPILOT PROMPT > ' \
+        --preview="cat '$prompts_dir/{}'"
+  )
+
+  if [[ -n "$selected" ]]; then
+    local prompt_content=$(cat "$prompts_dir/$selected")
+    echo 'launching copilot...'
+    copilot -i "$prompt_content"
   fi
 }
 
