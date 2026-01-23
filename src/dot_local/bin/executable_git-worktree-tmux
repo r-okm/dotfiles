@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Directories to symlink from original repository to worktree
+SYMLINK_DIRS=(".ignore")
+
+help() {
+  cat << EOF
+Usage: $(basename "$0") [OPTIONS] <branch_name|pr_number>
+
+Create a git worktree and open it in a new tmux session.
+
+Options:
+  -b, --branch        Create worktree from branch name
+  -p, --pull-request  Create worktree from pull request number
+  -h, --help          Display this help message
+
+Session name format: <project_name>+<branch_name|pr_number>
+Worktree is created in the same directory level as the current repository.
+
+Examples:
+  $(basename "$0") -b feature/new-feature
+  $(basename "$0") -p 123
+EOF
+}
+
+get_project_name() {
+  basename "$(git rev-parse --show-toplevel)"
+}
+
+get_repo_parent_dir() {
+  dirname "$(git rev-parse --show-toplevel)"
+}
+
+create_symlinks() {
+  local worktree_dir="$1"
+  local original_repo
+  original_repo=$(git rev-parse --show-toplevel)
+
+  for dir_name in "${SYMLINK_DIRS[@]}"; do
+    local source_dir="${original_repo}/${dir_name}"
+    local target_link="${worktree_dir}/${dir_name}"
+
+    if [[ -d "$source_dir" && ! -e "$target_link" ]]; then
+      echo "Creating symlink: $target_link -> $source_dir"
+      ln -s "$source_dir" "$target_link"
+    fi
+  done
+}
+
+create_worktree() {
+  local branch="$1"
+  local project_name
+  local session_name
+  local worktree_dir
+
+  project_name=$(get_project_name)
+  session_name="${project_name}+${branch//\//-}"
+  worktree_dir="$(get_repo_parent_dir)/${session_name}"
+
+  if [[ -d "$worktree_dir" ]]; then
+    echo "Worktree directory already exists: $worktree_dir"
+  else
+    echo "Fetching..."
+    git fetch
+
+    echo "Creating worktree: $worktree_dir"
+    git worktree add "$worktree_dir" "$branch"
+    create_symlinks "$worktree_dir"
+  fi
+
+  open_tmux_session "$session_name" "$worktree_dir"
+}
+
+resolve_branch_from_pr() {
+  local pr_number="$1"
+  gh pr view "$pr_number" --json headRefName --jq '.headRefName'
+}
+
+open_tmux_session() {
+  local session_name="$1"
+  local worktree_dir="$2"
+
+  # Replace dots with underscores (tmux doesn't allow dots in session names)
+  session_name="${session_name//./_}"
+
+  if [[ -z "${TMUX:-}" ]]; then
+    # Outside tmux: create a new session or attach to an existing one
+    tmux new-session -s "$session_name" -c "$worktree_dir" 2>/dev/null ||
+      tmux attach-session -t "$session_name"
+  else
+    # Inside tmux: create a new session and switch to it
+    if tmux has-session -t "$session_name" 2>/dev/null; then
+      tmux switch-client -t "$session_name"
+    else
+      tmux new-session -d -s "$session_name" -c "$worktree_dir"
+      tmux switch-client -t "$session_name"
+    fi
+  fi
+}
+
+main() {
+  local mode=""
+  local target=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -b|--branch)
+        mode="branch"
+        shift
+        ;;
+      -p|--pull-request)
+        mode="pr"
+        shift
+        ;;
+      -h|--help)
+        help
+        exit 0
+        ;;
+      -*)
+        echo "Unknown option: $1" >&2
+        help
+        exit 1
+        ;;
+      *)
+        target="$1"
+        shift
+        ;;
+    esac
+  done
+
+  if [[ -z "$mode" ]]; then
+    echo "Error: Please specify -b/--branch or -p/--pull-request" >&2
+    help
+    exit 1
+  fi
+
+  if [[ -z "$target" ]]; then
+    echo "Error: Please specify a branch name or PR number" >&2
+    help
+    exit 1
+  fi
+
+  # Verify we're in a git repository
+  if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Error: Not in a git repository" >&2
+    exit 1
+  fi
+
+  case "$mode" in
+    branch)
+      create_worktree "$target"
+      ;;
+    pr)
+      echo "Fetching PR #${target} info..."
+      create_worktree "$(resolve_branch_from_pr "$target")"
+      ;;
+  esac
+}
+
+main "$@"
+
+# vim: set ft=sh:
