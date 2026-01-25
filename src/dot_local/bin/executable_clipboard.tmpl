@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-YANK_CMD="win32yank -i --crlf"
-PUT_CMD="win32yank -o --lf"
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+YANK_CMD='win32yank -i'
+PUT_CMD='win32yank -o --lf'
+
+{{ else -}}
+YANK_CMD='wl-copy --type text/plain --trim-newline'
+PUT_CMD='wl-paste --no-newline'
+
+{{ end -}}
 
 # show help
 help() {
   cat << EOF
 Usage: $(basename "$0") [OPTIONS]
 Options:
-  --yank, -y    Yank stdin to clipboard
-  --put, -p     Put clipboard content to stdout
-  --help, -h    Display this help message
+  --yank, -y          Yank stdin to clipboard
+  --put, --paste, -p  Put clipboard content to stdout
+  --help, -h          Display this help message
 EOF
 }
 
@@ -33,7 +40,7 @@ main() {
     --yank|-y)
       yank
       ;;
-    --put|-p)
+    --put|--paste|-p)
       put
       ;;
     --help|-h)
