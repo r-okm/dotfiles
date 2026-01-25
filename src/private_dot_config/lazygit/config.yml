@@ -6,6 +6,8 @@ os:
   editPreset: "nvim-remote"
   copyToClipboardCmd: echo -n {{text}} | clipboard --yank
 keybinding:
+  universal:
+    copyToClipboard: <c-y>
   files:
     commitChanges: c
     commitChangesWithEditor: C
