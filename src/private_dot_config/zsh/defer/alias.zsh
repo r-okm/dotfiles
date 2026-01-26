@@ -14,3 +14,5 @@ alias rm='rm -I'
 alias eza-ls='eza -ahlmM -F=always --color=always --icons=always --group-directories-first --time-style=relative'
 # force zsh to show the complete history
 alias history="history 0"
+
+alias copilot="DELTA_FEATURES=single-column copilot"
