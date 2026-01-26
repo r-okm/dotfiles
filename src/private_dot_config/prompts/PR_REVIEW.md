@@ -43,7 +43,7 @@
 
 ## 結果出力
 
-- `.ignore/reviews/<YYYYMMDD>_<pull-request-number>_<branch-name>_<sequential-number-2-digits>.md` に保存してください。
+- `.ignore/reviews/<pull-request-number>_<branch_name>/<YYYYMMDD>_<sequential-number-2-digits>.md` に保存してください。
   - ブランチ名にスラッシュ (/) が含まれる場合はアンダースコア (_) に置換してください。
   - 既に同名のファイルが存在する場合は、連番をインクリメントしたファイルを作成してください。
-  - 例: `.ignore/reviews/20240401_123_feature_add-auth-module_00.md`
+  - 例: `.ignore/reviews/123_feature_add-auth-module/20240401_00.md`
