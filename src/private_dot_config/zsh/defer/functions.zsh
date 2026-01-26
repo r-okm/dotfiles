@@ -95,8 +95,8 @@ fzf_git_log() {
   [[ "$#" -gt 0 ]] && command="git pretty-log $1"
 
   local input_commit_hash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-  local preview_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=fzf_git_log"
-  local show_commit="$input_commit_hash | xargs -I % git show -m % | delta --features=git --paging=always"
+  local preview_commit="$input_commit_hash | xargs -I % git show -m % | DELTA_FEATURES='single-column' delta"
+  local show_commit="$input_commit_hash | xargs -I % git show -m % | delta --paging=always"
   local checkout_commit="$input_commit_hash | xargs -I % git switch -d %"
   local copy_commit_hash="$input_commit_hash | clipboard --yank"
 

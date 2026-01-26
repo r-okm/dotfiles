@@ -3,7 +3,7 @@
 command = "nvim"
 args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
 [diff]
-pager = "delta --features=git"
+pager = "delta"
 exclude = ["scripts"]
 {{ end -}}
 [data.work]
