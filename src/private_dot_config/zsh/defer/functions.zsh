@@ -5,7 +5,6 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_cd'
   'fzf_cd_ghq'
   'fzf_git_log'
-  'fzf_nvim_delete_sessions'
   'awsp'
   'completions_generate'
 )
@@ -109,20 +108,6 @@ fzf_git_log() {
       --bind "ctrl-x:become:$checkout_commit" \
       --bind "ctrl-y:execute:$copy_commit_hash" \
       >/dev/null
-}
-
-fzf_nvim_delete_sessions() {
-  local sessions_dir="$XDG_STATE_HOME/nvim/sessions"
-  local session_file=$(
-    fd . $sessions_dir \
-      --type f \
-      --extension vim |
-      fzf --height 90% --reverse --prompt='DELETE SESSION > '
-  )
-  if [[ -n "$session_file" ]]; then
-    echo "rm $session_file"
-    rm "$session_file"
-  fi
 }
 
 awsp() {

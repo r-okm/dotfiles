@@ -1,0 +1,25 @@
+#!/bin/bash
+# Delete the neovim session file for the current directory and git branch
+# Session file format: {cwd with / -> %}%%{branch with / -> %}.vim
+
+set -euo pipefail
+
+sessions_dir="${XDG_STATE_HOME:-$HOME/.local/state}/nvim/sessions"
+
+cwd=$(pwd | sed 's|/|%|g')
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null | sed 's|/|%|g')
+
+if [[ -z "$branch" ]]; then
+  echo "Error: Not in a git repository" >&2
+  exit 1
+fi
+
+session_file="${sessions_dir}/${cwd}%%${branch}.vim"
+
+if [[ -f "$session_file" ]]; then
+  rm "$session_file"
+  echo "Deleted: $session_file"
+else
+  echo "Session file not found: $session_file"
+  exit 1
+fi
