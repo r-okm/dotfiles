@@ -6,5 +6,8 @@
 # personal ignore directory
 .ignore
 
+# worktree
+.worktree
+
 # claude
 **/.claude/settings.local.json

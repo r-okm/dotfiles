@@ -10,6 +10,7 @@ alias bb="git branch -r | rg $(git config --get user.name)"
 alias cc='fzf_cd'
 alias cca='fzf_cd --hidden'
 alias ccg='fzf_cd_ghq'
+alias ccw='fzf_cd_worktree'
 alias ch='chezmoi'
 alias cha='chezmoi apply'
 alias chd='chezmoi diff'

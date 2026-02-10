@@ -4,6 +4,7 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_command_history'
   'fzf_cd'
   'fzf_cd_ghq'
+  'fzf_cd_worktree'
   'fzf_git_log'
   'awsp'
   'completions_generate'
@@ -89,6 +90,60 @@ fzf_cd_ghq() {
   fi
 }
 
+fzf_cd_worktree() {
+  if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Error: Not in a git repository" >&2
+    return 1
+  fi
+
+  local all_worktrees
+  all_worktrees=$(git worktree list --porcelain | awk '/^worktree / { print substr($0, 10) }')
+
+  local main_repo_root=$(echo "$all_worktrees" | head -1)
+  local project_name=$(basename "$main_repo_root")
+  local worktree_paths=$(echo "$all_worktrees" | tail -n +2)
+
+  if [[ -z "$worktree_paths" ]]; then
+    echo "No worktrees found"
+    return 0
+  fi
+
+  local result=$(
+    echo "$worktree_paths" |
+    while read -r dir; do basename "$dir"; done |
+    fzf \
+      --height 50% \
+      --reverse \
+      --prompt='WORKTREE > ' \
+      --header='| cd: <cr> | tmux session: <C-s> | delete: <C-d> |' \
+      --expect=ctrl-s,ctrl-d \
+      --preview="git -C ${main_repo_root}/.worktree/{} pretty-log"
+  )
+
+  if [[ -n "$result" ]]; then
+    local key=$(echo "$result" | head -1)
+    local selected=$(echo "$result" | tail -1)
+
+    if [[ -n "$selected" ]]; then
+      local full_path="${main_repo_root}/.worktree/${selected}"
+      local session_name="${project_name}+${selected}"
+      session_name="${session_name//./_}"
+
+      if [[ "$key" == "ctrl-d" ]]; then
+        echo "Removing: ${session_name}"
+        git worktree remove --force "$full_path"
+        tmux kill-session -t "$session_name" 2>/dev/null
+      elif [[ "$key" == "ctrl-s" ]]; then
+        echo "tmux session: ${session_name}"
+        tmux_cwd_session "$full_path" "$session_name"
+      else
+        echo "cd: ${session_name}"
+        _execute_prompt "cd $full_path"
+      fi
+    fi
+  fi
+}
+
 fzf_git_log() {
   local command="git pretty-log"
   [[ "$#" -gt 0 ]] && command="git pretty-log $1"
@@ -142,7 +197,7 @@ completions_generate() {
 
 tmux_cwd_session() {
   local target_dir="${1:-$PWD}"
-  local session_name=$(basename "$target_dir")
+  local session_name="${2:-$(basename "$target_dir")}"
 
   if [[ -z "$TMUX" ]]; then
     # Outside tmux: create a new session or attach to an existing one
