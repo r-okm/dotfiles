@@ -14,7 +14,7 @@
 ## リント
 
 - `tools/coding_style/run.sh spell_check` コマンドを実行して、スペルミスがないか確認してください。
-- `git submodule update --init --recursive && cd packages/v3_gui && make install_deps && make lint_check` コマンドを実行して、コードスタイルに問題がないか確認してください。
+- `git submodule update --init --recursive --depth 1 && cd packages/v3_gui && make install_deps && make lint_check` コマンドを実行して、コードスタイルに問題がないか確認してください。
 
 ## レビュー項目
 
