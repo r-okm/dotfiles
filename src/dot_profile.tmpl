@@ -38,39 +38,39 @@ main() {
   export BROWSER='vivaldi'
   export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 
-  # set PATH so it includes user's private bin if it exists
-  if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-  fi
-
-  # neovim
-  PATH="$HOME/neovim/bin:$PATH"
-
   # asdf
   export ASDF_DATA_DIR="$XDG_DATA_HOME/asdf"
-  export PATH="$ASDF_DATA_DIR/shims:$PATH"
   export ASDF_CONFIG_FILE="$XDG_CONFIG_HOME/asdf/.asdfrc"
-
-  # go
-  PATH="${GOROOT:-/usr/local/go}/bin:${GOPATH:-$HOME/go}/bin:$PATH"
 
   # deno
   export DENO_INSTALL="$HOME/.deno"
-  export PATH="$DENO_INSTALL/bin:$PATH"
 
   # rust
   source_if_exists "$HOME/.cargo/env"
-
-  # add Windows bin directory to PATH(for WSL2)
-  if [ -d '/mnt/c/bin' ]; then
-    export PATH="$PATH:/mnt/c/bin"
-  fi
 
   # env vars managed with chezmoi
   export WORK_GITHUB_ORG_ACTIVE='{{ if gt (len .work.github_orgs) 0 }}1{{ else }}0{{ end }}'
 
   # delta default features
   export DELTA_FEATURES='default'
+
+  # prepend bin directories to PATH
+  local bin_dirs=(
+    "$HOME/.local/share/nvim/mason/bin" # mason managed tools
+    "${GOROOT:-/usr/local/go}/bin" # go bin
+    "${GOPATH:-$HOME/go}/bin" # go workspace bin
+    "$DENO_INSTALL/bin" # deno bin
+    "$ASDF_DATA_DIR/shims" # asdf shims
+    "$HOME/neovim/bin" # neovim bin built from source
+    "$HOME/.local/bin" # user specific bin
+    '/mnt/c/bin' # Windows bin for WSL2
+  )
+  local dir
+  for dir in "${bin_dirs[@]}"; do
+    if [ -d "$dir" ]; then
+      export PATH="$dir:$PATH"
+    fi
+  done
 }
 
 main
