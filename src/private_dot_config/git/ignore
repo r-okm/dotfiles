@@ -5,3 +5,6 @@
 
 # personal ignore directory
 .ignore
+
+# claude
+**/.claude/settings.local.json
