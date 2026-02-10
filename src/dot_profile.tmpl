@@ -48,11 +48,11 @@ main() {
   # rust
   source_if_exists "$HOME/.cargo/env"
 
+  # delta
+  export DELTA_FEATURES='default'
+
   # env vars managed with chezmoi
   export WORK_GITHUB_ORG_ACTIVE='{{ if gt (len .work.github_orgs) 0 }}1{{ else }}0{{ end }}'
-
-  # delta default features
-  export DELTA_FEATURES='default'
 
   # prepend bin directories to PATH
   local bin_dirs=(
