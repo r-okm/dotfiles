@@ -11,7 +11,6 @@ apt_packages=(
   'software-properties-common'
   'tree'
   'unzip'
-  'urlview'
   'wget'
   'wl-clipboard'
   'xdg-utils'
@@ -27,6 +26,11 @@ apt_packages=(
   'gettext'
   'libclang-dev'
   'ninja-build'
+  # tmux build
+  # https://github.com/tmux/tmux/wiki/Installing#from-source-tarball
+  'libevent-dev'
+  'ncurses-dev'
+  'bison'
   # wsl-ssh-agent
   'socat'
 )
