@@ -11,16 +11,17 @@
         "hooks": [
           {
             "type": "command",
-            "command": "tput bel"
+            "command": "${CLAUDE_CONFIG_DIR}/r-okm/scripts/notify-to-tmux-popup.sh"
           }
         ]
-      },
+      }
+    ],
+    "Stop": [
       {
-        "matcher": "idle_prompt",
         "hooks": [
           {
             "type": "command",
-            "command": "tput bel"
+            "command": "${CLAUDE_CONFIG_DIR}/r-okm/scripts/notify-to-tmux-popup.sh"
           }
         ]
       }
