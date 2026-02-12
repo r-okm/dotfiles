@@ -1,6 +1,6 @@
 # dotfiles [![CI](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/r-okm/dotfiles/actions/workflows/ci.yml)
 
-My dotfiles managed with chezmoi.
+r-okm's dotfiles managed with chezmoi.
 
 ## Installation
 
