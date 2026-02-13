@@ -31,15 +31,8 @@ echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
 if claude -p "$PROMPT" --model "$CLAUDE_MODEL" > "$MSG_FILE" 2>"$ERR_FILE"; then
   echo "claude で生成完了"
 else
-  # rate limit / overload の場合のみ copilot にフォールバック
-  # claude CLI は rate_limit_error (429) または overloaded_error (529) を stderr に出力
-  if grep -qi "rate_limit_error\|overloaded_error\|too many request\|429\|529" "$ERR_FILE"; then
-    echo "claude が rate limit のため copilot ($COPILOT_MODEL) にフォールバック..."
-    copilot -p "$PROMPT" -s --model "$COPILOT_MODEL" > "$MSG_FILE" 2>/dev/null
-  else
-    echo "エラー: $(cat "$ERR_FILE")"
-    exit 1
-  fi
+  echo "claude が失敗したため copilot ($COPILOT_MODEL) にフォールバック..."
+  copilot -p "$PROMPT" -s --model "$COPILOT_MODEL" > "$MSG_FILE" 2>/dev/null
 fi
 
 if [ ! -s "$MSG_FILE" ]; then
