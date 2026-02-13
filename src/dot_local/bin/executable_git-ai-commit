@@ -22,8 +22,8 @@ $(git diff --cached)
 
 コミットメッセージのみを出力してください。説明やコードブロックは不要です。"
 
-MSG_FILE=$(mktemp)
-ERR_FILE=$(mktemp)
+MSG_FILE=$(mktemp git-ai-commit-msg.XXXXXX)
+ERR_FILE=$(mktemp git-ai-commit-err.XXXXXX)
 trap 'rm -f "$MSG_FILE" "$ERR_FILE"' EXIT
 
 # claude で生成を試行
