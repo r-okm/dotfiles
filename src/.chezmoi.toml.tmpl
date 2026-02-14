@@ -1,7 +1,7 @@
 {{ if ne .chezmoi.os "windows" -}}
 [merge]
 command = "nvim"
-args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
+args = ["-u", "$XDG_CONFIG_HOME/nvim/init.git_editor.lua", "-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
 [diff]
 pager = "delta"
 exclude = ["scripts"]
