@@ -1,0 +1,8 @@
+Generate a commit message for the staged changes.
+Follow the style of recent commits.
+
+Format:
+- Subject: max 50 chars, imperative mood
+- Body: bulleted list with `-`, each line max 72 chars
+
+Output ONLY the commit message. No explanation, no code blocks.

@@ -3,7 +3,7 @@ set -euo pipefail
 
 CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
 COPILOT_MODEL="${COPILOT_MODEL:-claude-sonnet-4.5}"
-PROMPT_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/prompts/COMMIT.md"
+PROMPT_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/prompts/COMMIT"
 
 if git diff --cached --quiet; then
   echo "ステージされた変更がありません"
@@ -11,16 +11,18 @@ if git diff --cached --quiet; then
 fi
 
 # プロンプト構築
-# git log: subject + body をセパレータ区切りで AI が解釈しやすい形式に
+DIFF_MAX=80000
+
 PROMPT="$(cat "$PROMPT_FILE")
 
-## 過去のコミットメッセージ
-$(git log --format='----------%n%s%n%n%b' -10)
+## Recent commits
+$(git log --format='---%n%s%+b' -10)
 
-## 変更内容
-$(git diff --cached)
+## Changed files
+$(git diff --cached --stat)
 
-コミットメッセージのみを出力してください。説明やコードブロックは不要です。"
+## Diff
+$(git diff --cached | head -c "$DIFF_MAX")"
 
 MSG_FILE=$(mktemp --tmpdir git-ai-commit-msg.XXXXXX)
 ERR_FILE=$(mktemp --tmpdir git-ai-commit-err.XXXXXX)
