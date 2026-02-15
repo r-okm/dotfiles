@@ -36,7 +36,7 @@ If a PR number is provided as an argument ($ARGUMENTS), use that instead.
 
 ## Project-specific Checklist
 
-!`cat .claude/skills/review-checklist.local/SKILL.md 2>/dev/null`
+!`cat .ignore/prompts/review-checklist.md 2>/dev/null`
 
 ## Output
 
