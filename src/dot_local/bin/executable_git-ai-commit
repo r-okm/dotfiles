@@ -12,7 +12,8 @@ fi
 # プロンプト構築
 DIFF_MAX=80000
 
-PROMPT="Generate a commit message for the staged changes.
+PROMPT=$(cat <<'PROMPT_EOF'
+Generate a commit message for the staged changes.
 Output ONLY the commit message. No explanation, no code blocks.
 Follow the style of recent commits.
 
@@ -21,13 +22,14 @@ Format:
 - Body: bulleted list with `-`, each line max 72 chars
 
 ## Recent commits
-$(git log --format='---%n%s%+b' -10)
-
-## Changed files
-$(git diff --cached --stat)
-
-## Diff
-$(git diff --cached | head -c "$DIFF_MAX")"
+PROMPT_EOF
+)
+PROMPT+=$'\n'
+PROMPT+=$(git log --format='---%n%s%+b' -10)
+PROMPT+=$'\n\n## Changed files\n'
+PROMPT+=$(git diff --cached --stat)
+PROMPT+=$'\n\n## Diff\n'
+PROMPT+=$(git diff --cached | head -c "$DIFF_MAX")
 
 MSG_FILE=$(mktemp --tmpdir git-ai-commit-msg.XXXXXX)
 ERR_FILE=$(mktemp --tmpdir git-ai-commit-err.XXXXXX)
