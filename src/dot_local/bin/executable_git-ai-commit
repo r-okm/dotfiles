@@ -3,7 +3,6 @@ set -euo pipefail
 
 CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
 COPILOT_MODEL="${COPILOT_MODEL:-claude-sonnet-4.5}"
-PROMPT_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/prompts/COMMIT"
 
 if git diff --cached --quiet; then
   echo "ステージされた変更がありません"
@@ -13,9 +12,13 @@ fi
 # プロンプト構築
 DIFF_MAX=80000
 
-PROMPT="$(cat "$PROMPT_FILE")
-
+PROMPT="Generate a commit message for the staged changes.
 Output ONLY the commit message. No explanation, no code blocks.
+Follow the style of recent commits.
+
+Format:
+- Subject: max 50 chars, imperative mood
+- Body: bulleted list with `-`, each line max 72 chars
 
 ## Recent commits
 $(git log --format='---%n%s%+b' -10)
