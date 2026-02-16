@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Directories to symlink from original repository to worktree
-SYMLINK_DIRS=(".ignore")
+# Files and directories to symlink from original repository to worktree
+SYMLINK_TARGETS=(".ignore")
 
 help() {
   cat << EOF
@@ -33,13 +33,21 @@ create_symlinks() {
   local original_repo
   original_repo=$(git rev-parse --show-toplevel)
 
-  for dir_name in "${SYMLINK_DIRS[@]}"; do
-    local source_dir="${original_repo}/${dir_name}"
-    local target_link="${worktree_dir}/${dir_name}"
+  for target_name in "${SYMLINK_TARGETS[@]}"; do
+    local source_path="${original_repo}/${target_name}"
+    local target_link="${worktree_dir}/${target_name}"
 
-    if [[ -d "$source_dir" && ! -e "$target_link" ]]; then
-      echo "Creating symlink: $target_link -> $source_dir"
-      ln -s "$source_dir" "$target_link"
+    if [[ -e "$source_path" && ! -e "$target_link" ]]; then
+      # Create parent directory if it doesn't exist
+      local parent_dir
+      parent_dir=$(dirname "$target_link")
+      if [[ ! -d "$parent_dir" ]]; then
+        echo "Creating directory: $parent_dir"
+        mkdir -p "$parent_dir"
+      fi
+
+      echo "Creating symlink: $target_link -> $source_path"
+      ln -s "$source_path" "$target_link"
     fi
   done
 }
