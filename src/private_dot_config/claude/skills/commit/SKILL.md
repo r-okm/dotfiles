@@ -11,6 +11,7 @@ Use the conversation context to understand the intent of the changes.
 
 Format:
 - Subject: max 50 chars, imperative mood
+- Blank line after subject
 - Body: bulleted list with `-`, each line max 72 chars
 
 ## Recent commits
