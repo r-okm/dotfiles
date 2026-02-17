@@ -2,7 +2,6 @@
 name: review-pr
 description: Review a pull request on the current branch
 disable-model-invocation: true
-argument-hint: "[PR-number (optional)]"
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, Write
 ---
 
@@ -13,7 +12,7 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, Write
 - Branch: !`git branch --show-current`
 - PR metadata:
 
-!`gh pr list --head "$(git branch --show-current)" --json number,title,body --limit 1`
+!`gh pr view --json number,title,body`
 
 If a PR number is provided as an argument ($ARGUMENTS), use that instead.
 
@@ -41,6 +40,7 @@ If a PR number is provided as an argument ($ARGUMENTS), use that instead.
 ## Output
 
 Save the review to `.ignore/reviews/<number>_<branch>/<YYYYMMDD>_<seq>.md`.
+- Use the Write tool directly; do not run `mkdir`.
 - Replace `/` in branch names with `_`.
 - If a file with the same name exists, increment `<seq>` (2-digit, zero-padded).
 - Example: `.ignore/reviews/123_feature_add-auth/20240401_00.md`
