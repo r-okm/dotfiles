@@ -32,22 +32,20 @@ PROMPT+=$(git diff --cached --stat)
 PROMPT+=$'\n\n## Diff\n'
 PROMPT+=$(git diff --cached | head -c "$DIFF_MAX")
 
-MSG_FILE=$(mktemp --tmpdir git-ai-commit-msg.XXXXXX)
-ERR_FILE=$(mktemp --tmpdir git-ai-commit-err.XXXXXX)
-trap 'rm -f "$MSG_FILE" "$ERR_FILE"' EXIT
-
 # claude で生成を試行
 echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
-if claude -p "$PROMPT" --model "$CLAUDE_MODEL" > "$MSG_FILE" 2>"$ERR_FILE"; then
+if msg=$(claude -p "$PROMPT" --model "$CLAUDE_MODEL"); then
   echo "claude で生成完了"
 else
-  echo "claude が失敗したため copilot ($COPILOT_MODEL) にフォールバック..."
-  copilot -p "$PROMPT" -s --model "$COPILOT_MODEL" > "$MSG_FILE" 2>/dev/null
+  echo "claude が失敗しました:" >&2
+  [ -n "$msg" ] && echo "$msg" >&2
+  echo "copilot ($COPILOT_MODEL) にフォールバック..."
+  msg=$(copilot -p "$PROMPT" -s --model "$COPILOT_MODEL" 2>/dev/null)
 fi
 
-if [ ! -s "$MSG_FILE" ]; then
+if [ -z "$msg" ]; then
   echo "コミットメッセージの生成に失敗しました"
   exit 1
 fi
 
-git commit -e -F "$MSG_FILE"
+git commit -e -m "$msg"
