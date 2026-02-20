@@ -9,6 +9,7 @@
       "{{ .chezmoi.homeDir }}/src/github.com/r-okm/project-ignores"
     ]
   },
+  "model": "opus",
   "hooks": {
     "Notification": [
       {
@@ -16,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_CONFIG_DIR}/r-okm/scripts/notify-to-tmux-popup.sh"
+            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
           }
         ]
       }
@@ -26,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_CONFIG_DIR}/r-okm/scripts/notify-to-tmux-popup.sh"
+            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
           }
         ]
       }
@@ -34,6 +35,5 @@
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true
-  },
-  "model": "opus"
+  }
 }
