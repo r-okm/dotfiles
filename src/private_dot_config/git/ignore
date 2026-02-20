@@ -11,4 +11,4 @@
 
 # claude
 **/.claude/settings.local.json
-**/.claude/skills/*.local/
+**/CLAUDE.local.md
