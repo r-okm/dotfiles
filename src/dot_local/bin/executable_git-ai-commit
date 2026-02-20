@@ -34,13 +34,13 @@ PROMPT+=$(git diff --cached | head -c "$DIFF_MAX")
 
 # claude で生成を試行
 echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
-if msg=$(claude -p "$PROMPT" --model "$CLAUDE_MODEL"); then
+if msg=$(claude --print "$PROMPT" --model "$CLAUDE_MODEL"); then
   echo "claude で生成完了"
 else
   echo "claude が失敗しました:" >&2
   [ -n "$msg" ] && echo "$msg" >&2
   echo "copilot ($COPILOT_MODEL) にフォールバック..."
-  msg=$(copilot -p "$PROMPT" -s --model "$COPILOT_MODEL" 2>/dev/null)
+  msg=$(copilot --prompt "$PROMPT" --silent --model "$COPILOT_MODEL" 2>/dev/null)
 fi
 
 if [ -z "$msg" ]; then
@@ -48,4 +48,4 @@ if [ -z "$msg" ]; then
   exit 1
 fi
 
-git commit -e -m "$msg"
+git commit --edit --message="$msg"
