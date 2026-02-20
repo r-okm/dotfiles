@@ -15,4 +15,6 @@ padding = { x = 8, y = 8 }
 bindings = [
   { key = "Space", mods = "Control", chars = "\u0000" },
   { key = "Enter", mods = "Shift", chars = "\u001b[13;2u" },
+  { key = "I", mods = "Control", chars = "\u001b[105;5u" },
+  { key = "M", mods = "Control", chars = "\u001b[109;5u" },
 ]
