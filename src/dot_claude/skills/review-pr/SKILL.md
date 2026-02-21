@@ -32,11 +32,6 @@ If a PR number is provided as an argument ($ARGUMENTS), use that instead.
   - Deleted files may leave behind unused imports, type definitions, routes, or assets. Trace references transitively until no more orphans are found.
 - Test coverage for changed behavior
 - Consistency with existing codebase patterns
-
-## Project-specific Checklist
-
-!`cat .ignore/prompts/review-checklist.md 2>/dev/null`
-
 ## Output
 
 Save the review to `.ignore/reviews/<number>_<branch>/<YYYYMMDD>_<seq>.md`.
