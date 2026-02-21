@@ -32,7 +32,14 @@ else
   echo "claude が失敗しました:" >&2
   [ -n "$msg" ] && echo "$msg" >&2
   echo "copilot ($COPILOT_MODEL) にフォールバック..."
-  msg=$(copilot --prompt "$PROMPT" --silent --model "$COPILOT_MODEL" 2>/dev/null)
+  # copilot doesn't read CLAUDE.md natively; inject it into the prompt
+  copilot_prompt=""
+  repo_root=$(git rev-parse --show-toplevel)
+  for f in ~/.claude/CLAUDE.md "$repo_root/CLAUDE.md" "$repo_root/CLAUDE.local.md"; do
+    [ -f "$f" ] && copilot_prompt+="$(cat "$f")"$'\n\n'
+  done
+  copilot_prompt+="$PROMPT"
+  msg=$(copilot --prompt "$copilot_prompt" --silent --model "$COPILOT_MODEL" 2>/dev/null)
 fi
 
 if [ -z "$msg" ]; then
