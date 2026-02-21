@@ -2,7 +2,7 @@
 set -euo pipefail
 
 CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
-COPILOT_MODEL="${COPILOT_MODEL:-claude-sonnet-4.6}"
+COPILOT_MODEL="${COPILOT_MODEL:-{{ .copilot.model.commit }}}"
 
 if git diff --cached --quiet; then
   echo "ステージされた変更がありません"
