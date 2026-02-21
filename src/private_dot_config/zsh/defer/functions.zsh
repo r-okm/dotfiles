@@ -198,16 +198,17 @@ completions_generate() {
 tmux_cwd_session() {
   local target_dir="${1:-$PWD}"
   local session_name="${2:-$(basename "$target_dir")}"
+  local initial_window_name="_toggle"
 
   if [[ -z "$TMUX" ]]; then
     # Outside tmux: create a new session or attach to an existing one
-    tmux new -s "$session_name" -c "$target_dir" 2>/dev/null || tmux attach -t "$session_name"
+    tmux new -s "$session_name" -n "$initial_window_name" -c "$target_dir" 2>/dev/null || tmux attach -t "$session_name"
   else
     # Inside tmux: create a new session and switch to it
     if tmux has-session -t "$session_name" 2>/dev/null; then
       tmux switch-client -t "$session_name"
     else
-      tmux new-session -d -s "$session_name" -c "$target_dir"
+      tmux new-session -d -s "$session_name" -n "$initial_window_name" -c "$target_dir"
       tmux switch-client -t "$session_name"
     fi
   fi
