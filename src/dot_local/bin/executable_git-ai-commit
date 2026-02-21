@@ -9,32 +9,24 @@ if git diff --cached --quiet; then
   exit 1
 fi
 
-# プロンプト構築
 DIFF_MAX=80000
 
-PROMPT=$(cat <<'PROMPT_EOF'
+PROMPT=$(cat <<'EOF'
 Generate a commit message for the staged changes.
 Output ONLY the commit message. No explanation, no code blocks.
-Follow the style of recent commits.
-
-Format:
-- Subject: max 50 chars, imperative mood
-- Blank line after subject
-- Body: bulleted list with `-`, each line max 72 chars
 
 ## Recent commits
-PROMPT_EOF
+EOF
 )
 PROMPT+=$'\n'
 PROMPT+=$(git log --format='---%n%s%+b' -10)
 PROMPT+=$'\n\n## Changed files\n'
 PROMPT+=$(git diff --cached --stat)
 PROMPT+=$'\n\n## Diff\n'
-PROMPT+=$(git diff --cached | head -c "$DIFF_MAX")
+PROMPT+=$(git diff --cached -- . ':!*lock*' ':!*.lock' | head -c "$DIFF_MAX")
 
-# claude で生成を試行
 echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
-if msg=$(claude --print "$PROMPT" --model "$CLAUDE_MODEL"); then
+if msg=$(printf '%s' "$PROMPT" | claude --print --model "$CLAUDE_MODEL"); then
   echo "claude で生成完了"
 else
   echo "claude が失敗しました:" >&2
