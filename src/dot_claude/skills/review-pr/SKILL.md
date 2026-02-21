@@ -3,6 +3,7 @@ name: review-pr
 description: Review a pull request on the current branch
 disable-model-invocation: true
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, Write
+model: sonnet
 ---
 
 # Pull Request Review
