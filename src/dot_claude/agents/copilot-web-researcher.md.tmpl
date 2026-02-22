@@ -27,7 +27,7 @@ concise summaries to the caller. Do not return raw web content.
 Each call must have a short, specific prompt (one question or one URL).
 
     timeout 120 copilot -p "<focused prompt>" -s \
-      --model {{ .copilot.model.research }} \
+      --model {{ .copilot.model.haiku }} \
       --allow-tool 'web_fetch' --allow-tool 'web_search'
 
 Rules:
