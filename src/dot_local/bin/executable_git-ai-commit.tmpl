@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
 COPILOT_MODEL="${COPILOT_MODEL:-{{ .copilot.model.sonnet }}}"
 
 if git diff --cached --quiet; then
@@ -25,22 +24,16 @@ PROMPT+=$(git diff --cached --stat)
 PROMPT+=$'\n\n## Diff\n'
 PROMPT+=$(git diff --cached -- . ':!*lock*' ':!*.lock' | head -c "$DIFF_MAX")
 
-echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
-if msg=$(printf '%s' "$PROMPT" | claude --print --model "$CLAUDE_MODEL"); then
-  echo "claude で生成完了"
-else
-  echo "claude が失敗しました:" >&2
-  [ -n "$msg" ] && echo "$msg" >&2
-  echo "copilot ($COPILOT_MODEL) にフォールバック..."
-  # copilot doesn't read CLAUDE.md natively; inject it into the prompt
-  copilot_prompt=""
-  repo_root=$(git rev-parse --show-toplevel)
-  for f in ~/.claude/CLAUDE.md "$repo_root/CLAUDE.md" "$repo_root/CLAUDE.local.md"; do
-    [ -f "$f" ] && copilot_prompt+="$(cat "$f")"$'\n\n'
-  done
-  copilot_prompt+="$PROMPT"
-  msg=$(copilot --prompt "$copilot_prompt" --silent --model "$COPILOT_MODEL" 2>/dev/null)
-fi
+# copilot doesn't read CLAUDE.md natively; inject it into the prompt
+copilot_prompt=""
+repo_root=$(git rev-parse --show-toplevel)
+for f in ~/.claude/CLAUDE.md "$repo_root/CLAUDE.md" "$repo_root/CLAUDE.local.md"; do
+  [ -f "$f" ] && copilot_prompt+="$(cat "$f")"$'\n\n'
+done
+copilot_prompt+="$PROMPT"
+
+echo "copilot ($COPILOT_MODEL) でコミットメッセージを生成中..."
+msg=$(copilot --prompt "$copilot_prompt" --silent --model "$COPILOT_MODEL" 2>/dev/null)
 
 if [ -z "$msg" ]; then
   echo "コミットメッセージの生成に失敗しました"
