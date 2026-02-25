@@ -4,7 +4,7 @@ set -euo pipefail
 # Files and directories to symlink from original repository to worktree
 SYMLINK_TARGETS=(
   '.ignore'
-  'CLAUDE.md'
+  'CLAUDE.local.md'
   '.claude/settings.local.json'
 )
 
