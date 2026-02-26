@@ -5,7 +5,7 @@ set -euo pipefail
 SYMLINK_TARGETS=(
   '.ignore'
   'CLAUDE.local.md'
-  '.claude/settings.local.json'
+  '.claude'
 )
 
 help() {
