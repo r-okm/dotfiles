@@ -56,6 +56,9 @@
       "Bash(gh issue view *)",
       "Bash(gh pr view *)",
       "Bash(gh pr list *)",
+      "Bash(gh api '/repos/{owner}/{repo}/pulls/*/comments'*)",
+      "Bash(gh api '/repos/{owner}/{repo}/pulls/*/reviews'*)",
+      "Bash(gh api graphql *)",
       "Bash(node --version)",
       "Bash(npm view *)",
       "Bash(claude --version)",
@@ -98,9 +101,7 @@
       "Bash(git push *)",
       "Bash(git add *)"
     ],
-    "ask": [
-      "Bash(gh api *)"
-    ],
+    "ask": [],
     "additionalDirectories": [
       "{{ .chezmoi.homeDir }}/src/github.com/r-okm/project-ignores"
     ]

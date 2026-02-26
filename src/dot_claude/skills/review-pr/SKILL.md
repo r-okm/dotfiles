@@ -20,7 +20,7 @@ If a PR number is provided as an argument ($ARGUMENTS), use that instead.
 ## Steps
 
 1. Retrieve the PR diff with `gh pr diff <number>`.
-2. Retrieve review comments with `gh api '/repos/{owner}/{repo}/pulls/<number>/comments'`.
+2. Retrieve review context by invoking the `fetch-pr-context` skill with the PR number.
 3. Read the changed files to understand context beyond the diff.
 
 ## Review Checklist
