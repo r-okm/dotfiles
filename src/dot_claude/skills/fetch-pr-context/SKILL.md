@@ -1,7 +1,7 @@
 ---
 name: fetch-pr-context
 description: Fetch code review context (inline comments, verdicts, threads)
-allowed-tools: Bash(gh *), Write
+allowed-tools: Bash(gh *)
 argument-hint: "<PR number>"
 ---
 
@@ -27,17 +27,18 @@ gh api '/repos/{owner}/{repo}/pulls/<number>/comments' --paginate \
 
 ## Step 3: Review Threads with Resolved Status (Optional — GraphQL)
 
-Use this step when you need to:
-- Filter to only unresolved review threads
-- Exclude already-resolved threads
-- Identify outdated comments
+First, get the repository owner and name:
 
-Write the following query to `/tmp/review-threads.graphql`:
+```bash
+gh repo view --json owner,name --jq '{owner: .owner.login, name: .name}'
+```
 
-```graphql
-query($owner: String!, $repo: String!, $number: Int!) {
-  repository(owner: $owner, name: $repo) {
-    pullRequest(number: $number) {
+Then run the GraphQL query, replacing owner/repo/number with actual values:
+
+```bash
+gh api graphql -f query='{
+  repository(owner: "<owner>", name: "<repo>") {
+    pullRequest(number: <number>) {
       reviewThreads(first: 100) {
         nodes {
           id
@@ -50,21 +51,12 @@ query($owner: String!, $repo: String!, $number: Int!) {
       }
     }
   }
-}
+}'
 ```
 
 Limitation: `reviewThreads(first: 100)` and `comments(first: 10)` cap results. Large PRs may have truncated output.
 
-Execute:
-
-```bash
-gh api graphql -F query=@/tmp/review-threads.graphql \
-  -f owner="$(gh repo view --json owner --jq '.owner.login')" \
-  -f repo="$(gh repo view --json name --jq '.name')" \
-  -F number=<number>
-```
-
-To extract only unresolved threads:
+To extract only unresolved threads, append the following `jq` filter:
 
 ```bash
 | jq '[.data.repository.pullRequest.reviewThreads.nodes[]
