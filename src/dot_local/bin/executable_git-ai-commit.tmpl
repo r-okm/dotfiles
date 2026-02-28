@@ -13,6 +13,12 @@ DIFF_MAX=80000
 PROMPT=$(cat <<'EOF'
 Generate a commit message for the staged changes.
 Output ONLY the commit message. No explanation, no code blocks.
+Strictly follow the format of recent commit history in the repository.
+
+## Rules:
+- Subject: max 50 chars
+- Blank line after subject
+- Body: bulleted list with `-`, each line max 72 chars
 
 ## Recent commits
 EOF
