@@ -1,0 +1,242 @@
+#!/usr/bin/env python3
+"""Claude Code SessionStart hook: inject handoff context from previous sessions."""
+
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+
+HANDOFF_DIR = ".ignore/ai/handoffs"
+MAX_AGE_HOURS = 24
+
+
+def get_tmux_pane():
+    return os.environ.get("TMUX_PANE")
+
+
+def get_tty():
+    try:
+        result = subprocess.run(
+            ["tty"], capture_output=True, text=True, timeout=5
+        )
+        tty = result.stdout.strip()
+        return tty if tty and "not a tty" not in tty else None
+    except Exception:
+        return None
+
+
+def get_git_branch(cwd):
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+            timeout=5,
+        )
+        branch = result.stdout.strip()
+        return branch if branch else None
+    except Exception:
+        return None
+
+
+def parse_frontmatter(content):
+    """Parse YAML-like frontmatter from markdown (simple key: value parsing)."""
+    meta = {}
+    match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
+    if not match:
+        return meta, content
+    fm_text = match.group(1)
+    body = content[match.end():].strip()
+    for line in fm_text.splitlines():
+        if ": " in line:
+            key, _, value = line.partition(": ")
+            key = key.strip()
+            value = value.strip()
+            if value == "null":
+                value = None
+            meta[key] = value
+    return meta, body
+
+
+def read_handoff_files(handoff_dir):
+    """Read all handoff files and return parsed metadata + content."""
+    candidates = []
+    cutoff = time.time() - MAX_AGE_HOURS * 3600
+
+    try:
+        entries = os.listdir(handoff_dir)
+    except OSError:
+        return candidates
+
+    for name in entries:
+        if not name.endswith(".md"):
+            continue
+        filepath = os.path.join(handoff_dir, name)
+        if not os.path.isfile(filepath):
+            continue
+
+        try:
+            mtime = os.stat(filepath).st_mtime
+            if mtime < cutoff:
+                continue
+            with open(filepath) as f:
+                content = f.read()
+        except OSError:
+            continue
+
+        meta, body = parse_frontmatter(content)
+
+        # Only consider active handoffs
+        if meta.get("status") != "active":
+            continue
+
+        candidates.append({
+            "filepath": filepath,
+            "filename": name,
+            "mtime": mtime,
+            "meta": meta,
+            "body": body,
+            "full_content": content,
+        })
+
+    return sorted(candidates, key=lambda c: c["mtime"], reverse=True)
+
+
+def match_candidates(candidates, tmux_pane, tty, branch):
+    """Apply matching strategy: tmux pane → TTY → branch → most recent."""
+    if not candidates:
+        return None, candidates
+
+    # Priority 1: tmux pane match
+    if tmux_pane:
+        matches = [c for c in candidates if c["meta"].get("tmux_pane") == tmux_pane]
+        if len(matches) == 1:
+            return matches[0], []
+        if matches:
+            candidates = matches
+
+    # Priority 2: TTY match
+    if tty:
+        matches = [c for c in candidates if c["meta"].get("tty") == tty]
+        if len(matches) == 1:
+            return matches[0], []
+        if matches:
+            candidates = matches
+
+    # Priority 3: branch match
+    if branch:
+        matches = [c for c in candidates if c["meta"].get("branch") == branch]
+        if len(matches) == 1:
+            return matches[0], []
+        if matches:
+            candidates = matches
+
+    # Priority 4: most recent
+    if len(candidates) == 1:
+        return candidates[0], []
+
+    # Multiple candidates remain - return most recent + list the rest
+    return candidates[0], candidates[1:]
+
+
+def update_status_to_consumed(filepath):
+    """Update the status field in frontmatter from active to consumed."""
+    try:
+        with open(filepath) as f:
+            content = f.read()
+        updated = re.sub(
+            r"^(status:\s*)active\s*$",
+            r"\1consumed",
+            content,
+            count=1,
+            flags=re.MULTILINE,
+        )
+        if updated != content:
+            with open(filepath, "w") as f:
+                f.write(updated)
+    except OSError:
+        pass
+
+
+def format_context(selected, remaining):
+    """Format the handoff context for additionalContext injection."""
+    parts = []
+    meta = selected["meta"]
+    agent = meta.get("agent", "unknown")
+    ts = meta.get("timestamp", "unknown")
+    branch = meta.get("branch", "unknown")
+    session_id = meta.get("session_id", "unknown")
+
+    parts.append(f"## Previous Session Handoff")
+    parts.append(f"Agent: {agent} | Branch: {branch} | Time: {ts} | Session: {session_id}")
+    parts.append("")
+    parts.append(selected["body"])
+
+    if remaining:
+        parts.append("")
+        parts.append("### Other Recent Handoffs")
+        for c in remaining[:5]:
+            m = c["meta"]
+            parts.append(
+                f"- {m.get('agent', '?')} on {m.get('branch', '?')} "
+                f"at {m.get('timestamp', '?')} ({c['filename']})"
+            )
+
+    return "\n".join(parts)
+
+
+def main():
+    try:
+        hook_input = json.load(sys.stdin)
+    except (json.JSONDecodeError, ValueError):
+        return
+
+    cwd = hook_input.get("cwd", "")
+    session_id = hook_input.get("session_id", "")
+    if not cwd:
+        return
+
+    handoff_dir = os.path.join(cwd, HANDOFF_DIR)
+    if not os.path.isdir(handoff_dir):
+        return
+
+    candidates = read_handoff_files(handoff_dir)
+    if not candidates:
+        return
+
+    # Exclude handoff from the current session (avoid self-reference on resume)
+    candidates = [c for c in candidates if c["meta"].get("session_id") != session_id]
+    if not candidates:
+        return
+
+    tmux_pane = get_tmux_pane()
+    tty = get_tty()
+    branch = get_git_branch(cwd)
+
+    selected, remaining = match_candidates(candidates, tmux_pane, tty, branch)
+    if not selected:
+        return
+
+    context = format_context(selected, remaining)
+
+    # Mark the selected handoff as consumed
+    update_status_to_consumed(selected["filepath"])
+
+    # Output JSON for SessionStart hook
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "SessionStart",
+            "additionalContext": context,
+        }
+    }
+    json.dump(output, sys.stdout)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception:
+        pass

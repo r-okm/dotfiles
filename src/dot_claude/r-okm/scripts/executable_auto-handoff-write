@@ -1,0 +1,208 @@
+#!/usr/bin/env python3
+"""Claude Code Stop hook: auto-generate handoff state from session transcript."""
+
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+
+HANDOFF_DIR = ".ignore/ai/handoffs"
+TAIL_LINES = 200
+CLEANUP_DAYS = 7
+
+
+def get_tmux_pane():
+    return os.environ.get("TMUX_PANE")
+
+
+def get_tty():
+    try:
+        result = subprocess.run(
+            ["tty"], capture_output=True, text=True, timeout=5
+        )
+        tty = result.stdout.strip()
+        return tty if tty and "not a tty" not in tty else None
+    except Exception:
+        return None
+
+
+def get_git_branch(cwd):
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+            timeout=5,
+        )
+        branch = result.stdout.strip()
+        return branch if branch else None
+    except Exception:
+        return None
+
+
+def tail_lines(filepath, n):
+    """Read last n lines of a file efficiently."""
+    try:
+        result = subprocess.run(
+            ["tail", "-n", str(n), filepath],
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        return result.stdout.splitlines()
+    except Exception:
+        return []
+
+
+def extract_context(transcript_path):
+    """Extract handoff context from session JSONL."""
+    lines = tail_lines(transcript_path, TAIL_LINES)
+
+    objective = None
+    last_assistant_text = None
+    modified_files = set()
+
+    for raw_line in lines:
+        try:
+            obj = json.loads(raw_line)
+        except (json.JSONDecodeError, ValueError):
+            continue
+
+        msg_type = obj.get("type")
+
+        # Extract objective from user messages (first non-meta, non-system user msg)
+        if msg_type == "user" and not obj.get("isMeta"):
+            content = obj.get("message", {}).get("content", "")
+            if isinstance(content, str) and "<command-name>" not in content and "<local-command" not in content:
+                if not objective:
+                    text = content.strip()
+                    # Take first meaningful line as objective
+                    for line in text.split("\n"):
+                        line = line.strip()
+                        if line and len(line) > 5:
+                            objective = line[:200]
+                            break
+
+        # Extract assistant text and tool_use info
+        if msg_type == "assistant":
+            content = obj.get("message", {}).get("content", [])
+            if isinstance(content, list):
+                for item in content:
+                    if not isinstance(item, dict):
+                        continue
+                    if item.get("type") == "text":
+                        text = item.get("text", "").strip()
+                        if text:
+                            last_assistant_text = text
+                    elif item.get("type") == "tool_use":
+                        name = item.get("name", "")
+                        inp = item.get("input", {})
+                        if name in ("Edit", "Write", "Read") and "file_path" in inp:
+                            modified_files.add(inp["file_path"])
+
+    return objective, last_assistant_text, sorted(modified_files)
+
+
+def format_handoff(session_id, agent, branch, tmux_pane, tty, objective,
+                   last_actions, modified_files):
+    """Format handoff state as markdown with YAML frontmatter."""
+    timestamp = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+
+    frontmatter = [
+        "---",
+        f"session_id: {session_id}",
+        f"agent: {agent}",
+        f"timestamp: {timestamp}",
+        f"branch: {branch or 'null'}",
+        f"tmux_pane: {tmux_pane or 'null'}",
+        f"tty: {tty or 'null'}",
+        "status: active",
+        "---",
+    ]
+
+    body = []
+    if objective:
+        body.extend(["", "## Objective", objective])
+    if last_actions:
+        # Truncate to ~500 chars
+        truncated = last_actions[:500]
+        if len(last_actions) > 500:
+            truncated += " ..."
+        body.extend(["", "## Last Actions", truncated])
+    if modified_files:
+        body.extend(["", "## Modified Files"])
+        for f in modified_files[-20:]:  # Limit to 20 files
+            body.append(f"- `{f}`")
+
+    return "\n".join(frontmatter + body) + "\n"
+
+
+def cleanup_old_files(handoff_dir):
+    """Remove handoff files older than CLEANUP_DAYS."""
+    try:
+        cutoff = time.time() - CLEANUP_DAYS * 86400
+        for name in os.listdir(handoff_dir):
+            filepath = os.path.join(handoff_dir, name)
+            if os.path.isfile(filepath) and name.endswith(".md"):
+                if os.stat(filepath).st_mtime < cutoff:
+                    os.remove(filepath)
+    except Exception:
+        pass
+
+
+def main():
+    try:
+        hook_input = json.load(sys.stdin)
+    except (json.JSONDecodeError, ValueError):
+        return
+
+    session_id = hook_input.get("session_id", "")
+    transcript_path = hook_input.get("transcript_path", "")
+    cwd = hook_input.get("cwd", "")
+
+    if not session_id or not cwd:
+        return
+
+    # Check transcript exists and is readable
+    if not transcript_path or not os.path.isfile(transcript_path):
+        return
+
+    handoff_dir = os.path.join(cwd, HANDOFF_DIR)
+    os.makedirs(handoff_dir, exist_ok=True)
+
+    branch = get_git_branch(cwd)
+    tmux_pane = get_tmux_pane()
+    tty = get_tty()
+
+    objective, last_actions, modified_files = extract_context(transcript_path)
+
+    # Skip writing if there's no meaningful context
+    if not objective and not last_actions and not modified_files:
+        return
+
+    content = format_handoff(
+        session_id=session_id,
+        agent="claude-code",
+        branch=branch,
+        tmux_pane=tmux_pane,
+        tty=tty,
+        objective=objective,
+        last_actions=last_actions,
+        modified_files=modified_files,
+    )
+
+    handoff_path = os.path.join(handoff_dir, f"{session_id}.md")
+    with open(handoff_path, "w") as f:
+        f.write(content)
+
+    cleanup_old_files(handoff_dir)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception:
+        pass

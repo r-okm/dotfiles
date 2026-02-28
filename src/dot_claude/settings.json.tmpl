@@ -6,6 +6,16 @@
   },
   "model": "opus",
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/auto-handoff-read"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "permission_prompt|auth_success|elicitation_dialog",
@@ -23,6 +33,11 @@
           {
             "type": "command",
             "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
+          },
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/auto-handoff-write",
+            "async": true
           }
         ]
       }
