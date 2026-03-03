@@ -2,9 +2,12 @@
 name: handoff
 description: Generate a session handoff document for continuing work in another session
 disable-model-invocation: true
-allowed-tools: Bash(date *), Read, Write
+allowed-tools: Read, Write
 argument-hint: "[output path]"
 ---
+
+!date '+%Y-%m-%d %H:%M'
+!date +%Y%m%d_%H%M%S
 
 # Session Handoff
 
@@ -27,8 +30,8 @@ context so another agent (or a future session) can continue the work.
 
 3. Save the file:
    - If `$ARGUMENTS` is a path, use that.
-   - Otherwise: `.ignore/handoffs/<YYYYMMDD_HHMMSS>.md`
-     (use `date +%Y%m%d_%H%M%S` to generate the timestamp).
+   - Otherwise: `.ignore/ai/handoffs/<YYYYMMDD_HHMMSS>.md`
+     (use the timestamp embedded above).
    - Use the Write tool directly; do not run `mkdir`.
 
 ## Template
