@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euo pipefail
+PR_NUMBER="$1"
+OWNER=$(gh repo view --json owner -q .owner.login)
+REPO=$(gh repo view --json name -q .name)
+gh api graphql -f query="
+  {
+    repository(owner: \"$OWNER\", name: \"$REPO\") {
+      pullRequest(number: $PR_NUMBER) {
+        reviewThreads(first: 100) {
+          nodes {
+            id isResolved isOutdated
+            comments(first: 10) {
+              nodes { author { login } path line body }
+            }
+          }
+        }
+      }
+    }
+  }
+" | jq '[.data.repository.pullRequest.reviewThreads.nodes[]
+  | select(.isResolved == false)
+  | {id, path: .comments.nodes[0].path,
+     line: .comments.nodes[0].line,
+     author: .comments.nodes[0].author.login,
+     body: .comments.nodes[0].body}]'
