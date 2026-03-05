@@ -1,16 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
+CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
 COPILOT_MODEL="${COPILOT_MODEL:-{{ .copilot.model.sonnet }}}"
 
-if git diff --cached --quiet; then
-  echo "ステージされた変更がありません"
-  exit 1
-fi
+generate_with_claude() {
+  claude --print --model "$CLAUDE_MODEL" '/commit-message'
+}
 
-DIFF_MAX=80000
+generate_with_copilot() {
+  local DIFF_MAX=80000
 
-PROMPT=$(cat <<'EOF'
+  local prompt
+  prompt=$(cat <<'EOF'
 Generate a commit message for the staged changes.
 Output ONLY the commit message. No explanation, no code blocks.
 Strictly follow the format of recent commit history in the repository.
@@ -22,28 +24,50 @@ Strictly follow the format of recent commit history in the repository.
 
 ## Recent commits
 EOF
-)
-PROMPT+=$'\n'
-PROMPT+=$(git log --format='---%n%s%+b' -10)
-PROMPT+=$'\n\n## Changed files\n'
-PROMPT+=$(git diff --cached --stat)
-PROMPT+=$'\n\n## Diff\n'
-PROMPT+=$(git diff --cached -- . ':!*lock*' ':!*.lock' | head -c "$DIFF_MAX")
+  )
+  prompt+=$'\n'
+  prompt+=$(git log --format='---%n%s%+b' -10)
+  prompt+=$'\n\n## Changed files\n'
+  prompt+=$(git diff --cached --stat)
+  prompt+=$'\n\n## Diff\n'
+  prompt+=$(git diff --cached -- . ':!*lock*' ':!*.lock' | head -c "$DIFF_MAX")
 
-# copilot doesn't read CLAUDE.md natively; inject it into the prompt
-copilot_prompt=""
-repo_root=$(git rev-parse --show-toplevel)
-for f in ~/.claude/CLAUDE.md "$repo_root/CLAUDE.md" "$repo_root/CLAUDE.local.md"; do
-  [ -f "$f" ] && copilot_prompt+="$(cat "$f")"$'\n\n'
-done
-copilot_prompt+="$PROMPT"
+  # copilot doesn't read CLAUDE.md natively; inject it into the prompt
+  local copilot_prompt=""
+  local repo_root
+  repo_root=$(git rev-parse --show-toplevel)
+  for f in ~/.claude/CLAUDE.md "$repo_root/CLAUDE.md" "$repo_root/CLAUDE.local.md"; do
+    [ -f "$f" ] && copilot_prompt+="$(cat "$f")"$'\n\n'
+  done
+  copilot_prompt+="$prompt"
 
-echo "copilot ($COPILOT_MODEL) でコミットメッセージを生成中..."
-msg=$(copilot --prompt "$copilot_prompt" --silent --model "$COPILOT_MODEL" 2>/dev/null)
+  copilot --prompt "$copilot_prompt" --silent --model "$COPILOT_MODEL" 2>/dev/null
+}
 
-if [ -z "$msg" ]; then
-  echo "コミットメッセージの生成に失敗しました"
-  exit 1
-fi
+main() {
+  if git diff --cached --quiet; then
+    echo "ステージされた変更がありません"
+    exit 1
+  fi
 
-git commit --edit --message="$msg"
+  local msg
+
+  echo "claude ($CLAUDE_MODEL) でコミットメッセージを生成中..."
+  if msg=$(generate_with_claude); then
+    echo "claude で生成完了"
+  else
+    echo "claude が失敗しました:" >&2
+    [ -n "$msg" ] && echo "$msg" >&2
+    echo "copilot ($COPILOT_MODEL) にフォールバック..."
+    msg=$(generate_with_copilot)
+  fi
+
+  if [ -z "$msg" ]; then
+    echo "コミットメッセージの生成に失敗しました"
+    exit 1
+  fi
+
+  git commit --edit --message="$msg"
+}
+
+main "$@"
