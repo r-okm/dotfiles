@@ -4,35 +4,6 @@
     "commit": "",
     "pr": ""
   },
-  "model": "opus",
-  "plansDirectory" : "./.ignore/ai/plans",
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "permission_prompt|auth_success|elicitation_dialog",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
-          }
-        ]
-      }
-    ]
-  },
-  "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
-  },
   "permissions": {
     "allow": [
       "Bash(ls *)",
@@ -115,5 +86,34 @@
     "additionalDirectories": [
       "{{ .chezmoi.homeDir }}/src/github.com/r-okm/project-ignores"
     ]
-  }
+  },
+  "model": "opus",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|auth_success|elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "plansDirectory": "./.ignore/ai/plans"
 }
