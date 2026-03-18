@@ -1,0 +1,22 @@
+#!/usr/bin/env -S zsh -l
+set -euo pipefail
+
+# chezmoi: fpath に影響するファイルの変更を検知
+# external hash: {{ joinPath .chezmoi.sourceDir ".chezmoiexternal.toml.tmpl" | include | sha256sum }}
+
+echo "Rebuilding zsh completion cache..."
+
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+
+# fpath にプラグインの補完ディレクトリを追加
+# (zsh -l は非インタラクティブのため /etc/zsh/zshrc も ZDOTDIR/.zshrc も読まれない。fpath を明示設定する)
+fpath=(
+  "$ZDOTDIR/completions"
+  "$ZDOTDIR/plugins/autoload/zsh-completions/src"
+  $fpath
+)
+
+autoload -Uz compinit
+compinit -u -d "$ZDOTDIR/.zcompdump"
+
+echo "Done: $(head -1 "$ZDOTDIR/.zcompdump")"

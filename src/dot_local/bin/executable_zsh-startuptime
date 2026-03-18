@@ -1,0 +1,271 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+readonly PROG="${0:t}"
+readonly DEFAULT_RUNS=10
+readonly BAR_WIDTH=20
+
+usage() {
+  cat <<EOF
+Usage: $PROG [MODE] [OPTIONS]
+
+Measure zsh startup time.
+
+MODE:
+  total      Measure total startup time statistically (default)
+  breakdown  Show per-file breakdown with bar chart (sync phase + compinit)
+  zprof      Show function-level profiling (zsh built-in)
+
+OPTIONS:
+  -n NUM     Number of runs for total mode (default: $DEFAULT_RUNS)
+  --json     Output in JSON format (total mode only, for CI)
+  -h         Show this help
+EOF
+}
+
+# --- total mode ---
+mode_total() {
+  local runs=$1 json=$2
+
+  zmodload zsh/datetime
+  local -a times
+  local i t0 t1 elapsed
+
+  for (( i = 1; i <= runs; i++ )); do
+    t0=$EPOCHREALTIME
+    zsh -i -c exit
+    t1=$EPOCHREALTIME
+    elapsed=$(( (t1 - t0) * 1000 ))
+    times+=($elapsed)
+  done
+
+  # sort
+  local -a sorted
+  sorted=(${(on)times})
+
+  # stats
+  local sum=0
+  for t in "${times[@]}"; do
+    sum=$(( sum + t ))
+  done
+  local mean=$(( sum / runs ))
+
+  local median
+  if (( runs % 2 == 1 )); then
+    median=${sorted[$(( (runs + 1) / 2 ))]}
+  else
+    local mid=$(( runs / 2 ))
+    median=$(( (sorted[mid] + sorted[mid + 1]) / 2.0 ))
+  fi
+
+  local min=${sorted[1]}
+  local max=${sorted[-1]}
+  local range=$(( max - min ))
+
+  if [[ "$json" == "true" ]]; then
+    # Output format: customSmallerIsBetter for benchmark-action/github-action-benchmark
+    # https://github.com/benchmark-action/github-action-benchmark
+    printf '[
+  {
+    "name": "zsh startup (mean)",
+    "unit": "ms",
+    "value": %.1f,
+    "range": "%.1f",
+    "extra": "min: %.1fms, max: %.1fms, median: %.1fms (%d runs)"
+  }
+]\n' "$mean" "$range" "$min" "$max" "$median" "$runs"
+  else
+    printf 'zsh startup time (%d runs)\n' "$runs"
+    printf '──────────────────────────\n'
+    printf '  Mean:    %6.1fms\n' "$mean"
+    printf '  Median:  %6.1fms\n' "$median"
+    printf '  Min:     %6.1fms\n' "$min"
+    printf '  Max:     %6.1fms\n' "$max"
+  fi
+}
+
+# --- breakdown mode ---
+mode_breakdown() {
+  zmodload zsh/datetime
+  local tmpfile
+  tmpfile=$(mktemp /tmp/zsh-prof-XXXXXX)
+  trap "command rm -f '$tmpfile'" EXIT
+
+  # measure total wall time of the profiled zsh invocation
+  local t_start=$EPOCHREALTIME
+  __ZSH_PROF=breakdown __ZSH_PROF_OUT="$tmpfile" zsh -i </dev/null &>/dev/null
+  local total_wall=$(( (EPOCHREALTIME - t_start) * 1000 ))
+
+  if [[ ! -s "$tmpfile" ]]; then
+    echo "Error: No profiling data collected." >&2
+    return 1
+  fi
+
+  # read results: time<TAB>path
+  local -A times
+  local -a sync_keys defer_keys
+  local max_time=0
+  local name ms time_val path
+
+  while IFS=$'\t' read -r time_val path; do
+    if [[ "$path" == "compinit" ]]; then
+      name="compinit"
+    else
+      name="${path:t}"
+    fi
+    times[$name]=$time_val
+
+    # classify phase
+    if [[ "$name" == "zsh-defer.plugin.zsh" ]] || \
+       [[ "$path" == *"/sync/"* ]] || \
+       [[ "$name" == "compinit" ]]; then
+      sync_keys+=("$name")
+    elif [[ "$path" == *"/defer/"* ]] || [[ "$path" == *"/plugins/"* ]]; then
+      defer_keys+=("$name")
+    else
+      sync_keys+=("$name")
+    fi
+
+    ms=$(( time_val * 1000 ))
+    if (( ms > max_time )); then
+      max_time=$ms
+    fi
+  done < "$tmpfile"
+
+  # calculate system overhead
+  local zshrc_total=0
+  for name in "${sync_keys[@]}" "${defer_keys[@]}"; do
+    zshrc_total=$(( zshrc_total + times[$name] * 1000 ))
+  done
+  local system_overhead=$(( total_wall - zshrc_total ))
+  if (( system_overhead > max_time )); then
+    max_time=$system_overhead
+  fi
+
+  # display
+  printf 'zsh startup breakdown\n'
+  printf '═══════════════════════════════════════════════════════\n'
+
+  printf '\nPhase: system (zsh binary + /etc/zsh/* + .zshenv)\n'
+  printf '───────────────────────────────────────────────────────\n'
+  _print_bar "$system_overhead" "$max_time" "(system overhead)"
+  printf '───────────────────────────────────────────────────────\n'
+  printf '  System total: %.1fms\n' "$system_overhead"
+
+  local sync_total=0
+  if (( ${#sync_keys} > 0 )); then
+    printf '\nPhase: sync (blocking)\n'
+    printf '───────────────────────────────────────────────────────\n'
+    for name in "${sync_keys[@]}"; do
+      ms=$(( times[$name] * 1000 ))
+      sync_total=$(( sync_total + ms ))
+      _print_bar "$ms" "$max_time" "$name"
+    done
+    printf '───────────────────────────────────────────────────────\n'
+    printf '  Sync total: %.1fms\n' "$sync_total"
+  fi
+
+  local defer_total=0
+  if (( ${#defer_keys} > 0 )); then
+    printf '\nPhase: defer (non-blocking)\n'
+    printf '───────────────────────────────────────────────────────\n'
+    for name in "${defer_keys[@]}"; do
+      ms=$(( times[$name] * 1000 ))
+      defer_total=$(( defer_total + ms ))
+      _print_bar "$ms" "$max_time" "$name"
+    done
+    printf '───────────────────────────────────────────────────────\n'
+    printf '  Defer total: %.1fms\n' "$defer_total"
+  fi
+
+  printf '\n═══════════════════════════════════════════════════════\n'
+  printf 'Total: %.1fms (system: %.1fms + zshrc: %.1fms)\n' "$total_wall" "$system_overhead" "$zshrc_total"
+}
+
+_print_bar() {
+  local ms=$1 max_time=$2 name=$3
+  local -i filled=0
+  if (( max_time > 0 )); then
+    filled=$(( (ms * BAR_WIDTH + max_time / 2) / max_time ))
+    (( filled > BAR_WIDTH )) && filled=$BAR_WIDTH
+    (( filled < 0 )) && filled=0
+  fi
+  local -i empty=$(( BAR_WIDTH - filled ))
+
+  local bar=""
+  local i
+  for (( i = 0; i < filled; i++ )); do bar+="█"; done
+  for (( i = 0; i < empty; i++ )); do bar+="░"; done
+
+  printf '  %6.1fms %s  %s\n' "$ms" "$bar" "$name"
+}
+
+# --- zprof mode ---
+mode_zprof() {
+  local tmpfile
+  tmpfile=$(mktemp /tmp/zsh-prof-XXXXXX)
+  trap "command rm -f '$tmpfile'" EXIT
+
+  __ZSH_PROF=zprof __ZSH_PROF_OUT="$tmpfile" zsh -i </dev/null &>/dev/null
+
+  if [[ ! -s "$tmpfile" ]]; then
+    echo "Error: No profiling data collected." >&2
+    return 1
+  fi
+  cat "$tmpfile"
+}
+
+# --- main ---
+main() {
+  local mode="total"
+  local runs=$DEFAULT_RUNS
+  local json="false"
+
+  # parse arguments
+  while (( $# > 0 )); do
+    case "$1" in
+      total|breakdown|zprof)
+        mode="$1"
+        shift
+        ;;
+      -n)
+        shift
+        if (( $# == 0 )); then
+          echo "Error: -n requires a number" >&2
+          return 1
+        fi
+        runs="$1"
+        shift
+        ;;
+      --json)
+        json="true"
+        shift
+        ;;
+      -h|--help)
+        usage
+        return 0
+        ;;
+      *)
+        echo "Error: Unknown argument: $1" >&2
+        usage >&2
+        return 1
+        ;;
+    esac
+  done
+
+  # validate --json is only for total mode
+  if [[ "$json" == "true" ]] && [[ "$mode" != "total" ]]; then
+    echo "Error: --json is only supported in total mode" >&2
+    return 1
+  fi
+
+  case "$mode" in
+    total)     mode_total "$runs" "$json" ;;
+    breakdown) mode_breakdown ;;
+    zprof)     mode_zprof ;;
+  esac
+}
+
+main "$@"
+
+# vim: set ft=zsh:

@@ -16,7 +16,6 @@ main() {
   source_if_exists "$HOME/.profile"
 
   # zsh specific configuration
-  export ZDOTDIR="${XDG_CONFIG_HOME:-${HOME}/.config}/zsh"
   export NI_USE_SOCKET_FIREWALL=1
 }
 

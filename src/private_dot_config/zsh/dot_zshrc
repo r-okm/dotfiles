@@ -1,16 +1,40 @@
 # vim: set ft=zsh:
 
-source_if_exists() {
-  local file_to_source="$1"
-  if [ -f "$file_to_source" ]; then
-    # shellcheck disable=SC1090
-    source "$file_to_source"
-  else
-    local current_script_file
-    current_script_file=$(basename "$0")
-    echo "[WARN][$current_script_file] File '$file_to_source' does not exist."
-  fi
-}
+# --- profiling: zprof ---
+if [[ "${__ZSH_PROF:-}" == "zprof" ]]; then
+  zmodload zsh/zprof
+fi
+
+# --- profiling: breakdown ---
+if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
+  zmodload zsh/datetime
+  typeset -gA __prof_times
+  source_if_exists() {
+    local file_to_source="$1"
+    if [[ -f "$file_to_source" ]]; then
+      local _t0=$EPOCHREALTIME
+      # shellcheck disable=SC1090
+      source "$file_to_source"
+      __prof_times[$file_to_source]=$(( EPOCHREALTIME - _t0 ))
+    else
+      local current_script_file
+      current_script_file=$(basename "$0")
+      echo "[WARN][$current_script_file] File '$file_to_source' does not exist."
+    fi
+  }
+else
+  source_if_exists() {
+    local file_to_source="$1"
+    if [ -f "$file_to_source" ]; then
+      # shellcheck disable=SC1090
+      source "$file_to_source"
+    else
+      local current_script_file
+      current_script_file=$(basename "$0")
+      echo "[WARN][$current_script_file] File '$file_to_source' does not exist."
+    fi
+  }
+fi
 
 # load zsh-defer
 source_if_exists $ZDOTDIR/plugins/manual/zsh-defer/zsh-defer.plugin.zsh
@@ -26,8 +50,38 @@ for f ($ZDOTDIR/plugins/autoload/*/*.plugin.zsh(N-.)) zsh-defer source_if_exists
 # zsh-defer source_if_exists $ZDOTDIR/depend/setup-abbr-fast-syntax-highlighting.zsh
 
 autoload -Uz compinit
+if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
+  _t0=$EPOCHREALTIME
+fi
 if [[ -n "${GITHUB_ACTIONS}" ]]; then
   compinit -u
 else
-  compinit
+  compinit -C
+fi
+if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
+  __prof_times[compinit]=$(( EPOCHREALTIME - _t0 ))
+  unset _t0
+fi
+
+# --- profiling: dump results via precmd ---
+if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
+  __zsh_prof_dump() {
+    local out="${__ZSH_PROF_OUT:-/dev/stdout}"
+    for k v in "${(@kv)__prof_times}"; do
+      printf '%s\t%s\n' "$v" "$k"
+    done > "$out"
+    add-zsh-hook -d precmd __zsh_prof_dump
+    exit 0
+  }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd __zsh_prof_dump
+elif [[ "${__ZSH_PROF:-}" == "zprof" ]]; then
+  __zsh_zprof_report() {
+    local out="${__ZSH_PROF_OUT:-/dev/stdout}"
+    zprof > "$out"
+    add-zsh-hook -d precmd __zsh_zprof_report
+    exit 0
+  }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd __zsh_zprof_report
 fi
