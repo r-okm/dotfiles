@@ -17,6 +17,6 @@ fpath=(
 )
 
 autoload -Uz compinit
-compinit -d "$ZDOTDIR/.zcompdump"
+compinit -u -d "$ZDOTDIR/.zcompdump"
 
 echo "Done: $(head -1 "$ZDOTDIR/.zcompdump")"
