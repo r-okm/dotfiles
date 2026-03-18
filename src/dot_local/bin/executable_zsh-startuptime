@@ -63,6 +63,8 @@ mode_total() {
   local range=$(( max - min ))
 
   if [[ "$json" == "true" ]]; then
+    # Output format: customSmallerIsBetter for benchmark-action/github-action-benchmark
+    # https://github.com/benchmark-action/github-action-benchmark
     printf '[
   {
     "name": "zsh startup (mean)",
