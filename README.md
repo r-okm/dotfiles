@@ -23,6 +23,10 @@ git clone https://github.com/r-okm/dotfiles.git
    chezmoi apply
    ```
 
+## Benchmark
+
+- [zsh startup time](https://r-okm.github.io/dotfiles/dev/bench/)
+
 ## Related repositories
 
 - [r-okm/nvim-config](https://github.com/r-okm/nvim-config)
