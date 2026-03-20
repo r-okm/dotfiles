@@ -17,6 +17,10 @@ on:
       - ".github/workflows/ci.yml"
   workflow_dispatch:
 
+permissions:
+  contents: write
+  deployments: write
+
 defaults:
   run:
     shell: bash
@@ -41,3 +45,19 @@ jobs:
       - run: |
           source ${ZDOTDIR}/.zshrc
         shell: zsh -el --pipefail {0}
+      - name: Measure zsh startup time
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          ~/.local/bin/zsh-startuptime total -n 10 --json > benchmark-result.json
+        shell: zsh -el --pipefail {0}
+      - name: Store benchmark result
+        if: matrix.os == 'ubuntu-22.04'
+        env:
+          GIT_CONFIG_GLOBAL: /dev/null
+        uses: benchmark-action/github-action-benchmark@a7bc2366eda11037936ea57d811a43b3418d3073 # v1.21.0
+        with:
+          name: zsh startup time
+          tool: customSmallerIsBetter
+          output-file-path: benchmark-result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: ${{ github.ref == 'refs/heads/main' }}
