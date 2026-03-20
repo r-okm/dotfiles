@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773989697908,
+  "lastUpdate": 1773991177377,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -31,6 +31,37 @@ window.BENCHMARK_DATA = {
             "range": "9.2",
             "unit": "ms",
             "extra": "min: 21.9ms, max: 31.2ms, median: 30.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "be163407b1f777c6f7244b0d5c15080abfef94b4",
+          "message": "claude: expand gh permissions for CI and pr checks\n\n- Generalize `head` permission from `/usr/bin/head` to `head`\n- Add `gh pr checks`, `gh run view`, `gh run list` permissions",
+          "timestamp": "2026-03-20T16:01:49+09:00",
+          "tree_id": "4241fd4dc61faf03d3c8ea1182b1b22f53ef1801",
+          "url": "https://github.com/r-okm/dotfiles/commit/be163407b1f777c6f7244b0d5c15080abfef94b4"
+        },
+        "date": 1773991176489,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 20.9,
+            "range": "9.3",
+            "unit": "ms",
+            "extra": "min: 18.5ms, max: 27.8ms, median: 18.9ms (10 runs)"
           }
         ]
       }
