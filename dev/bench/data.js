@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1773991177377,
+  "lastUpdate": 1774341966174,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -62,6 +62,37 @@ window.BENCHMARK_DATA = {
             "range": "9.3",
             "unit": "ms",
             "extra": "min: 18.5ms, max: 27.8ms, median: 18.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "51204f19277b028094655983dd16aa776d23ce3d",
+          "message": "claude: add tmux read permissions to global settings\n\n- Add `tmux list-windows`, `capture-pane`, `display-message`,\n  `send-keys`, `list-panes` to allowed Bash tools",
+          "timestamp": "2026-03-24T17:29:51+09:00",
+          "tree_id": "3000cdadf14a9256c4c97a5fc70e61c39ab48ec3",
+          "url": "https://github.com/r-okm/dotfiles/commit/51204f19277b028094655983dd16aa776d23ce3d"
+        },
+        "date": 1774341965892,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 23.5,
+            "range": "9.3",
+            "unit": "ms",
+            "extra": "min: 21.9ms, max: 31.2ms, median: 22.5ms (10 runs)"
           }
         ]
       }
