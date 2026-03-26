@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774510904146,
+  "lastUpdate": 1774512241069,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -155,6 +155,37 @@ window.BENCHMARK_DATA = {
             "range": "1.3",
             "unit": "ms",
             "extra": "min: 21.7ms, max: 23.0ms, median: 22.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "df5e0f56e09e09f7a41446acf8be3116d0c572a6",
+          "message": "ci: skip install when tools are already present (#61)\n\n- Add command -v checks to 1xx install scripts (rust, deno, docker,\nterraform, go, awscli, gh, cargo-binstall) to skip installation if the\ntool is already available on the system\n- Speeds up CI on GitHub Actions runners where docker, go, gh, and rust\nare pre-installed",
+          "timestamp": "2026-03-26T16:55:14+09:00",
+          "tree_id": "fe3c64992c68d34d3b4b9c8fe91176d57e863775",
+          "url": "https://github.com/r-okm/dotfiles/commit/df5e0f56e09e09f7a41446acf8be3116d0c572a6"
+        },
+        "date": 1774512240208,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 18.4,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 18.3ms, max: 18.5ms, median: 18.4ms (10 runs)"
           }
         ]
       }
