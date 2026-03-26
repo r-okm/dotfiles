@@ -33,6 +33,11 @@ BfWC9s/USgxchg==
 -----END PGP PUBLIC KEY BLOCK-----'
 
 main() {
+  if command -v aws &>/dev/null; then
+    echo "AWS CLI is already installed: $(aws --version)"
+    return
+  fi
+
   # Download zip
   curl "$URL" -o "awscliv2.zip"
 

@@ -6,6 +6,11 @@ VERSION_KEY='1.25'
 ARCH='amd64'
 
 main() {
+  if command -v go &>/dev/null; then
+    echo "Go is already installed: $(go version)"
+    return
+  fi
+
   echo "Fetching Go versions JSON from ${VERSIONS_JSON_URL}..."
   local versions_json url sha256
   versions_json=$(curl -fsSL "${VERSIONS_JSON_URL}")

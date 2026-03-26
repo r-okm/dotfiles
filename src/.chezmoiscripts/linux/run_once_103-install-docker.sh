@@ -2,6 +2,11 @@
 set -euxo pipefail
 
 main() {
+  if command -v docker &>/dev/null; then
+    echo "Docker is already installed: $(docker --version)"
+    return
+  fi
+
   for pkg in \
     docker.io \
     docker-doc \
