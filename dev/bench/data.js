@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774512241069,
+  "lastUpdate": 1774568704429,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -186,6 +186,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 18.3ms, max: 18.5ms, median: 18.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "75eb959c6e13e3aa68d8583470daf19a66f31056",
+          "message": "claude: auto-launch plan-reviewer for plans\n\n- Add Planning section to global CLAUDE.md requiring plan-reviewer\n  agent launch before presenting plans to user, with skip conditions\n  for explicit opt-out and already-reviewed plans\n- Simplify plan-reviewer step 1 to review-only (remove plan creation\n  case) and track read file path as review history write target\n- Replace generic \"plan.md\" references with \"plan file identified in\n  step 1\" for reliable review history recording",
+          "timestamp": "2026-03-26T17:52:11+09:00",
+          "tree_id": "f02ef098e8307e051e2d0299c22b97b18209ab0f",
+          "url": "https://github.com/r-okm/dotfiles/commit/75eb959c6e13e3aa68d8583470daf19a66f31056"
+        },
+        "date": 1774568703978,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 18.7,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 18.5ms, max: 19.1ms, median: 18.7ms (10 runs)"
           }
         ]
       }
