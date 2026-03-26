@@ -3,6 +3,11 @@ set -euxo pipefail
 
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 main() {
+  if command -v gh &>/dev/null; then
+    echo "GitHub CLI is already installed: $(gh --version | head -1)"
+    return
+  fi
+
   # Install
   (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) &&
     sudo mkdir -p -m 755 /etc/apt/keyrings &&

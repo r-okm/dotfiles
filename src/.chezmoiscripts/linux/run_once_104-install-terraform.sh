@@ -2,6 +2,11 @@
 set -euxo pipefail
 
 main() {
+  if command -v terraform &>/dev/null; then
+    echo "Terraform is already installed: $(terraform --version | head -1)"
+    return
+  fi
+
   echo 'Installing the HashiCorp GPG key...'
   wget -O- https://apt.releases.hashicorp.com/gpg |
     gpg --dearmor |

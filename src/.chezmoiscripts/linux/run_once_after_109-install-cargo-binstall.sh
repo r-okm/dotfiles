@@ -4,6 +4,11 @@ set -euo pipefail
 CARGO_BINSTALL_VERSION="1.17.8"
 
 main() {
+  if command -v cargo-binstall &>/dev/null; then
+    echo "cargo-binstall is already installed: $(cargo-binstall -V)"
+    return
+  fi
+
   echo "Installing cargo-binstall v${CARGO_BINSTALL_VERSION}..."
 
   local arch
