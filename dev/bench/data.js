@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774504579248,
+  "lastUpdate": 1774510904146,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -124,6 +124,37 @@ window.BENCHMARK_DATA = {
             "range": "5.8",
             "unit": "ms",
             "extra": "min: 21.6ms, max: 27.4ms, median: 22.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "02676427b7361c36e076dfbd30a02a1ea7e49f63",
+          "message": "ci: use cargo-binstall for prebuilt binaries to speed up CI (#60)\n\n- Add run_once_after_109 to install cargo-binstall v1.17.8 from GitHub\nReleases with arch auto-detection (x86_64/aarch64)\n- Switch run_once_after_201 to use cargo binstall for downloading\nprebuilt binaries instead of compiling from source, with cargo install\nfallback\n- Remove cargo registry cache step from CI workflow as binstall does not\nrequire source compilation",
+          "timestamp": "2026-03-26T16:13:02+09:00",
+          "tree_id": "7189aaf8c7874768ffbb11dbf2d6044a1b15934c",
+          "url": "https://github.com/r-okm/dotfiles/commit/02676427b7361c36e076dfbd30a02a1ea7e49f63"
+        },
+        "date": 1774510903376,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 22.2,
+            "range": "1.3",
+            "unit": "ms",
+            "extra": "min: 21.7ms, max: 23.0ms, median: 22.0ms (10 runs)"
           }
         ]
       }
