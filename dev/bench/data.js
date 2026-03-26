@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774341966174,
+  "lastUpdate": 1774504579248,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -93,6 +93,37 @@ window.BENCHMARK_DATA = {
             "range": "9.3",
             "unit": "ms",
             "extra": "min: 21.9ms, max: 31.2ms, median: 22.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "d0316df25479e6794eae0208147d3fead858b90c",
+          "message": "config: add claude-cli URL handler to mimeapps.list\n\n- Register x-scheme-handler/claude-cli to claude-code-url-handler.desktop",
+          "timestamp": "2026-03-26T14:39:40+09:00",
+          "tree_id": "59e5b368f1e3000a65b8c2cfb7afcfb9c6696b4e",
+          "url": "https://github.com/r-okm/dotfiles/commit/d0316df25479e6794eae0208147d3fead858b90c"
+        },
+        "date": 1774504578985,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 22.9,
+            "range": "5.8",
+            "unit": "ms",
+            "extra": "min: 21.6ms, max: 27.4ms, median: 22.0ms (10 runs)"
           }
         ]
       }
