@@ -1,7 +1,6 @@
 #!/usr/bin/env -S zsh -l
 set -euo pipefail
 
-# Define packages with their versions (no @ needed for latest)
 packages=(
   'bat'
   'eza'
@@ -15,17 +14,23 @@ packages=(
 main() {
   echo 'Installing cargo packages...'
 
-  for package in "${packages[@]}"; do
-    if [[ "$package" == *@* ]]; then
-      name="${package%@*}"
-      version="${package#*@}"
-      echo "Installing $name version $version..."
-      cargo install --locked "$name" --version "$version"
-    else
-      echo "Installing $package latest version..."
-      cargo install --locked "$package"
-    fi
-  done
+  if command -v cargo-binstall &>/dev/null; then
+    echo 'Using cargo-binstall (prebuilt binaries)...'
+    cargo binstall --no-confirm "${packages[@]}"
+  else
+    echo 'cargo-binstall not found, falling back to cargo install...'
+    for package in "${packages[@]}"; do
+      if [[ "$package" == *@* ]]; then
+        name="${package%@*}"
+        version="${package#*@}"
+        echo "Installing $name version $version..."
+        cargo install --locked "$name" --version "$version"
+      else
+        echo "Installing $package latest version..."
+        cargo install --locked "$package"
+      fi
+    done
+  fi
 }
 
 main
