@@ -20,7 +20,7 @@ argument-hint: "[PR number | GitHub PR URL]"
 
 - **無引数**: 直前の会話に含まれるレビュー内容を対象とする。会話内にレビュー情報が見つからない場合はユーザーに確認する。
 - **数値のみ**: PR番号として `fetch-pr-context` スキルに渡す
-- **github.com を含むURL**: URL末尾からPR番号を抽出し（例: `https://github.com/owner/repo/pull/123` → `123`）、`fetch-pr-context` スキルに渡す
+- **github.com を含むURL**: URLをそのまま `fetch-pr-context` スキルに渡す
 
 ## 動作フロー
 

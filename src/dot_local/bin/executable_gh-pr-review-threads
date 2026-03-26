@@ -1,11 +1,12 @@
 #!/bin/bash
 set -euo pipefail
-PR_NUMBER="$1"
-OWNER=$(gh repo view --json owner -q .owner.login)
-REPO=$(gh repo view --json name -q .name)
+REPO=$(gh-pr-parse repo "$1")
+PR_NUMBER=$(gh-pr-parse pr "$1")
+OWNER="${REPO%%/*}"
+REPO_NAME="${REPO##*/}"
 gh api graphql -f query="
   {
-    repository(owner: \"$OWNER\", name: \"$REPO\") {
+    repository(owner: \"$OWNER\", name: \"$REPO_NAME\") {
       pullRequest(number: $PR_NUMBER) {
         reviewThreads(first: 100) {
           nodes {

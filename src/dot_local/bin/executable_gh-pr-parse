@@ -1,0 +1,47 @@
+#!/bin/bash
+set -euo pipefail
+# Parse a PR reference (number or GitHub URL) into owner/repo and PR number.
+#
+# Usage:
+#   gh-pr-parse repo <PR_NUMBER|GITHUB_URL>  # output: owner/repo
+#   gh-pr-parse pr <PR_NUMBER|GITHUB_URL>    # output: PR number
+#   gh-pr-parse <PR_NUMBER|GITHUB_URL>       # output: two lines (owner/repo, PR number)
+
+parse_repo() {
+  local arg="$1"
+  if [[ "$arg" == *github.com* ]]; then
+    echo "$arg" | sed 's|.*github\.com/||;s|/pull/.*||'
+  else
+    if ! git remote get-url origin &>/dev/null; then
+      echo "Error: 'origin' remote not found" >&2
+      exit 1
+    fi
+    git remote get-url origin | sed 's|.*github\.com[:/]||;s|\.git$||'
+  fi
+}
+
+parse_pr() {
+  local arg="$1"
+  if [[ "$arg" == *github.com* ]]; then
+    echo "$arg" | sed 's|.*/pull/\([0-9]*\).*|\1|'
+  else
+    echo "$arg"
+  fi
+}
+
+case "${1:-}" in
+  repo)
+    parse_repo "$2"
+    ;;
+  pr)
+    parse_pr "$2"
+    ;;
+  "")
+    echo "Usage: gh-pr-parse [repo|pr] <PR_NUMBER|GITHUB_URL>" >&2
+    exit 1
+    ;;
+  *)
+    parse_repo "$1"
+    parse_pr "$1"
+    ;;
+esac
