@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+REPO=$(gh-pr-parse repo "$1")
+PR_NUMBER=$(gh-pr-parse pr "$1")
+gh api "repos/${REPO}/pulls/${PR_NUMBER}/comments" --paginate \
+  --jq '[.[] | {id, path, line, author: .user.login, body: .body[0:200], in_reply_to_id}]'
