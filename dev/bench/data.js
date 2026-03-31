@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774927021609,
+  "lastUpdate": 1774935662382,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -279,6 +279,37 @@ window.BENCHMARK_DATA = {
             "range": "1.1",
             "unit": "ms",
             "extra": "min: 23.9ms, max: 25.0ms, median: 24.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "e95737139721006356a8ec8532c8695da28e9e0f",
+          "message": "config: use WSL2 dnsTunneling instead of custom DNS monitor\n\n- Remove vpn-dns-monitor systemd service and chezmoi data.vpn\n  section, replaced by WSL2 built-in dnsTunneling which routes\n  DNS queries through Windows virtualization layer\n- Switch generateResolvConf to true so WSL auto-generates\n  resolv.conf with the dnsTunneling endpoint (10.255.255.254)\n- VPN DNS resolution now handled by Windows side automatically,\n  eliminating VPN disconnect DNS timeout (9.8s → 1.8s SSH)",
+          "timestamp": "2026-03-31T14:31:36+09:00",
+          "tree_id": "b3f468ae179d56f12a864fb8c549d9bb0dc5ad10",
+          "url": "https://github.com/r-okm/dotfiles/commit/e95737139721006356a8ec8532c8695da28e9e0f"
+        },
+        "date": 1774935661547,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.3,
+            "range": "8.6",
+            "unit": "ms",
+            "extra": "min: 22.0ms, max: 30.6ms, median: 22.0ms (10 runs)"
           }
         ]
       }
