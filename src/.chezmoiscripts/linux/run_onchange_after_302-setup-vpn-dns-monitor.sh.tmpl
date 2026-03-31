@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+{{ if not .vpn.dns_servers -}}
+echo "vpn.dns_servers is not configured, skipping VPN DNS monitor setup"
+exit 0
+{{ end -}}
+
+# --- vpn-dns-monitor.sh を生成・配置 ---
+sudo install -m 755 /dev/stdin /usr/local/bin/vpn-dns-monitor.sh <<'SCRIPT'
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly VPN_IP_PATTERN='{{ .vpn.ip_pattern }}'
+readonly VPN_DNS_SERVERS='{{ .vpn.dns_servers | join " " }}'
+readonly VPN_DOMAIN='~{{ .vpn.domain }}'
+
+configure_vpn_dns() {
+    local iface="$1"
+    # shellcheck disable=SC2086
+    resolvectl dns "$iface" ${VPN_DNS_SERVERS}
+    resolvectl domain "$iface" "${VPN_DOMAIN}"
+}
+
+# 起動時チェック: 既にVPN接続済みのインターフェースがあればDNSを設定
+# ip -o addr show 出力例: "44: eth2    inet 172.25.0.199/32 ... scope global noprefixroute eth2\ ..."
+while IFS= read -r line; do
+    iface=$(echo "$line" | awk '{print $2}')
+    if [ -n "$iface" ]; then
+        configure_vpn_dns "$iface"
+    fi
+done < <(ip -o addr show | grep -E "${VPN_IP_PATTERN}.*scope global")
+
+# VPNインターフェースのアドレス割り当てを監視し、per-link DNSを設定
+# インターフェース消滅時は systemd-resolved が per-link DNS を自動クリア
+ip monitor address | while IFS= read -r line; do
+    if echo "$line" | grep -qE '^Deleted'; then
+        continue
+    fi
+    if echo "$line" | grep -qE "${VPN_IP_PATTERN}.*scope global"; then
+        iface=$(echo "$line" | awk '{print $2}')
+        if [ -n "$iface" ]; then
+            configure_vpn_dns "$iface"
+        fi
+    fi
+done
+SCRIPT
+
+# --- systemd service を配置 ---
+sudo install -m 644 /dev/stdin /etc/systemd/system/vpn-dns-monitor.service <<'SERVICE'
+[Unit]
+Description=Monitor VPN interface and configure DNS
+After=systemd-resolved.service
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+ExecStart=/usr/local/bin/vpn-dns-monitor.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+
+# --- resolved.conf 設定 ---
+# バックアップは最初の1回のみ（上書き防止）
+if [ ! -f /etc/systemd/resolved.conf.bak ]; then
+    sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.bak 2>/dev/null || true
+fi
+sudo tee /etc/systemd/resolved.conf > /dev/null <<'RESOLVED'
+[Resolve]
+DNS=8.8.8.8 8.8.4.4
+FallbackDNS=1.1.1.1
+RESOLVED
+
+# --- resolv.conf を stub resolver へ symlink ---
+# 既に正しい symlink がある場合はスキップ（冪等性）
+if [ "$(readlink /etc/resolv.conf 2>/dev/null)" != "/run/systemd/resolve/stub-resolv.conf" ]; then
+    if [ ! -L /etc/resolv.conf ] && [ ! -f /etc/resolv.conf.bak ]; then
+        sudo cp /etc/resolv.conf /etc/resolv.conf.bak 2>/dev/null || true
+    fi
+    sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+fi
+
+# --- サービス有効化 ---
+sudo systemctl daemon-reload
+sudo systemctl enable --now vpn-dns-monitor.service
+# NOTE: systemd-resolved の restart により一時的にDNS解決が停止する（数秒）
+sudo systemctl restart systemd-resolved
