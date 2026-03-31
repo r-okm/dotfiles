@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774606672163,
+  "lastUpdate": 1774927021609,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -248,6 +248,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 21.9ms, max: 22.5ms, median: 22.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0e208388a720b5889aec136ec5c82baa7fdd1497",
+          "message": "config: add VPN DNS auto-routing via systemd-resolved\n\n- Add chezmoi data.vpn section (dns_servers, ip_pattern, domain)\n  with empty defaults for public repo safety\n- Add run_onchange_after_302 script that deploys vpn-dns-monitor\n  service to auto-configure per-link DNS on VPN interface via\n  ip monitor address, with startup check for existing connections\n- Switch resolv.conf to systemd-resolved stub resolver and set\n  global DNS to 8.8.8.8, enabling domain-based routing (~ksc.local)\n- Remove templates/etc/resolv.conf containing hardcoded VPN DNS IPs",
+          "timestamp": "2026-03-31T12:07:32+09:00",
+          "tree_id": "02329c1cbd25d9ddcd7081995041b502f4b290e1",
+          "url": "https://github.com/r-okm/dotfiles/commit/0e208388a720b5889aec136ec5c82baa7fdd1497"
+        },
+        "date": 1774927021140,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.3,
+            "range": "1.1",
+            "unit": "ms",
+            "extra": "min: 23.9ms, max: 25.0ms, median: 24.4ms (10 runs)"
           }
         ]
       }
