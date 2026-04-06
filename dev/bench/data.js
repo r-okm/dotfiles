@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1774935662382,
+  "lastUpdate": 1775434460574,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -310,6 +310,37 @@ window.BENCHMARK_DATA = {
             "range": "8.6",
             "unit": "ms",
             "extra": "min: 22.0ms, max: 30.6ms, median: 22.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "c5e1f3bfcc449235221da960c5cf16521e847dde",
+          "message": "claude: add pr-description and review-pr skills\n\n- Add pr-description skill to generate PR title and description\n  from current branch diff or an existing PR number, with rules\n  for title format, summary section, and output (no commit/save)\n- Add review-pr skill (opus model) to review PRs with checklist\n  covering logic, security, naming, dead code, and PR title format\n- review-pr includes v3_gui-specific checks: i18n key consistency,\n  stale resource detection (pages, atoms, images), and useLoading\n  pattern (skip stopLoading on success+navigation paths)\n- Both skills use disable-model-invocation with gh/git tool access",
+          "timestamp": "2026-04-06T09:03:57+09:00",
+          "tree_id": "33b5d07d36787b22b5bedacde2936901172a764a",
+          "url": "https://github.com/r-okm/dotfiles/commit/c5e1f3bfcc449235221da960c5cf16521e847dde"
+        },
+        "date": 1775434459788,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.4,
+            "range": "11.8",
+            "unit": "ms",
+            "extra": "min: 22.2ms, max: 34.0ms, median: 22.9ms (10 runs)"
           }
         ]
       }
