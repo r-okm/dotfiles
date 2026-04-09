@@ -13,6 +13,7 @@ apt_packages=(
   'unzip'
   'wget'
   'wl-clipboard'
+  'xclip'
   'xdg-utils'
   'zsh'
   # runtime
