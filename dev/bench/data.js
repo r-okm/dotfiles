@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775434460574,
+  "lastUpdate": 1775703832453,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -341,6 +341,37 @@ window.BENCHMARK_DATA = {
             "range": "11.8",
             "unit": "ms",
             "extra": "min: 22.2ms, max: 34.0ms, median: 22.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3491735fc7bad0400f2e37dd25a7481a25b82083",
+          "message": "config: show COPY indicator in tmux status-left during copy mode\n\n- Add pane_in_mode conditional to status-left, displaying yellow\n  \"COPY\" label when in copy mode, mirroring the existing cyan\n  \"PREFIX\" indicator style",
+          "timestamp": "2026-04-09T11:55:17+09:00",
+          "tree_id": "0cc100a10b6e6c67e36d74b659fbd19fd0c7768f",
+          "url": "https://github.com/r-okm/dotfiles/commit/3491735fc7bad0400f2e37dd25a7481a25b82083"
+        },
+        "date": 1775703831968,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 18.9,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 18.6ms, max: 19.2ms, median: 18.9ms (10 runs)"
           }
         ]
       }
