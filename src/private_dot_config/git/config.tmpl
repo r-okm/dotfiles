@@ -7,7 +7,7 @@
 [credential]
 {{ if eq .chezmoi.os "linux" -}}
 {{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-	helper = "/mnt/c/bin/git-credential-manager"
+	helper = "{{ .chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
 {{   end -}}
 {{ else -}}
 	provider = generic
