@@ -52,6 +52,7 @@
       "Bash(tmux list-panes:*)",
       "Bash(apt-cache policy *)",
       "Bash(lsb_release *)",
+      "Bash(python3 ~/.claude/r-okm/scripts/*)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
@@ -127,6 +128,16 @@
           {
             "type": "command",
             "command": "${HOME}/.claude/r-okm/scripts/notify-to-tmux-popup.sh"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/log-permission-request.sh"
           }
         ]
       }
