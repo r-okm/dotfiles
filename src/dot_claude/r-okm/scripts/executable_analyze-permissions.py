@@ -13,10 +13,28 @@ LOG_DIR = os.path.expanduser("~/.claude/r-okm/logs")
 PERMISSION_LOG = os.path.join(LOG_DIR, "permission-requests.jsonl")
 SETTINGS_FILE = os.path.expanduser("~/.claude/settings.json")
 HOME_DIR = os.path.expanduser("~")
+LAST_ANALYSIS_FILE = os.path.join(LOG_DIR, "last-analysis-timestamp")
 
 _INTERPRETERS = frozenset({
     "python3", "python", "node", "ruby", "perl", "bash", "sh", "zsh",
 })
+
+
+def read_last_analysis_timestamp():
+    """Read the last analysis timestamp. Returns ISO 8601 string or None."""
+    try:
+        with open(LAST_ANALYSIS_FILE) as f:
+            ts = f.read().strip()
+        datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
+        return ts
+    except (OSError, ValueError):
+        return None
+
+
+def write_analysis_timestamp(ts):
+    """Write the analysis timestamp to the marker file."""
+    with open(LAST_ANALYSIS_FILE, "w") as f:
+        f.write(ts + "\n")
 
 
 def normalize_path(text):
@@ -419,14 +437,20 @@ def main():
     parser = argparse.ArgumentParser(
         description="Analyze Claude Code permission request logs",
         epilog=(
+            "By default, only logs since the last analysis are shown.\n"
+            "Use --all to analyze all logs, or --since to specify a date.\n"
+            "\n"
             "Workflow:\n"
-            "  1. %(prog)s              # scan table overview\n"
+            "  1. %(prog)s              # scan new entries since last analysis\n"
             "  2. %(prog)s --json       # pass to LLM for analysis\n"
             "  3. %(prog)s --settings   # paste approved rules into settings.json\n"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("--since", help="Filter from date (YYYY-MM-DD)")
+    filter_group = parser.add_mutually_exclusive_group()
+    filter_group.add_argument("--since", help="Filter from date (YYYY-MM-DD)")
+    filter_group.add_argument("--all", action="store_true",
+                              help="Analyze all logs (ignore last analysis timestamp)")
     parser.add_argument("--top", type=int, default=20, help="Top N (default: 20)")
     parser.add_argument("--full", action="store_true", help=argparse.SUPPRESS)
     output_group = parser.add_mutually_exclusive_group()
@@ -447,18 +471,33 @@ def main():
         sys.exit(1)
 
     since = None
-    if args.since:
+    should_update_timestamp = True
+
+    if args.all:
+        since = None
+        should_update_timestamp = False
+    elif args.since:
         try:
             datetime.strptime(args.since, "%Y-%m-%d")
             since = args.since + "T00:00:00Z"
         except ValueError:
             print(f"Error: Invalid date: {args.since} (YYYY-MM-DD)", file=sys.stderr)
             sys.exit(1)
-
-    output_mode = "json" if args.json else "settings" if args.settings else "table"
+    elif (last_ts := read_last_analysis_timestamp()):
+        since = last_ts
 
     entries = load_permission_requests(since=since)
+    if not entries:
+        print("No permission requests found in logs.")
+        sys.exit(0)
+
+    output_mode = "json" if args.json else "settings" if args.settings else "table"
     analyze_mode_a(entries, args.top, output_mode)
+
+    if should_update_timestamp:
+        latest_ts = max(e.get("timestamp", "") for e in entries)
+        if latest_ts:
+            write_analysis_timestamp(latest_ts)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 name: analyze-permissions
 description: パーミッション申請ログを分析し、allow ルールの最適化案を提示する
 allowed-tools: Bash(~/.claude/r-okm/scripts/analyze-permissions.py *)
+argument-hint: "[--since YYYY-MM-DD | --all]"
 ---
 
 # /analyze-permissions - パーミッション分析
@@ -10,12 +11,12 @@ allowed-tools: Bash(~/.claude/r-okm/scripts/analyze-permissions.py *)
 
 ## 分析データ
 
-!`~/.claude/r-okm/scripts/analyze-permissions.py --json`
+!`~/.claude/r-okm/scripts/analyze-permissions.py --json $ARGUMENTS`
 
 ## 指示
 
 上記の JSON データを以下の3観点で分析し、結果を出力する。
-データが `"No permission suggestions found in logs."` の場合は、その旨を伝えて終了する。
+データが `"No permission requests found in logs."` の場合は、前回分析以降に新しいパーミッション申請がなかった旨を伝えて終了する。`--all` フラグでの再分析を提案してもよい。
 
 ### 観点1: ルール最適化
 

@@ -21,7 +21,7 @@ A `PermissionRequest` hook (`settings.json`) triggers `log-permission-request.sh
 ### Workflow
 
 ```sh
-# 1. Scan table overview
+# 1. Scan new entries since last analysis
 analyze-permissions.py
 
 # 2. LLM analysis (via skill)
@@ -34,11 +34,14 @@ analyze-permissions.py --settings
 ### CLI options
 
 ```sh
-# Default: top 20 suggestions, table format
+# Default: new entries since last analysis, table format
 analyze-permissions.py
 
-# Filter by date
+# Re-analyze from a specific date
 analyze-permissions.py --since 2025-06-01
+
+# Analyze all logs (does not update last-analysis timestamp)
+analyze-permissions.py --all
 
 # Show top 10
 analyze-permissions.py --top 10
@@ -49,6 +52,8 @@ analyze-permissions.py --json
 # Flat JSON array for settings.json permissions.allow (wildcards applied)
 analyze-permissions.py --settings
 ```
+
+By default, the script records the analysis timestamp in `logs/last-analysis-timestamp` and only shows entries logged after that point on subsequent runs. Use `--all` to see everything without updating the timestamp, or `--since` to re-analyze from a specific date.
 
 ### Table output
 
@@ -86,7 +91,7 @@ Suggested wildcard rules:
 
 ### LLM analysis skill
 
-Run `/analyze-permissions` in Claude Code to automatically analyze logs from 3 perspectives:
+Run `/analyze-permissions` in Claude Code to analyze logs from 3 perspectives. Supports `--since YYYY-MM-DD` and `--all` arguments:
 
 1. **Rule optimization** — recommends allow rules with appropriate wildcard granularity
 2. **Security review** — flags high-risk wildcards and checks deny rule consistency
@@ -108,6 +113,7 @@ Add the output entries to `permissions.allow` in `dotfiles/src/dot_claude/settin
 | `scripts/log-permission-request.sh` | PermissionRequest hook — logs prompts to JSONL |
 | `scripts/analyze-permissions.py` | Aggregates logs and suggests allow rules |
 | `logs/permission-requests.jsonl` | Log data (auto-created, not in version control) |
+| `logs/last-analysis-timestamp` | Last analysis timestamp marker (auto-managed) |
 | `~/.claude/skills/analyze-permissions/` | `/analyze-permissions` skill for LLM-driven analysis |
 
 ## Log Format
