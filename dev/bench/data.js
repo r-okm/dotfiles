@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775794535614,
+  "lastUpdate": 1775882653725,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -403,6 +403,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 21.8ms, max: 22.6ms, median: 22.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9c929021f560ab704e85fcd48d4709370013f4d0",
+          "message": "claude: allow WebFetch for zenn.dev, neovim.io, vimhelp.org\n\n- Add zenn.dev, neovim.io, and vimhelp.org to WebFetch allow rules\n  in settings.json.tmpl",
+          "timestamp": "2026-04-11T13:35:55+09:00",
+          "tree_id": "96cf35ed925f11cbc8c0ea03b87eb4d76e756f17",
+          "url": "https://github.com/r-okm/dotfiles/commit/9c929021f560ab704e85fcd48d4709370013f4d0"
+        },
+        "date": 1775882653319,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 22.1,
+            "range": "1.9",
+            "unit": "ms",
+            "extra": "min: 21.5ms, max: 23.5ms, median: 22.0ms (10 runs)"
           }
         ]
       }
