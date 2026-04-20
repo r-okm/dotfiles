@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1775882653725,
+  "lastUpdate": 1776728389825,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -434,6 +434,37 @@ window.BENCHMARK_DATA = {
             "range": "1.9",
             "unit": "ms",
             "extra": "min: 21.5ms, max: 23.5ms, median: 22.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "be106d8fc9c1d373fdc186c05324d3090274821d",
+          "message": "claude: enable skipAutoPermissionPrompt setting\n\n- Set skipAutoPermissionPrompt to true in settings.json.tmpl",
+          "timestamp": "2026-04-21T08:30:40+09:00",
+          "tree_id": "e0dd035f59f10c9f2706dc6a74e63704348ade91",
+          "url": "https://github.com/r-okm/dotfiles/commit/be106d8fc9c1d373fdc186c05324d3090274821d"
+        },
+        "date": 1776728388996,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 22.1,
+            "range": "2.1",
+            "unit": "ms",
+            "extra": "min: 21.6ms, max: 23.6ms, median: 21.9ms (10 runs)"
           }
         ]
       }
