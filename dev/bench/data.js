@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776728389825,
+  "lastUpdate": 1776914093667,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -465,6 +465,37 @@ window.BENCHMARK_DATA = {
             "range": "2.1",
             "unit": "ms",
             "extra": "min: 21.6ms, max: 23.6ms, median: 21.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "634aa0ea420985140d4cbc527beb617bc77f14b4",
+          "message": "claude: refine permission rules based on log analysis\n\n- Add git fetch/pull/clone, gh search, npm help, python3 -m json.tool,\n  and Read(~/.claude/**) to cover read-only operations observed in\n  permission request logs\n- Add quoted variants `gh api 'repos/*` and `gh api \"repos/*` to match\n  commands where URLs are shell-quoted for query strings\n- Add WebFetch for docs.npmjs.com\n- Remove dead `gh api '/repos/{owner}/{repo}/pulls/*/...' rules with\n  literal `{owner}/{repo}` placeholders and leading slash that never\n  matched actual invocations",
+          "timestamp": "2026-04-23T12:04:53+09:00",
+          "tree_id": "8fced8b9b96f94219f343a4d136ecf2f15af5596",
+          "url": "https://github.com/r-okm/dotfiles/commit/634aa0ea420985140d4cbc527beb617bc77f14b4"
+        },
+        "date": 1776914092918,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27.8,
+            "range": "8.9",
+            "unit": "ms",
+            "extra": "min: 24.9ms, max: 33.8ms, median: 25.5ms (10 runs)"
           }
         ]
       }
