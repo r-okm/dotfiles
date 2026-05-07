@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1776914093667,
+  "lastUpdate": 1778112184712,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -496,6 +496,37 @@ window.BENCHMARK_DATA = {
             "range": "8.9",
             "unit": "ms",
             "extra": "min: 24.9ms, max: 33.8ms, median: 25.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "49a0bb9454986980c34282727f3b39615715109a",
+          "message": "claude: set theme to dark-ansi\n\n- Replace skipAutoPermissionPrompt with theme setting, applying dark-ansi",
+          "timestamp": "2026-05-07T08:52:32+09:00",
+          "tree_id": "2c24752a9d466dab99d1011610120c5d72450e90",
+          "url": "https://github.com/r-okm/dotfiles/commit/49a0bb9454986980c34282727f3b39615715109a"
+        },
+        "date": 1778112184126,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 19.6,
+            "range": "6.9",
+            "unit": "ms",
+            "extra": "min: 18.6ms, max: 25.6ms, median: 18.8ms (10 runs)"
           }
         ]
       }
