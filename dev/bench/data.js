@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1778112184712,
+  "lastUpdate": 1779513419644,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -527,6 +527,37 @@ window.BENCHMARK_DATA = {
             "range": "6.9",
             "unit": "ms",
             "extra": "min: 18.6ms, max: 25.6ms, median: 18.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "078f0c3e1398df9206f36bf9228a0a36d6468043",
+          "message": "git: switch sshCommand identity to public key for 1Password agent\n\n- Reference .pub files instead of private keys in personal and work\n  gitconfig sshCommand, letting the 1Password SSH agent supply the\n  matching private key from the vault",
+          "timestamp": "2026-05-23T14:09:01+09:00",
+          "tree_id": "689d00679f476dd4d05884843c772e151ec6475f",
+          "url": "https://github.com/r-okm/dotfiles/commit/078f0c3e1398df9206f36bf9228a0a36d6468043"
+        },
+        "date": 1779513418805,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 21.3,
+            "range": "0.9",
+            "unit": "ms",
+            "extra": "min: 21.0ms, max: 21.9ms, median: 21.3ms (10 runs)"
           }
         ]
       }
