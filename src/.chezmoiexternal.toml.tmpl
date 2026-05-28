@@ -60,7 +60,8 @@
 
 [".config/zsh/completions/_git"]
   type = "file"
-  url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+  # インストール済み git のバージョンタグに固定し補完スクリプトと本体を一致させる。
+  url = "https://raw.githubusercontent.com/git/git/v{{ output "git" "--version" | trim | regexFind "[0-9]+\\.[0-9]+\\.[0-9]+" }}/contrib/completion/git-completion.zsh"
   refreshPeriod = "168h"
 
 [".config/eza/theme.yml"]
