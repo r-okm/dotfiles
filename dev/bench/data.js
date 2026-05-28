@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779936006001,
+  "lastUpdate": 1779952019189,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -620,6 +620,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 24.6ms, max: 25.8ms, median: 24.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "05c49ed6c192d733c4da908dcae7270d86c5a19b",
+          "message": "claude: refine permission rules based on log analysis\n\n- Add git ls-remote, git lfs ls-files/pull (push intentionally\n  excluded to keep the git push deny effective), gh api /repos/*\n  for the leading-slash variant, and Read rules for /tmp,\n  ~/.config/zsh/completions, ~/.config/tmux/plugins to cover\n  read-only operations observed in permission request logs\n- Add WebFetch for www.1password.dev to allow reading 1Password\n  SSH agent documentation",
+          "timestamp": "2026-05-28T15:58:12+09:00",
+          "tree_id": "2edfcb9ed463b8a3ed3cc81ce1b4cb3e423a15e9",
+          "url": "https://github.com/r-okm/dotfiles/commit/05c49ed6c192d733c4da908dcae7270d86c5a19b"
+        },
+        "date": 1779952017841,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.2,
+            "range": "1.7",
+            "unit": "ms",
+            "extra": "min: 24.5ms, max: 26.2ms, median: 25.1ms (10 runs)"
           }
         ]
       }
