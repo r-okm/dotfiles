@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779513419644,
+  "lastUpdate": 1779931647181,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -558,6 +558,37 @@ window.BENCHMARK_DATA = {
             "range": "0.9",
             "unit": "ms",
             "extra": "min: 21.0ms, max: 21.9ms, median: 21.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "aba096debdc786d1c14bb39ddf86d55e27feb031",
+          "message": "config: pin git completion to installed git version tag\n\n- Replace master with the installed git version tag in the _git\n  external URL, resolved via the git --version output at apply time,\n  so the completion script matches the git binary and avoids errors\n  from options that only exist on unreleased master (e.g. git help\n  --aliases-for-completion)",
+          "timestamp": "2026-05-28T10:19:45+09:00",
+          "tree_id": "7c481aaa80f6bed3ec6b982a9daf19fbce1691ea",
+          "url": "https://github.com/r-okm/dotfiles/commit/aba096debdc786d1c14bb39ddf86d55e27feb031"
+        },
+        "date": 1779931646380,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.6,
+            "range": "1.7",
+            "unit": "ms",
+            "extra": "min: 24.2ms, max: 25.9ms, median: 24.4ms (10 runs)"
           }
         ]
       }
