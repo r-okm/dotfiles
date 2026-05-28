@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779931647181,
+  "lastUpdate": 1779936006001,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -589,6 +589,37 @@ window.BENCHMARK_DATA = {
             "range": "1.7",
             "unit": "ms",
             "extra": "min: 24.2ms, max: 25.9ms, median: 24.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "bb065dd546a7134badaf0bcde0dc5ba7238ec7e6",
+          "message": "tmux: open paths from extrakto in running nvim\n\n- Add extrakto-open.sh dispatcher wired as @extrakto_open_tool:\n  URL-like selections still go to xdg-open, while file paths are\n  opened in the nvim that runs in window 2 of the current session\n  via send-keys (:edit + :call cursor for :line[:col] suffixes)\n- Guard the send by checking window 2's window_name from\n  list-windows, since display-message -t silently falls back to\n  the current window when the target index is missing\n- Skip <CR> when realpath -m points at a missing file so :edit\n  stays on the nvim cmdline for manual correction, and use\n  display-message -d 0 so error notices persist until dismissed\n- Add `bind f` to launch extrakto with the path filter, mirroring\n  the existing `bind u` url-filter binding",
+          "timestamp": "2026-05-28T11:32:00+09:00",
+          "tree_id": "278e5e8e4463aaeb3d934e6835951b883195aa71",
+          "url": "https://github.com/r-okm/dotfiles/commit/bb065dd546a7134badaf0bcde0dc5ba7238ec7e6"
+        },
+        "date": 1779936005691,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 24.6ms, max: 25.8ms, median: 24.9ms (10 runs)"
           }
         ]
       }
