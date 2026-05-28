@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779952019189,
+  "lastUpdate": 1779960350409,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -651,6 +651,37 @@ window.BENCHMARK_DATA = {
             "range": "1.7",
             "unit": "ms",
             "extra": "min: 24.5ms, max: 26.2ms, median: 25.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "dbd825fecf702229e30ca7f2d118fa89fb91cf0d",
+          "message": "tmux: add Alt key bindings for window navigation and editor insert\n\n- Bind M-l/M-h to next/previous window for quick navigation without prefix\n- Bind M-k to enter copy mode\n- Bind M-j to insert-from-editor.sh, mirroring the prefix-i binding\n- Bind M-m to select-window -t 1, mirroring the prefix-m binding",
+          "timestamp": "2026-05-28T18:18:15+09:00",
+          "tree_id": "25b79a3d4c9edfb43214a964249f08f12db54dd5",
+          "url": "https://github.com/r-okm/dotfiles/commit/dbd825fecf702229e30ca7f2d118fa89fb91cf0d"
+        },
+        "date": 1779960349799,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 18.6,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 18.3ms, max: 18.8ms, median: 18.6ms (10 runs)"
           }
         ]
       }
