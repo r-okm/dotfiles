@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1779960350409,
+  "lastUpdate": 1780019037636,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -682,6 +682,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 18.3ms, max: 18.8ms, median: 18.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "6f01d5da13c096a5b40a66fc1c40082f7c665b9c",
+          "message": "claude: clarify .ignore usage for AI temporary files\n\n- Replace the vague \"temporary files or local-only working files\"\n  description with a directive to place AI-created temporary files\n  (scratch notes, memos, generated artifacts, intermediate working\n  files) under .ignore/ai/**, giving a clear placement rule instead\n  of leaving the destination ambiguous",
+          "timestamp": "2026-05-29T10:35:56+09:00",
+          "tree_id": "d9d5e344998231ef5f4a94ead5961cc51a4bf367",
+          "url": "https://github.com/r-okm/dotfiles/commit/6f01d5da13c096a5b40a66fc1c40082f7c665b9c"
+        },
+        "date": 1780019037199,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 28.1,
+            "range": "10.5",
+            "unit": "ms",
+            "extra": "min: 24.4ms, max: 34.9ms, median: 26.8ms (10 runs)"
           }
         ]
       }
