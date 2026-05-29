@@ -16,5 +16,5 @@ If `CLAUDE.local.md` exists in the repository root, read and follow the instruct
 
 # Project Structure
 
-- `<project_root>/.ignore` directory is globally gitignored. It can be used as a place for temporary files or local-only working files.
+- `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a temporary file — scratch notes, investigation memos, generated artifacts, intermediate working files — place it under `<project_root>/.ignore/ai/**`.
 - Worktrees are created at `<project_root>/.worktree/<branch_name>`. When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree.
