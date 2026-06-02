@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780019037636,
+  "lastUpdate": 1780379027155,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -713,6 +713,37 @@ window.BENCHMARK_DATA = {
             "range": "10.5",
             "unit": "ms",
             "extra": "min: 24.4ms, max: 34.9ms, median: 26.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "053ec213c346d9253a247fb1ef0839bc269648f1",
+          "message": "worktree: symlink .claude subpaths instead of whole dir\n\n- Replace the full .claude symlink with .claude/settings.local.json\n  and .claude/hooks so each worktree keeps its own .claude directory\n  while sharing only the settings and hooks with the original repo;\n  create_symlinks already mkdir -p's the parent, so the nested\n  .claude/ is created in the worktree before the symlinks are placed",
+          "timestamp": "2026-06-02T14:35:12+09:00",
+          "tree_id": "a5f48f1c603a91acb82513125149503f141a22fa",
+          "url": "https://github.com/r-okm/dotfiles/commit/053ec213c346d9253a247fb1ef0839bc269648f1"
+        },
+        "date": 1780379026349,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 29.5,
+            "range": "8.7",
+            "unit": "ms",
+            "extra": "min: 27.7ms, max: 36.4ms, median: 28.0ms (10 runs)"
           }
         ]
       }
