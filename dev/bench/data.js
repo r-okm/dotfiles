@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780557838483,
+  "lastUpdate": 1780564175768,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -775,6 +775,37 @@ window.BENCHMARK_DATA = {
             "range": "1.4",
             "unit": "ms",
             "extra": "min: 27.6ms, max: 29.0ms, median: 27.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "74a909f686c779f54eef129dc21ba1649f599d88",
+          "message": "explorer: replace powershell launcher with script\n\n- Add ~/.local/bin/explorer that converts the target directory with\n  wslpath -w and launches /mnt/c/Windows/explorer.exe directly on WSL\n  (falling back to xdg-open on other systems), defaulting to the\n  current directory and ignoring explorer.exe's always-1 exit status\n- Remove the powershell-based explorer.desktop and its\n  inode/directory entry in mimeapps.list, superseded by the script\n- Add `x` as a shorthand for explorer to both bash_aliases and\n  zsh-abbr user-abbreviations",
+          "timestamp": "2026-06-04T18:00:29+09:00",
+          "tree_id": "bacdb42d3d2fdf9661611c6337074fb67ace8c4e",
+          "url": "https://github.com/r-okm/dotfiles/commit/74a909f686c779f54eef129dc21ba1649f599d88"
+        },
+        "date": 1780564174774,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27.7,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 27.5ms, max: 28.1ms, median: 27.5ms (10 runs)"
           }
         ]
       }
