@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+main() {
+  local dir="${1:-.}"
+
+  # explorer.exe always exits with code 1, so ignore its exit status
+  /mnt/c/Windows/explorer.exe "$(wslpath -w "$dir")" || true
+}
+
+{{ else -}}
+main() {
+  xdg-open "${1:-.}"
+}
+
+{{ end -}}
+main "$@"
+
+# vim: set ft=sh:

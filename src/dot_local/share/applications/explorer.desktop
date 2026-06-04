@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Explorer
-Exec=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe start explorer.exe
-Type=Application
-MimeType=inode/directory

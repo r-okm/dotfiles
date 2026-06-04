@@ -1,3 +1,2 @@
 [Default Applications]
-inode/directory=explorer.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
