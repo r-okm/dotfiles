@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780379027155,
+  "lastUpdate": 1780557838483,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -744,6 +744,37 @@ window.BENCHMARK_DATA = {
             "range": "8.7",
             "unit": "ms",
             "extra": "min: 27.7ms, max: 36.4ms, median: 28.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "72ce7978b562279ce4de7437c7187b8565fc5dcf",
+          "message": "aliases: add gc alias for git commit\n\n- Add `gc` as a shorthand for `git commit` to both bash_aliases and\n  zsh-abbr user-abbreviations, consistent with the existing git alias set",
+          "timestamp": "2026-06-04T16:15:20+09:00",
+          "tree_id": "1f7b3024fd8b86e1cee26c3d6f109da90267886c",
+          "url": "https://github.com/r-okm/dotfiles/commit/72ce7978b562279ce4de7437c7187b8565fc5dcf"
+        },
+        "date": 1780557838160,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27.8,
+            "range": "1.4",
+            "unit": "ms",
+            "extra": "min: 27.6ms, max: 29.0ms, median: 27.7ms (10 runs)"
           }
         ]
       }
