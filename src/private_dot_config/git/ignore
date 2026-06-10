@@ -11,4 +11,5 @@
 
 # claude
 **/.claude/settings.local.json
+**/.claude/local
 **/CLAUDE.local.md

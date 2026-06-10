@@ -6,7 +6,7 @@ SYMLINK_TARGETS=(
   '.ignore'
   'CLAUDE.local.md'
   '.claude/settings.local.json'
-  '.claude/hooks'
+  '.claude/local'
 )
 
 help() {
