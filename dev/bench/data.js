@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1780564175768,
+  "lastUpdate": 1781067752162,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -806,6 +806,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 27.5ms, max: 28.1ms, median: 27.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "8849b732c77e880f2af8ebb9ab83c0381043c484",
+          "message": "claude: switch worktree symlink and ignore to .claude/local\n\n- Replace the .claude/hooks symlink target with .claude/local in\n  git-worktree-tmux, so each worktree shares a single local-only\n  .claude/local directory with the original repo instead of just\n  hooks, broadening it to any uncommitted local Claude files\n- Add **/.claude/local to the global git ignore alongside the\n  existing settings.local.json and CLAUDE.local.md entries, keeping\n  the directory out of version control while still shared via symlink",
+          "timestamp": "2026-06-10T13:50:00+09:00",
+          "tree_id": "4c60f24ef9c96ef5129874321a97cfdbf5bacf51",
+          "url": "https://github.com/r-okm/dotfiles/commit/8849b732c77e880f2af8ebb9ab83c0381043c484"
+        },
+        "date": 1781067751728,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 31.6,
+            "range": "9.8",
+            "unit": "ms",
+            "extra": "min: 27.3ms, max: 37.0ms, median: 32.0ms (10 runs)"
           }
         ]
       }
