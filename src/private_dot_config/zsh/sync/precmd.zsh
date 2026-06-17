@@ -3,13 +3,19 @@ pwd_tab_title() {
   local parts=("${(@s:/:)short_path}")
   local abbreviated=""
   local total=${#parts[@]}
+  # 末尾ディレクトリ名の最大表示文字数（… を含む）
+  local max_last=20
 
-  # 最後の2つのディレクトリ以外は頭文字のみに短縮
+  # 最後のディレクトリ以外は頭文字のみに短縮
   for ((i=1; i<total+1; i++)); do
     if [[ -n "${parts[$i]}" ]]; then
-      # 最後から2番目以降（最後の2つ）はフル表示
-      if [[ $i -ge $((total - 1)) ]]; then
-        abbreviated+="/${parts[$i]}"
+      # 最後のディレクトリのみフル表示（長い場合は先頭を…で省略）
+      if [[ $i -eq $total ]]; then
+        local last="${parts[$i]}"
+        if (( ${#last} > max_last )); then
+          last="…${last: -$((max_last - 1))}"
+        fi
+        abbreviated+="/${last}"
       else
         # それ以外は先頭1文字（.で始まる場合は2文字）
         if [[ "${parts[$i]}" == .* ]]; then
