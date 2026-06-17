@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1781662110203,
+  "lastUpdate": 1781670021048,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -868,6 +868,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 25.6ms, max: 26.1ms, median: 25.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a28bad07cd5d67503790ee5937764b681e42a5fa",
+          "message": "tmux: rebind window navigation to Ctrl-PgDn/PgUp\n\n- Replace M-l/M-h with C-PgDn/C-PgUp for next/previous window,\n  matching the conventional terminal tab-switching shortcuts",
+          "timestamp": "2026-06-17T13:13:14+09:00",
+          "tree_id": "b0add60417198157b8f83ff4602781c352b811c6",
+          "url": "https://github.com/r-okm/dotfiles/commit/a28bad07cd5d67503790ee5937764b681e42a5fa"
+        },
+        "date": 1781670020231,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24,
+            "range": "6.8",
+            "unit": "ms",
+            "extra": "min: 21.3ms, max: 28.1ms, median: 21.9ms (10 runs)"
           }
         ]
       }
