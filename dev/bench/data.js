@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1781067752162,
+  "lastUpdate": 1781662110203,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -837,6 +837,37 @@ window.BENCHMARK_DATA = {
             "range": "9.8",
             "unit": "ms",
             "extra": "min: 27.3ms, max: 37.0ms, median: 32.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "ccf88505eb142ff2b6625231adac6ad5e36a535d",
+          "message": "zsh: shorten tab title to last dir only, truncate if long\n\n- Show only the final directory in full instead of the last two,\n  collapsing the second-to-last (e.g. .worktree) to its initial like\n  the other ancestors, since the parent dir rarely aids disambiguation\n- Truncate the final directory to max_last (20) chars when longer,\n  keeping the tail and prefixing … so long worktree branch names no\n  longer blow up the terminal/tmux window title while the abbreviated\n  path structure stays intact",
+          "timestamp": "2026-06-17T10:59:00+09:00",
+          "tree_id": "6239d44cbbd00deafc0e84ac455a728c661ca039",
+          "url": "https://github.com/r-okm/dotfiles/commit/ccf88505eb142ff2b6625231adac6ad5e36a535d"
+        },
+        "date": 1781662108939,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.8,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 25.6ms, max: 26.1ms, median: 25.8ms (10 runs)"
           }
         ]
       }
