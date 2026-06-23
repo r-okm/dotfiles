@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1781670021048,
+  "lastUpdate": 1782201186353,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -899,6 +899,37 @@ window.BENCHMARK_DATA = {
             "range": "6.8",
             "unit": "ms",
             "extra": "min: 21.3ms, max: 28.1ms, median: 21.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "08616a889fe2f8a2bbeeffcb648a603051256fa5",
+          "message": "claude: remove git add from deny list\n\n- `git add` is a safe local operation and does not need to be in the\n  deny list alongside `git push`; removing it reduces unnecessary\n  permission prompts without any security trade-off",
+          "timestamp": "2026-06-23T16:45:10+09:00",
+          "tree_id": "dafd6269d7341e2f81f6bd35025c547803372fb4",
+          "url": "https://github.com/r-okm/dotfiles/commit/08616a889fe2f8a2bbeeffcb648a603051256fa5"
+        },
+        "date": 1782201185519,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 18.2,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 18.2ms, max: 18.4ms, median: 18.2ms (10 runs)"
           }
         ]
       }
