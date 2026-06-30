@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782201186353,
+  "lastUpdate": 1782793304371,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -930,6 +930,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 18.2ms, max: 18.4ms, median: 18.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0b86272adf242bb4955a0b1205a16df9406c7bbc",
+          "message": "claude: set fullscreen TUI and default model to Opus 4.6\n\n- Set `tui` to fullscreen for a full-terminal Claude Code interface\n- Set `model` to claude-opus-4-6 as the default model",
+          "timestamp": "2026-06-30T13:08:25+09:00",
+          "tree_id": "a3fddf0dd5838a92d3db7a9e5d7b43188430589c",
+          "url": "https://github.com/r-okm/dotfiles/commit/0b86272adf242bb4955a0b1205a16df9406c7bbc"
+        },
+        "date": 1782793303441,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.5,
+            "range": "1.3",
+            "unit": "ms",
+            "extra": "min: 24.9ms, max: 26.2ms, median: 25.5ms (10 runs)"
           }
         ]
       }
