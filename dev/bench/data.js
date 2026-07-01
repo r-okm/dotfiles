@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782793304371,
+  "lastUpdate": 1782867214756,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -961,6 +961,37 @@ window.BENCHMARK_DATA = {
             "range": "1.3",
             "unit": "ms",
             "extra": "min: 24.9ms, max: 26.2ms, median: 25.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "73e60814d248609a697b65579935487b13306edb",
+          "message": "lazygit: disable git autoFetch\n\nPrevent background fetches from lazygit interfering with manual fetch/pull timing.",
+          "timestamp": "2026-07-01T09:45:49+09:00",
+          "tree_id": "b7d0077c204614ec317f028727c25fbd291b250e",
+          "url": "https://github.com/r-okm/dotfiles/commit/73e60814d248609a697b65579935487b13306edb"
+        },
+        "date": 1782867214069,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 26.8ms, max: 27.3ms, median: 27.1ms (10 runs)"
           }
         ]
       }
