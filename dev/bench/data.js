@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782867214756,
+  "lastUpdate": 1782892114008,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -992,6 +992,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 26.8ms, max: 27.3ms, median: 27.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9921efce4a14ede6b092891a6ecffc4b0288492b",
+          "message": "claude: switch model from `opus-4-6` to `opus-4-6[1m]`",
+          "timestamp": "2026-07-01T16:38:34+09:00",
+          "tree_id": "3120fbe7e2c4cba91d0421459c125e754c3be186",
+          "url": "https://github.com/r-okm/dotfiles/commit/9921efce4a14ede6b092891a6ecffc4b0288492b"
+        },
+        "date": 1782892113198,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 26.2,
+            "range": "5.8",
+            "unit": "ms",
+            "extra": "min: 24.7ms, max: 30.5ms, median: 25.4ms (10 runs)"
           }
         ]
       }
