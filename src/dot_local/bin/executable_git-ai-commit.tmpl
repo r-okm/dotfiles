@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-CLAUDE_MODEL="${CLAUDE_MODEL:-sonnet}"
+CLAUDE_MODEL="${CLAUDE_MODEL:-claude-sonnet-4-6}"
 COPILOT_MODEL="${COPILOT_MODEL:-{{ .copilot.model.sonnet }}}"
 
 generate_with_claude() {
