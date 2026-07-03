@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1782892114008,
+  "lastUpdate": 1783054848344,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1023,6 +1023,37 @@ window.BENCHMARK_DATA = {
             "range": "5.8",
             "unit": "ms",
             "extra": "min: 24.7ms, max: 30.5ms, median: 25.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "28f6b2475f5cf6970c98568c2d99f9d5767b5aaf",
+          "message": "notification: replace tmux popup with desktop notifications\n\nReplace tmux display-popup notifications with desktop-notify, a\ncross-platform desktop notification command using Windows toast\n(WinRT API) on WSL, notify-send on Linux, and osascript on macOS.\n\n- Add desktop-notify to ~/.local/bin as a generic notification tool\n- Add notify-claude-activity.sh for Claude Code Stop/Notification hooks\n  with transcript polling (exponential backoff) for response text\n- Update tmux alert-bell hook to use desktop-notify\n- Remove old notify-to-tmux-popup.sh",
+          "timestamp": "2026-07-03T13:53:03+09:00",
+          "tree_id": "e0fda57857cff86af1c09039aff92dd0b37d33f8",
+          "url": "https://github.com/r-okm/dotfiles/commit/28f6b2475f5cf6970c98568c2d99f9d5767b5aaf"
+        },
+        "date": 1783054848079,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 29,
+            "range": "11.4",
+            "unit": "ms",
+            "extra": "min: 25.2ms, max: 36.7ms, median: 26.1ms (10 runs)"
           }
         ]
       }
