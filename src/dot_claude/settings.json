@@ -128,7 +128,7 @@
     ],
     "ask": [],
     "additionalDirectories": [
-      "{{ .chezmoi.homeDir }}/src/github.com/r-okm/project-ignores"
+      "~/src/github.com/r-okm/project-ignores"
     ]
   },
   "model": "claude-opus-4-6[1m]",
