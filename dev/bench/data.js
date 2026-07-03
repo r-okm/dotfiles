@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783054848344,
+  "lastUpdate": 1783075224475,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1054,6 +1054,37 @@ window.BENCHMARK_DATA = {
             "range": "11.4",
             "unit": "ms",
             "extra": "min: 25.2ms, max: 36.7ms, median: 26.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "7d71aaeef83dda8aae20e70929df748fc09616e1",
+          "message": "notification: fix Stop hook failing with SIGPIPE on long transcripts\n\n- Replace `tac | jq | head -1` with `jq | tail -1`: head's early exit\n  killed the pipeline (exit 141) under pipefail once the transcript grew\n- Skip notification when launched outside tmux instead of dying on\n  unbound TMUX_PANE",
+          "timestamp": "2026-07-03T19:28:48+09:00",
+          "tree_id": "ecf325fde5c85e54c5fe57fad87bf8cef03eea42",
+          "url": "https://github.com/r-okm/dotfiles/commit/7d71aaeef83dda8aae20e70929df748fc09616e1"
+        },
+        "date": 1783075223206,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 26.1,
+            "range": "4.0",
+            "unit": "ms",
+            "extra": "min: 25.1ms, max: 29.1ms, median: 25.6ms (10 runs)"
           }
         ]
       }
