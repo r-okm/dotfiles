@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Outside tmux there is no pane to compare against; skip notification
+if [[ -z "${TMUX_PANE:-}" ]]; then
+  exit 0
+fi
+
 claude_session_name=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}')
 claude_window_index=$(tmux display-message -p -t "$TMUX_PANE" '#{window_index}')
 target_session_id="${claude_session_name}:${claude_window_index}"
@@ -29,8 +34,9 @@ case "$hook_event" in
   Stop)
     transcript_path=$(printf '%s' "$input" | jq -r '.transcript_path // empty')
     if [[ -n "$transcript_path" && -f "$transcript_path" ]]; then
-      prev_uuid=$(tac "$transcript_path" \
-        | jq -r 'select(.type == "assistant") | .uuid' | head -1)
+      # tail reads its whole input, unlike `tac ... | head -1` which kills
+      # the pipeline with SIGPIPE (exit 141) under pipefail on long transcripts
+      prev_uuid=$(jq -r 'select(.type == "assistant") | .uuid' "$transcript_path" 2>/dev/null | tail -1 || true)
       delay=0.05
       for _ in {1..10}; do
         sleep "$delay"
