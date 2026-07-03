@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: desktop-notify <title> [body]
+
+title="${1:?Usage: desktop-notify <title> [body]}"
+body="${2:-}"
+
+{{ if eq .chezmoi.os "linux" -}}
+{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+POWERSHELL="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+
+xml_escape() {
+  local s="$1"
+  s="${s//&/&amp;}"
+  s="${s//</&lt;}"
+  s="${s//>/&gt;}"
+  s="${s//\"/&quot;}"
+  printf '%s' "$s"
+}
+
+safe_title=$(xml_escape "$title")
+safe_body=$(xml_escape "$body")
+
+"$POWERSHELL" -NoProfile -Command "
+[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+[Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+\$xml = [Windows.Data.Xml.Dom.XmlDocument]::new()
+\$xml.LoadXml('<toast><visual><binding template=\"ToastGeneric\"><text>${safe_title}</text><text>${safe_body}</text></binding></visual></toast>')
+\$toast = [Windows.UI.Notifications.ToastNotification]::new(\$xml)
+[Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\WindowsPowerShell\v1.0\powershell.exe').Show(\$toast)
+" &>/dev/null &
+{{   else -}}
+notify-send "$title" "$body" &>/dev/null &
+{{   end -}}
+{{ else if eq .chezmoi.os "darwin" -}}
+osascript -e "display notification \"$body\" with title \"$title\"" &>/dev/null &
+{{ end -}}
+
+# vim: set ft=sh:
