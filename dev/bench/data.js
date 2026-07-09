@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783557517964,
+  "lastUpdate": 1783571930450,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1116,6 +1116,37 @@ window.BENCHMARK_DATA = {
             "range": "6.2",
             "unit": "ms",
             "extra": "min: 24.4ms, max: 30.7ms, median: 25.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3a05c7b94401d280d071fe9d9aaafec1c0470ba7",
+          "message": "claude: dim status line colors with SGR faint attribute",
+          "timestamp": "2026-07-09T13:29:11+09:00",
+          "tree_id": "32bed2980518d01bfa28b67ce9fba8c7d03ed602",
+          "url": "https://github.com/r-okm/dotfiles/commit/3a05c7b94401d280d071fe9d9aaafec1c0470ba7"
+        },
+        "date": 1783571930181,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.4,
+            "range": "3.9",
+            "unit": "ms",
+            "extra": "min: 24.7ms, max: 28.5ms, median: 24.9ms (10 runs)"
           }
         ]
       }
