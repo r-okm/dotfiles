@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783075224475,
+  "lastUpdate": 1783557517964,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1085,6 +1085,37 @@ window.BENCHMARK_DATA = {
             "range": "4.0",
             "unit": "ms",
             "extra": "min: 25.1ms, max: 29.1ms, median: 25.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "73b5b9335d42dff3b24883cc4e492d49f2a06cd8",
+          "message": "claude: add disable-model-invocation to address and analyze-permissions skills\n\n- Add `disable-model-invocation: true` to address/SKILL.md and\n  analyze-permissions/SKILL.md to prevent auto-invocation by the model",
+          "timestamp": "2026-07-09T09:29:34+09:00",
+          "tree_id": "8721bcb26e5a4a8e2dc2f511396a52625ad63ff8",
+          "url": "https://github.com/r-okm/dotfiles/commit/73b5b9335d42dff3b24883cc4e492d49f2a06cd8"
+        },
+        "date": 1783557516414,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.8,
+            "range": "6.2",
+            "unit": "ms",
+            "extra": "min: 24.4ms, max: 30.7ms, median: 25.1ms (10 runs)"
           }
         ]
       }
