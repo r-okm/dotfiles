@@ -3,9 +3,6 @@
   "env": {
     "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
   },
-  "skillOverrides": {
-    "deep-research": "user-invocable-only"
-  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -138,6 +135,9 @@
     ]
   },
   "model": "claude-opus-4-6[1m]",
+  "skillOverrides": {
+    "deep-research": "user-invocable-only"
+  },
   "hooks": {
     "Notification": [
       {
@@ -172,8 +172,8 @@
     ]
   },
   "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "lua-lsp@claude-plugins-official": false,
+    "rust-analyzer-lsp@claude-plugins-official": false
   },
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
