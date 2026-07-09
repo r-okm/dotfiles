@@ -1,6 +1,7 @@
 ---
 name: address
 description: PRのレビューコメントを精査し、妥当な指摘に対して修正案を作成する
+disable-model-invocation: true
 allowed-tools: Skill(fetch-pr-context), Read, Grep, Glob
 argument-hint: "[PR number | GitHub PR URL]"
 ---

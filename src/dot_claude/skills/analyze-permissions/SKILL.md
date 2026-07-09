@@ -1,6 +1,7 @@
 ---
 name: analyze-permissions
 description: パーミッション申請ログを分析し、allow ルールの最適化案を提示する
+disable-model-invocation: true
 allowed-tools: Bash(~/.claude/r-okm/scripts/analyze-permissions.py *)
 argument-hint: "[--since YYYY-MM-DD | --all]"
 ---
