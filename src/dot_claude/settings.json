@@ -1,8 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "env": {
-    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet"
-  },
   "attribution": {
     "commit": "",
     "pr": ""
@@ -134,11 +131,7 @@
       "~/src/github.com/r-okm/project-ignores"
     ]
   },
-  "model": "claude-opus-4-6[1m]",
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/r-okm/scripts/statusline-command.sh"
-  },
+  "model": "opus[1m]",
   "skillOverrides": {
     "deep-research": "user-invocable-only"
   },
@@ -174,6 +167,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/r-okm/scripts/statusline-command.sh"
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": false,
