@@ -135,6 +135,10 @@
     ]
   },
   "model": "claude-opus-4-6[1m]",
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/r-okm/scripts/statusline-command.sh"
+  },
   "skillOverrides": {
     "deep-research": "user-invocable-only"
   },
