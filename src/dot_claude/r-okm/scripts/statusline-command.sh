@@ -11,10 +11,11 @@ remaining=$(echo "$input" | jq -r '.context_window.remaining_percentage // empty
 five=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 week=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 
-CYAN=$'\033[36m'
-YELLOW=$'\033[33m'
-MAGENTA=$'\033[35m'
-GRAY=$'\033[37m'
+# Dimmed ANSI colors (SGR 2 = faint), so the status line reads as secondary.
+CYAN=$'\033[2;36m'
+YELLOW=$'\033[2;33m'
+MAGENTA=$'\033[2;35m'
+GRAY=$'\033[2;37m'
 RESET=$'\033[0m'
 
 segments=()
