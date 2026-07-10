@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783571930450,
+  "lastUpdate": 1783649051073,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1147,6 +1147,37 @@ window.BENCHMARK_DATA = {
             "range": "3.9",
             "unit": "ms",
             "extra": "min: 24.7ms, max: 28.5ms, median: 24.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "dcc4186ddd20c72490110e294483c6aec2d1b6b5",
+          "message": "claude: redesign status line with a single-line segmented indicator\n\nShow model, context, and 5h/7d rate limits on one pipe-separated line.\nRate limits use a 10-segment ▮/▯ bar (bright green fill, gray track) plus\ntheir reset time; the 7d reset is formatted as M/d HH:MM.",
+          "timestamp": "2026-07-10T10:49:11+09:00",
+          "tree_id": "ecc1ccda57a3b0ec6abfa60389c2e9ef407a4597",
+          "url": "https://github.com/r-okm/dotfiles/commit/dcc4186ddd20c72490110e294483c6aec2d1b6b5"
+        },
+        "date": 1783649050152,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27.5,
+            "range": "0.8",
+            "unit": "ms",
+            "extra": "min: 27.2ms, max: 28.0ms, median: 27.4ms (10 runs)"
           }
         ]
       }
