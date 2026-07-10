@@ -8,7 +8,6 @@ FUNCTIONS_IN_THIS_FILE=(
   'fzf_git_log'
   'awsp'
   'completions_generate'
-  'chezmoi_sync'
 )
 
 autoload -Uz edit-command-line
@@ -194,18 +193,6 @@ completions_generate() {
   deno completions zsh >"${completions_dir}/_deno"
   asdf completion zsh >"${completions_dir}/_asdf"
   gh completion -s zsh >"${completions_dir}/_gh"
-}
-
-# Files whose deployed copy in $HOME is the source of truth because
-# applications write to them directly (e.g. Claude Code's /model, /config).
-# Keep them non-template in the chezmoi source — `chezmoi re-add` skips templates.
-CHEZMOI_TARGET_OWNED_FILES=(
-  "$HOME/.claude/settings.json"
-)
-
-chezmoi_sync() {
-  chezmoi re-add -- "${CHEZMOI_TARGET_OWNED_FILES[@]}"
-  chezmoi status
 }
 
 tmux_cwd_session() {

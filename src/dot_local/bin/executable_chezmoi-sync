@@ -1,0 +1,17 @@
+#!/bin/bash
+# Sync target-owned files back into the chezmoi source with `chezmoi re-add`.
+#
+# Some managed files are written directly by their applications, so the deployed
+# copy in $HOME — not the chezmoi source — is the source of truth
+# (e.g. Claude Code's /model, /config). Keep them non-template in the chezmoi
+# source — `chezmoi re-add` skips templates, which breaks the sync.
+
+set -euo pipefail
+
+# Files whose deployed copy in $HOME is the source of truth.
+target_owned_files=(
+  "$HOME/.claude/settings.json"
+)
+
+chezmoi re-add -- "${target_owned_files[@]}"
+chezmoi status
