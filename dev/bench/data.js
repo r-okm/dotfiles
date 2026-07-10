@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783649051073,
+  "lastUpdate": 1783660812588,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1178,6 +1178,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 27.2ms, max: 28.0ms, median: 27.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "46bdbdea587aa692edd10147bc49de951a0b70dc",
+          "message": "claude: turn chezmoi_sync into a standalone chezmoi-sync script\n\nMove the zsh function into ~/.local/bin/chezmoi-sync so it is callable\nfrom non-interactive shells (incl. Claude Code Bash), and rename it to\nhyphenated form per the bin/ naming convention. Update the chs abbr and\nCLAUDE.md references accordingly.",
+          "timestamp": "2026-07-10T14:11:25+09:00",
+          "tree_id": "795f06474667da9f3034cd61dfd51f1a0011955d",
+          "url": "https://github.com/r-okm/dotfiles/commit/46bdbdea587aa692edd10147bc49de951a0b70dc"
+        },
+        "date": 1783660811720,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 24.5ms, max: 25.7ms, median: 24.9ms (10 runs)"
           }
         ]
       }
