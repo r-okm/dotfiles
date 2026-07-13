@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783928805828,
+  "lastUpdate": 1783930998051,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1240,6 +1240,37 @@ window.BENCHMARK_DATA = {
             "range": "1.7",
             "unit": "ms",
             "extra": "min: 24.1ms, max: 25.8ms, median: 24.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "76c005b976b8ca54ce61d8e30f7c2314b384b9bc",
+          "message": "claude: show used/total tokens next to context usage bar",
+          "timestamp": "2026-07-13T17:14:35+09:00",
+          "tree_id": "66a79777a06000ad6aee2d7826f430b60420467e",
+          "url": "https://github.com/r-okm/dotfiles/commit/76c005b976b8ca54ce61d8e30f7c2314b384b9bc"
+        },
+        "date": 1783930997772,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.8,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 24.6ms, max: 25.1ms, median: 24.7ms (10 runs)"
           }
         ]
       }
