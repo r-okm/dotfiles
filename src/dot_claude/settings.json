@@ -174,7 +174,16 @@
   },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": false,
-    "rust-analyzer-lsp@claude-plugins-official": false
+    "rust-analyzer-lsp@claude-plugins-official": false,
+    "compact-plus@compact-plus-local": true
+  },
+  "extraKnownMarketplaces": {
+    "compact-plus-local": {
+      "source": {
+        "source": "github",
+        "repo": "u-ichi/compact-plus"
+      }
+    }
   },
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
