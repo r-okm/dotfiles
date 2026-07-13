@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783660812588,
+  "lastUpdate": 1783928805828,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1209,6 +1209,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 24.5ms, max: 25.7ms, median: 24.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "1e3d6497dd6d7bf85490b5c647afd5d175ed9477",
+          "message": "claude: enable compact-plus plugin from u-ichi/compact-plus marketplace",
+          "timestamp": "2026-07-13T16:38:24+09:00",
+          "tree_id": "4ff8a0683ccf8b5c082863f93ff6e5ba56ae32bc",
+          "url": "https://github.com/r-okm/dotfiles/commit/1e3d6497dd6d7bf85490b5c647afd5d175ed9477"
+        },
+        "date": 1783928804987,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 24.6,
+            "range": "1.7",
+            "unit": "ms",
+            "extra": "min: 24.1ms, max: 25.8ms, median: 24.6ms (10 runs)"
           }
         ]
       }
