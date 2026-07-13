@@ -1,12 +1,14 @@
 #!/bin/bash
 # Claude Code status line, one line, pipe-separated:
-#   model | context usage bar | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
+#   model | context usage bar + used/total tokens | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
 # Configured by the statusline-setup agent. Use that agent again to make further changes.
 
 input=$(cat)
 
 model=$(echo "$input" | jq -r '.model.display_name // empty')
 ctx=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+ctx_used=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
+ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
 five=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 five_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 week=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
@@ -39,6 +41,15 @@ bar() {
     "$TRACK" "$(repeat "$empty" '▯')" "$RESET"
 }
 
+# Format a token count as thousands or millions: 87432 -> "87k", 1000000 -> "1m".
+kfmt() {
+  awk -v t="$1" 'BEGIN {
+    k = int(t / 1000 + 0.5)
+    if (k >= 1000) printf "%gm", int(t / 1000000 * 10 + 0.5) / 10
+    else printf "%dk", k
+  }'
+}
+
 # Format an epoch-seconds reset time; empty if unavailable.
 reset_at() {
   local epoch=$1 fmt=$2
@@ -50,8 +61,14 @@ segments=()
 # model
 [ -n "$model" ] && segments+=("${GRAY}${model}${RESET}")
 
-# context usage bar
-[ -n "$ctx" ] && segments+=("${GRAY}Ctx${RESET} $(bar "$ctx")")
+# context usage bar + used/total tokens
+if [ -n "$ctx" ]; then
+  seg="${GRAY}Ctx${RESET} $(bar "$ctx")"
+  if [ -n "$ctx_used" ] && [ -n "$ctx_size" ]; then
+    seg="${seg} ${GRAY}$(kfmt "$ctx_used")/$(kfmt "$ctx_size")${RESET}"
+  fi
+  segments+=("$seg")
+fi
 
 # 5h rate limit
 if [ -n "$five" ]; then
