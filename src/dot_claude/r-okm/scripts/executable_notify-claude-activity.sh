@@ -8,11 +8,15 @@ fi
 
 claude_session_name=$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}')
 claude_window_index=$(tmux display-message -p -t "$TMUX_PANE" '#{window_index}')
-target_session_id="${claude_session_name}:${claude_window_index}"
+claude_window_id=$(tmux display-message -p -t "$TMUX_PANE" '#{window_id}')
 
-active_session_id=$(tmux display-message -p '#{session_name}:#{window_index}')
-
-if [ "$target_session_id" = "$active_session_id" ]; then
+# Suppress only when a focused client is displaying the claude window.
+# Targetless `display-message` resolves via $TMUX to claude's own session,
+# so it cannot tell which session the user is actually viewing.
+# Without focus reporting (focus-events off / unsupported terminal) the
+# focused flag stays set, degrading to a plain visibility check.
+if tmux list-clients -F '#{window_id} #{client_flags}' \
+  | awk -v w="$claude_window_id" '$1 == w && $2 ~ /focused/ {f=1} END {exit !f}'; then
   exit 0
 fi
 
