@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1783930998051,
+  "lastUpdate": 1784015107987,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1271,6 +1271,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 24.6ms, max: 25.1ms, median: 24.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "eb0574112123359101afb43d5ba5c2c63c66d761",
+          "message": "claude: notify unless a focused client shows the claude window\n\nTargetless `tmux display-message` resolves via $TMUX to claude's own\nsession, so viewing another session was misdetected as viewing the\nclaude window and the notification was suppressed. Check attached\nclients' displayed window and focused flag via list-clients instead,\nand enable focus-events so the focused flag reflects terminal focus.",
+          "timestamp": "2026-07-14T16:36:48+09:00",
+          "tree_id": "2ef1d4bc937cd40a5e081f011fedda6aa78512ce",
+          "url": "https://github.com/r-okm/dotfiles/commit/eb0574112123359101afb43d5ba5c2c63c66d761"
+        },
+        "date": 1784015107544,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 19.4,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 19.1ms, max: 20.3ms, median: 19.3ms (10 runs)"
           }
         ]
       }
