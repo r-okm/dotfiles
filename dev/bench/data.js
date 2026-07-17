@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784015107987,
+  "lastUpdate": 1784263010355,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1302,6 +1302,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 19.1ms, max: 20.3ms, median: 19.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "cf69a0d5243db75876362f853b01248d1a0e24ca",
+          "message": "claude: split plan review into skill and agent\n\nThe plan-reviewer agent's self-managed review loop fabricated\nconvergence (history recorded clean rounds that never ran) and hit\nmaxTurns mid-report in half of observed runs. Make the agent a\nread-only single-round reviewer returning CONFIRMED/PLAUSIBLE\nverdicts with concrete failure scenarios, capped at 10 findings,\nwith a gap-sweep mode from round 2. Add a plan-review skill that\ndrives the loop instead: launch the reviewer, apply fixes, and\nrecord one review-history round per launch so the history stays\nverifiable against actual agent runs. Shrink the CLAUDE.md Planning\nsection to a pointer to the skill. The layout mirrors the built-in\ncode-review skill (skill orchestrates, subagent reviews).\n\nAlso switch the agent from pinned sonnet to inherit and drop\nmaxTurns, which the single-round design no longer needs.",
+          "timestamp": "2026-07-17T13:28:48+09:00",
+          "tree_id": "d365376310cbc2f6faeb10ea15efa84cc7f613ad",
+          "url": "https://github.com/r-okm/dotfiles/commit/cf69a0d5243db75876362f853b01248d1a0e24ca"
+        },
+        "date": 1784263009496,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25.4,
+            "range": "3.4",
+            "unit": "ms",
+            "extra": "min: 24.8ms, max: 28.3ms, median: 25.1ms (10 runs)"
           }
         ]
       }
