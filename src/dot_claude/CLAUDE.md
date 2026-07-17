@@ -15,11 +15,7 @@ If `CLAUDE.local.md` exists in the repository root, read and follow the instruct
 
 # Planning
 
-- When creating a plan, always launch the `plan-reviewer` agent via the Agent tool to review it before presenting to the user. Only present plans that have been reviewed by plan-reviewer.
-- plan-reviewer is a subagent and lacks conversation context, so some of its suggestions may be off-target. After receiving its feedback, evaluate each suggestion against the full conversation context and only incorporate those that are valid. Briefly share any rejected suggestions and the reasoning with the user.
-- You may skip plan-reviewer in the following cases:
-  - The user explicitly says review is not needed
-  - Re-presenting a plan that has already been reviewed by plan-reviewer
+- Before presenting a plan to the user, always run the `plan-review` skill. It drives the review loop (plan-reviewer agent → apply fixes → record `## レビュー履歴`) until the plan passes; skip conditions are defined in the skill.
 
 # Project Structure
 
