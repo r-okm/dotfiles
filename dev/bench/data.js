@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784263010355,
+  "lastUpdate": 1784785178334,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1333,6 +1333,37 @@ window.BENCHMARK_DATA = {
             "range": "3.4",
             "unit": "ms",
             "extra": "min: 24.8ms, max: 28.3ms, median: 25.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0c70f46c9c90d3725cc1c8e90dd7df1b43f57f33",
+          "message": "claude: add /ss skill to load Windows screenshots by index\n\nWSL screenshots have Japanese/space filenames that are awkward to @-reference.\n/ss returns newest-first screenshot paths (no arg = latest 1; supports\nindividual indices and ranges like '1 3' / '2-4' / '1 3-5') and reads them\nas images. Directory auto-detected via powershell GetFolderPath('MyPictures'),\noverridable with SS_DIR. /mnt/c paths need no conversion.",
+          "timestamp": "2026-07-23T14:30:09+09:00",
+          "tree_id": "4fde4cfe042c61eefdbb362eca8ba6a4607ce461",
+          "url": "https://github.com/r-okm/dotfiles/commit/0c70f46c9c90d3725cc1c8e90dd7df1b43f57f33"
+        },
+        "date": 1784785177554,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 25,
+            "range": "1.1",
+            "unit": "ms",
+            "extra": "min: 24.6ms, max: 25.7ms, median: 24.9ms (10 runs)"
           }
         ]
       }
