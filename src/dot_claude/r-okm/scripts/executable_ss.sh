@@ -58,15 +58,17 @@ if (( $# == 0 )); then
 else
   for tok in "$@"; do
     if [[ "$tok" =~ ^([0-9]+)-([0-9]+)$ ]]; then
-      a=${BASH_REMATCH[1]}
-      b=${BASH_REMATCH[2]}
+      # 10# forces base-10; otherwise leading-zero tokens (08, 09) are parsed
+      # as invalid octal and abort the script under set -e.
+      a=$((10#${BASH_REMATCH[1]}))
+      b=$((10#${BASH_REMATCH[2]}))
       if (( a <= b )); then
         for (( i = a; i <= b; i++ )); do idx+=("$i"); done
       else
         for (( i = a; i >= b; i-- )); do idx+=("$i"); done
       fi
     elif [[ "$tok" =~ ^[0-9]+$ ]]; then
-      idx+=("$tok")
+      idx+=("$((10#$tok))")
     else
       echo "ss: invalid argument: $tok" >&2
       exit 1

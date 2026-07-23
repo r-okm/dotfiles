@@ -2,7 +2,7 @@
 name: ss
 description: 最新のスクリーンショットを番号指定で読み込む（引数なしで最新1枚）
 disable-model-invocation: true
-allowed-tools: Bash(~/.claude/r-okm/scripts/ss.sh *), Read
+allowed-tools: Bash(~/.claude/r-okm/scripts/ss.sh), Bash(~/.claude/r-okm/scripts/ss.sh *), Read
 argument-hint: "[n | n-m] ..."
 ---
 
