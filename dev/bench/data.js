@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784785178334,
+  "lastUpdate": 1784861132341,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1364,6 +1364,37 @@ window.BENCHMARK_DATA = {
             "range": "1.1",
             "unit": "ms",
             "extra": "min: 24.6ms, max: 25.7ms, median: 24.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a3a6d4cafabb7b41c115c025e0211a779e4c4ba3",
+          "message": "claude: fix /ss octal index abort and no-arg permission match\n\nCode review on 0c70f46 found two issues:\n- Leading-zero indices/ranges (08, 1-09) were parsed as invalid octal in\n  arithmetic contexts, aborting under set -e. Normalize with 10# at parse.\n- Bare /ss (no args) may not match the 'ss.sh *' allow-rule; add a\n  no-arg allow pattern so the default case never prompts.",
+          "timestamp": "2026-07-23T14:52:58+09:00",
+          "tree_id": "ff8506872d94b242e1ea71f945725570e6b1d603",
+          "url": "https://github.com/r-okm/dotfiles/commit/a3a6d4cafabb7b41c115c025e0211a779e4c4ba3"
+        },
+        "date": 1784861131334,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 28.1,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 27.8ms, max: 28.4ms, median: 28.2ms (10 runs)"
           }
         ]
       }
