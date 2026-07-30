@@ -1,17 +1,7 @@
-# Local Instructions
-
-If `CLAUDE.local.md` exists in the repository root, read and follow the instructions in it.
-
-`CLAUDE.local.md` and other gitignored per-project config files may be symlinks into the project-ignores repo (`~/src/github.com/r-okm/project-ignores`). To edit one, resolve the symlink (`readlink -f`) and edit the real target file in that repo.
-
 # Communication
 
 - Always respond in Japanese.
 - The Japanese rule applies to conversation only, not to file content. When editing a file, follow the language already used in that file (or in the repository's similar files). When creating a new file with no precedent, default to English.
-
-# Credentials
-
-- Never read the contents of credential files (e.g. `.credentials.json`, token files, private keys), even for investigation. When inspecting MCP, plugin, or tool configuration, read only the config files (`settings.json`, `.mcp.json`, etc.).
 
 # Planning
 
@@ -20,6 +10,11 @@ If `CLAUDE.local.md` exists in the repository root, read and follow the instruct
 # Project Structure
 
 - `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a temporary file — scratch notes, investigation memos, generated artifacts, intermediate working files — place it under `<project_root>/.ignore/ai/**`.
+- The harness scratchpad is fine for session-scoped throwaway files; anything worth keeping past the session (investigation memos, results, generated assets) goes under `<project_root>/.ignore/ai/**`.
+
+# Gitignored Per-Project Config
+
+- `CLAUDE.local.md` and other gitignored per-project config files may be symlinks into the project-ignores repo (`~/src/github.com/r-okm/project-ignores`). To edit one, resolve the symlink (`readlink -f`) and edit the real target file in that repo.
 
 # Worktrees
 
