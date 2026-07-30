@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1784861132341,
+  "lastUpdate": 1785393816390,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1395,6 +1395,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 27.8ms, max: 28.4ms, median: 28.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a6e187ea6388ec319b85ebd8c47ff7377916c609",
+          "message": "worktree: add -c to create a branch in a new worktree\n\n`git-worktree-tmux -c [<suffix>]` creates `<user.name>/<suffix>` (defaulting\nto `wip-<epoch>`) from the remote HEAD as part of `git worktree add`, so the\nHEAD of the worktree the command is run from stays untouched.\n\nAlso resolve paths from the main worktree instead of `--show-toplevel`, which\nnested new worktrees under the current one when run from a linked worktree.",
+          "timestamp": "2026-07-30T15:34:14+09:00",
+          "tree_id": "8d64e3ccbb450895ebf1b776555396a18cdb6798",
+          "url": "https://github.com/r-okm/dotfiles/commit/a6e187ea6388ec319b85ebd8c47ff7377916c609"
+        },
+        "date": 1785393815477,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 28.3,
+            "range": "0.8",
+            "unit": "ms",
+            "extra": "min: 27.8ms, max: 28.5ms, median: 28.1ms (10 runs)"
           }
         ]
       }
