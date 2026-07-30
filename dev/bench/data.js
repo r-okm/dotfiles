@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785395382223,
+  "lastUpdate": 1785400437810,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1457,6 +1457,37 @@ window.BENCHMARK_DATA = {
             "range": "2.0",
             "unit": "ms",
             "extra": "min: 21.1ms, max: 23.1ms, median: 21.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f046bddee62689f39290c91d3905e5555b1fc094",
+          "message": "claude: harden permission rules\n\n- deny reads of credential files (.credentials.json, *.pem, id_rsa*)\n  instead of relying on a CLAUDE.md instruction\n- drop allow rules that were effectively write/exec: cat/head/grep/find,\n  tmux send-keys, gh api (POST/DELETE passes through), echo,\n  git pull/clone/lfs pull\n- ask before edits under ~/.claude/r-okm/scripts to close the\n  write-then-run loophole of the exec allow rules\n- fix broken path syntax: absolute paths need //, and settings-relative\n  ./ rules never matched project files (.env, secrets) — use **/ instead\n- allow git grep, npx eslint, qiita.com, and //tmp reads based on\n  permission-prompt log analysis",
+          "timestamp": "2026-07-30T17:24:30+09:00",
+          "tree_id": "0a3ca541ee81e490d49d0b7c4d5a2925b7dac783",
+          "url": "https://github.com/r-okm/dotfiles/commit/f046bddee62689f39290c91d3905e5555b1fc094"
+        },
+        "date": 1785400436843,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 27.5,
+            "range": "0.9",
+            "unit": "ms",
+            "extra": "min: 27.2ms, max: 28.0ms, median: 27.3ms (10 runs)"
           }
         ]
       }
