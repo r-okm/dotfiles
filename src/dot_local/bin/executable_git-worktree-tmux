@@ -9,6 +9,9 @@ SYMLINK_TARGETS=(
   '.claude/local'
 )
 
+# Set by main(): when true, the tmux session is neither attached nor switched to
+DETACH=false
+
 help() {
   cat << EOF
 Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix>]
@@ -20,6 +23,9 @@ Options:
   -p, --pull-request  Create worktree from pull request number
   -c, --create-branch Create a new branch from the remote HEAD in a new worktree
                       (branch_suffix is optional)
+  -d, --detach        Leave the tmux session detached instead of attaching or
+                      switching to it, and print the worktree path on the last
+                      line. Use this from non-interactive callers.
   -h, --help          Display this help message
 
 Session name format: <project_name>+<branch_name|pr_number>
@@ -30,6 +36,7 @@ Examples:
   $(basename "$0") -p 123
   $(basename "$0") -c new-feature
   $(basename "$0") -c
+  $(basename "$0") -c new-feature -d
 EOF
 }
 
@@ -95,6 +102,11 @@ create_worktree() {
   fi
 
   open_tmux_session "$session_name" "$worktree_dir"
+
+  # Last line of stdout, so non-interactive callers can pick up the path
+  if [[ "$DETACH" == true ]]; then
+    echo "$worktree_dir"
+  fi
 }
 
 resolve_branch_from_pr() {
@@ -123,13 +135,22 @@ open_tmux_session() {
   # Replace dots with underscores (tmux doesn't allow dots in session names)
   session_name="${session_name//./_}"
 
-  if [[ -z "${TMUX:-}" ]]; then
+  # `=` forces an exact match: a bare -t target also matches by prefix, which
+  # would treat an unrelated session as this one
+  if [[ "$DETACH" == true ]]; then
+    if tmux has-session -t "=$session_name" 2>/dev/null; then
+      echo "Session already exists: $session_name"
+    else
+      tmux new-session -d -s "$session_name" -c "$worktree_dir"
+      echo "Session created (detached): $session_name"
+    fi
+  elif [[ -z "${TMUX:-}" ]]; then
     # Outside tmux: create a new session or attach to an existing one
     tmux new-session -s "$session_name" -c "$worktree_dir" 2>/dev/null ||
       tmux attach-session -t "$session_name"
   else
     # Inside tmux: create a new session and switch to it
-    if tmux has-session -t "$session_name" 2>/dev/null; then
+    if tmux has-session -t "=$session_name" 2>/dev/null; then
       tmux switch-client -t "$session_name"
     else
       tmux new-session -d -s "$session_name" -c "$worktree_dir"
@@ -156,6 +177,10 @@ main() {
         ;;
       -c|--create-branch)
         mode="create"
+        shift
+        ;;
+      -d|--detach)
+        DETACH=true
         shift
         ;;
       -h|--help)

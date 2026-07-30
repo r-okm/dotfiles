@@ -27,6 +27,6 @@ If `CLAUDE.local.md` exists in the repository root, read and follow the instruct
   - `git-worktree-tmux -b <branch_name>` — check out an existing branch
   - `git-worktree-tmux -p <pr_number>` — check out the head branch of a pull request
   - `git-worktree-tmux -c [<branch_suffix>]` — create a new branch named `<git user.name>/<branch_suffix>` from the remote HEAD (suffix defaults to `wip-<epoch>`)
+- Always pass `-d`/`--detach` when you (the AI) run it. Without it the command attaches or switches the user's tmux client to the new session, which yanks their view away. With `-d` the session is only created in the background and the worktree path is printed on the last line of stdout — use that as the working directory.
 - Run it from inside the repository — running it from a linked worktree is fine, the new worktree is always created under the main worktree without nesting. `-c` leaves the HEAD of the current worktree untouched, so it is safe to run mid-work.
-- It switches the current tmux client to the new session, so ask before running it — usually it is better to have the user run `! git-worktree-tmux ...` themselves.
 - Worktrees are created at `<project_root>/.worktree/<branch_name>` (`/` in the branch name replaced with `-`). When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree.
