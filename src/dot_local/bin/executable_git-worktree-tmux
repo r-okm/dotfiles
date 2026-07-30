@@ -11,13 +11,15 @@ SYMLINK_TARGETS=(
 
 help() {
   cat << EOF
-Usage: $(basename "$0") [OPTIONS] <branch_name|pr_number>
+Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix>]
 
 Create a git worktree and open it in a new tmux session.
 
 Options:
   -b, --branch        Create worktree from branch name
   -p, --pull-request  Create worktree from pull request number
+  -c, --create-branch Create a new branch from the remote HEAD in a new worktree
+                      (branch_suffix is optional)
   -h, --help          Display this help message
 
 Session name format: <project_name>+<branch_name|pr_number>
@@ -26,17 +28,25 @@ Worktree is created in .worktree/ subdirectory of the repository.
 Examples:
   $(basename "$0") -b feature/new-feature
   $(basename "$0") -p 123
+  $(basename "$0") -c new-feature
+  $(basename "$0") -c
 EOF
 }
 
+# Path of the main worktree, so that running this from a linked worktree does not
+# nest worktrees under it. The first entry of `worktree list` is the main one.
+get_repo_root() {
+  git worktree list --porcelain | sed -n '1s/^worktree //p'
+}
+
 get_project_name() {
-  basename "$(git rev-parse --show-toplevel)"
+  basename "$(get_repo_root)"
 }
 
 create_symlinks() {
   local worktree_dir="$1"
   local original_repo
-  original_repo=$(git rev-parse --show-toplevel)
+  original_repo=$(get_repo_root)
 
   for target_name in "${SYMLINK_TARGETS[@]}"; do
     local source_path="${original_repo}/${target_name}"
@@ -59,13 +69,15 @@ create_symlinks() {
 
 create_worktree() {
   local branch="$1"
+  # When given, the branch is created at this point instead of being checked out
+  local start_point="${2:-}"
   local project_name
   local session_name
   local worktree_dir
 
   project_name=$(get_project_name)
   session_name="${project_name}+${branch//\//-}"
-  worktree_dir="$(git rev-parse --show-toplevel)/.worktree/${branch//\//-}"
+  worktree_dir="$(get_repo_root)/.worktree/${branch//\//-}"
 
   if [[ -d "$worktree_dir" ]]; then
     echo "Worktree directory already exists: $worktree_dir"
@@ -74,7 +86,11 @@ create_worktree() {
     git fetch
 
     echo "Creating worktree: $worktree_dir"
-    git worktree add "$worktree_dir" "$branch"
+    if [[ -n "$start_point" ]]; then
+      git worktree add --no-track -b "$branch" "$worktree_dir" "$start_point"
+    else
+      git worktree add "$worktree_dir" "$branch"
+    fi
     create_symlinks "$worktree_dir"
   fi
 
@@ -84,6 +100,20 @@ create_worktree() {
 resolve_branch_from_pr() {
   local pr_number="$1"
   gh pr view "$pr_number" --json headRefName --jq '.headRefName'
+}
+
+# Same naming convention as the `git new-branch` alias
+resolve_new_branch_name() {
+  local suffix="${1:-wip-$(date +%s)}"
+  local user_name
+
+  user_name=$(git config user.name || true)
+  if [[ -z "$user_name" ]]; then
+    echo "Error: git config user.name is not set" >&2
+    exit 1
+  fi
+
+  echo "${user_name}/${suffix}"
 }
 
 open_tmux_session() {
@@ -111,6 +141,8 @@ open_tmux_session() {
 main() {
   local mode=""
   local target=""
+  local new_branch=""
+  local base_ref=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -120,6 +152,10 @@ main() {
         ;;
       -p|--pull-request)
         mode="pr"
+        shift
+        ;;
+      -c|--create-branch)
+        mode="create"
         shift
         ;;
       -h|--help)
@@ -139,12 +175,13 @@ main() {
   done
 
   if [[ -z "$mode" ]]; then
-    echo "Error: Please specify -b/--branch or -p/--pull-request" >&2
+    echo "Error: Please specify -b/--branch, -p/--pull-request or -c/--create-branch" >&2
     help
     exit 1
   fi
 
-  if [[ -z "$target" ]]; then
+  # -c/--create-branch falls back to the default name of `git new-branch`
+  if [[ -z "$target" && "$mode" != "create" ]]; then
     echo "Error: Please specify a branch name or PR number" >&2
     help
     exit 1
@@ -163,6 +200,12 @@ main() {
     pr)
       echo "Fetching PR #${target} info..."
       create_worktree "$(resolve_branch_from_pr "$target")"
+      ;;
+    create)
+      # Assign first so `set -e` aborts before the worktree is created
+      new_branch=$(resolve_new_branch_name "$target")
+      base_ref=$(git symbolic-ref refs/remotes/origin/HEAD)
+      create_worktree "$new_branch" "$base_ref"
       ;;
   esac
 }

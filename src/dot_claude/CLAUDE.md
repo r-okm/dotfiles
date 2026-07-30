@@ -20,4 +20,13 @@ If `CLAUDE.local.md` exists in the repository root, read and follow the instruct
 # Project Structure
 
 - `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a temporary file — scratch notes, investigation memos, generated artifacts, intermediate working files — place it under `<project_root>/.ignore/ai/**`.
-- Worktrees are created at `<project_root>/.worktree/<branch_name>`. When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree.
+
+# Worktrees
+
+- Always create worktrees with `git-worktree-tmux` (in `~/.local/bin`), never with a bare `git worktree add`. It also symlinks the gitignored per-project files (`.ignore`, `CLAUDE.local.md`, `.claude/settings.local.json`, `.claude/local`) from the original repository and opens a tmux session for the worktree.
+  - `git-worktree-tmux -b <branch_name>` — check out an existing branch
+  - `git-worktree-tmux -p <pr_number>` — check out the head branch of a pull request
+  - `git-worktree-tmux -c [<branch_suffix>]` — create a new branch named `<git user.name>/<branch_suffix>` from the remote HEAD (suffix defaults to `wip-<epoch>`)
+- Run it from inside the repository — running it from a linked worktree is fine, the new worktree is always created under the main worktree without nesting. `-c` leaves the HEAD of the current worktree untouched, so it is safe to run mid-work.
+- It switches the current tmux client to the new session, so ask before running it — usually it is better to have the user run `! git-worktree-tmux ...` themselves.
+- Worktrees are created at `<project_root>/.worktree/<branch_name>` (`/` in the branch name replaced with `-`). When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree.
