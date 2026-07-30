@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785393816390,
+  "lastUpdate": 1785395382223,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1426,6 +1426,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 27.8ms, max: 28.5ms, median: 28.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f62942d2fe6eb398a5469b43653ab40f0d8865f9",
+          "message": "worktree: add -d to keep the tmux session detached\n\nOnly the attach/switch-client step is disruptive, so `-d` skips it and creates\nthe session in the background instead, printing the worktree path on the last\nline of stdout. This makes the command safe for the AI to run itself.\n\nMatch tmux session names exactly with `-t \"=<name>\"`; a bare target also\nmatches by prefix, which made `has-session` report an unrelated session as\nthis one whenever a branch name was a prefix of another.",
+          "timestamp": "2026-07-30T16:00:55+09:00",
+          "tree_id": "75771be1342b34afdfe2f8502071a7c17c617f5b",
+          "url": "https://github.com/r-okm/dotfiles/commit/f62942d2fe6eb398a5469b43653ab40f0d8865f9"
+        },
+        "date": 1785395381427,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 21.5,
+            "range": "2.0",
+            "unit": "ms",
+            "extra": "min: 21.1ms, max: 23.1ms, median: 21.3ms (10 runs)"
           }
         ]
       }
