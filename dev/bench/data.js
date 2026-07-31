@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785460387794,
+  "lastUpdate": 1785462193316,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1519,6 +1519,37 @@ window.BENCHMARK_DATA = {
             "range": "1.0",
             "unit": "ms",
             "extra": "min: 22.1ms, max: 23.1ms, median: 22.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "371b00df73e95c8a4b8b30ed0f4cd5c8c01db17d",
+          "message": "zsh: use compinit -C unconditionally, drop the GITHUB_ACTIONS branch\n\nThe branch was added in #50 to avoid compaudit's \"insecure\ndirectories\" error on CI runners by passing -u. compinit -C skips\nthe compaudit security check entirely (in addition to the dump\nfreshness check), so -C avoids the same error and the branch is\nunnecessary.\n\nThis also makes the CI benchmark measure the exact code path users\nrun locally (compinit -C sourcing the zcompiled dump), so it can now\ndetect regressions in the .zwc fast path. Dump regeneration is owned\nby the run_onchange rebuild script.",
+          "timestamp": "2026-07-31T10:32:39+09:00",
+          "tree_id": "8205e49c6a039883fcf2b573ce16e3e36d11cbac",
+          "url": "https://github.com/r-okm/dotfiles/commit/371b00df73e95c8a4b8b30ed0f4cd5c8c01db17d"
+        },
+        "date": 1785462192983,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.6,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.5ms, max: 10.8ms, median: 10.6ms (10 runs)"
           }
         ]
       }
