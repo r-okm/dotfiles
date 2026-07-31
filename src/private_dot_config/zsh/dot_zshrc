@@ -53,11 +53,7 @@ autoload -Uz compinit
 if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
   _t0=$EPOCHREALTIME
 fi
-if [[ -n "${GITHUB_ACTIONS}" ]]; then
-  compinit -u
-else
-  compinit -C
-fi
+compinit -C
 if [[ "${__ZSH_PROF:-}" == "breakdown" ]]; then
   __prof_times[compinit]=$(( EPOCHREALTIME - _t0 ))
   unset _t0
