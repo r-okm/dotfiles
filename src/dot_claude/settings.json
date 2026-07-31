@@ -82,7 +82,8 @@
       "WebFetch(domain:neovim.io)",
       "WebFetch(domain:vimhelp.org)",
       "WebFetch(domain:www.1password.dev)",
-      "Skill(fetch-pr-context)"
+      "Skill(fetch-pr-context)",
+      "Skill(video-frames)"
     ],
     "deny": [
       "Read(**/.env)",

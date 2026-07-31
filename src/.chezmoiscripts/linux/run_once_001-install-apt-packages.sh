@@ -20,6 +20,9 @@ apt_packages=(
   'python3'
   'python3-pip'
   'python3-venv'
+  # video-frames skill
+  'ffmpeg'
+  'fontconfig'
   # neovim build
   'build-essential'
   'cmake'
