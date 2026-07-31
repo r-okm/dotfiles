@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785462193316,
+  "lastUpdate": 1785484778393,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1550,6 +1550,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.5ms, max: 10.8ms, median: 10.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9cfa0ca39962c648f2da536b9575dd7fbb060696",
+          "message": "claude: make /ss copy screenshots out of /mnt\n\n- the Read(//mnt/**) deny broke /ss once f046bdd fixed the rule's path\n  syntax and made it effective; a deny rule cannot carry an allowlist\n  exception, so the screenshot folder cannot be re-opened selectively\n- copy the selection into $XDG_CACHE_HOME/ss and emit those paths, and\n  allow Read there, instead of enumerating what to keep denied under\n  /mnt/c — that list would be open-ended and hard to maintain\n- number the copies in requested order: original names carry spaces\n  and non-ASCII, and only the order matters to the caller",
+          "timestamp": "2026-07-31T16:49:39+09:00",
+          "tree_id": "4c47639b5688cdd36c81d358230ed3954ea74308",
+          "url": "https://github.com/r-okm/dotfiles/commit/9cfa0ca39962c648f2da536b9575dd7fbb060696"
+        },
+        "date": 1785484777521,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 9.9,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 9.8ms, max: 10.0ms, median: 9.9ms (10 runs)"
           }
         ]
       }
