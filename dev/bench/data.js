@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785484778393,
+  "lastUpdate": 1785487216857,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1581,6 +1581,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 9.8ms, max: 10.0ms, median: 9.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "8287fb5ee955f8b687141ce9086d906ae93cc79c",
+          "message": "claude: add video-frames skill for reading videos as frames\n\nThe Read tool handles images and PDFs but not video containers, so a\nscreen recording attached to an investigation could not be inspected at\nall. This extracts frames with ffmpeg and packs them into labelled\ncontact sheets that Read can consume.\n\nffmpeg comes from apt rather than the PyPI ffmpeg-binaries wheel the\nfirst version bootstrapped into ~/.local/bin. That wheel was a\nworkaround for an environment where sudo and curl were blocked, and\npreparing the machine belongs to its owner, not to the script.\nfontconfig is listed explicitly because fc-match locates the font\ndrawtext burns frame labels with, and ffmpeg only pulls in\nlibfontconfig1, not the CLI.\n\nsettings.json needs Skill(video-frames) of its own: the existing\nBash(~/.claude/r-okm/scripts/*) rule permits running the script but not\ninvoking the skill that wraps it, so without it every use starts with a\npermission prompt.\n\nDetails that needed measuring rather than guessing:\n\n- -fps_mode is detected, not assumed. It replaced -vsync in ffmpeg 5.0\n  and Ubuntu 22.04 still ships 4.4. Without a passthrough mode the\n  image2 muxer resamples to a constant rate and silently duplicates or\n  drops frames whenever select emits them unevenly.\n- Every ffmpeg path is relative to a cd into the directory holding it.\n  The image2 muxer expands % in the whole output path and the demuxer\n  expands %d in an input path, while .ignore is a symlink into a\n  per-project store whose directory name contains %.\n- --out is made absolute without resolving symlinks, so output stays\n  where the caller asked for it instead of landing in that store.\n- Frames are numbered %06d because the glob that collects them orders\n  lexicographically. An overflow to a wider number would sort\n  frame_10000 ahead of frame_9999 and pair every later frame with the\n  wrong timestamp.\n- Unparsable showinfo timestamps become '?' rather than being dropped,\n  which would shift every later frame onto its neighbour's time.\n- Frames are never upscaled. The point of the skill is context economy,\n  and enlarging a small source multiplies tokens without adding detail.\n- Contact sheet tiles fit inside a grid cell instead of filling its\n  width. A 9:16 source at 3x3 would otherwise stack past the 1568px\n  edge where images get downsampled, shrinking the burnt-in labels\n  below readability.\n- Frames are built in a staging directory and moved in only on success,\n  so a failed run leaves the previous output intact. Concurrent runs\n  sharing one output directory are still last-writer-wins: the move is\n  several steps, not an atomic swap.\n- --info reports the effective frame rate. A container can advertise\n  120fps while carrying 30fps of frames, which misleads interval\n  planning.\n- --crop exists because agents needing to inspect a region rebuilt the\n  whole label-and-tile pipeline in raw ffmpeg, losing the\n  index-to-timestamp mapping in the process.",
+          "timestamp": "2026-07-31T17:31:04+09:00",
+          "tree_id": "9353728a04cb88a4d2d5430c1b37a2950b29cc26",
+          "url": "https://github.com/r-okm/dotfiles/commit/8287fb5ee955f8b687141ce9086d906ae93cc79c"
+        },
+        "date": 1785487215842,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 11.1ms, median: 10.9ms (10 runs)"
           }
         ]
       }
