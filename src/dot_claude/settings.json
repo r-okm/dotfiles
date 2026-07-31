@@ -58,6 +58,7 @@
       "Read(~/.config/zsh/completions/**)",
       "Read(~/.config/tmux/plugins/**)",
       "Read(//tmp/**)",
+      "Read(~/.cache/ss/**)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",

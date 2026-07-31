@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Emit absolute paths of Windows screenshots selected by newest-first index.
+# Copy Windows screenshots selected by newest-first index into a cache dir and
+# emit the copies' absolute paths.
 # Args: bare indices and/or ranges (e.g. `1 3`, `2-4`, `1 3-5`). No args = latest 1.
-# Path conversion is unnecessary: /mnt/c/... paths are readable as-is.
 
 # Resolve the screenshot directory. SS_DIR wins; otherwise ask Windows for the
 # Pictures known folder (follows OneDrive redirection) and append /Screenshots.
@@ -76,12 +76,31 @@ else
   done
 fi
 
+# Copy the selection into the cache and emit the copies, not the originals:
+# Claude Code denies Read on /mnt/** to keep the Windows filesystem closed, and
+# a deny rule cannot carry an exception for the screenshot folder.
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/ss"
+rm -rf "$cache_dir"
+mkdir -p "$cache_dir"
+
+n=0
 for i in "${idx[@]}"; do
   if (( i < 1 || i > count )); then
     echo "ss: index out of range (1-$count): $i" >&2
     continue
   fi
-  printf '%s\n' "${files[$((i - 1))]}"
+  src=${files[$((i - 1))]}
+  n=$((n + 1))
+  # Requested order is the only thing the caller needs; original names carry
+  # spaces and non-ASCII, so number the copies instead and keep the extension.
+  ext=${src##*.}
+  dst=$(printf '%s/%02d.%s' "$cache_dir" "$n" "$ext")
+  cp -- "$src" "$dst"
+  printf '%s\n' "$dst"
 done
+
+if (( n == 0 )); then
+  exit 1
+fi
 
 # vim: set ft=sh:
