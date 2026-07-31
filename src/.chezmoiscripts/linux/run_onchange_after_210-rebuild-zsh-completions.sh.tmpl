@@ -3,6 +3,8 @@ set -euo pipefail
 
 # chezmoi: fpath に影響するファイルの変更を検知
 # external hash: {{ joinPath .chezmoi.sourceDir ".chezmoiexternal.toml.tmpl" | include | sha256sum }}
+# chezmoi: zsh 本体の更新を検知 (旧バージョンの wordcode を含む .zwc を作り直すため)
+# zsh version: {{ output "zsh" "--version" | trim }}
 
 echo "Rebuilding zsh completion cache..."
 
@@ -18,5 +20,12 @@ fpath=(
 
 autoload -Uz compinit
 compinit -u -d "$ZDOTDIR/.zcompdump"
+
+# パース済みキャッシュを再生成 (起動時の compinit は .zwc を読む)
+# 一時ファイル経由で置き換え (中断で壊れた .zwc を残さない)。純粋な最適化なので失敗しても apply は継続する
+if ! { zcompile -R "$ZDOTDIR/.zcompdump.tmp.zwc" "$ZDOTDIR/.zcompdump" \
+  && mv -f "$ZDOTDIR/.zcompdump.tmp.zwc" "$ZDOTDIR/.zcompdump.zwc"; }; then
+  echo "[WARN] zcompile failed: zsh will fall back to the plain .zcompdump" >&2
+fi
 
 echo "Done: $(head -1 "$ZDOTDIR/.zcompdump")"
