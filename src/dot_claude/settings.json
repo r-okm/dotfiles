@@ -48,6 +48,7 @@
       "Bash(tmux capture-pane:*)",
       "Bash(tmux display-message:*)",
       "Bash(tmux list-panes:*)",
+      "Bash(explorer *)",
       "Bash(apt-cache policy *)",
       "Bash(lsb_release *)",
       "Bash(~/.claude/r-okm/scripts/*)",
@@ -83,6 +84,7 @@
       "WebFetch(domain:vimhelp.org)",
       "WebFetch(domain:www.1password.dev)",
       "Skill(fetch-pr-context)",
+      "Skill(open-in-explorer)",
       "Skill(video-frames)"
     ],
     "deny": [
