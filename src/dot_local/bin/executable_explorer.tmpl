@@ -1,20 +1,127 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-main() {
-  local dir="${1:-.}"
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [-o|--open] [--] [<path>]
 
-  # explorer.exe always exits with code 1, so ignore its exit status
-  /mnt/c/Windows/explorer.exe "$(wslpath -w "$dir")" || true
+  <path> is a directory   open that folder
+  <path> is a file        open its parent folder with the file selected
+  -o, --open              open the file with its default application instead
+  <path> omitted          open the current directory
+
+A Windows path (C:\\... or \\\\server\\share) is passed through as-is.
+Use -- before a path that starts with a dash.
+Extra operands are ignored; only the first path is used.
+EOF
+}
+
+# Windows-native paths cannot be stat'd from here and need no conversion
+looks_like_windows_path() {
+  local backslash=$'\\'
+  [[ "$1" =~ ^[A-Za-z]:[\\/] ]] && return 0
+  [[ "${1:0:2}" == "$backslash$backslash" ]]
+}
+
+# Anything that opens a window succeeds asynchronously, so there is nothing to
+# report to a human watching their own screen. A caller reading stdout -- an
+# agent -- cannot see the window and needs to be told what was requested.
+report() {
+  [[ -t 1 ]] && return 0
+  printf '%s: %s\n' "$(basename "$0")" "$1"
+  printf '%s: %s\n' "$(basename "$0")" \
+    "tell the user it should now be on screen; if nothing appeared, say so rather than retrying"
+}
+
+open_with_default_app=false
+operands=()
+
+while (($# > 0)); do
+  case "$1" in
+    --)
+      shift
+      operands+=("$@")
+      break
+      ;;
+    -o | --open)
+      open_with_default_app=true
+      ;;
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -*)
+      echo "$(basename "$0"): unknown option: $1" >&2
+      echo "$(basename "$0"): if that is a path, pass it after --: $(basename "$0") -- '$1'" >&2
+      usage >&2
+      exit 1
+      ;;
+    *)
+      operands+=("$1")
+      ;;
+  esac
+  shift
+done
+
+path="${operands[0]:-.}"
+
+if ! looks_like_windows_path "$path" && [[ ! -e "$path" ]]; then
+  echo "$(basename "$0"): no such path: $path" >&2
+  echo "$(basename "$0"): the file must already exist -- create it before showing it" >&2
+  exit 1
+fi
+
+{{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+EXPLORER_EXE="/mnt/c/Windows/explorer.exe"
+
+# explorer.exe always exits 1, so its status says nothing about success. What it
+# does distinguish is 126/127, which is the shell failing to execute it at all --
+# the symptom of WSL interop being unavailable.
+launch() {
+  local rc=0
+  "$EXPLORER_EXE" "$1" || rc=$?
+  if ((rc == 126 || rc == 127)); then
+    echo "$(basename "$0"): cannot execute $EXPLORER_EXE (exit $rc)" >&2
+    echo "$(basename "$0"): WSL interop looks disabled -- check [interop] in /etc/wsl.conf" >&2
+    exit 1
+  fi
+}
+
+main() {
+  if [[ ! -e "$EXPLORER_EXE" ]]; then
+    echo "$(basename "$0"): $EXPLORER_EXE not found -- is /mnt/c mounted?" >&2
+    exit 1
+  fi
+
+  if looks_like_windows_path "$path"; then
+    launch "$path"
+    report "asked Explorer to open $path"
+  elif [[ -d "$path" ]]; then
+    launch "$(wslpath -w -- "$path")"
+    report "asked Explorer to open the folder $path"
+  elif [[ "$open_with_default_app" == true ]]; then
+    launch "$(wslpath -w -- "$path")"
+    report "asked Explorer to open $path with its default application"
+  else
+    # /select takes a comma, not a space
+    launch "/select,$(wslpath -w -- "$path")"
+    report "asked Explorer to open the folder holding $path, with the file selected"
+  fi
 }
 
 {{ else -}}
 main() {
-  xdg-open "${1:-.}"
+  # No equivalent of /select, so a file opens its parent folder with nothing selected
+  if [[ -d "$path" ]] || [[ "$open_with_default_app" == true ]]; then
+    xdg-open "$path"
+    report "asked the file manager to open $path"
+  else
+    xdg-open "$(dirname "$path")"
+    report "asked the file manager to open the folder holding $path"
+  fi
 }
 
 {{ end -}}
-main "$@"
+main
 
 # vim: set ft=sh:
