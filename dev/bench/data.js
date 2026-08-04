@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785806589231,
+  "lastUpdate": 1785813189194,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1643,6 +1643,37 @@ window.BENCHMARK_DATA = {
             "range": "0.1",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 11.1ms, median: 10.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "4d271e0a135aa148831f85c0346e593aeacb70f3",
+          "message": "claude: add open-in-explorer skill for showing images to the user\n\nClaude can Read an image, but that image never reaches the user's terminal.\nUntil now the only way to let them see a generated chart or screenshot was to\nhand over a \\\\wsl.localhost\\... path and ask them to open it by hand. The\nskill points at the existing `explorer` command instead.\n\nIt fires only when the user has shown they want to look at something: they\nasked, or they asked for the artifact itself. Images produced as a means to an\nend are excluded -- the frames extracted to read a video are for Claude, not\nfor the user, and opening them buries the answer under a folder of stubs.\nThat distinction was wrong in the first draft and is the one part of the skill\nworth protecting.\n\nAllow Bash(explorer *) and Skill(open-in-explorer) so both the invocation and\nthe command it runs go through without a prompt. Skill() entries are needed\nhere: fetch-pr-context has one for the same reason.\n\nScoped to Opus and Sonnet, both verified to trigger it correctly and to leave\nintermediate artifacts alone. Haiku reads the image and answers \"it is\ndisplayed\" without ever calling the skill; it is out of scope rather than a\nreason to pad the description.",
+          "timestamp": "2026-08-04T12:04:21+09:00",
+          "tree_id": "45f0db66caa206f2333ab9f892013b2e86985bdd",
+          "url": "https://github.com/r-okm/dotfiles/commit/4d271e0a135aa148831f85c0346e593aeacb70f3"
+        },
+        "date": 1785813187942,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.2,
+            "range": "0.1",
+            "unit": "ms",
+            "extra": "min: 8.1ms, max: 8.2ms, median: 8.2ms (10 runs)"
           }
         ]
       }
