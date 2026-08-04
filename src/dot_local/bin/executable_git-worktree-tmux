@@ -74,6 +74,21 @@ create_symlinks() {
   done
 }
 
+# Blobless instead of shallow: a submodule is usually pinned to a commit behind
+# the branch tip, and a shallow fetch of an unadvertised object is refused by
+# some servers. Servers without partial clone support just fall back to a full
+# fetch, which is slow but not broken.
+init_submodules() {
+  local worktree_dir="$1"
+
+  [[ -f "${worktree_dir}/.gitmodules" ]] || return 0
+
+  echo "Initializing submodules..."
+  git -C "$worktree_dir" submodule update --init --recursive \
+    --filter=blob:none ||
+    echo "Warning: submodule update failed" >&2
+}
+
 create_worktree() {
   local branch="$1"
   # When given, the branch is created at this point instead of being checked out
@@ -99,6 +114,7 @@ create_worktree() {
       git worktree add "$worktree_dir" "$branch"
     fi
     create_symlinks "$worktree_dir"
+    init_submodules "$worktree_dir"
   fi
 
   open_tmux_session "$session_name" "$worktree_dir"
