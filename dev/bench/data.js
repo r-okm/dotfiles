@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785487216857,
+  "lastUpdate": 1785806589231,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1612,6 +1612,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.7ms, max: 11.1ms, median: 10.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "54ff98515b6b34b7107fb9e8650a8a37db55a31c",
+          "message": "worktree: initialize submodules in a new worktree\n\nA fresh worktree of a superproject has empty submodule directories, since\ngit worktree add does not recurse into them. Initialize them when\n.gitmodules is present.\n\n--filter=blob:none rather than --depth 1: a submodule is usually pinned\nto a commit behind its branch tip, and a shallow fetch of that\nunadvertised object is refused by some servers, leaving the submodule\nuninitialized. A blobless clone keeps the whole commit graph, so the\npinned commit always resolves, and a server without partial clone support\ndegrades to a full fetch -- slow, not broken.\n\nFailures warn instead of aborting; the worktree is already created by\nthen, and dying here would skip the tmux session.\n\nNote that git worktree remove now needs --force for these repositories\n(documented in git-worktree(1)). The Ctrl-D path of fzf_cd_worktree\nalready passes it.",
+          "timestamp": "2026-08-04T10:13:43+09:00",
+          "tree_id": "07ebf90cab511cc3d60948cbe2e128f2ebd3789a",
+          "url": "https://github.com/r-okm/dotfiles/commit/54ff98515b6b34b7107fb9e8650a8a37db55a31c"
+        },
+        "date": 1785806588728,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.1",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 11.1ms, median: 10.9ms (10 runs)"
           }
         ]
       }
