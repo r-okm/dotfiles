@@ -132,7 +132,8 @@
   },
   "model": "opus[1m]",
   "skillOverrides": {
-    "deep-research": "user-invocable-only"
+    "deep-research": "user-invocable-only",
+    "handoff": "off"
   },
   "hooks": {
     "Notification": [
@@ -172,8 +173,6 @@
     "command": "bash ~/.claude/r-okm/scripts/statusline-command.sh"
   },
   "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": false,
-    "rust-analyzer-lsp@claude-plugins-official": false,
     "compact-plus@compact-plus-local": true
   },
   "extraKnownMarketplaces": {
