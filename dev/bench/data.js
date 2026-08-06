@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1785813189194,
+  "lastUpdate": 1786002408724,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1674,6 +1674,37 @@ window.BENCHMARK_DATA = {
             "range": "0.1",
             "unit": "ms",
             "extra": "min: 8.1ms, max: 8.2ms, median: 8.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "dcd67d7b60aa088f22028bf24d048f7688056cea",
+          "message": "claude: turn off the unused handoff skill and drop the removed LSP plugins\n\nhandoff has not been invoked once since it was added, so switch it off\nthrough skillOverrides instead of deleting the skill itself.\n\nlua-lsp and rust-analyzer-lsp were uninstalled with /plugin, so their\ndisabled entries in enabledPlugins no longer point at anything.",
+          "timestamp": "2026-08-06T16:36:10+09:00",
+          "tree_id": "9ee9e4a55981fc959f5c22bd16e59ce7dd34ab46",
+          "url": "https://github.com/r-okm/dotfiles/commit/dcd67d7b60aa088f22028bf24d048f7688056cea"
+        },
+        "date": 1786002407408,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 9.8ms, max: 10.2ms, median: 9.9ms (10 runs)"
           }
         ]
       }
