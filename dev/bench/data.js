@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786002408724,
+  "lastUpdate": 1786064075546,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1705,6 +1705,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 9.8ms, max: 10.2ms, median: 9.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "4c56622ba5d6000b98e479646d925a23071962e2",
+          "message": "tmux: drop the extrakto nvim dispatcher\n\n@extrakto_open_tool pointed at a script that sent a selected file path\nto the nvim in window 2. Its reason to exist was opening paths Claude\nhad printed into the pane; the open-in-nvim skill now opens those files\nitself, without a selection step.\n\nWhat is left of the script is what extrakto already does on its own, so\nthe setting goes away with it and @extrakto_open_tool returns to auto --\nxdg-open on this machine. Selecting a file path and opening it now hands\nthe path to xdg-open rather than to nvim, as it did before the script.",
+          "timestamp": "2026-08-07T09:35:08+09:00",
+          "tree_id": "6c5fc2ead39fb05db1fc0ea77be2e1a0f094cc7b",
+          "url": "https://github.com/r-okm/dotfiles/commit/4c56622ba5d6000b98e479646d925a23071962e2"
+        },
+        "date": 1786064074312,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 6.8,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 6.7ms, max: 7.1ms, median: 6.8ms (10 runs)"
           }
         ]
       }
