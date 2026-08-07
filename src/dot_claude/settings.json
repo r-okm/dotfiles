@@ -85,6 +85,7 @@
       "WebFetch(domain:www.1password.dev)",
       "Skill(fetch-pr-context)",
       "Skill(open-in-explorer)",
+      "Skill(open-in-nvim)",
       "Skill(video-frames)"
     ],
     "deny": [
