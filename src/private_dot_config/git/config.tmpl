@@ -41,8 +41,7 @@
 	pretty-log = log --graph --abbrev-commit --decorate --date=format-local:'%Y/%m/%d %H:%M' --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%cd%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(reset)%s%C(reset) %C(dim white)- %an (%h)%C(reset)'
 	# https://zenn.dev/kawarimidoll/articles/94fe6d900ed4d6
 	remote-head = symbolic-ref refs/remotes/origin/HEAD
-	checkout-remote-head = !git fetch && git switch -d $(git remote-head)
-	new-branch = "!f() { git fetch && git switch --no-track --create \"$(git config user.name)/${1:-\"wip-$(date +%s)\"}\" $(git remote-head); }; f"
+	checkout-remote-head = !git fetch && git -c submodule.recurse=false switch -d $(git remote-head) && git submodule update --init --recursive
 	delete-gone-branches = "!git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D"
 	list-branches = "!git branch --sort=-committerdate --format='%(HEAD) %(if)%(HEAD)%(then)%(color:green)%(else)%(color:default)%(end)%(refname:short)%(color:reset)|[%(color:blue)%(upstream:short)%(color:default)%(if)%(upstream:track)%(then): %(upstream:track,nobracket)%(end)]' --color=always | column -ts'|'"
 	diffview = "!nvim -u '$XDG_CONFIG_HOME/nvim/init.git_editor.lua' -c 'DiffviewOpen'"

@@ -130,7 +130,6 @@ resolve_branch_from_pr() {
   gh pr view "$pr_number" --json headRefName --jq '.headRefName'
 }
 
-# Same naming convention as the `git new-branch` alias
 resolve_new_branch_name() {
   local suffix="${1:-wip-$(date +%s)}"
   local user_name
@@ -221,7 +220,7 @@ main() {
     exit 1
   fi
 
-  # -c/--create-branch falls back to the default name of `git new-branch`
+  # -c/--create-branch may omit the target: it falls back to a generated name
   if [[ -z "$target" && "$mode" != "create" ]]; then
     echo "Error: Please specify a branch name or PR number" >&2
     help
