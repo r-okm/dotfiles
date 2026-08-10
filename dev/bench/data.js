@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786064075546,
+  "lastUpdate": 1786324539485,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1736,6 +1736,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 6.7ms, max: 7.1ms, median: 6.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "774431bf9f68e78c1b7e07e0797e4961f90381d1",
+          "message": "git: keep submodule.recurse out of checkout-remote-head\n\ngit switch honors submodule.recurse=true, and git clone --recurse-submodules\nwrites submodule.active=. into the clone, which marks even a submodule that has\nnever been cloned as active. So when the remote head adds a new submodule, the\nswitch tries to reset a submodule index whose gitdir does not exist yet and dies\nwith \"fatal: could not reset submodule index\" (exit 128) -- leaving HEAD unmoved\nwhile the working tree has already advanced to the target commit, which mixes\ninto any uncommitted work.\n\nThis is by design and will not be fixed: checkout and switch only update the\ncontent of already active submodules, and git submodule update --init is the\nonly command that clones new ones. The same failure was reported to the git\nmailing list in June 2018 and still reproduces. GitLab Runner sets\nsubmodule.recurse=false explicitly for the same reason and drives submodules\nitself.\n\n- Run the switch with -c submodule.recurse=false so a new submodule cannot\n  abort it\n- Chain git submodule update --init --recursive after the switch; running it\n  before HEAD moves is a no-op because the new submodule is not in the old index\n- Drop the unused new-branch alias together with its gnb alias and abbreviation\n- Drop the git new-branch references left in git-worktree-tmux, which builds the\n  branch name itself",
+          "timestamp": "2026-08-10T10:06:35+09:00",
+          "tree_id": "8a3b4bb0ce0f9361623a600d9c24989991f73a70",
+          "url": "https://github.com/r-okm/dotfiles/commit/774431bf9f68e78c1b7e07e0797e4961f90381d1"
+        },
+        "date": 1786324538261,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 9.8ms, max: 10.3ms, median: 10.0ms (10 runs)"
           }
         ]
       }
