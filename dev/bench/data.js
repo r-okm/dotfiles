@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786324539485,
+  "lastUpdate": 1786584868793,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1767,6 +1767,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 9.8ms, max: 10.3ms, median: 10.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "b3d471c652e64b497ff1e114ac830af4bc9b73a4",
+          "message": "claude: use xdg-open for URLs on WSL\n\nAn agent that did not know about this setup benchmarked candidate\ncommands and ended up invoking /mnt/c/Windows/explorer.exe by absolute\npath, then reported success without evidence (explorer.exe can exit\nnon-zero even when it works). $BROWSER is already wired to a Windows-side\nVivaldi wrapper in ~/.profile, so xdg-open honours it for URLs; the rule\nexists to stop that detour from being rediscovered per session.",
+          "timestamp": "2026-08-13T10:23:20+09:00",
+          "tree_id": "449f519429b7a888a7209f37ece1126046f1d184",
+          "url": "https://github.com/r-okm/dotfiles/commit/b3d471c652e64b497ff1e114ac830af4bc9b73a4"
+        },
+        "date": 1786584867395,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.5ms, median: 10.1ms (10 runs)"
           }
         ]
       }
