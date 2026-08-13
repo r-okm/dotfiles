@@ -25,3 +25,7 @@
 - Always pass `-d`/`--detach` when you (the AI) run it. Without it the command attaches or switches the user's tmux client to the new session, which yanks their view away. With `-d` the session is only created in the background and the worktree path is printed on the last line of stdout — use that as the working directory.
 - Run it from inside the repository — running it from a linked worktree is fine, the new worktree is always created under the main worktree without nesting. `-c` leaves the HEAD of the current worktree untouched, so it is safe to run mid-work.
 - Worktrees are created at `<project_root>/.worktree/<branch_name>` (`/` in the branch name replaced with `-`). When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree.
+
+# WSL
+
+- To open a URL in the user's browser, use `xdg-open <url>` — `$BROWSER` in `~/.profile` routes it to the Windows-side browser. Don't look for `explorer.exe` or `wslview`.
