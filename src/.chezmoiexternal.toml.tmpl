@@ -83,3 +83,11 @@
   stripComponents = 1
   refreshPeriod = "168h"
 {{ end -}}
+
+{{ if and (eq .chezmoi.os "linux") (has .chezmoi.arch (list "amd64" "arm64")) -}}
+[".local/bin/yt-dlp"]
+  type = "file"
+  url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux{{ if eq .chezmoi.arch "arm64" }}_aarch64{{ end }}"
+  executable = true
+  refreshPeriod = "168h"
+{{ end -}}
