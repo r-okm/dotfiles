@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786584868793,
+  "lastUpdate": 1786858397134,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1798,6 +1798,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.5ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a02efb8ebd654e5360db16a519750d0b158b756c",
+          "message": "claude: add yt skill for YouTube video summaries\n\n/yt takes a video URL and produces a translated summary in a fixed\nformat, with the transcript as the body and video info, description and\ncomments as supporting material. yt-fetch.py does the retrieval and\nrenders index/meta/transcript/comments Markdown; the skill reads those\nand writes summary.md next to them.\n\nThe subtitle track is chosen from a metadata probe and then requested by\nname. YouTube machine-translates any track into any language on demand,\nso a --sub-langs pattern asks for every combination that matches: seven\ndownloads for a video with two real tracks, and a later run that hit\nHTTP 429 and left no info.json at all, since yt-dlp writes it last.\nDeciding first costs a second extraction but holds the fetch to one\nsubtitle request. The spoken language outranks manual-vs-auto when\nranking candidates -- a hand-written track in another language is\nsomebody's translation, and the summary needs the original hedging,\nirony and idiom.\n\nComments are fetched 300 deep but only the top 50 are listed, under a\n50KB ceiling. Tracing which comments a real summary drew on, the top 50\ncost ~4KB per distinct point it used and everything past them 17-22KB,\nwith two 30KB stretches contributing nothing at all. Bytes per comment\nswing 4.5x between videos, so a count alone cannot keep the file inside\nwhat one Read returns -- measured at ~64KB, from a read that came back\ntruncated mid-file. Pinned and uploader comments are never dropped:\n7.6KB of them carried every correction the summary reported.\n\nReplies are flattened per top-level comment. YouTube nests deeper than\none level, and rendering only the direct children dropped 18% of a real\n300-comment fetch while the header still counted them.\n\nAuto-generated captions restate the previous line in every cue, so a\nline matching any of the last few emitted is dropped. Manual tracks get\na one-line window instead, where the only duplicates to remove are\ngenuine consecutive repeats.\n\nraw/ is merged rather than replaced after a fetch. --ignore-errors is on\nso that a subtitle 429 does not also cost the metadata and comments,\nwhich means \"info.json exists\" is not \"the run was complete\" -- and\nreplacing would throw away a track kept from an earlier run.\n\nyt-dlp comes from a chezmoi external rather than apt or a run_once\nscript. The distro package is pinned to whatever shipped with the\nrelease and stops working as soon as YouTube changes; the external\nrefreshes weekly on its own. Updating is chezmoi apply\n--refresh-externals, not yt-dlp -U, which the next refresh rolls back.",
+          "timestamp": "2026-08-16T14:24:10+09:00",
+          "tree_id": "0b72807b407fb09f238562a962f36a8a88a9d340",
+          "url": "https://github.com/r-okm/dotfiles/commit/a02efb8ebd654e5360db16a519750d0b158b756c"
+        },
+        "date": 1786858396591,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 11.1ms, median: 10.9ms (10 runs)"
           }
         ]
       }
