@@ -16,7 +16,7 @@ main() {
 
   if command -v cargo-binstall &>/dev/null; then
     echo 'Using cargo-binstall (prebuilt binaries)...'
-    cargo binstall --no-confirm "${packages[@]}"
+    cargo binstall --no-confirm --locked "${packages[@]}"
   else
     echo 'cargo-binstall not found, falling back to cargo install...'
     for package in "${packages[@]}"; do
