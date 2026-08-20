@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1786858397134,
+  "lastUpdate": 1787216760011,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1829,6 +1829,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 11.1ms, median: 10.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "5e78cde923d0d5c9cb0046a9cf88e835fcd58139",
+          "message": "ci: pass --locked through cargo binstall (#62)\n\ncargo-binstall queries api.github.com for each package's release tag to find a\nprebuilt artifact, trying the tag both with and without a leading v. Those calls\nare unauthenticated, so they draw on the runner's shared-IP rate limit: the\nubuntu-22.04 job took 403 on all nine lookups and fell back to building every\npackage from source.\n\nThat fallback invokes cargo install without --locked. eza 0.23.5 then resolved\npalette 0.7.5 against palette_derive 0.7.7 and failed with 34 errors, because\npalette_derive 0.7.7 emits references to the lms module and to\nxyz::meta::HasXyzMeta, neither of which exists in palette 0.7.5. eza's own\nlockfile pins palette_derive 0.7.6, which predates both additions.\n\nThe hand-rolled fallback loop below already passes --locked; only the binstall\npath did not. cargo-binstall forwards its own --locked to every cargo install it\ninvokes, so one flag makes both paths resolve from the lockfile. All seven\npackages ship a Cargo.lock, so --locked cannot fail for want of one.\n\nVerified with cargo install --locked eza --version 0.23.5: palette 0.7.5 and\npalette_derive 0.7.6 compile together, binary built, exit 0.\n\nThis leaves the 403s themselves alone, so a rate-limited run still pays for a\nsource build -- it just no longer fails.",
+          "timestamp": "2026-08-20T17:58:29+09:00",
+          "tree_id": "123834f2ef908a7dea8c702e71ac9934eda19579",
+          "url": "https://github.com/r-okm/dotfiles/commit/5e78cde923d0d5c9cb0046a9cf88e835fcd58139"
+        },
+        "date": 1787216758190,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.6,
+            "range": "-0.0",
+            "unit": "ms",
+            "extra": "min: 8.9ms, max: 8.8ms, median: 8.5ms (10 runs)"
           }
         ]
       }
