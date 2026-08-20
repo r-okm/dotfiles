@@ -3,10 +3,6 @@
 - Always respond in Japanese.
 - The Japanese rule applies to conversation only, not to file content. When editing a file, follow the language already used in that file (or in the repository's similar files). When creating a new file with no precedent, default to English.
 
-# Planning
-
-- Before presenting a plan to the user, always run the `plan-review` skill. It drives the review loop (plan-reviewer agent → apply fixes → record `## レビュー履歴`) until the plan passes; skip conditions are defined in the skill.
-
 # Project Structure
 
 - `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a temporary file — scratch notes, investigation memos, generated artifacts, intermediate working files — place it under `<project_root>/.ignore/ai/**`.
