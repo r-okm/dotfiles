@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787216760011,
+  "lastUpdate": 1787276614321,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1860,6 +1860,37 @@ window.BENCHMARK_DATA = {
             "range": "-0.0",
             "unit": "ms",
             "extra": "min: 8.9ms, max: 8.8ms, median: 8.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0392950273de3cb4cc2f13c0905ac1aefd263f95",
+          "message": "setup: build tree-sitter-cli from source instead of taking a prebuilt (#63)\n\nnvim-treesitter stopped being able to build parsers, failing with \"tree-sitter:\n/lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.39' not found\".\n\n5e78cde edited this script, which changed the contents chezmoi hashes for a\nrun_once script, so the next apply re-ran it. cargo-binstall then upgraded\ntree-sitter-cli 0.26.8 -> 0.26.12 and took the prebuilt binary from GitHub\nreleases, where the 0.26.8 in place had come from the source-build fallback.\ntree-sitter builds its linux-x64 artifact on an ubuntu-24.04 runner, so that\nbinary needs glibc 2.39, and this machine is Ubuntu 22.04 with 2.35.\n\nPinning a version the way oxker is pinned does not help, because the glibc floor\ncomes from the release runner rather than from the crate. objdump on the\npublished artifacts reports 2.39 for both 0.26.8 and 0.26.12, and build.yml\nnames ubuntu-24.04 for linux-x64 at both tags. The newest prebuilt that still\nlinks against 2.35 is 0.25.10, which is below the 0.26.1 nvim-treesitter\nrequires (TREE_SITTER_MIN_VER in health.lua), so no pin satisfies both\nconstraints. A source build links against whatever glibc the machine has, so the\nquestion does not arise.\n\n--force is there because a machine that already took a broken prebuilt has it\nrecorded in .crates.toml, and a plain cargo install would skip it as already\ninstalled. This script only re-runs when its own contents change, so the rebuild\ncost is rare. The inline version-splitting branch moves out of the binstall\nfallback into install_from_source so both paths share it.\n\nVerified with cargo install --locked --force tree-sitter-cli on Ubuntu 22.04:\nobjdump reports a 2.35 floor, and nvim-treesitter rebuilt the diff parser\nthrough the CLI with no error.",
+          "timestamp": "2026-08-21T10:35:55+09:00",
+          "tree_id": "2021c817b5e7a6200ddfe37192789bc5637db476",
+          "url": "https://github.com/r-okm/dotfiles/commit/0392950273de3cb4cc2f13c0905ac1aefd263f95"
+        },
+        "date": 1787276612884,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.5,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 8.3ms, max: 8.6ms, median: 8.4ms (10 runs)"
           }
         ]
       }
