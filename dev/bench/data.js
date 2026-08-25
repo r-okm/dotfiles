@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787276614321,
+  "lastUpdate": 1787634935449,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1891,6 +1891,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 8.3ms, max: 8.6ms, median: 8.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "c5f2d737aee880e79ca2818456faf66ed7126dd0",
+          "message": "claude: add japanese-tech-writing skill\n\nk16shikano's prose norms for Japanese technical writing, taken as a\nchezmoi external so it refreshes weekly alongside the rest rather than\nbeing vendored into src/. The gist raw URL carries no revision sha, so\nit always serves the latest; pinning would mean adding the sha and\ndropping refreshPeriod to 0.\n\nFour subagents were run across the trigger boundary. It fires when\ndrafting a Japanese article and when revising a Japanese README, and\ndoes not fire on plain conversation or on Japanese docstrings, code\ncomments and commit messages -- the description scopes it to book\nchapters, drafts, articles and explanatory prose. Wording for comments\nand commit messages is therefore still CLAUDE.md's job.\n\nZenn and Qiita render a single newline as <br>, so the rule that breaks\nafter every sentence needs the paragraph reflowed before posting.\nGitHub READMEs and book manuscripts are unaffected.\n\nThe conversational adaptation of the same text, published as a\nclear-japanese output style, is deliberately left out. A custom output\nstyle drops Claude Code's built-in software engineering instructions\nunless keep-coding-instructions is true, and that gist sets only name\nand description. It carries the skill frontmatter shape unchanged,\nwritten seven months after the field was already in use.",
+          "timestamp": "2026-08-25T14:05:15+09:00",
+          "tree_id": "9bfde7311b93fb12a4c4fb6817bc9a043886aae1",
+          "url": "https://github.com/r-okm/dotfiles/commit/c5f2d737aee880e79ca2818456faf66ed7126dd0"
+        },
+        "date": 1787634934721,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
           }
         ]
       }
