@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787634935449,
+  "lastUpdate": 1787820027805,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1922,6 +1922,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "d40f07bae47920c7e1bf8ed61420610922dc17ee",
+          "message": "claude: drop the handoff and commit-message skills\n\nNeither is used any more. handoff was already switched off through\nskillOverrides rather than deleted; that entry goes with the skill, so\nthe override no longer outlives what it referred to.\n\ncommit-message had no interactive use left either, but git-ai-commit\nstill called it as `claude --print '/commit-message'`. Keeping the\nscript would have meant inlining the prompt the way its copilot branch\nalready does, duplicating the rules in a second place for a command\nthat is not being run; the script goes instead, together with its gac\nalias and abbreviation.\n\n[data.copilot.model] in .chezmoi.toml.tmpl was consumed only by\ngit-ai-commit.tmpl, so it goes too. Removing chezmoi data means\nregenerating ~/.config/chezmoi/chezmoi.toml through chezmoi init, which\nhas been done -- [data.work] came back with its values intact.\n\nsettings.json is target-owned, so the override was removed on the\ntarget side and taken back with chezmoi-sync. chezmoi apply does not\ndelete targets dropped from the source, so the deployed copies --\n~/.claude/skills/{handoff,commit-message} and ~/.local/bin/git-ai-commit\n-- were removed by hand.",
+          "timestamp": "2026-08-27T17:28:40+09:00",
+          "tree_id": "3af58d6eb28a8e5064b2904969babf694af5db57",
+          "url": "https://github.com/r-okm/dotfiles/commit/d40f07bae47920c7e1bf8ed61420610922dc17ee"
+        },
+        "date": 1787820027190,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "4.7",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 15.0ms, median: 10.4ms (10 runs)"
           }
         ]
       }
