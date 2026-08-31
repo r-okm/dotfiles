@@ -122,7 +122,21 @@
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(sudo *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(terraform apply *)",
+      "Bash(terraform destroy *)",
+      "Bash(terraform state rm *)",
+      "Bash(terraform state mv *)",
+      "Bash(terraform state push *)",
+      "Bash(terraform state replace-provider *)",
+      "Bash(terraform import *)",
+      "Bash(terraform force-unlock *)",
+      "Bash(terraform workspace delete *)",
+      "Bash(terraform taint *)",
+      "Bash(terraform untaint *)",
+      "Bash(terraform refresh *)",
+      "Bash(terraform login *)",
+      "Bash(terraform logout *)"
     ],
     "ask": [
       "Edit(~/.claude/r-okm/scripts/**)"
