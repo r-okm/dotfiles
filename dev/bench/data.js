@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1787820027805,
+  "lastUpdate": 1788160507807,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1953,6 +1953,37 @@ window.BENCHMARK_DATA = {
             "range": "4.7",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 15.0ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "4f9e1ccd82fcd7233124e7e29b4cae20dabb1e0a",
+          "message": "claude: deny terraform's destructive subcommands\n\nDeny per subcommand rather than the whole binary. Deny takes\nprecedence over allow and cannot carry allowlist exceptions, so a\nblanket Bash(terraform *) would also make plan and validate\nunreachable, which is where most of the agent's useful terraform work\nhappens.\n\nFor `state`, only the write side is denied (rm, mv, push,\nreplace-provider). `state list`, `state show` and `state pull` stay\navailable: without them the agent cannot see what the state holds and\nfalls back to guessing.\n\n`init` is deliberately untouched. Partial denies keyed on flag\nposition (-migrate-state, -reconfigure) are the fragile pattern the\ndocs warn about, and denying init outright breaks plan in\nuninitialised directories.\n\n`login` / `logout` are here for the same reason ~/.aws and\n~/.config/gh are denied, not because they are destructive.\n\nKnown gap: prefix matching does not cover argument reordering, so\n`terraform -chdir=dir destroy` still gets through. A PreToolUse hook\nwould close it, at the cost of another script to maintain; the gap is\naccepted instead. Compound commands are safe -- permission rules are\nevaluated per subcommand, so `cd dir && terraform destroy` is blocked.\n\ntofu and terragrunt are not installed and are not pre-empted;\nterragrunt's `run-all` shape needs its own rules when it arrives.\n\nVerified against a live session (permissions hot-reload, no restart\nneeded): `terraform destroy` and `terraform state rm` blocked in an\nempty directory, `terraform state list` still runs.",
+          "timestamp": "2026-08-31T16:03:41+09:00",
+          "tree_id": "0ebb4ab525a8ffc30c1df23df0636e6f4a11027f",
+          "url": "https://github.com/r-okm/dotfiles/commit/4f9e1ccd82fcd7233124e7e29b4cae20dabb1e0a"
+        },
+        "date": 1788160507309,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 9.9ms, max: 10.3ms, median: 10.0ms (10 runs)"
           }
         ]
       }
