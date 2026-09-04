@@ -8,7 +8,7 @@ argument-hint: "[--since YYYY-MM-DD | --all]"
 
 # /analyze-permissions - パーミッション分析
 
-パーミッションプロンプトのログを分析し、`settings.json.tmpl` の `permissions.allow` ルールの最適化案を3つの観点から提示する。
+パーミッションプロンプトのログを分析し、`settings.json` の `permissions.allow` ルールの最適化案と、ルールでは解消できないプロンプトの所見を提示する。
 
 ## 分析データ
 
@@ -16,7 +16,7 @@ argument-hint: "[--since YYYY-MM-DD | --all]"
 
 ## 指示
 
-上記の JSON データを以下の3観点で分析し、結果を出力する。
+上記の JSON データを以下の4観点で分析し、結果を出力する。
 データが `"No permission requests found in logs."` の場合は、前回分析以降に新しいパーミッション申請がなかった旨を伝えて終了する。`--all` フラグでの再分析を提案してもよい。
 
 ### 観点1: ルール最適化
@@ -38,12 +38,20 @@ argument-hint: "[--since YYYY-MM-DD | --all]"
 3. `actual_inputs` から、提案ルールがカバーする範囲に想定外の危険なパターンが含まれないか確認する
 4. 提案ルールが `existing_rules.deny` のルールと矛盾しないか確認する（Claude Code は deny → allow の順で評価するため、deny が優先される。ただし deny をバイパスする意図しない許可がないかチェックする）
 
-### 観点3: settings.json.tmpl 変更案
+### 観点3: settings.json 変更案
 
-観点1・2の結論に基づき、`dotfiles/src/dot_claude/settings.json.tmpl` の `permissions.allow` に対する具体的な変更案を提示する：
+観点1・2の結論に基づき、`~/.claude/settings.json` の `permissions.allow` に対する具体的な変更案を提示する（target-owned なので target 側を編集し `chezmoi-sync` で取り込む）：
 
 - 追加するルール
 - 統合により不要になる既存ルール（削除候補）
+
+### 観点4: 提案なしプロンプト
+
+`unsuggested_prompts` は、ルール提案を伴わずに出たプロンプトを `tool_name` ごとに束ねたもの（AskUserQuestion と ExitPlanMode は操作そのものが確認なので除外済み）。allow ルールを足しても消えないため、観点1〜3とは別に扱う。プロンプトの理由は hook に渡されないので、`examples` のコマンドの形から推測する。
+
+1. `examples` が Claude Code の安全弁に当たる形（複合コマンド内の `cd` と相対パス読み取り、静的に解決できないパス、redirect 先の不明など）なら、原因は Claude 側のコマンドの形。避けるべき形と代替の書き方を示す
+2. 形から原因を特定できないものは、`permission_modes` を添えて「理由不明」と記す。断定しない
+3. `count` が 1 のものは一度きりとして除外してよい
 
 ## 出力フォーマット
 
@@ -69,13 +77,19 @@ argument-hint: "[--since YYYY-MM-DD | --all]"
 - 推奨ルールのリスク評価
 - deny ルールとの整合性確認
 
-## settings.json.tmpl 変更案
+## settings.json 変更案
 
 permissions.allow に追加:
 （JSON 配列）
 
 permissions.allow から削除（統合により不要）:
 （JSON 配列。該当なしの場合は省略）
+
+## 提案なしプロンプト
+
+| ツール | 件数 | 主な例 | 所見・対処 |
+|--------|------|--------|-----------|
+（`unsuggested_prompts` が空なら「該当なし」と記す）
 ```
 
 ## 注意事項

@@ -19,6 +19,8 @@ _INTERPRETERS = frozenset({
     "python3", "python", "node", "ruby", "perl", "bash", "sh", "zsh",
 })
 
+_ALWAYS_PROMPT_TOOLS = frozenset({"AskUserQuestion", "ExitPlanMode"})
+
 
 def read_last_analysis_timestamp():
     """Read the last analysis timestamp. Returns ISO 8601 string or None."""
@@ -152,6 +154,41 @@ def extract_suggestions(entries):
                     rule_content_map[(behavior, tool_name)].add(rule_content)
 
     return counter, examples, rule_content_map, timestamps
+
+
+def extract_unsuggested(entries):
+    """Group prompts that carried no rule suggestion by tool name.
+
+    Returns a list of dicts sorted by count descending.
+    """
+    groups = {}
+    for entry in entries:
+        if entry.get("permission_suggestions"):
+            continue
+        tool_name = entry.get("tool_name", "")
+        if tool_name in _ALWAYS_PROMPT_TOOLS:
+            continue
+        ts = entry.get("timestamp", "")
+        g = groups.get(tool_name)
+        if g is None:
+            g = groups[tool_name] = {
+                "tool_name": tool_name,
+                "count": 0,
+                "permission_modes": {},
+                "examples": [],
+                "first_seen": ts,
+                "last_seen": ts,
+            }
+        g["count"] += 1
+        mode = entry.get("permission_mode") or "unknown"
+        g["permission_modes"][mode] = g["permission_modes"].get(mode, 0) + 1
+        if len(g["examples"]) < 3:
+            g["examples"].append(format_tool_summary(entry.get("tool_input_summary")) or "")
+        if ts < g["first_seen"]:
+            g["first_seen"] = ts
+        if ts > g["last_seen"]:
+            g["last_seen"] = ts
+    return sorted(groups.values(), key=lambda g: (-g["count"], g["tool_name"]))
 
 
 def find_wildcard_groups(rule_contents):
@@ -308,8 +345,9 @@ def build_wildcard_groups_for_rules(rule_strs):
 def analyze_mode_a(entries, top_n, output_mode):
     allow_rules, deny_rules = load_existing_rules()
     counter, examples, rule_content_map, timestamps = extract_suggestions(entries)
+    unsuggested = extract_unsuggested(entries)
 
-    if not counter:
+    if not counter and not unsuggested and output_mode == "table":
         print("No permission suggestions found in logs.")
         return
 
@@ -374,6 +412,7 @@ def analyze_mode_a(entries, top_n, output_mode):
             },
             "suggestions": suggestions_out,
             "wildcard_groups": all_wc,
+            "unsuggested_prompts": unsuggested,
         }
         print(json.dumps(output, indent=2, ensure_ascii=False))
         return
@@ -431,6 +470,18 @@ def analyze_mode_a(entries, top_n, output_mode):
             print(f"  {wc_rule:<55} ({len(covered)} rules){risk_label}")
             for rc in sorted(covered):
                 print(f"    - {rc}")
+
+    if unsuggested:
+        print(f"\nPrompts without a rule suggestion (not fixable by allow rules):")
+        print("-" * 50)
+        for g in unsuggested:
+            modes = ",".join(f"{m}={n}" for m, n in sorted(g["permission_modes"].items()))
+            print(f"  {g['count']:>5}  {g['tool_name']:<16} [{modes}]")
+            for ex in g["examples"]:
+                ex_disp = ex.replace("\n", " ")
+                if len(ex_disp) > 100:
+                    ex_disp = ex_disp[:97] + "..."
+                print(f"    - {ex_disp}")
 
 
 def main():
