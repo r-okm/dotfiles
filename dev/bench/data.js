@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788160507807,
+  "lastUpdate": 1788499564990,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -1984,6 +1984,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 9.9ms, max: 10.3ms, median: 10.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "11c1621a60be87f491293ef47abb4615c44d8c63",
+          "message": "claude: turn the last Read deny rules into ask rules\n\nWith the sandbox refusing ~/.ssh and /mnt for every Bash process, the\nRead deny rules were left doing two things: blocking Claude's own Read\ntool on those paths, and making Claude Code ask before any\n`cd X && cat relative/path`, since that check fires whenever a Read deny\nrule exists at all. The second effect was the remaining source of routine\npermission prompts.\n\nThe sandbox does not cover the Read tool, so the rules cannot simply go.\nMoving them to `ask` keeps a human checkpoint on reading ~/.ssh,\n~/.config/gh, /mnt and /proc (ask rules prompt even in auto mode, and the\nclassifier cannot auto-approve them) while the cd check, which only looks\nat deny rules, no longer triggers. Verified: a cd-then-relative-read runs\nwithout a prompt, and a Read of ~/.ssh/config prompts.",
+          "timestamp": "2026-09-04T14:13:36+09:00",
+          "tree_id": "56e9c39699078869ffe29a5460ae16fc412ad000",
+          "url": "https://github.com/r-okm/dotfiles/commit/11c1621a60be87f491293ef47abb4615c44d8c63"
+        },
+        "date": 1788499562857,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10,
+            "range": "0.1",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.1ms, median: 10.0ms (10 runs)"
           }
         ]
       }
