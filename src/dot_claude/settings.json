@@ -57,6 +57,7 @@
       "Bash(python3 -m json.tool)",
       "Read(~/.claude/**)",
       "Read(~/.config/zsh/completions/**)",
+      "Read(~/work/**)",
       "Read(~/.config/tmux/plugins/**)",
       "Read(//tmp/**)",
       "Read(~/.cache/ss/**)",
