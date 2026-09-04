@@ -138,6 +138,37 @@
   "skillOverrides": {
     "deep-research": "user-invocable-only"
   },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "excludedCommands": [
+      "git:*",
+      "tmux:*",
+      "git-worktree-tmux:*",
+      "explorer:*",
+      "xdg-open:*",
+      "~/.claude/r-okm/scripts/*"
+    ],
+    "filesystem": {
+      "denyRead": ["~/.ssh", "/mnt"],
+      "allowRead": ["~/.config/gh/config.yml"],
+      "allowWrite": ["~/.cache/ss", "~/.config/chezmoi"]
+    },
+    "network": {
+      "tlsTerminate": {},
+      "allowedDomains": ["github.com", "*.github.com", "registry.npmjs.org"]
+    },
+    "credentials": {
+      "files": [
+        {
+          "path": "~/.config/gh/hosts.yml",
+          "mode": "mask",
+          "extract": "oauth_token:\\s*(\\S+)",
+          "injectHosts": ["api.github.com", "github.com"]
+        }
+      ]
+    }
+  },
   "hooks": {
     "Notification": [
       {
