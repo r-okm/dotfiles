@@ -90,9 +90,6 @@
       "Skill(video-frames)"
     ],
     "deny": [
-      "Read(~/.ssh/**)",
-      "Read(~/.config/gh/**)",
-      "Read(//mnt/**)",
       "Edit(**/.env)",
       "Edit(**/.env.*)",
       "Edit(**/secrets/**)",
@@ -107,7 +104,6 @@
       "Bash(echo $*)",
       "Bash(set *)",
       "Bash(cat /proc*)",
-      "Read(//proc/**)",
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(sudo *)",
@@ -128,7 +124,11 @@
       "Bash(terraform logout *)"
     ],
     "ask": [
-      "Edit(~/.claude/r-okm/scripts/**)"
+      "Edit(~/.claude/r-okm/scripts/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.config/gh/**)",
+      "Read(//mnt/**)",
+      "Read(//proc/**)"
     ],
     "additionalDirectories": [
       "~/src/github.com/r-okm/project-ignores"
