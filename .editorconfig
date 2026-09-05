@@ -14,7 +14,10 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
-[src/symlink/windows_terminal*/**/*.json]
-trim_trailing_whitespace = false
+# PEP 8; black and ruff format hard-code 4 spaces and take no configuration
+[*.py]
 indent_size = 4
+
+# windows-sync copies these byte for byte; Windows Terminal writes no final newline
+[src/AppData/**]
 insert_final_newline = false
