@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788575897732,
+  "lastUpdate": 1788583725331,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2044,6 +2044,37 @@ window.BENCHMARK_DATA = {
             "name": "zsh startup (mean)",
             "value": 10.2,
             "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "db1d2b213ba485c0aeb3ff67eab4cd130ee514f6",
+          "message": "windows-terminal: start on the default profile again\n\nChanged back through the terminal UI: firstWindowPreference returns to\ndefaultProfile, undoing the persistedLayoutAndContent that b74aa52 picked up\nearlier today.\n\nNothing else in the file is a real change. Comparing the parsed JSON of both\nrevisions shows firstWindowPreference as the only differing key: the\nkeybindings array holds the same entries in a different order, and the file\ncame back without its final newline, which b74aa52 had recorded as newly\nadded. Both are the terminal rewriting the file it owns.\n\nFirst file pulled in with windows-sync rather than copied by hand.",
+          "timestamp": "2026-09-05T13:12:57+09:00",
+          "tree_id": "6d75686738c6a74255e3f9728d49d01f6e684b49",
+          "url": "https://github.com/r-okm/dotfiles/commit/db1d2b213ba485c0aeb3ff67eab4cd130ee514f6"
+        },
+        "date": 1788583724338,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
           }
