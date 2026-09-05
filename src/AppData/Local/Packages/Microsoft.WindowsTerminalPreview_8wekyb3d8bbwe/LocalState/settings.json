@@ -486,7 +486,7 @@
     ],
     "showTabsInTitlebar": true,
     "tabSwitcherMode": "inOrder",
-    "theme": "Catppuccin Mocha",
+    "theme": "dark",
     "themes":
     [
         {
