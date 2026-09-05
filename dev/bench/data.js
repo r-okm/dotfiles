@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788591781510,
+  "lastUpdate": 1788599423858,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2201,6 +2201,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.4ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "40b0d674e4a6dc3223ce78e6a55a3faba3889615",
+          "message": "windows-terminal: hide the scrollbar in the WSL profile\n\nThe scrollbar is dead weight in the WSL profile: scrollback is driven by\ntmux and the pager, so the bar never reflects anything worth aiming at and\nonly eats a column.\n\nSet on the Windows side and pulled in with windows-sync, so the settings UI\nalso reshuffled the keybindings array on its way out. That block is the same\nset of entries in a different order.",
+          "timestamp": "2026-09-05T17:59:52+09:00",
+          "tree_id": "4dacf6253e810ca3d6302a51a7df0a375e9f3b75",
+          "url": "https://github.com/r-okm/dotfiles/commit/40b0d674e4a6dc3223ce78e6a55a3faba3889615"
+        },
+        "date": 1788599422071,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.6,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.9ms, median: 10.6ms (10 runs)"
           }
         ]
       }
