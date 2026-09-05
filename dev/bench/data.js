@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788599423858,
+  "lastUpdate": 1788616637571,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2232,6 +2232,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.9ms, median: 10.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "5653e0388efa94e74788cd0d65ffd4023c05028e",
+          "message": "claude: move the worktree how-to out of the global CLAUDE.md\n\nThe global CLAUDE.md is loaded into every session, but the details of\ngit-worktree-tmux — the three modes, why -d is mandatory, where the\nworktree lands — only matter while actually creating a worktree. Move\nthem into a skill that loads on demand.\n\nTwo rules stay in CLAUDE.md because they apply when no worktree is being\ncreated. The prohibition names git-worktree-tmux as well as `git worktree\nadd`, so a model that learns the helper from somewhere other than the\nskill still routes through it rather than running it without -d and\nyanking the user's tmux client away. And the `git -C <project_root>` rule\nholds for any session whose cwd merely happens to be inside a worktree —\nbehind the skill it would never load for them, and they would commit to\nthe main worktree instead of their branch.\n\nThe skill lists the three invocations and defers the rest to --help\nrather than injecting !`git-worktree-tmux --help`: inline shell does run\nfor model-invoked skills, but a failed command aborts the whole skill\nload, and --help is 968 chars of human-facing text that omits every rule\nthe skill exists to carry. It also documents that re-requesting an\nexisting worktree returns it untouched — create_worktree guards fetch,\nthe symlinks and the submodule init behind one directory check, so a\nsecond -p on a stale worktree reads the old head.\n\nBash(git-worktree-tmux *) is granted in the skill's frontmatter rather\nthan in settings.json: an allowed_tools layer is appended to\nalwaysAllowRules, so it pre-approves the command without a prompt, and\nscoping it to the skill keeps the grant and the mandatory -d together.",
+          "timestamp": "2026-09-05T22:33:42+09:00",
+          "tree_id": "0591e71d807c81c3526d26cc595cc58baf3bb37c",
+          "url": "https://github.com/r-okm/dotfiles/commit/5653e0388efa94e74788cd0d65ffd4023c05028e"
+        },
+        "date": 1788616635798,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 11.0ms, max: 11.2ms, median: 11.0ms (10 runs)"
           }
         ]
       }
