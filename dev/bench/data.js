@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788499564990,
+  "lastUpdate": 1788575897732,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2015,6 +2015,37 @@ window.BENCHMARK_DATA = {
             "range": "0.1",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.1ms, median: 10.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "cd751b9601927e85bce6da2cbd81e7daaeade111",
+          "message": "claude: enable agent push notifications\n\nThe only setting that changed is agentPushNotifEnabled. The rest of the\ndiff is Claude Code rewriting the file it owns: the sandbox block moves\nfrom fifth to ninth at the top level and the inline arrays are reflowed\none element per line. Comparing the parsed JSON of both revisions shows\nno other difference, so nothing but that one key is being changed here.\n\nPicked up with chezmoi-sync, since ~/.claude/settings.json is written by\nClaude Code and the deployed copy is the source of truth.",
+          "timestamp": "2026-09-05T11:26:39+09:00",
+          "tree_id": "ab235443ebe22830d6e6adaf83dfa15603570b92",
+          "url": "https://github.com/r-okm/dotfiles/commit/cd751b9601927e85bce6da2cbd81e7daaeade111"
+        },
+        "date": 1788575897230,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
           }
         ]
       }
