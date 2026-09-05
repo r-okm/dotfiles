@@ -1,17 +1,10 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema-preview",
-    "actions": 
+    "actions":
     [
         {
-            "command": 
-            {
-                "action": "nextTab"
-            },
-            "id": "User.nextTab.0"
-        },
-        {
-            "command": 
+            "command":
             {
                 "action": "sendInput",
                 "input": "\u001b[13;2u"
@@ -19,7 +12,7 @@
             "id": "User.sendInput.8882FD6D"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "copy",
                 "singleLine": false
@@ -27,18 +20,7 @@
             "id": "User.copy.644BA8F2"
         },
         {
-            "command": 
-            {
-                "action": "prevTab"
-            },
-            "id": "User.prevTab.0"
-        },
-        {
-            "command": "duplicateTab",
-            "id": "User.duplicateTab"
-        },
-        {
-            "command": 
+            "command":
             {
                 "action": "moveFocus",
                 "direction": "left"
@@ -46,7 +28,11 @@
             "id": "User.moveFocus.2A0DA8E0"
         },
         {
-            "command": 
+            "command": "duplicateTab",
+            "id": "User.duplicateTab"
+        },
+        {
+            "command":
             {
                 "action": "splitPane",
                 "split": "right",
@@ -59,19 +45,27 @@
             "id": "User.openNewTabDropdown"
         },
         {
-            "command": 
+            "command":
             {
                 "action": "moveFocus",
                 "direction": "right"
             },
             "id": "User.moveFocus.87C324ED"
+        },
+        {
+            "command":
+            {
+                "action": "nextTab",
+                "tabSwitcherMode": "disabled"
+            },
+            "id": "Terminal.NextTab"
         }
     ],
     "alwaysShowTabs": true,
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
-    "disabledProfileSources": 
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "disabledProfileSources":
     [
         "Windows.Terminal.Azure",
         "Windows.Terminal.PowershellCore",
@@ -81,10 +75,11 @@
         "Windows.Terminal.Wsl",
         "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc"
     ],
+    "firstWindowPreference": "persistedLayoutAndContent",
     "initialCols": 187,
     "initialPosition": "1721,2",
     "initialRows": 70,
-    "keybindings": 
+    "keybindings":
     [
         {
             "id": "User.sendInput.8882FD6D",
@@ -119,7 +114,7 @@
             "keys": "ctrl+shift+tab"
         },
         {
-            "id": null,
+            "id": "Terminal.NextTab",
             "keys": "ctrl+tab"
         },
         {
@@ -329,22 +324,18 @@
         {
             "id": null,
             "keys": "ctrl+l"
-        },
-        {
-            "id": "User.duplicateTab",
-            "keys": "ctrl+shift+enter"
         }
     ],
-    "newTabMenu": 
+    "newTabMenu":
     [
         {
             "type": "remainingProfiles"
         }
     ],
     "newTabPosition": "afterCurrentTab",
-    "profiles": 
+    "profiles":
     {
-        "defaults": 
+        "defaults":
         {
             "adjustIndistinguishableColors": "never",
             "antialiasingMode": "grayscale",
@@ -355,7 +346,7 @@
             "colorScheme": "Catppuccin Mocha",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
-            "font": 
+            "font":
             {
                 "face": "JetBrainsMonoNL NF, BIZ UDGothic",
                 "size": 11
@@ -365,7 +356,7 @@
             "suppressApplicationTitle": false,
             "useAcrylic": true
         },
-        "list": 
+        "list":
         [
             {
                 "commandline": "C:\\Windows\\system32\\wsl.exe",
@@ -373,7 +364,9 @@
                 "hidden": false,
                 "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
                 "name": "WSL",
-                "startingDirectory": "~"
+                "startingDirectory": "~",
+                "suppressApplicationTitle": true,
+                "tabTitle": "WSL"
             },
             {
                 "commandline": "C:\\scoop\\shims\\bash.exe",
@@ -401,7 +394,7 @@
             }
         ]
     },
-    "schemes": 
+    "schemes":
     [
         {
             "background": "#1E1E2E",
@@ -522,23 +515,23 @@
     "showTabsInTitlebar": true,
     "tabSwitcherMode": "inOrder",
     "theme": "Catppuccin Mocha",
-    "themes": 
+    "themes":
     [
         {
             "name": "Catppuccin Mocha",
-            "tab": 
+            "tab":
             {
                 "background": "#1E1E2EFF",
                 "iconStyle": "default",
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
-            "tabRow": 
+            "tabRow":
             {
                 "background": "#181825FF",
                 "unfocusedBackground": "#11111BFF"
             },
-            "window": 
+            "window":
             {
                 "applicationTheme": "dark",
                 "experimental.rainbowFrame": false,
