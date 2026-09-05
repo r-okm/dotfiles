@@ -62,6 +62,7 @@
         }
     ],
     "alwaysShowTabs": true,
+    "compatibility.enableUnfocusedAcrylic": false,
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -90,20 +91,20 @@
             "keys": "ctrl+pgdn"
         },
         {
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+shift+c"
+            "id": null,
+            "keys": "ctrl+alt+5"
         },
         {
             "id": null,
             "keys": "alt+shift+right"
         },
         {
-            "id": null,
-            "keys": "ctrl+alt+5"
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+shift+c"
         },
         {
             "id": null,
-            "keys": "ctrl+shift+tab"
+            "keys": "ctrl+shift+d"
         },
         {
             "id": null,
@@ -111,7 +112,7 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+d"
+            "keys": "ctrl+shift+tab"
         },
         {
             "id": "Terminal.NextTab",
@@ -348,13 +349,13 @@
             "experimental.retroTerminalEffect": false,
             "font":
             {
-                "face": "JetBrainsMonoNL NF, BIZ UDGothic",
+                "face": "UDEV Gothic 35NF",
                 "size": 11
             },
             "intenseTextStyle": "none",
             "opacity": 100,
             "suppressApplicationTitle": false,
-            "useAcrylic": true
+            "useAcrylic": false
         },
         "list":
         [
@@ -541,5 +542,5 @@
             }
         }
     ],
-    "useAcrylicInTabRow": true
+    "useAcrylicInTabRow": false
 }
