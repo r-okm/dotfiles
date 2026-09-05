@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788585456082,
+  "lastUpdate": 1788588801908,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2108,6 +2108,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 5.2ms, max: 5.7ms, median: 5.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "cd549943f2d97abd3a0f12e9d01dd324797bd204",
+          "message": "windows-terminal: use the built-in dark theme for the window chrome\n\ntheme moves from the Catppuccin Mocha entry to the built-in \"dark\". The\ncustom theme stays defined under themes, so it can be selected again\nwithout retyping it.\n\nThis only touches the window chrome -- tab row and title bar. The\nterminal palette comes from profiles.defaults.colorScheme, which is\nstill Catppuccin Mocha, so the text area looks the same.",
+          "timestamp": "2026-09-05T15:00:17+09:00",
+          "tree_id": "25553aeeda2a1e00057a413dbc4878c8dbe55a07",
+          "url": "https://github.com/r-okm/dotfiles/commit/cd549943f2d97abd3a0f12e9d01dd324797bd204"
+        },
+        "date": 1788588799967,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.2ms, median: 10.2ms (10 runs)"
           }
         ]
       }
