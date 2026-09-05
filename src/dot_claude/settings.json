@@ -139,37 +139,6 @@
   "skillOverrides": {
     "deep-research": "user-invocable-only"
   },
-  "sandbox": {
-    "enabled": true,
-    "allowUnsandboxedCommands": false,
-    "excludedCommands": [
-      "git:*",
-      "tmux:*",
-      "git-worktree-tmux:*",
-      "explorer:*",
-      "xdg-open:*",
-      "~/.claude/r-okm/scripts/*"
-    ],
-    "filesystem": {
-      "denyRead": ["~/.ssh", "/mnt"],
-      "allowRead": ["~/.config/gh/config.yml"],
-      "allowWrite": ["~/.cache/ss", "~/.config/chezmoi"]
-    },
-    "network": {
-      "tlsTerminate": {},
-      "allowedDomains": ["github.com", "*.github.com", "registry.npmjs.org"]
-    },
-    "credentials": {
-      "files": [
-        {
-          "path": "~/.config/gh/hosts.yml",
-          "mode": "mask",
-          "extract": "oauth_token:\\s*(\\S+)",
-          "injectHosts": ["api.github.com", "github.com"]
-        }
-      ]
-    }
-  },
   "hooks": {
     "Notification": [
       {
@@ -218,9 +187,56 @@
       }
     }
   },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": [
+        "github.com",
+        "*.github.com",
+        "registry.npmjs.org"
+      ],
+      "tlsTerminate": {}
+    },
+    "filesystem": {
+      "allowWrite": [
+        "~/.cache/ss",
+        "~/.config/chezmoi"
+      ],
+      "denyRead": [
+        "~/.ssh",
+        "/mnt"
+      ],
+      "allowRead": [
+        "~/.config/gh/config.yml"
+      ]
+    },
+    "credentials": {
+      "files": [
+        {
+          "path": "~/.config/gh/hosts.yml",
+          "mode": "mask",
+          "extract": "oauth_token:\\s*(\\S+)",
+          "injectHosts": [
+            "api.github.com",
+            "github.com"
+          ]
+        }
+      ]
+    },
+    "excludedCommands": [
+      "git:*",
+      "tmux:*",
+      "git-worktree-tmux:*",
+      "explorer:*",
+      "xdg-open:*",
+      "~/.claude/r-okm/scripts/*"
+    ]
+  },
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "plansDirectory": "./.ignore/ai/plans",
   "tui": "fullscreen",
-  "theme": "dark-ansi"
+  "theme": "dark-ansi",
+  "agentPushNotifEnabled": true
 }
