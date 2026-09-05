@@ -1,7 +1,7 @@
 ---
 name: trim-comments
 description: プロジェクトのコメント規約（why のみ残し、what の言い換えを削る）に基づいて、指定範囲の冗長なコードコメントを削減する。「冗長なコメントを削って/整理して」「コメントを削減したい」などの依頼で使用。
-argument-hint: "[standard|deep] [--report] [<target>]"
+argument-hint: "[deep|standard] [--report] [<target>]"
 ---
 
 # /trim-comments - 冗長コメント削減
@@ -12,18 +12,18 @@ argument-hint: "[standard|deep] [--report] [<target>]"
 ## 使用方法
 
 ```
-/trim-comments [standard|deep] [--report] [<target>]
+/trim-comments [deep|standard] [--report] [<target>]
 ```
 
 引数の並びは code-review スキルに準拠: 第1トークンがレベル、`--report` はフラグ、残りが `<target>`。
 
-### レベル（省略時: `standard`）
+### レベル（省略時: `deep`）
 
+- **`deep`**: what の言い換え・自明な帰結・重複説明に加え、rationale コメントも
+  terse な 1 行に圧縮し、コードと名前から推測できるものは削除する。
+  バグ再発防止情報など load-bearing な制約のみ最小限の文言で残す。
 - **`standard`**: what の言い換え・自明な帰結・重複説明を削除し、長い why コメントは
   要点のみに圧縮する。非自明な why・制約は保持する。
-- **`deep`**: 加えて rationale コメントも terse な 1 行に圧縮し、コードと名前から
-  推測できるものは削除する。バグ再発防止情報など load-bearing な制約のみ
-  最小限の文言で残す。
 
 ### フラグ
 
