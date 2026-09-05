@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788588801908,
+  "lastUpdate": 1788591063130,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2139,6 +2139,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.2ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "95a1b05debed0a9cfb8d83f81a724941fbfc7a25",
+          "message": "claude: default trim-comments to the deep level\n\nstandard is never used in practice, so make deep the default. Its\ndescription no longer builds on standard's (\"加えて\") now that it comes\nfirst and stands alone.",
+          "timestamp": "2026-09-05T15:40:47+09:00",
+          "tree_id": "2ed3194785442fdac19431e4e5b20960db6f8083",
+          "url": "https://github.com/r-okm/dotfiles/commit/95a1b05debed0a9cfb8d83f81a724941fbfc7a25"
+        },
+        "date": 1788591062289,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.4,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 11.3ms, max: 11.6ms, median: 11.4ms (10 runs)"
           }
         ]
       }
