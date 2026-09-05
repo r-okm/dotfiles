@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Pull Windows-owned configuration files into the chezmoi source.
+#
+# Reads from Windows and never writes to it: keeping the flow one-way is what
+# stops the two copies from drifting apart in both directions at once.
+
+CMD_EXE="/mnt/c/Windows/System32/cmd.exe"
+SOURCE_DIR="{{ .chezmoi.sourceDir }}"
+APPDATA_DIR="$SOURCE_DIR/AppData"
+
+# Each path is relative to both %USERPROFILE% and the chezmoi source directory,
+# so one string names the Windows file and its copy here.
+files=(
+  "AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json"
+  "AppData/Roaming/alacritty/alacritty.toml"
+  "AppData/Roaming/alacritty/alacritty_kali.toml"
+  "AppData/Roaming/alacritty/alacritty_nvim.toml"
+)
+
+die() {
+  echo "$(basename "$0"): $*" >&2
+  exit 1
+}
+
+windows_home() {
+  [[ -x "$CMD_EXE" ]] || die "cannot see $CMD_EXE -- is /mnt/c mounted and readable?"
+
+  local profile
+  # cmd.exe warns and refuses to start in a UNC path, so give it a drive; /d
+  # skips AutoRun scripts that would otherwise write to stdout.
+  profile=$(cd /mnt/c && "$CMD_EXE" /d /c 'echo %USERPROFILE%' 2>/dev/null | tr -d '\r\n') ||
+    die "cannot run $CMD_EXE -- WSL interop looks disabled, check [interop] in /etc/wsl.conf"
+
+  # An undefined variable comes back as the literal name rather than as an error
+  [[ -n "$profile" && "$profile" != "%USERPROFILE%" ]] ||
+    die "cmd.exe did not report a value for %USERPROFILE%"
+
+  wslpath -u "$profile"
+}
+
+# An uncommitted edit here exists nowhere else, so refuse rather than overwrite.
+require_clean_appdata() {
+  local dirty
+  dirty=$(git -C "$SOURCE_DIR" status --porcelain -- "$APPDATA_DIR")
+  [[ -z "$dirty" ]] && return 0
+
+  echo "$(basename "$0"): AppData has uncommitted changes -- commit or discard them first" >&2
+  echo "$dirty" >&2
+  exit 1
+}
+
+main() {
+  (($# == 0)) || die "takes no arguments"
+
+  local win_home
+  win_home=$(windows_home)
+
+  echo "source:  $SOURCE_DIR"
+  echo "windows: $win_home"
+  echo
+
+  require_clean_appdata
+
+  local rel src dst updated=0 missing=0
+  for rel in "${files[@]}"; do
+    src="$win_home/$rel"
+    dst="$SOURCE_DIR/$rel"
+
+    if [[ ! -f "$src" ]]; then
+      printf 'missing   %s\n' "$rel"
+      missing=$((missing + 1))
+      continue
+    fi
+
+    if [[ -f "$dst" ]] && cmp -s "$src" "$dst"; then
+      printf 'unchanged %s\n' "$rel"
+      continue
+    fi
+
+    mkdir -p "$(dirname "$dst")"
+    # cp would carry /mnt's 0777 into a new file and track it as executable
+    cat "$src" >"$dst"
+    printf 'updated   %s\n' "$rel"
+    updated=$((updated + 1))
+  done
+
+  echo
+  if ((updated == 0)); then
+    echo "no changes"
+  else
+    git -C "$SOURCE_DIR" status --short -- "$APPDATA_DIR"
+  fi
+
+  if ((missing > 0)); then
+    echo
+    die "$missing file(s) not found on the Windows side"
+  fi
+}
+
+main "$@"
+
+# vim: set ft=sh:

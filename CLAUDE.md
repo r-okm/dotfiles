@@ -24,6 +24,18 @@ Rules for these files:
 - Keep them non-template — `chezmoi re-add` skips templates, which breaks the sync. Use `~/`-style paths instead of `{{ .chezmoi.homeDir }}`.
 - If both sides changed (e.g. after pulling source changes from another machine), resolve with `chezmoi merge <file>` instead of re-add.
 
+## Windows-Owned Files
+
+`src/AppData/**` mirrors configuration that Windows applications own — the Windows Terminal settings UI writes its `settings.json` directly. The copy under `%USERPROFILE%` is the source of truth, and the automated flow is one-way: WSL reads Windows, never the reverse. That is what keeps the two copies from drifting apart in both directions at once.
+
+Rules for these files:
+
+- Do not hand-edit `src/AppData/**` to change Windows behavior. Change it in the Windows application, then run `windows-sync` to pull the result in.
+- `windows-sync` copies byte for byte and refuses to run while `src/AppData` has uncommitted changes. It does not commit — review the diff and write the message yourself, explaining what changed on the Windows side and why the file also came back reformatted, if it did.
+- The target list is hardcoded in `src/dot_local/bin/executable_windows-sync.tmpl`. One path there names both the Windows file (relative to `%USERPROFILE%`) and its copy in the source, so files under `AppData` keep their plain names — no `dot_`, `private_` or `.tmpl` prefixes.
+- `chezmoi status` never reports drift for these files: `AppData` is ignored on Linux, so chezmoi does not track them on this side at all. `git status` is the only signal.
+- Applying to Windows is still possible — `chezmoi apply` on that machine — but it is a manual escape hatch for setting up a new PC, not part of the routine.
+
 ## Commands
 
 - **Preview diff**: `chezmoi diff`

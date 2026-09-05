@@ -230,6 +230,7 @@
       "git-worktree-tmux:*",
       "explorer:*",
       "xdg-open:*",
+      "windows-sync:*",
       "~/.claude/r-okm/scripts/*"
     ]
   },
