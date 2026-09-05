@@ -88,7 +88,8 @@
       "Skill(fetch-pr-context)",
       "Skill(open-in-explorer)",
       "Skill(open-in-nvim)",
-      "Skill(video-frames)"
+      "Skill(video-frames)",
+      "Skill(worktree)"
     ],
     "deny": [
       "Edit(**/.env)",
