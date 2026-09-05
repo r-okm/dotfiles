@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788583725331,
+  "lastUpdate": 1788585456082,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2077,6 +2077,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.4ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "e104f9eeea30d9ed6452a5423147344f9a8505bd",
+          "message": "windows-terminal: drop acrylic and switch to UDEV Gothic 35NF\n\nJapanese input felt heavier here than in alacritty, so the two suspects\nworth ruling out are addressed together.\n\nAcrylic forces the window through DWM composition, which rules out the\nIndependent Flip presentation path and adds latency between a drawn\nframe and the screen; microsoft/terminal#19010 reports that symptom.\nopacity was already 100, so nothing showed through and the compositing\nwas pure cost, and turning it off changes nothing visually.\nenableUnfocusedAcrylic is set alongside it so an unfocused window cannot\nbring it back.\n\nThe font drops the \"JetBrainsMonoNL NF, BIZ UDGothic\" pair for a single\nfamily that covers CJK itself, removing the fallback lookup on every\nredraw of Japanese text. The benchmark in .ignore/ai/term-bench.sh puts\nthe japanese case at 16 ms against 24 ms before, in a window four times\nlarger in cells. The other two cases did not move, which is expected:\nthat benchmark times how fast the terminal drains the pipe, so it cannot\nsee the acrylic change at all.\n\nWindows Terminal flags UDEV Gothic 35NF as non-monospace. That is\ncorrect and believed harmless: the \"35\" variant is 3:5 half-to-full\nwidth rather than 1:2, and since v2.0.0 the font declares isFixedPitch=0\nto say so (yuru7/udev-gothic#20). The warning targets proportional\nfonts, whose failure mode is cursor drift (microsoft/terminal#13389); a\nfont with two fixed advances keeps the grid. Neither tracker has a\nreport of this font breaking Windows Terminal.\n\nThe keybindings, actions, schemes, themes and profiles arrays come back\nreordered by the settings UI. Compared as sets they are unchanged.",
+          "timestamp": "2026-09-05T14:06:05+09:00",
+          "tree_id": "8d13bab5b6944bea6d4ec4dce35f6a5c98dae0ab",
+          "url": "https://github.com/r-okm/dotfiles/commit/e104f9eeea30d9ed6452a5423147344f9a8505bd"
+        },
+        "date": 1788585455332,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 5.5,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 5.2ms, max: 5.7ms, median: 5.5ms (10 runs)"
           }
         ]
       }
