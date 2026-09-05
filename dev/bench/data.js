@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788591063130,
+  "lastUpdate": 1788591781510,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2170,6 +2170,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 11.3ms, max: 11.6ms, median: 11.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "8528cc246eb8ad1e1081796e282b9b7734ac507b",
+          "message": "windows-terminal: point the Git Bash profile at the real bash.exe\n\nAfter a `scoop update *`, launching the Git Bash profile failed: the\nshim at C:\\scoop\\shims\\bash.exe was no longer resolvable, so the profile\ncould not start at all. Pointing commandline at the executable the shim\nstood in for, C:\\scoop\\apps\\git\\current\\bin\\bash.exe, brings the profile\nback. The `current` junction still tracks whatever git version scoop has\ninstalled, so this survives future updates the same way the shim was\nmeant to.\n\nSynced from Windows with windows-sync; the settings UI wrote no other\nchange, so the diff is this one line.",
+          "timestamp": "2026-09-05T15:51:46+09:00",
+          "tree_id": "700287678c81ffb8de36f1a3db845d9d6c7132f4",
+          "url": "https://github.com/r-okm/dotfiles/commit/8528cc246eb8ad1e1081796e282b9b7734ac507b"
+        },
+        "date": 1788591780134,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.4ms, median: 10.2ms (10 runs)"
           }
         ]
       }
