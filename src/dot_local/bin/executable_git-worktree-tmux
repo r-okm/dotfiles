@@ -105,7 +105,7 @@ create_worktree() {
     echo "Worktree directory already exists: $worktree_dir"
   else
     echo "Fetching..."
-    git fetch
+    git fetch || echo "Warning: git fetch failed, continuing with local refs" >&2
 
     echo "Creating worktree: $worktree_dir"
     if [[ -n "$start_point" ]]; then
