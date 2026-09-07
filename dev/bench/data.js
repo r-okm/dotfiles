@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788616637571,
+  "lastUpdate": 1788743861698,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2263,6 +2263,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 11.0ms, max: 11.2ms, median: 11.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "2fd57583ce20644fc6f7a927b48bffa104eae73c",
+          "message": "git-worktree-tmux: keep going when git fetch fails\n\nA failed fetch used to abort the whole run through set -e, before the\nworktree was created. The failures that actually show up are transient\nand unrelated to the worktree being asked for -- VPN down, a credential\nhelper that could not prompt, a 500 from the remote -- and in every one\nof them the refs needed are usually already on disk. Warn on stderr and\ncarry on with what is there.\n\nThe warning goes to stderr, not stdout, so the -d contract holds: the\nworktree path stays the last line of stdout for non-interactive callers.\nThis matches how init_submodules already tolerates a failing submodule\nupdate.\n\nThe trade-off is accepted rather than mitigated. With a stale\nrefs/remotes/origin/HEAD, -c cuts the new branch from an outdated base,\nand -b DWIMs a local branch from an outdated origin/<branch>; under -d\nneither is loud, since the exit code is 0 and stdout still carries a\nvalid path. Gating the fallback on the required ref already existing\nlocally, or behind an --offline flag, would narrow the behavior back\ntowards the abort this commit removes, so neither was added.",
+          "timestamp": "2026-09-07T10:04:53+09:00",
+          "tree_id": "3bdf3f726a9be0d6f469c3a2236e16836ead027a",
+          "url": "https://github.com/r-okm/dotfiles/commit/2fd57583ce20644fc6f7a927b48bffa104eae73c"
+        },
+        "date": 1788743859904,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.8,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 10.6ms, max: 11.3ms, median: 10.7ms (10 runs)"
           }
         ]
       }
