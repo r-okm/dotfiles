@@ -36,6 +36,12 @@ Rules for these files:
 - `chezmoi status` never reports drift for these files: `AppData` is ignored on Linux, so chezmoi does not track them on this side at all. `git status` is the only signal.
 - Applying to Windows is still possible — `chezmoi apply` on that machine — but it is a manual escape hatch for setting up a new PC, not part of the routine.
 
+## Repo Tooling
+
+`tools/` holds standalone maintenance scripts. They sit outside `src/`, so chezmoi never deploys them — run them from the repo root.
+
+Each script documents itself in its module docstring and `--help`, which is why they are not listed here. Look there before writing a new one-off script.
+
 ## Commands
 
 - **Preview diff**: `chezmoi diff`
