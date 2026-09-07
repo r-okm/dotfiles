@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788743861698,
+  "lastUpdate": 1788755928473,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2294,6 +2294,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 10.6ms, max: 11.3ms, median: 10.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "fd178bdfd2eed9df4fa0e779e036742b501dc5a6",
+          "message": "windows-terminal: switch to the patched UDEV Gothic\n\nPoints the font at UDEV Gothic 35NF EAW, the build produced by\ntools/udev-gothic-eaw.py in b79ee76, so that `①②③④⑤` fits the one cell\nthe terminal gives it instead of spilling over its neighbours.\n\nThe keybindings also come back in a different order. That is the\nsettings UI rewriting the file, not a change: json-semantic-diff reports\nthe 61 entries as the same set reordered, with the font face as the only\nvalue that differs.",
+          "timestamp": "2026-09-07T13:26:27+09:00",
+          "tree_id": "60a71525fdce9fe0308490012e03945748e0ca1f",
+          "url": "https://github.com/r-okm/dotfiles/commit/fd178bdfd2eed9df4fa0e779e036742b501dc5a6"
+        },
+        "date": 1788755927740,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 10.5ms, max: 11.7ms, median: 10.4ms (10 runs)"
           }
         ]
       }
