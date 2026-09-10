@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1788755928473,
+  "lastUpdate": 1789028227204,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2325,6 +2325,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 10.5ms, max: 11.7ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "216ac8a73709bf6aca68b83ed18190c5e7a51ea6",
+          "message": "claude: drop the deny rules the sandbox made redundant\n\nA week of the Bash sandbox produced no permission prompts, but seven\nsilent deny hits, all on ordinary shell work: `echo $var` in loops,\n`env VAR=... cmd`, and curl fetching a font archive and a Unicode data\ntable that WebFetch cannot download. The env-variable rules guarded\nagainst leaking secrets from the environment, and the shell exports none.\ncurl and wget were denied to force network access through WebFetch; the\nsandbox proxy now restricts where Bash can connect, and outside the\nallowlist the auto-mode classifier decides.\n\nThe Edit deny rules for .env, .env.* and secrets/ go for consistency:\nthe Read side stopped treating those as protected, they only blocked\nlegitimate config edits Claude could otherwise make in the working tree,\nand the Linux sandbox cannot express their ** patterns anyway. The Edit\ndeny rules under the home directory stay: the Edit tool runs outside the\nsandbox, and blocking writes to ~/.ssh, ~/.config/gh and the other\ncredential directories is the one deterministic guard against a\npersistence-style prompt injection.",
+          "timestamp": "2026-09-10T15:59:05+09:00",
+          "tree_id": "8f2504ea1c0c8fb89e57ddc6e84ce5a3e3a8df95",
+          "url": "https://github.com/r-okm/dotfiles/commit/216ac8a73709bf6aca68b83ed18190c5e7a51ea6"
+        },
+        "date": 1789028226618,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.2,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 11.0ms, max: 11.5ms, median: 11.1ms (10 runs)"
           }
         ]
       }
