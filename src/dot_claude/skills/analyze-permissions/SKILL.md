@@ -40,7 +40,7 @@ argument-hint: "[--since YYYY-MM-DD | --all]"
 
 ### 観点3: settings.json 変更案
 
-観点1・2の結論に基づき、`~/.claude/settings.json` の `permissions.allow` に対する具体的な変更案を提示する（target-owned なので target 側を編集し `chezmoi-sync` で取り込む）：
+観点1・2の結論に基づき、`~/.claude/settings.json` の `permissions.allow` に対する具体的な変更案を提示する。適用手順は dotfiles の CLAUDE.md（Target-Owned Files）に従う: `chezmoi status` で drift が無いことを確認し、`src/dot_claude/settings.json` を編集し、ユーザーが `chezmoi apply` する：
 
 - 追加するルール
 - 統合により不要になる既存ルール（削除候補）
