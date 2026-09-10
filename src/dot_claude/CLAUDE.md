@@ -20,3 +20,7 @@
 # WSL
 
 - To open a URL in the user's browser, use `xdg-open <url>` — `$BROWSER` in `~/.profile` routes it to the Windows-side browser. Don't look for `explorer.exe` or `wslview`.
+
+# review-wizard
+
+- When you have a preferred answer to a review-wizard question, list that option first and append "(Recommended)" to its label — the same convention AskUserQuestion uses — and say why in its description.

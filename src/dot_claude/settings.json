@@ -171,13 +171,20 @@
     "command": "bash ~/.claude/r-okm/scripts/statusline-command.sh"
   },
   "enabledPlugins": {
-    "compact-plus@compact-plus-local": true
+    "compact-plus@compact-plus-local": true,
+    "review-wizard@review-wizard-marketplace": true
   },
   "extraKnownMarketplaces": {
     "compact-plus-local": {
       "source": {
         "source": "github",
         "repo": "u-ichi/compact-plus"
+      }
+    },
+    "review-wizard-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/uehaj/review-wizard.git"
       }
     }
   },
@@ -225,7 +232,8 @@
       "explorer:*",
       "xdg-open:*",
       "windows-sync:*",
-      "~/.claude/r-okm/scripts/*"
+      "~/.claude/r-okm/scripts/*",
+      "node *review-wizard-marketplace/review-wizard/*/scripts/review_wizard.ts*"
     ]
   },
   "effortLevel": "high",
