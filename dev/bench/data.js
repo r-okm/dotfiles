@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789114458783,
+  "lastUpdate": 1789116180601,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2449,6 +2449,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 8.7ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a52f8c509fcd80b778eb5dcda3f372f5e76c2992",
+          "message": "asdf: install on apply whenever ~/.tool-versions changes\n\nBumping a version in .tool-versions deployed the file but installed\nnothing: the asdf script was run_once_, keyed by its own content, so it\nnever saw the change. After the move to Node 24 every `node` shim failed\nwith \"No version is set for command node\", which took down mason's\njsonls in nvim with exit code 126, until `asdf install` was run by hand.\n\nBoth scripts become run_onchange_ templates that embed what they depend\non, the same way the zsh completion script does:\n\n- 203 embeds a hash of dot_tool-versions, so any change to it runs the\n  plugin add and asdf install on the next apply.\n- 204 embeds only the nodejs line, because global npm packages are\n  installed per Node version; a java bump leaves them alone.\n\nScripts run in target-name order, so the new Node is installed before\nnpm reinstalls into it. The renames make both scripts run once on the\nnext apply even without a version change; both skip what is already\ninstalled or reinstall the same packages.\n\n203's installed checks were substring matches, so an installed 24.14.10\nwould have hidden a missing 24.14.1, and 204 would then have failed on\nit. Running on every version change makes that reachable, so plugins\nand versions are now compared as whole lines, with the indent and the\ncurrent-version marker of `asdf list` stripped first.\n\nThe loop variables are now declared once before the loop. Declared\ninside it, zsh's typeset printed the previous iteration's values\n(\"plugin=nodejs\", \"version=24.14.1\") on every pass after the first.",
+          "timestamp": "2026-09-11T17:32:07+09:00",
+          "tree_id": "d6cd76689f0a54b83f7629203647ada587b99c90",
+          "url": "https://github.com/r-okm/dotfiles/commit/a52f8c509fcd80b778eb5dcda3f372f5e76c2992"
+        },
+        "date": 1789116179554,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.1",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.3ms, median: 10.2ms (10 runs)"
           }
         ]
       }
