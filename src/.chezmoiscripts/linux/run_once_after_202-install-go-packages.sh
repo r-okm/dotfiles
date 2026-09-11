@@ -2,7 +2,7 @@
 set -euxo pipefail
 
 packages=(
-  'asdf-vm/asdf/cmd/asdf@v0.16.0'
+  'asdf-vm/asdf/cmd/asdf@v0.20.0'
   'junegunn/fzf@latest'
   'x-motemen/ghq@latest'
   'jesseduffield/lazygit@latest'
