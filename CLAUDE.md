@@ -10,6 +10,7 @@ Dotfiles managed with [chezmoi](https://www.chezmoi.io/). Source directory: `src
 - Use chezmoi prefixes when adding files: `dot_` (→ `.`), `private_` (restricted perms), `executable_` (→ +x), `symlink_` (→ symlink).
 - Append `.tmpl` for Go text/template files. Data sources: `.chezmoi.os`, `.chezmoi.homeDir`, custom data in `.chezmoi.toml.tmpl`.
 - **Do NOT run** `chezmoi apply` or `chezmoi init` — user runs these manually. `chezmoi diff` for preview is OK.
+- Removing a file from `src/` (or an entry from `.chezmoiexternal.toml.tmpl`) does not remove the deployed copy — `chezmoi apply` never deletes a target it no longer manages. Add the target path to `src/.chezmoiremove` instead, and never delete entries from it: whether every machine has already applied a removal is not observable from git. List single targets only; a pattern like `.config` or `*` also matches managed directories and aborts the apply.
 
 ## Target-Owned Files
 
