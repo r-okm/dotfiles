@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789098065264,
+  "lastUpdate": 1789113496344,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2387,6 +2387,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 10.8ms, max: 11.3ms, median: 11.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0d78b7112d551736b8573c4f5d8b600fabab4879",
+          "message": "git: stop forcing color in status and diff output\n\n`color.status = always` and `color.diff = always` emit ANSI codes even\nwhen the output goes to a pipe, so `git log -p | grep '^-\\['` and\nsimilar one-liners silently miss every line. The default `auto` colors\nterminal output only; delta, the configured pager, colors the diff on\nits own, so the terminal view is unchanged.\n\nfzf_git_log relied on the forced color: `%C(...)` in the pretty-log\nformat follows `color.diff`, and the delta theme leaves the commit\nheader raw, so both the list and the preview lost their color when\npiped into fzf. Pass `--color=always` there explicitly instead.",
+          "timestamp": "2026-09-11T16:42:57+09:00",
+          "tree_id": "3fa1c37c5893cad86c97a38953527827fc0a69fc",
+          "url": "https://github.com/r-okm/dotfiles/commit/0d78b7112d551736b8573c4f5d8b600fabab4879"
+        },
+        "date": 1789113495291,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.6,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 11.3ms, median: 10.5ms (10 runs)"
           }
         ]
       }
