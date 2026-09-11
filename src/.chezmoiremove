@@ -1,2 +1,11 @@
 .config/asdf
 .claude/skills/grilling
+.claude/r-okm/permission-optimization.md
+.claude/r-okm/scripts/notify-to-tmux-popup.sh
+.config/claude
+.config/prompts
+.config/tmux/scripts/insert-predefined-prompt.sh
+.local/bin/eza-ls
+.local/bin/git-ai-commit
+.local/share/applications/explorer.desktop
+.zprofile
