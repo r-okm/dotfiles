@@ -9,3 +9,4 @@
 .local/bin/git-ai-commit
 .local/share/applications/explorer.desktop
 .zprofile
+.copilot/copilot-instructions.md

@@ -2,9 +2,7 @@
 set -euxo pipefail
 
 packages=(
-  'copilot'
   'sfw'
-  'yarn'
 )
 
 main() {
