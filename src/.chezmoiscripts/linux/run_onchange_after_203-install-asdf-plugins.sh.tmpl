@@ -1,0 +1,40 @@
+#!/usr/bin/env -S zsh -l
+set -euo pipefail
+
+# chezmoi: ~/.tool-versions の変更を検知 (バージョンを上げたら apply で install まで済ませるため)
+# tool-versions hash: {{ joinPath .chezmoi.sourceDir "dot_tool-versions" | include | sha256sum }}
+
+TOOL_VERSIONS_FILE=${TOOL_VERSIONS_FILE:-"$HOME/.tool-versions"}
+
+main() {
+  echo 'Installing asdf plugins...'
+
+  local installed_plugins
+  installed_plugins=$(asdf plugin list)
+
+  # ループ内で宣言すると、2 周目の local が前の周の値を表示してしまう (zsh の typeset の仕様)
+  local line plugin version
+
+  # Process tool_versions line by line
+  while IFS= read -r line; do
+    read -r plugin version <<< "$line"
+
+    if echo "$installed_plugins" | grep -Fxq "$plugin"; then
+      echo "Plugin '$plugin' is already installed."
+    else
+      echo "Installing 'plugin:$plugin'"
+      asdf plugin add "$plugin"
+    fi
+
+    # 部分一致だと 24.14.10 があるだけで 24.14.1 を入れ損ねるため、行単位で比較する
+    # (asdf list は各行を字下げし、現在のバージョンに * を付ける)
+    if asdf list "$plugin" | sed 's/^[ *]*//' | grep -Fxq "$version"; then
+      echo "Version '$plugin:$version' is already installed."
+    else
+      echo "Installing '$plugin:$version'"
+      asdf install "$plugin" "$version"
+    fi
+  done < "$TOOL_VERSIONS_FILE"
+}
+
+main

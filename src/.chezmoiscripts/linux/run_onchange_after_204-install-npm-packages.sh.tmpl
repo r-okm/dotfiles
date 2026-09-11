@@ -1,0 +1,19 @@
+#!/usr/bin/env -S zsh -l
+set -euxo pipefail
+
+# chezmoi: Node のバージョン変更を検知 (グローバルパッケージは Node のバージョンごとに入るため)
+# {{ joinPath .chezmoi.sourceDir "dot_tool-versions" | include | regexFind "(?m)^nodejs .*$" }}
+
+packages=(
+  'sfw'
+)
+
+main() {
+  echo 'Installing npm packages...'
+
+  npm install -g --force "${packages[@]}"
+
+  asdf reshim
+}
+
+main
