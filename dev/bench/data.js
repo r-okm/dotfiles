@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789116180601,
+  "lastUpdate": 1789117423861,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2480,6 +2480,37 @@ window.BENCHMARK_DATA = {
             "range": "0.1",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.3ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "37fce8c4905e97c9fc581f6189af0d74b9d52e72",
+          "message": "git: autostash local changes on pull\n\n`git pull` aborts when a tracked file has uncommitted changes that the\nincoming commits also touch, even when the hunks do not overlap. With\n`merge.autoStash` git stashes the working tree, merges, and restores it,\nwhich is what `git pull --autostash` did by hand. `pull.rebase` is\nfalse, so the merge-side option is the one that applies.",
+          "timestamp": "2026-09-11T17:55:07+09:00",
+          "tree_id": "77b64ef20fa2a99a6ce3255759850b2bf57fabdf",
+          "url": "https://github.com/r-okm/dotfiles/commit/37fce8c4905e97c9fc581f6189af0d74b9d52e72"
+        },
+        "date": 1789117422460,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.7ms, median: 10.3ms (10 runs)"
           }
         ]
       }
