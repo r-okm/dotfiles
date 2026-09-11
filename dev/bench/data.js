@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789028227204,
+  "lastUpdate": 1789098065264,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2356,6 +2356,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 11.0ms, max: 11.5ms, median: 11.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "25ec61180870ad7e949d6ad565d51e6d180a77b2",
+          "message": "lazygit: adopt the diffRenderers config keys\n\nThe go-packages script re-ran for the asdf pin bump and pulled lazygit\nup to v0.65.0. Since v0.64.0 the custom pager config is called a diff\nrenderer (jesseduffield/lazygit#5870): git.pagers became\ngit.diffRenderers and each entry's pager became command. lazygit\nmigrates the file on disk when it reads the old keys, so keeping the\nsource in the old form would bring the same drift back after every\napply. Taken from the target with chezmoi re-add.",
+          "timestamp": "2026-09-11T12:26:48+09:00",
+          "tree_id": "67bb08c7c5802164a0b85b8494d4c66bde265acb",
+          "url": "https://github.com/r-okm/dotfiles/commit/25ec61180870ad7e949d6ad565d51e6d180a77b2"
+        },
+        "date": 1789098064442,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 10.8ms, max: 11.3ms, median: 11.0ms (10 runs)"
           }
         ]
       }
