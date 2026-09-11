@@ -1,8 +1,8 @@
 git:
   autoFetch: false
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --paging=never
+      command: delta --paging=never
 os:
   editPreset: "nvim-remote"
   copyToClipboardCmd: echo -n {{text}} | clipboard --yank
