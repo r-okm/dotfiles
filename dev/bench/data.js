@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789117423861,
+  "lastUpdate": 1789525557664,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2511,6 +2511,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.7ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "8f4a7e5cc0e2b53a7cbb3bdf83f3bc4bdfc50dbc",
+          "message": "zsh: give Claude's unsandboxed shells a TMPDIR, single .zshenv\n\nClaude Code injects TMPDIR only into sandboxed Bash calls. A call that\nmatches excludedCommands (git, tmux, review-wizard's node, ...) runs\nunsandboxed and inherits the host environment, where TMPDIR is unset.\nAgents then `cd \"$TMPDIR\"` into a no-op and drop scratch files into the\nproject root; this bit both dotfiles and nvim-config sessions.\n\nFix it in $ZDOTDIR/.zshenv: when CLAUDECODE is set and TMPDIR is empty,\nexport TMPDIR=${CLAUDE_TMPDIR:-/tmp/claude-$UID}. Sandboxed calls\nalready carry TMPDIR and are untouched; ordinary shells never see\nCLAUDECODE. CLAUDE_TMPDIR is set by Claude Code after its first\nsandboxed call, so the fallback covers a session whose first call is\nunsandboxed; it matches the per-uid directory Claude Code creates under\nos.tmpdir() at startup.\n\nAlternatives rejected:\n- settings.json `env.TMPDIR`: Claude Code's own temp root is\n  os.tmpdir()/claude-<uid>, and os.tmpdir() follows TMPDIR, so the\n  sandbox side would move to /tmp/claude-1000/claude-1000 while the\n  unsandboxed side stayed at /tmp/claude-1000. Pairing it with\n  CLAUDE_CODE_TMPDIR=/tmp makes the sandbox inject that raw value as\n  the inner TMPDIR instead of the per-uid dir.\n- Dropping git from excludedCommands: commit.gpgsign uses an ssh key\n  under ~/.ssh (denyRead), push goes over ssh via pushInsteadOf, the\n  credential helper is a Windows exe, and sandboxed `git status` lists\n  the protected-path /dev/null mounts as untracked files. It would\n  also not fix the other excluded commands.\n\nzsh reads $ZDOTDIR/.zshenv only when ZDOTDIR is already exported at\nstartup, and ~/.zshenv otherwise; setting ZDOTDIR inside ~/.zshenv does\nnot make zsh read the other file. PR #57 handled this by duplicating\nskip_global_compinit=1 in both. ~/.zshenv now sets ZDOTDIR and sources\n$ZDOTDIR/.zshenv, so every .zshenv setting lives in one file.\n\ngrill-wizard: the SKILL.md note that steered agents to $CLAUDE_TMPDIR\nexisted only because of this gap; its own TODO said to go back to\n$TMPDIR once unsandboxed calls received one.",
+          "timestamp": "2026-09-16T11:16:19+09:00",
+          "tree_id": "d9edcda7af4ae34a21137520cc50187b13f64fd7",
+          "url": "https://github.com/r-okm/dotfiles/commit/8f4a7e5cc0e2b53a7cbb3bdf83f3bc4bdfc50dbc"
+        },
+        "date": 1789525557147,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.5ms, median: 10.2ms (10 runs)"
           }
         ]
       }
