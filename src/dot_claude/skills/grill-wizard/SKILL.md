@@ -32,10 +32,6 @@ review-wizard の質問 JSON に変換してブラウザで提示する。ラウ
 
 ## 注意(実測で踏んだもの)
 
-- 質問 JSON と回答 JSON は `$CLAUDE_TMPDIR` 配下に書く。`$TMPDIR` は使わない。
-  - TODO: node の起動は `excludedCommands` に該当し、その Bash 呼び出し全体が sandbox 外で
-    走る。sandbox 外のコマンドはホストの `TMPDIR`(Linux では未設定)を継承するので
-    `$TMPDIR` が空になる(公式仕様。anthropics/claude-code#48541, #81157)。Claude Code が
-    unsandboxed 実行にも `TMPDIR` を渡すようになったら `$TMPDIR` に戻す。
+- 質問 JSON と回答 JSON は `$TMPDIR` 配下に書く。
 - node コマンドの後ろに `; echo "exit=$?"` などを繋げない。終了コード(0 回答受領 /
   1 入力エラー / 2 タイムアウト / 130 中断)が task notification にそのまま届く。
