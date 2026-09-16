@@ -18,6 +18,12 @@ trim_trailing_whitespace = false
 [*.py]
 indent_size = 4
 
+# PSScriptAnalyzer's PSUseConsistentIndentation defaults to 4 spaces;
+# Windows PowerShell 5.1 decodes a BOM-less file as the ANSI code page, mangling non-ASCII
+[*.ps1]
+indent_size = 4
+charset = utf-8-bom
+
 # windows-sync copies these byte for byte; Windows Terminal writes no final newline
 [src/AppData/**]
 insert_final_newline = false
