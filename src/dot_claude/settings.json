@@ -229,6 +229,7 @@
       "explorer:*",
       "xdg-open:*",
       "windows-sync:*",
+      "docker:*",
       "~/.claude/r-okm/scripts/*",
       "node *review-wizard-marketplace/review-wizard/*/scripts/review_wizard.ts*"
     ]
