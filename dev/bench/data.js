@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789525557664,
+  "lastUpdate": 1789627158980,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2542,6 +2542,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.5ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "cdd4a685a0d0d538a09ae14d84f8cc77108dc657",
+          "message": "claude: run docker outside the Bash sandbox\n\nSandboxed commands could not reach the Docker daemon, which kept the\nagent from rendering the .drawio diagrams in the boten-proposal repo: it\ncould lint them, but had to hand the image over to a human to look at.\n\nThe obvious diagnosis is wrong. The failure is not the socket's\npermissions and not the read-only /run mount: creating the socket at all\nfails, socket(AF_UNIX, SOCK_STREAM) returns EPERM under the sandbox's\nseccomp filter while AF_INET succeeds, and the kernel does not apply\nEROFS to a unix-socket connect. So adding /var/run/docker.sock to\nfilesystem.allowWrite changes nothing, and chmod on it would open a hole\nin the host without fixing anything. The host side was already fine —\nokmt is a member of docker (gid 999). excludedCommands is the only route\nleft, and it is what the sandboxing docs recommend for docker.\n\nWhat this costs is worth stating plainly. An entry that contains a glob\nunsandboxes the whole shell invocation, not just the matched command, so\n`docker ps && cat ~/.ssh/...` runs outside the sandbox in its entirety —\nmeasured here with `git status && stat -c '%u %g' /run/docker.sock`,\nwhich reports 0 999 instead of the mapped 65534 65534, in either order.\nThat is claude-code#40831, closed as not planned; an exact-match entry\navoids it but only matches a bare command with no arguments, which is\nuseless for docker. So the hole is not new: git:*, tmux:* and the rest\nalready grant it. What docker adds is that the payload no longer has to\nappear in the command string — a cloned repo's compose.yaml can mount\n$HOME while `docker compose up` reads as ordinary work.\n\nThe permission layer still holds, which is what makes this acceptable.\nBoth `git … && ls ~/.ssh` and `git … && printenv PATH` were refused on\nthe chained segment, by the auto-mode classifier and by a deny rule\nrespectively, so permission evaluation does look past the first command\neven though the sandbox does not. Contrary to claude-code#36637.\n\nA narrower alternative was on the table and declined: a fixed-invocation\nrender wrapper under ~/.claude/r-okm/scripts/, which is already excluded\nand would have limited the escape to one image and one mount shape. The\ndecision was that having docker generally available to the agent is\nworth more than that margin, given the boundary was already porous.",
+          "timestamp": "2026-09-17T15:28:40+09:00",
+          "tree_id": "4b8aaeffd51b58852d4babbb4f46bebb64176fa1",
+          "url": "https://github.com/r-okm/dotfiles/commit/cdd4a685a0d0d538a09ae14d84f8cc77108dc657"
+        },
+        "date": 1789627157912,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.6,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 8.4ms, max: 9.0ms, median: 8.6ms (10 runs)"
           }
         ]
       }
