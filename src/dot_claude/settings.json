@@ -59,6 +59,8 @@
       "Read(~/.config/tmux/plugins/**)",
       "Read(//tmp/**)",
       "Read(~/.cache/ss/**)",
+      "Read(~/.local/state/yt-summary/**)",
+      "Edit(~/.local/state/yt-summary/**)",
       "WebSearch",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
