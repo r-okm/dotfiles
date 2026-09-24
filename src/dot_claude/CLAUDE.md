@@ -24,3 +24,7 @@
 # review-wizard
 
 - When you have a preferred answer to a review-wizard question, list that option first and append "(Recommended)" to its label — the same convention AskUserQuestion uses — and say why in its description.
+
+# Bash Sandbox
+
+- Commands in `sandbox.excludedCommands` (git, tmux, docker, …) leave the sandbox only when run alone. Chaining one with anything else (`| grep`, `; echo`), a heredoc, or `` ` ``/`$(` anywhere in the string — even inside quotes — keeps the whole call sandboxed, where ssh commit signing and the tmux/docker sockets fail. Run them as a single command, pass commit messages with `git commit -F <file>`, and filter their output in a separate call.
