@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789627158980,
+  "lastUpdate": 1790228431490,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2573,6 +2573,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 8.4ms, max: 9.0ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "56aef3e6ddb839b9f9a5029fec59047f3873711e",
+          "message": "claude: tell Claude to run excluded commands alone\n\nSince 2.1.281 a Bash call leaves the sandbox only when every subcommand\n(cd aside) matches sandbox.excludedCommands and the string has no heredoc,\nbacktick or $(. Anything else runs the whole call sandboxed, so a\nheredoc commit fails on ssh signing and tmux/docker hit EPERM on their\nsockets. The errors do not point at the sandbox, which made them easy to\nmisdiagnose.\n\nThe sandbox config is user-level, so the rule goes in the global\nCLAUDE.md where every project sees it. It states the action rather than\nthe matching rules: running the command alone stays correct even if the\nmatching changes again, as it did between 2.1.260 and 2.1.281.",
+          "timestamp": "2026-09-24T14:32:50+09:00",
+          "tree_id": "6353c6c20c8cf1d776d40fd626a4ef2307582bb2",
+          "url": "https://github.com/r-okm/dotfiles/commit/56aef3e6ddb839b9f9a5029fec59047f3873711e"
+        },
+        "date": 1790228429958,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 5.2,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 5.1ms, max: 5.5ms, median: 5.2ms (10 runs)"
           }
         ]
       }
