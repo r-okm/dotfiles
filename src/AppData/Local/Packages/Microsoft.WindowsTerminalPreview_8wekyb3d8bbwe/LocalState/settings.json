@@ -23,9 +23,9 @@
             "command":
             {
                 "action": "sendInput",
-                "input": "\u001b[106;6u"
+                "input": "\u001b[13;6u"
             },
-            "id": "User.sendInput.CtrlShiftJ"
+            "id": "User.sendInput.CtrlShiftEnter"
         },
         {
             "command":
@@ -78,8 +78,8 @@
             "keys": "ctrl+enter"
         },
         {
-            "id": "User.sendInput.CtrlShiftJ",
-            "keys": "ctrl+shift+j"
+            "id": "User.sendInput.CtrlShiftEnter",
+            "keys": "ctrl+shift+enter"
         },
         {
             "id": null,
