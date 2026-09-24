@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790229345560,
+  "lastUpdate": 1790229451608,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2635,6 +2635,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 9.9ms, max: 10.2ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f158ded43563454a698a7fecb437b540275d5261",
+          "message": "tmux: open the prompt editor with Ctrl+Shift+Enter\n\nFollows the Windows Terminal change in the previous commit, which now\nsends CSI 13;6u for Ctrl+Shift+Enter in place of the Ctrl+Shift+J chord.",
+          "timestamp": "2026-09-24T14:52:13+09:00",
+          "tree_id": "ae536d6002de7e2b3dd01f9030f9edff56d37927",
+          "url": "https://github.com/r-okm/dotfiles/commit/f158ded43563454a698a7fecb437b540275d5261"
+        },
+        "date": 1790229450859,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 3.7,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 3.6ms, max: 4.1ms, median: 3.7ms (10 runs)"
           }
         ]
       }
