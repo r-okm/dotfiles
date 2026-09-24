@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790228431490,
+  "lastUpdate": 1790229345560,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2604,6 +2604,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 5.1ms, max: 5.5ms, median: 5.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "962ba2177d71ffa44c553ec009f7e572cd96f080",
+          "message": "git: verify ssh commit signatures locally\n\nCommits were signed, but git log --show-signature reported \"No signature\"\nbecause gpg.ssh.allowedSignersFile was unset, so git had no key to check\nthem against.\n\nallowed_signers is rendered from the same public key that\npersonal.gitconfig uses as signingkey, so signing and verification always\nagree and a key rotation is picked up on the next apply. Reading the key\nfile was preferred over fetching the registered signing keys with gh: the\ngh variant fails the whole apply when offline or before gh auth login on\na new machine, while the key file is already assumed to exist.\n\nThe stat guard renders an empty file when the key is absent (a new\nmachine before the keys are placed, or inside the Claude Code sandbox\nwhere ~/.ssh is hidden) instead of aborting apply or diff.",
+          "timestamp": "2026-09-24T14:47:44+09:00",
+          "tree_id": "00b59df194f35644553cce07076652eda6599781",
+          "url": "https://github.com/r-okm/dotfiles/commit/962ba2177d71ffa44c553ec009f7e572cd96f080"
+        },
+        "date": 1790229344951,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 9.9ms, max: 10.2ms, median: 10.1ms (10 runs)"
           }
         ]
       }
