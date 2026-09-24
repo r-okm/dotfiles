@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790229451608,
+  "lastUpdate": 1790231729432,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2666,6 +2666,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 3.6ms, max: 4.1ms, median: 3.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "131225c1a7e728ad81fa806be8e6fa15493bf37a",
+          "message": "claude: allow /yt to read and write its output directory\n\n- yt-fetch.py writes to $XDG_STATE_HOME/yt-summary, outside every\n  working directory, so the Read of index.md and friends and the Write\n  of summary.md would each prompt; the script itself already runs\n  unsandboxed via excludedCommands\n- the skill's bare Read/Write in allowed-tools was not relied on to\n  cover out-of-CWD paths, following /ss, which has bare Read yet still\n  needed Read(~/.cache/ss/**)\n- an Edit rule covers the Write tool too; scope both to yt-summary\n  rather than all of ~/.local/state",
+          "timestamp": "2026-09-24T15:27:07+09:00",
+          "tree_id": "56b9ab5c6a92e3d64380a82fce0b0b4ff772f443",
+          "url": "https://github.com/r-okm/dotfiles/commit/131225c1a7e728ad81fa806be8e6fa15493bf37a"
+        },
+        "date": 1790231728819,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 9.9ms, max: 10.2ms, median: 10.0ms (10 runs)"
           }
         ]
       }
