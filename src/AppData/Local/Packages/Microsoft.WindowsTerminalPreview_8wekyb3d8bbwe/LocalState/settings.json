@@ -14,6 +14,22 @@
         {
             "command":
             {
+                "action": "sendInput",
+                "input": "\u001b[13;5u"
+            },
+            "id": "User.sendInput.CtrlEnter"
+        },
+        {
+            "command":
+            {
+                "action": "sendInput",
+                "input": "\u001b[106;6u"
+            },
+            "id": "User.sendInput.CtrlShiftJ"
+        },
+        {
+            "command":
+            {
                 "action": "copy",
                 "singleLine": false
             },
@@ -56,6 +72,14 @@
         {
             "id": "User.sendInput.8882FD6D",
             "keys": "shift+enter"
+        },
+        {
+            "id": "User.sendInput.CtrlEnter",
+            "keys": "ctrl+enter"
+        },
+        {
+            "id": "User.sendInput.CtrlShiftJ",
+            "keys": "ctrl+shift+j"
         },
         {
             "id": null,
