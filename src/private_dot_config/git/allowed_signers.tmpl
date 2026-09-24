@@ -1,0 +1,4 @@
+{{ $key := joinPath .chezmoi.homeDir ".ssh/keypair/git/sign_gh_personal.pub" -}}
+{{ if stat $key -}}
+65703649+r-okm@users.noreply.github.com namespaces="git" {{ include $key | trim }}
+{{ end -}}
