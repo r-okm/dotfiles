@@ -1,0 +1,3 @@
+# Windows Terminal writes settings.json without a final newline
+[settings.json]
+insert_final_newline = false
