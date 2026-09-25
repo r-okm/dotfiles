@@ -22,10 +22,10 @@
         {
             "command":
             {
-                "action": "sendInput",
-                "input": "\u001b[13;6u"
+                "action": "nextTab",
+                "tabSwitcherMode": "disabled"
             },
-            "id": "User.sendInput.CtrlShiftEnter"
+            "id": "Terminal.NextTab"
         },
         {
             "command":
@@ -38,14 +38,6 @@
         {
             "command": "openNewTabDropdown",
             "id": "User.openNewTabDropdown"
-        },
-        {
-            "command":
-            {
-                "action": "nextTab",
-                "tabSwitcherMode": "disabled"
-            },
-            "id": "Terminal.NextTab"
         }
     ],
     "alwaysShowTabs": true,
@@ -74,12 +66,16 @@
             "keys": "shift+enter"
         },
         {
-            "id": "User.sendInput.CtrlEnter",
-            "keys": "ctrl+enter"
+            "id": null,
+            "keys": "ctrl+h"
         },
         {
-            "id": "User.sendInput.CtrlShiftEnter",
-            "keys": "ctrl+shift+enter"
+            "id": null,
+            "keys": "alt+shift+up"
+        },
+        {
+            "id": "User.sendInput.CtrlEnter",
+            "keys": "ctrl+enter"
         },
         {
             "id": null,
@@ -99,11 +95,11 @@
         },
         {
             "id": null,
-            "keys": "ctrl+shift+tab"
+            "keys": "ctrl+c"
         },
         {
             "id": null,
-            "keys": "ctrl+c"
+            "keys": "ctrl+shift+tab"
         },
         {
             "id": null,
@@ -148,14 +144,6 @@
         {
             "id": null,
             "keys": "ctrl+shift+a"
-        },
-        {
-            "id": null,
-            "keys": "alt+shift+up"
-        },
-        {
-            "id": null,
-            "keys": "ctrl+h"
         },
         {
             "id": null,
