@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790231729432,
+  "lastUpdate": 1790305104061,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2697,6 +2697,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 9.9ms, max: 10.2ms, median: 10.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a2760081f1487c9e271f1315c34688c4d6e2c620",
+          "message": "windows-terminal: drop the Ctrl+Shift+Enter sendInput action\n\nThe prompt editor now opens on Ctrl+E, which reaches tmux as-is, so the\nCSI 13;6u action for Ctrl+Shift+Enter has nothing left to serve.\n\nRemoved in the settings UI and pulled in with windows-sync, so the UI\nalso reshuffled the actions and keybindings arrays on its way out. A\nsemantic comparison shows that block is the same set of entries apart\nfrom the removed action and its binding, and the file still ends\nwithout a final newline.",
+          "timestamp": "2026-09-25T11:49:52+09:00",
+          "tree_id": "3206968b2cb1f75c71eebf53b86ac05e890e09fc",
+          "url": "https://github.com/r-okm/dotfiles/commit/a2760081f1487c9e271f1315c34688c4d6e2c620"
+        },
+        "date": 1790305102949,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.0",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.3ms, median: 10.2ms (10 runs)"
           }
         ]
       }
