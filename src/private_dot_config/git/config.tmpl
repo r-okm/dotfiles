@@ -65,6 +65,9 @@
 	format = ssh
 [gpg "ssh"]
 	allowedSignersFile = ~/.config/git/allowed_signers
+{{- if eq .chezmoi.os "windows" }}
+	program = C:/Windows/System32/OpenSSH/ssh-keygen.exe
+{{- end }}
 [merge]
 	tool = nvim
 	autoStash = true
