@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790305104061,
+  "lastUpdate": 1790435083174,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2728,6 +2728,37 @@ window.BENCHMARK_DATA = {
             "range": "0.0",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.3ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f610164a1b30a758c641b4edd8ed83ebdc9dd9af",
+          "message": "git: use Windows OpenSSH for ssh and commit signing on Windows\n\nOn Windows, pushing failed with \"Load key ...id_gh_personal.pub: invalid\nformat\" followed by \"Permission denied (publickey)\", and signed commits\nfailed with \"No private key found\". Both config values name a .pub file\nand expect an agent to hold the private key. Here the agent is\n1Password, which listens on the Windows named pipe. Git for Windows runs\na bare \"ssh\" or \"ssh-keygen\" from its own MSYS bundle, and those binaries\ncannot reach that pipe, so no private key was ever found.\n\nOn Windows, core.sshCommand in personal and work now names\nC:/Windows/System32/OpenSSH/ssh.exe, and gpg.ssh.program names the\nssh-keygen.exe next to it. Other systems still render plain \"ssh\" and add\nno program line, so WSL and Linux are unchanged. The System32 copy is\nused rather than the winget Microsoft.OpenSSH.Preview build in\nC:/Program Files/OpenSSH: it ships with every Windows install at the same\npath, so a new machine needs no extra package, and on this machine it is\nalso the newer of the two (9.5p2 vs 9.5p1).\n\nThe program line trims the newline before the if rather than after it.\nA trailing -}} also ate the tab that starts the next line, which put the\nkey at column 0.\n\nVerified on Windows after chezmoi apply: git ls-remote over SSH succeeds\nand a new commit shows a good signature, both without -c overrides. The\nLinux render was checked by forcing the OS test to false. It leaves\n[gpg \"ssh\"] unchanged and keeps plain \"ssh\".",
+          "timestamp": "2026-09-26T23:55:45+09:00",
+          "tree_id": "34b2c16c313d3880294b5102f8c1391c29eedbb4",
+          "url": "https://github.com/r-okm/dotfiles/commit/f610164a1b30a758c641b4edd8ed83ebdc9dd9af"
+        },
+        "date": 1790435082454,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.4ms, median: 10.4ms (10 runs)"
           }
         ]
       }
