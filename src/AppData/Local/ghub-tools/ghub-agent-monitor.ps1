@@ -7,31 +7,11 @@
     応答しないのか、しばらくしてからなのか、スリープと関係なく起きるのかが分かっていない。
     それを見分けるため、常駐して疎通を確かめ続け、固まった時刻と続いた時間を残す。
 
-    計測専用で、agent には何もしない。復旧は ghub-profile-watcher.ps1 が行い、同時に動かしてよい。
+    計測専用で、agent には何もしない。復旧を行うほかのスクリプトと同時に動かしてよい。
 
 .NOTES
     ログ: %LOCALAPPDATA%\ghub-agent-monitor.log
-
-    ログオン時タスクとして登録する。agent を終了させないので管理者権限は不要。
-    $script は実際の配置先の絶対パスに置き換える。
-
-        $script = 'C:\Scripts\ghub-agent-monitor.ps1'
-        $user   = "$env:USERDOMAIN\$env:USERNAME"
-
-        $action    = New-ScheduledTaskAction -Execute 'conhost.exe' `
-                         -Argument "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$script`""
-        $trigger   = New-ScheduledTaskTrigger -AtLogOn -User $user
-        $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
-        $settings  = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
-                         -ExecutionTimeLimit 0 -MultipleInstances IgnoreNew
-
-        Register-ScheduledTask -TaskName 'GhubAgentMonitor' -Action $action -Trigger $trigger `
-                               -Principal $principal -Settings $settings
-
-    -ExecutionTimeLimit 0 が無いと既定の3日で強制終了され、常駐が死ぬ。
-    conhost.exe --headless を挟むのは、既定のターミナルが Windows Terminal だと
-    コンソールがそちらに委任され、powershell.exe -WindowStyle Hidden ではウィンドウが残るため。
-    管理者権限で動くタスクは委任されないので、この問題は起きない。
+    タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
 param(

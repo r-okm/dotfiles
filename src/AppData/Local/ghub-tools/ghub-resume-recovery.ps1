@@ -13,37 +13,13 @@
 
 .NOTES
     ログ: %LOCALAPPDATA%\ghub-resume-recovery.log
-
-    スリープ・休止状態からの復帰（System ログ、Microsoft-Windows-Power-Troubleshooter、
-    イベント ID 1）をトリガーとするタスクとして登録する。tray はスタートアップから
-    管理者権限なしで動いており、その子の agent も管理者権限なしで終了できるため、
-    タスクも管理者権限なしで動かす。$script は実際の配置先の絶対パスに置き換える。
-
-        $script = 'C:\Scripts\ghub-resume-recovery.ps1'
-        $user   = "$env:USERDOMAIN\$env:USERNAME"
-
-        $trigger = Get-CimClass -Namespace Root/Microsoft/Windows/TaskScheduler -ClassName MSFT_TaskEventTrigger |
-            New-CimInstance -ClientOnly
-        $trigger.Enabled      = $true
-        $trigger.Subscription = @'
-<QueryList><Query Id="0" Path="System"><Select Path="System">*[System[Provider[@Name='Microsoft-Windows-Power-Troubleshooter'] and EventID=1]]</Select></Query></QueryList>
-'@
-        $action    = New-ScheduledTaskAction -Execute 'conhost.exe' `
-                         -Argument "--headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"$script`""
-        $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
-        $settings  = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
-                         -ExecutionTimeLimit (New-TimeSpan -Minutes 5) -MultipleInstances IgnoreNew
-
-        Register-ScheduledTask -TaskName 'GhubResumeRecovery' -Action $action -Trigger $trigger `
-                               -Principal $principal -Settings $settings
-
-    conhost.exe --headless を挟むのは、既定のターミナルが Windows Terminal だと
-    コンソールがそちらに委任され、powershell.exe -WindowStyle Hidden ではウィンドウが残るため。
+    タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
 param(
     # この秒数の間に一度も応答しなければ固まっているとみなす。
-    # 正常な回に復帰直後だけ一時的に応答しないことがあるかは未計測なので、その分の猶予を取る
+    # 正常な回でも、復帰直後の最初の確認だけ応答しないことがある（実測: refused の5秒後に ok）
+    # ため、1回の失敗では決めない
     [int]$CheckWindowSeconds = 30,
     [int]$IntervalSeconds = 5,
     # agent を強制終了してから、新しい agent が応答するまで待つ秒数。

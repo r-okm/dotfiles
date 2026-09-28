@@ -6,7 +6,7 @@
 .DESCRIPTION
     G HUB の lghub_agent.exe は、時間経過やスリープ復帰によってプロセス監視が停止し、
     ゲーム起動時のアプリ別プロファイル切替を取りこぼすことがある。
-    agent を強制終了すると lghub_system_tray.exe が約10秒で起動し直し、
+    agent を強制終了すると lghub_system_tray.exe が2〜20秒で起動し直し、
     新しい agent は実行中のゲームを認識してプロファイルを切り替える。
 
     異常の判定には agent の WebSocket (ws://127.0.0.1:9010) を使い、
@@ -24,27 +24,7 @@
 
 .NOTES
     ログ: %LOCALAPPDATA%\ghub-profile-watcher.log
-
-    常駐させるには、任意の場所に配置したうえで管理者権限の PowerShell から
-    ログオン時タスクとして登録する。$script は実際の配置先の絶対パスに置き換える。
-
-        $script = 'C:\Scripts\ghub-profile-watcher.ps1'
-        $user   = "$env:USERDOMAIN\$env:USERNAME"
-
-        $action    = New-ScheduledTaskAction -Execute 'powershell.exe' `
-                         -Argument "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$script`""
-        $trigger   = New-ScheduledTaskTrigger -AtLogOn -User $user
-        $trigger.Delay = 'PT1M'
-        $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Highest
-        $settings  = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries `
-                         -ExecutionTimeLimit 0 -StartWhenAvailable
-
-        Register-ScheduledTask -TaskName 'GhubProfileWatcher' -Action $action -Trigger $trigger `
-                               -Principal $principal -Settings $settings
-
-    -RunLevel Highest は Win32_ProcessStartTrace の購読に必須。
-    -ExecutionTimeLimit 0 が無いと既定の3日で強制終了され、常駐が死ぬ。
-    $trigger.Delay は G HUB 本体の起動を待つための余裕。
+    タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
 param(
