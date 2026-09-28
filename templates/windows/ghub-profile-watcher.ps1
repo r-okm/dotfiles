@@ -78,11 +78,8 @@ $ForegroundTimeoutSeconds = 600
 $SettleSeconds = 5
 
 # agent を強制終了してから、新しい agent が応答するまで待つ秒数。
-# lghub_system_tray.exe による起動し直しは約10秒（実測）。
+# lghub_system_tray.exe による起動し直しは2〜20秒（実測）。
 $AgentRestartTimeoutSeconds = 30
-
-# tray が agent を起動し直さなかったときに、tray ごと起動するためのタスク
-$FallbackTaskName = 'LaunchGhub'
 
 $AgentUri = 'ws://127.0.0.1:9010'
 
@@ -252,15 +249,9 @@ function Restart-Agent {
     $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $AgentRestartTimeoutSeconds
     if ($newId) { Write-Log "lghub_agent が起動しました (PID: $newId)"; return $true }
 
-    # tray が止まっている、または起動し直さなかった場合。LaunchGhub タスクなら元と同じ権限で tray を起動できる
-    Write-Log "lghub_agent が起動しないため、$FallbackTaskName タスクを実行します"
-    try { Start-ScheduledTask -TaskName $FallbackTaskName }
-    catch { Write-Log "ERROR: $FallbackTaskName タスクを実行できません: $($_.Exception.Message)"; return $false }
-
-    $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $AgentRestartTimeoutSeconds
-    if ($newId) { Write-Log "lghub_agent が起動しました (PID: $newId)"; return $true }
-
-    Write-Log "ERROR: lghub_agent が起動しませんでした"
+    # tray を代わりに起動することはしない。このスクリプトは管理者権限で動くため、
+    # 起動した tray と agent まで管理者権限になり、G HUB を普段と違う状態で動かすことになる
+    Write-Log "ERROR: lghub_agent が起動しませんでした。G HUB を手動で起動してください"
     $false
 }
 
