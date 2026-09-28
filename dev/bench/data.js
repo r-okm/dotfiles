@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790435083174,
+  "lastUpdate": 1790577157938,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2759,6 +2759,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.4ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3ab2acf4185df0bbde40de43d41573753bc5c13a",
+          "message": "ghub: deploy the helper scripts with chezmoi and run recovery only\n\nThe scripts sat in templates/windows and were copied by hand to\nC:\\Scripts, where the scheduled tasks ran them. They now live in\nsrc/AppData/Local/ghub-tools, and chezmoi apply puts them in\n%LOCALAPPDATA%\\ghub-tools. This is the approach chezmoi documents for\nOS-specific files: keep them in the source state and exclude them on\nother systems with .chezmoiignore. AppData is already excluded on Linux,\nso no new ignore rule is needed.\n\nRunning the files straight from the repository would also have removed\nthe copy step. It was not chosen because the watcher runs elevated: a\nhalf-edited file or a branch checked out to try something would run\nwith admin rights the moment it was saved. With chezmoi, a change takes\neffect only on apply, after chezmoi diff has shown it. The apply is\nscoped to the directory, because AppData also holds Windows-owned files\nsuch as the Windows Terminal settings, which a full apply could\noverwrite. CLAUDE.md lists ghub-tools among the source-owned exceptions\nunder AppData and records the scoped apply.\n\nOnly GhubResumeRecovery stays registered. Every agent hang seen so far\nwas already present right after resume, so the resume check catches all\nof them. The watcher and the monitor are unregistered but kept, for a\nhang unrelated to sleep or for another round of diagnosis.\n\nA README in Japanese now holds the task registration, removal and\nrestart commands. They were removed from the scripts' .NOTES so that\nthey live in one place and cannot drift. It also notes that chezmoi diff\nneeds --recursive to compare the files inside a directory target, while\napply recurses by default.\n\nThe recovery script's comment on the 30 s window is now based on a\nmeasurement: on a resume where the agent was healthy, the first check\nwas refused and the one 5 s later succeeded. A restart after a single\nfailed check would have killed a healthy agent. The watcher's\ndescription now gives the measured 2-20 s respawn time.\n\nVerified on Windows: chezmoi apply created the four files, identical to\nthe source. GhubResumeRecovery was registered again with the README's\nown commands, and a manual run of the task finished with exit code 0.",
+          "timestamp": "2026-09-28T15:23:26+09:00",
+          "tree_id": "01b644da6b6d31326d883ee73d14aa70e96b57af",
+          "url": "https://github.com/r-okm/dotfiles/commit/3ab2acf4185df0bbde40de43d41573753bc5c13a"
+        },
+        "date": 1790577157093,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 5.2,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 5.0ms, max: 5.5ms, median: 5.1ms (10 runs)"
           }
         ]
       }
