@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790577157938,
+  "lastUpdate": 1790601547569,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2790,6 +2790,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 5.0ms, max: 5.5ms, median: 5.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "255820c1b03e169ad4d69319c68731ffc74bc3e0",
+          "message": "ghub: move the helper scripts under r-okm and keep logs beside them\n\nFiles added by hand now sit under an r-okm directory, the way\n~/.claude/r-okm holds the ones added to the Claude Code config. That\nkeeps them apart from what applications put in the same parent. The\nscripts move from AppData/Local/ghub-tools to\nAppData/Local/r-okm/ghub-tools.\n\nEach script now writes its log next to itself ($PSScriptRoot) instead\nof the root of %LOCALAPPDATA%, so everything that belongs to these tools\nlives in one directory. The logs are not managed by chezmoi, so apply\nneither deletes nor overwrites them.\n\nsrc/.chezmoiremove gains AppData/Local/ghub-tools so the old deployment\nis removed. A scoped apply only runs a removal when the removed path is\none of its arguments: a dry run of \"chezmoi apply ~/AppData/Local/r-okm\"\nleft the old directory in place, while also naming\n~/AppData/Local/ghub-tools deleted it. The move was applied that way.\n\nThe README and CLAUDE.md carry the new paths. The existing logs were\nmoved by hand into the new directory, and GhubResumeRecovery was\nregistered again with the README's commands, so it now runs the script\nfrom the new location.",
+          "timestamp": "2026-09-28T22:08:41+09:00",
+          "tree_id": "7e3f5fa32ec51a70e17f8b256d4b8ef4071b9467",
+          "url": "https://github.com/r-okm/dotfiles/commit/255820c1b03e169ad4d69319c68731ffc74bc3e0"
+        },
+        "date": 1790601545492,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7.4,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 7.3ms, max: 7.7ms, median: 7.5ms (10 runs)"
           }
         ]
       }
