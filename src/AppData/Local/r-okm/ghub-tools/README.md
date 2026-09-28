@@ -19,19 +19,20 @@ agent を強制終了すると `lghub_system_tray.exe` が数秒で新しい age
 これまでに観測した不具合はどれもスリープ復帰の直後から起きており、復帰時の確認だけで拾えたためである。
 停止中の2つは、スリープと関係のない不具合が出たときや、原因を調べ直すときに使う。
 
-各スクリプトのログは `%LOCALAPPDATA%` 直下に、スクリプトと同じ名前（拡張子 `.log`）で書き出される。
+各スクリプトのログは、スクリプトと同じディレクトリに、スクリプトと同じ名前（拡張子 `.log`）で書き出される。
+ログは chezmoi の管理対象ではないので、`chezmoi apply` で消えたり上書きされたりすることはない。
 
 ## 配置と更新
 
-このディレクトリは chezmoi の `src/AppData/Local/ghub-tools/` で管理しており、Windows 側で `chezmoi apply` を実行すると `%LOCALAPPDATA%\ghub-tools\` に配置される。
+このディレクトリは chezmoi の `src/AppData/Local/r-okm/ghub-tools/` で管理しており、Windows 側で `chezmoi apply` を実行すると `%LOCALAPPDATA%\r-okm\ghub-tools\` に配置される。
 Linux では `AppData` が `.chezmoiignore` で除外されているため、配置されない。
 
 `chezmoi apply` は、必ずこのディレクトリに対象を絞って実行する。
 `AppData` の下には Windows Terminal の `settings.json` のように Windows 側が正本のファイルもあり、対象を絞らずに適用すると、それらを source の内容で上書きしうるためである。
 
 ```powershell
-chezmoi diff --recursive ~/AppData/Local/ghub-tools
-chezmoi apply ~/AppData/Local/ghub-tools
+chezmoi diff --recursive ~/AppData/Local/r-okm/ghub-tools
+chezmoi apply ~/AppData/Local/r-okm/ghub-tools
 ```
 
 `chezmoi diff` は、ディレクトリを指定しても `--recursive` を付けないと中のファイルを比べない。
@@ -57,7 +58,7 @@ G HUB はスタートアップから管理者権限なしで動いており、�
 登録（通常の PowerShell）:
 
 ```powershell
-$script = "$env:LOCALAPPDATA\ghub-tools\ghub-resume-recovery.ps1"
+$script = "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-resume-recovery.ps1"
 $user   = "$env:USERDOMAIN\$env:USERNAME"
 
 $trigger = Get-CimClass -Namespace Root/Microsoft/Windows/TaskScheduler -ClassName MSFT_TaskEventTrigger |
@@ -91,7 +92,7 @@ Unregister-ScheduledTask -TaskName 'GhubResumeRecovery' -Confirm:$false
 登録（管理者の PowerShell）:
 
 ```powershell
-$script = "$env:LOCALAPPDATA\ghub-tools\ghub-profile-watcher.ps1"
+$script = "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-profile-watcher.ps1"
 $user   = "$env:USERDOMAIN\$env:USERNAME"
 
 $action    = New-ScheduledTaskAction -Execute 'powershell.exe' `
@@ -127,7 +128,7 @@ Unregister-ScheduledTask -TaskName 'GhubProfileWatcher' -Confirm:$false
 イベントを購読しないので、管理者権限は要らない。
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:LOCALAPPDATA\ghub-tools\ghub-profile-watcher.ps1" -CheckOnce GenshinImpact.exe
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-profile-watcher.ps1" -CheckOnce GenshinImpact.exe
 ```
 
 ### GhubAgentMonitor（停止中）
@@ -138,7 +139,7 @@ agent には何もしないので、管理者権限なしで動かす。
 登録（通常の PowerShell）:
 
 ```powershell
-$script = "$env:LOCALAPPDATA\ghub-tools\ghub-agent-monitor.ps1"
+$script = "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-agent-monitor.ps1"
 $user   = "$env:USERDOMAIN\$env:USERNAME"
 
 $action    = New-ScheduledTaskAction -Execute 'conhost.exe' `
@@ -179,7 +180,7 @@ Get-ScheduledTask | Where-Object TaskName -match 'Ghub' | Format-Table TaskName,
 ログの末尾:
 
 ```powershell
-Get-Content "$env:LOCALAPPDATA\ghub-resume-recovery.log" -Tail 20
+Get-Content "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-resume-recovery.log" -Tail 20
 ```
 
 `GhubResumeRecovery` のログは、復帰ごとに次のどちらかになる。

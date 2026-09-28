@@ -12,7 +12,7 @@
     lghub_system_tray.exe が新しい agent を起動し直し、それで復旧する。
 
 .NOTES
-    ログ: %LOCALAPPDATA%\ghub-resume-recovery.log
+    ログ: このスクリプトと同じディレクトリの ghub-resume-recovery.log
     タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
@@ -37,7 +37,7 @@ $ReadyPollSeconds = 1
 # タスクのトリガーと同じ復帰イベント
 $ResumeEventProvider = 'Microsoft-Windows-Power-Troubleshooter'
 $ResumeEventId = 1
-$LogPath = Join-Path $env:LOCALAPPDATA 'ghub-resume-recovery.log'
+$LogPath = Join-Path $PSScriptRoot 'ghub-resume-recovery.log'
 
 function Write-Log {
     param([string]$Message)

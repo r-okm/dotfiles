@@ -23,7 +23,7 @@
     ただし agent が管理者権限で動いている場合、再起動には管理者権限が要る。
 
 .NOTES
-    ログ: %LOCALAPPDATA%\ghub-profile-watcher.log
+    ログ: このスクリプトと同じディレクトリの ghub-profile-watcher.log
     タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
@@ -63,7 +63,7 @@ $AgentRestartTimeoutSeconds = 30
 
 $AgentUri = 'ws://127.0.0.1:9010'
 
-$LogPath = Join-Path $env:LOCALAPPDATA 'ghub-profile-watcher.log'
+$LogPath = Join-Path $PSScriptRoot 'ghub-profile-watcher.log'
 
 # ---- 実装 -------------------------------------------------------------
 

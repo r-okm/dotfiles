@@ -10,7 +10,7 @@
     計測専用で、agent には何もしない。復旧を行うほかのスクリプトと同時に動かしてよい。
 
 .NOTES
-    ログ: %LOCALAPPDATA%\ghub-agent-monitor.log
+    ログ: このスクリプトと同じディレクトリの ghub-agent-monitor.log
     タスクの登録・解除の手順は、同じディレクトリの README.md にある。
 #>
 
@@ -25,7 +25,7 @@ $ErrorActionPreference = 'Stop'
 
 $AgentUri = 'ws://127.0.0.1:9010'
 $TimeoutMs = 5000
-$LogPath = Join-Path $env:LOCALAPPDATA 'ghub-agent-monitor.log'
+$LogPath = Join-Path $PSScriptRoot 'ghub-agent-monitor.log'
 
 # 前回の確認からこの秒数以上空いたら、スリープなどで止まっていたとみなす
 $GapSeconds = $IntervalSeconds * 3
