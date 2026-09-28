@@ -32,6 +32,11 @@ $ErrorActionPreference = 'Stop'
 
 $AgentUri = 'ws://127.0.0.1:9010'
 $TimeoutMs = 5000
+$ReceiveBufferBytes = 64KB
+$ReadyPollSeconds = 1
+# タスクのトリガーと同じ復帰イベント
+$ResumeEventProvider = 'Microsoft-Windows-Power-Troubleshooter'
+$ResumeEventId = 1
 $LogPath = Join-Path $env:LOCALAPPDATA 'ghub-resume-recovery.log'
 
 function Write-Log {
@@ -58,7 +63,7 @@ function Test-Agent {
         $request = [Text.Encoding]::UTF8.GetBytes('{"msgId":"","verb":"GET","path":"/profile/active"}')
         if (-not $ws.SendAsync([ArraySegment[byte]]::new($request), 'Text', $true, $none).Wait($TimeoutMs)) { return 'timeout(send)' }
 
-        $buf = [byte[]]::new(64KB)
+        $buf = [byte[]]::new($ReceiveBufferBytes)
         $stream = [IO.MemoryStream]::new()
         while ($true) {
             $remaining = [int]($deadline - (Get-Date)).TotalMilliseconds
@@ -90,7 +95,23 @@ function Test-Agent {
 }
 
 function Get-AgentIds {
-    @(Get-Process -Name 'lghub_agent' -ErrorAction SilentlyContinue | ForEach-Object { $_.Id })
+    # Get-Process -Name は該当なしでエラーになるため。agent 不在は正常な結果
+    @([System.Diagnostics.Process]::GetProcessesByName('lghub_agent') | ForEach-Object { $_.Id })
+}
+
+# ログに添えるだけなので、取れなくても例外にしない
+function Get-ResumeText {
+    try {
+        $resume = Get-WinEvent -FilterHashtable @{
+            LogName = 'System'; ProviderName = $ResumeEventProvider; Id = $ResumeEventId
+        } -MaxEvents 1
+    }
+    catch {
+        # 該当なしもエラーになり、例外の型では区別できない
+        if ($_.FullyQualifiedErrorId -like 'NoMatchingEventsFound,*') { return '不明' }
+        return "不明（$($_.Exception.Message)）"
+    }
+    $resume.TimeCreated.ToString('HH:mm:ss')
 }
 
 # 新しい agent が起動して応答するまで待つ。応答した agent の PID を返し、時間切れなら $null
@@ -101,15 +122,12 @@ function Wait-AgentReady {
     while ((Get-Date) -lt $deadline) {
         $new = @(Get-AgentIds | Where-Object { $_ -notin $ExcludeIds })
         if ($new.Count -gt 0 -and (Test-Agent) -eq 'ok') { return $new[0] }
-        Start-Sleep -Seconds 1
+        Start-Sleep -Seconds $ReadyPollSeconds
     }
     $null
 }
 
-$resume = Get-WinEvent -FilterHashtable @{
-    LogName = 'System'; ProviderName = 'Microsoft-Windows-Power-Troubleshooter'; Id = 1
-} -MaxEvents 1 -ErrorAction SilentlyContinue
-$resumeText = if ($resume) { $resume.TimeCreated.ToString('HH:mm:ss') } else { '不明' }
+$resumeText = Get-ResumeText
 
 try {
     $start = Get-Date
@@ -135,11 +153,8 @@ try {
     else {
         Write-Log "lghub_agent を再起動します (PID: $($oldIds -join ','))"
         foreach ($id in $oldIds) {
-            # 古い PID が消えたかでは成否を決めず、新しい agent が応答するかで判断する。
-            # Wait-Process が終了を確認した直後でも Get-Process には古い PID が見えることがある（実測）。
-            # ghub-profile-watcher.ps1 が先に終了させていた場合のエラーもここで無視してよい
-            Stop-Process -Id $id -Force -ErrorAction SilentlyContinue
-            Wait-Process -Id $id -Timeout 10 -ErrorAction SilentlyContinue
+            # 失敗は catch に記録させる。終了は待たず、新しい agent の応答で成否を判断する
+            Stop-Process -Id $id -Force
         }
     }
 
@@ -148,8 +163,10 @@ try {
         Write-Log "lghub_agent が起動しました (PID: $newId)"
         exit 0
     }
-    Write-Log 'ERROR: lghub_agent が起動しませんでした。G HUB を手動で起動してください'
-    exit 1
+    else {
+        Write-Log 'ERROR: lghub_agent が起動しませんでした。G HUB を手動で起動してください'
+        exit 1
+    }
 }
 catch {
     Write-Log "ERROR: $($_.Exception.Message)"
