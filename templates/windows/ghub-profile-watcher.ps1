@@ -242,8 +242,11 @@ function Restart-Agent {
     Write-Log "lghub_agent を再起動します (PID: $(if ($oldIds.Count) { $oldIds -join ',' } else { 'なし' }))"
 
     foreach ($id in $oldIds) {
-        try { Stop-Process -Id $id -Force }
-        catch { Write-Log "ERROR: lghub_agent (PID $id) を終了できません: $($_.Exception.Message)"; return $false }
+        # 古い PID が消えたかでは成否を決めず、新しい agent が応答するかで判断する。
+        # Wait-Process が終了を確認した直後でも Get-Process には古い PID が見えることがある（実測）。
+        # ghub-resume-recovery.ps1 が先に終了させていた場合のエラーもここで無視してよい
+        Stop-Process -Id $id -Force -ErrorAction SilentlyContinue
+        Wait-Process -Id $id -Timeout 10 -ErrorAction SilentlyContinue
     }
 
     $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $AgentRestartTimeoutSeconds
