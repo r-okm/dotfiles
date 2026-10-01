@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790601547569,
+  "lastUpdate": 1790898677594,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2821,6 +2821,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 7.3ms, max: 7.7ms, median: 7.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "4b67e2b42c8ee9332b353be3668609804cb04b01",
+          "message": "ghub: let the resume recovery skip an agent that already exited\n\nAfter the resume at 09:29:36 on 2026-09-29 the script found two agent\nPIDs, 1072 and 31796. It killed 1072, then Stop-Process on 31796 failed\nwith \"no process with identifier 31796\" and the script ended through the\ntop-level catch, without waiting for the tray's new agent. Whether the\nagent recovered that time is not in the log.\n\nWhile the agent is hung, a second lghub_agent.exe appears for a moment\nand exits on its own; the monitor saw this three times in a two-hour\nhang. It is most likely the tray trying to start a replacement. The\nprevious change assumed a missing process could only come from the\nwatcher killing the same agent, which no longer runs, so it let\nStop-Process raise for every failure. That assumption was wrong.\n\nStop-Process now runs in its own try. A NoProcessFoundForGivenId error\nmeans the process is already gone, so the loop moves on. Any other\nerror, such as CouldNotStopProcess for access denied, is rethrown and\nlogged by the top-level catch as before.\n\nTested with the same code: a live process together with one that had\nalready exited both pass and the script goes on to wait for the new\nagent; a protected process (System) still ends in the outer catch with\n\"access denied\".",
+          "timestamp": "2026-10-02T08:42:05+09:00",
+          "tree_id": "5f2a6c82f9cf36115d2fc5acc4550a38d4945ba8",
+          "url": "https://github.com/r-okm/dotfiles/commit/4b67e2b42c8ee9332b353be3668609804cb04b01"
+        },
+        "date": 1790898676911,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.8ms, max: 11.0ms, median: 10.7ms (10 runs)"
           }
         ]
       }
