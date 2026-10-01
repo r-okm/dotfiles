@@ -153,8 +153,12 @@ try {
     else {
         Write-Log "lghub_agent を再起動します (PID: $($oldIds -join ','))"
         foreach ($id in $oldIds) {
-            # 失敗は catch に記録させる。終了は待たず、新しい agent の応答で成否を判断する
-            Stop-Process -Id $id -Force
+            # 失敗は外側の catch に記録させる。終了は待たず、新しい agent の応答で成否を判断する
+            try { Stop-Process -Id $id -Force }
+            catch {
+                # 固まっている間は tray が起動し直そうとした agent が一瞬だけ見え、終了済みのことがある（実測）
+                if ($_.FullyQualifiedErrorId -notlike 'NoProcessFoundForGivenId,*') { throw }
+            }
         }
     }
 
