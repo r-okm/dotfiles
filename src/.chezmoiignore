@@ -17,6 +17,7 @@ symlink
 .zprofile
 
 {{ else if ne .chezmoi.os "windows" -}}
+.chezmoiscripts/windows/**
 AppData
 .ideavimrc
 _vimrc
