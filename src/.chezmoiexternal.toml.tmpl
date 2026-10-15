@@ -94,6 +94,15 @@
   refreshPeriod = "168h"
 {{ end -}}
 
+{{ if eq .chezmoi.os "windows" -}}
+["vimfiles/pack/plugins/start/vim-buftabline"]
+  type = "git-repo"
+  url = "https://github.com/ap/vim-buftabline.git"
+  refreshPeriod = "168h"
+  ["vimfiles/pack/plugins/start/vim-buftabline".clone]
+    args = ["--depth", "1"]
+{{ end -}}
+
 {{ if and (eq .chezmoi.os "linux") (has .chezmoi.arch (list "amd64" "arm64")) -}}
 [".local/bin/yt-dlp"]
   type = "file"

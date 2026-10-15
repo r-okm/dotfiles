@@ -1,0 +1,105 @@
+if has('win32') && has('directx')
+  set renderoptions=type:directx,renmode:5
+endif
+
+set guifont=UDEV_Gothic_NF:h12:cSHIFTJIS:qDRAFT
+set linespace=2
+
+" gvim on Windows has no padding option; an empty fold column painted like
+" the text area keeps text off the left edge
+set foldcolumn=1
+augroup MyVimrcPadding
+  autocmd!
+  autocmd ColorScheme * highlight! link FoldColumn Normal
+augroup END
+highlight! link FoldColumn Normal
+
+set showtabline=2
+set guioptions-=e
+set hlsearch
+set shortmess-=S
+let mapleader = "\<Space>"
+
+nnoremap <CR> o<Esc>
+nnoremap <S-CR> O<Esc>
+" Keep <CR> jumping to the entry in quickfix and location lists, and running
+" the line in the command-line window
+augroup MyVimrcCR
+  autocmd!
+  autocmd FileType qf nnoremap <buffer> <CR> <CR>
+  autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
+augroup END
+xnoremap y mzy`z
+xnoremap < <gv
+xnoremap > >gv
+nnoremap <Leader>q "_
+xnoremap <Leader>q "_
+nnoremap c "_c
+xnoremap c "_c
+nnoremap C "_C
+xnoremap C "_C
+for s:quote in ['"', "'", '`']
+  execute 'xnoremap a' . s:quote . ' 2i' . s:quote
+  execute 'onoremap a' . s:quote . ' 2i' . s:quote
+endfor
+nnoremap <Leader>S :<C-u>noautocmd write<CR>
+nnoremap gh <Nop>
+
+" Like vim-asterisk's gz*: no word boundaries, and the cursor stays put.
+" v:hlsearch and v:searchforward are restored when a function returns, so
+" they are set in the mapping itself.
+function! s:StarPattern(text) abort
+  " An empty pattern would match at every position and replace the last search
+  if a:text ==# ''
+    throw 'E348: No string under cursor'
+  endif
+  return '\V' . substitute(escape(a:text, '\'), '\n', '\\n', 'g')
+endfunction
+nnoremap * <Cmd>let @/ = <SID>StarPattern(expand('<cword>'))<Bar>call histadd('/', @/)<Bar>let v:searchforward = 1<Bar>let v:hlsearch = 1<CR>
+xnoremap * <Cmd>let @/ = <SID>StarPattern(join(getregion(getpos('v'), getpos('.'), #{type: mode()}), "\n"))<Bar>call histadd('/', @/)<Bar>let v:searchforward = 1<Bar>let v:hlsearch = 1<CR><Esc>
+
+nnoremap <C-l> :bnext<CR>
+nnoremap <C-h> :bprevious<CR>
+nnoremap <Space>w :bdelete<CR>
+nnoremap <Space>s :write<CR>
+
+nnoremap gy "+y
+xnoremap gy mz"+y`z
+nnoremap gp "+p
+xnoremap gp "+P
+
+" buftabline only handles tabline clicks via 'tablineat', which is Neovim-only,
+" so map the clicked column back to a buffer from its rendered labels.
+function! s:TablineBufAt(col) abort
+  let segs = split(buftabline#render(), '%#BufTabLine')[1:]
+  call filter(segs, 'v:val !~# "^Fill#"')
+  let bufs = buftabline#user_buffers()
+  " Overflowing labels are dropped from both ends; anchor on the current one.
+  let cur = match(segs, '^Current#')
+  let offset = len(segs) == len(bufs) ? 0
+        \ : cur >= 0 ? index(bufs, bufnr('%')) - cur : -1
+  if offset < 0
+    return 0
+  endif
+  let right = 0
+  for i in range(len(segs))
+    let label = substitute(matchstr(segs[i], '#\zs.*'), '%%', '%', 'g')
+    let right += strdisplaywidth(label)
+    if a:col <= right
+      return get(bufs, offset + i, 0)
+    endif
+  endfor
+  return 0
+endfunction
+
+" Run {cmd} on the clicked buffer, or pass {key} through outside the tabline.
+function! s:OnTablineClick(key, cmd) abort
+  let pos = getmousepos()
+  if pos.screenrow != 1 || pos.winid != 0 || !exists('*buftabline#render')
+    return a:key
+  endif
+  let buf = s:TablineBufAt(pos.screencol)
+  return buf > 0 ? "\<Cmd>" . a:cmd . ' ' . buf . "\<CR>" : ''
+endfunction
+nnoremap <expr> <LeftMouse> <SID>OnTablineClick("\<LeftMouse>", 'buffer')
+nnoremap <expr> <MiddleMouse> <SID>OnTablineClick("\<MiddleMouse>", 'bdelete')
