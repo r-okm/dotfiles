@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1790898677594,
+  "lastUpdate": 1792047664941,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2852,6 +2852,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.8ms, max: 11.0ms, median: 10.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "8cfd783483bfcbcae40ef8566efc7a5f174b63a7",
+          "message": "windows: open text files in the running gvim from Explorer\n\nDouble-clicking .txt, .log and similar files opened Notepad, and files\nwith no extension or an extension nothing registers, such as .config,\nbrought up the \"How do you want to open this file\" dialog. A new\nWindows-only chezmoi script associates them all with gvim\n--remote-silent, so they open as buffers in the gvim that is already\nrunning. .chezmoiignore skips .chezmoiscripts/windows on Linux.\n\nRegistering a ProgId is not enough. Explorer takes FileExts\\<ext>\\\nUserChoice first, and when an extension has no UserChoice it falls back\nto OEMDefaultAssociations.xml, which names Notepad for .txt, .log and\n.ini. Deleting UserChoice was tried on .log and it went back to Notepad.\nWindows also ignores a UserChoice whose Hash it did not compute, so the\nscript reproduces that hash, the algorithm SetUserFTA reverse-engineered.\nThe implementation was checked against five UserChoice entries Windows\nhad written on this machine, and all five hashes matched. UCPD.sys\nblocks UserChoice writes only for browsers, .pdf and Office types, so\nnone of these extensions are affected.\n\nThe script registers r-okm.gvim and points UserChoice for .txt .md .log\n.ini .conf .config .cfg .toml .yaml .yml .json .csv .env at it. It also\nsets the \".\" class for files with no extension, and the default verb of\nUnknown for unregistered extensions. gvim is found through PATH, and a\nscoop shim is resolved to the real gvim.exe, because the shim is a\nconsole launcher. Afterwards every association is resolved again with\nAssocQueryString, so the script fails if Windows rejects the result,\nfor example after a change to the hash. If UserChoiceLatest exists for\nan extension that failed, the error says so. That newer scheme includes\na machine ID that the script cannot produce, and once Windows migrates\nto it, UserChoice is ignored. Such extensions have to be set through\nOpen with > Always.\n\nVerified on this machine: the script was run from a normal PowerShell\nsession, and reg query showed the new UserChoice. Files opened through\nExplorer (.txt, .log, a file with no extension, and .yaml) all landed\nin one gvim. Earlier runs from Claude Code's sandboxed shell had\nwritten to a virtualized registry that Explorer could not see, so\nresults read back from that shell did not reflect what Explorer does.",
+          "timestamp": "2026-10-15T15:50:46+09:00",
+          "tree_id": "12b3ed90c7a4ac203bf22db0358317a0c84dbf62",
+          "url": "https://github.com/r-okm/dotfiles/commit/8cfd783483bfcbcae40ef8566efc7a5f174b63a7"
+        },
+        "date": 1792047664086,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.1,
+            "range": "1.4",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 12.2ms, median: 11.0ms (10 runs)"
           }
         ]
       }
