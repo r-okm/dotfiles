@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792151572332,
+  "lastUpdate": 1792152378790,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3038,6 +3038,37 @@ window.BENCHMARK_DATA = {
             "range": "0.9",
             "unit": "ms",
             "extra": "min: 10.7ms, max: 11.7ms, median: 10.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "bc66fa48912c1b66e0c15c699f08c91db71b9865",
+          "message": "gvim: silence the bell\n\nbelloff=all turns off the beep for every event that rings it, such as\nan error or <Esc> in normal mode.",
+          "timestamp": "2026-10-16T20:57:09+09:00",
+          "tree_id": "8efe5954f42df3493fd121b633014cc5c170425f",
+          "url": "https://github.com/r-okm/dotfiles/commit/bc66fa48912c1b66e0c15c699f08c91db71b9865"
+        },
+        "date": 1792152377906,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 6.8ms, max: 7.5ms, median: 7.0ms (10 runs)"
           }
         ]
       }
