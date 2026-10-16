@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792047664941,
+  "lastUpdate": 1792114608566,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2883,6 +2883,37 @@ window.BENCHMARK_DATA = {
             "range": "1.4",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 12.2ms, median: 11.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9710aac7b05f15baa90d9c5ad1a06ffffded3010",
+          "message": "claude: sync the input-needed push notification setting\n\nClaude Code wrote \"inputNeededNotifEnabled\": true to the deployed\n~/.claude/settings.json. It sends a mobile push when a permission\nprompt or a question is waiting for an answer. Without this sync,\nchezmoi apply would have removed it again.\n\nchezmoi-sync is a bash script and does not run on Windows, so the file\nwas synced with the chezmoi re-add it wraps.",
+          "timestamp": "2026-10-16T10:27:16+09:00",
+          "tree_id": "bc0a42f29eb190d5cbc22ab7247d0e2bb4544e06",
+          "url": "https://github.com/r-okm/dotfiles/commit/9710aac7b05f15baa90d9c5ad1a06ffffded3010"
+        },
+        "date": 1792114607940,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.0",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.3ms, median: 10.1ms (10 runs)"
           }
         ]
       }
