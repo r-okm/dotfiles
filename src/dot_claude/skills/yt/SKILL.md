@@ -61,11 +61,9 @@ argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
   --yt-dlp-arg=--cookies-from-browser --yt-dlp-arg firefox "<URL>"
 ```
 
-`yt-dlp` が無いとエラーで止まる。その場合は `chezmoi apply` での導入
-（`.chezmoiexternal.toml.tmpl` の `.local/bin/yt-dlp`）をユーザーに促し、
-**勝手に別の方法でインストールしない**。YouTube 側の変更で取得が壊れたときの
-更新も `chezmoi apply --refresh-externals` であって、`yt-dlp -U` ではない
-（self-update は次の external 更新で巻き戻る）。
+`yt-dlp` が無い、または YouTube 側の変更で取得が壊れたときは、そのことを
+ユーザーに伝えて対応を任せる。yt-dlp の導入と更新はユーザーが管理しているので、
+**自分でインストール・更新しない**（`yt-dlp -U` での self-update も含む）。
 
 ## Step 2: 読み込み
 

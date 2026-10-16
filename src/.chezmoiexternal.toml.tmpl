@@ -110,3 +110,11 @@
   executable = true
   refreshPeriod = "168h"
 {{ end -}}
+
+{{ if and (eq .chezmoi.os "windows") (eq .chezmoi.arch "amd64") -}}
+# このディレクトリは .chezmoidata/windows.toml の userPath でユーザー PATH に入る。
+["AppData/Local/r-okm/bin/yt-dlp.exe"]
+  type = "file"
+  url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe"
+  refreshPeriod = "168h"
+{{ end -}}

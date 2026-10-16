@@ -111,13 +111,18 @@ def probe(url, extra_args):
         *extra_args,
         url,
     ]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
+    # Bytes, not text: on Windows yt-dlp writes stderr in the ANSI code page,
+    # which is not what Python decodes with, so its message is passed through
+    # untouched — as fetch() does — and json.loads detects UTF-8 itself.
+    proc = subprocess.run(cmd, capture_output=True)
     if proc.returncode != 0:
-        sys.stderr.write(proc.stderr)
+        sys.stderr.flush()
+        sys.stderr.buffer.write(proc.stderr)
         die(f"metadata probe failed (yt-dlp exit {proc.returncode})")
     try:
         return json.loads(proc.stdout)
-    except json.JSONDecodeError as e:
+    # ValueError also covers the UnicodeDecodeError that bytes input can raise.
+    except ValueError as e:
         die(f"could not parse yt-dlp metadata: {e}")
 
 
@@ -722,6 +727,13 @@ def parse_args():
 
 
 def main():
+    # Before Python 3.15 made UTF-8 mode the default, Windows gave a piped stdout
+    # the ANSI code page (cp932 here), which cannot encode a Korean title in the
+    # output path we print. The error handler is carried over: changing only the
+    # encoding would reset it to strict and turn a surrogate-escaped path into
+    # a crash.
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding="utf-8", errors=stream.errors)
     args = parse_args()
     if shutil.which("yt-dlp") is None:
         die("yt-dlp not found on PATH. Install it, then retry.")
