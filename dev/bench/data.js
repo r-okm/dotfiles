@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792143236887,
+  "lastUpdate": 1792145724030,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2945,6 +2945,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.2ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "1d6fb59c2c67a834058e2f7545becb3ad2c8f606",
+          "message": "docs: bring the Windows-owned rules in line with applying on Windows\n\nThe section was written with windows-sync (dc61414), when chezmoi apply\non Windows was a manual escape hatch for a new PC. Since then the\nghub-tools, gvim, file association and user environment work all reach\nWindows through chezmoi apply, so that line now pointed the wrong way.\nIt is removed.\n\nThe intro said all of src/AppData mirrors files Windows applications\nown. Only the windows-sync targets do, the Windows Terminal settings and\nthe Alacritty configs; everything else under AppData is source-owned.\nThe intro and the exception now say so, and the chezmoi status bullet is\nlimited to Linux, where it is true.\n\nTwo rules are added under \"Applying on Windows\", each for a mistake an\nagent would otherwise make when telling the user how to apply:\n\n- Scripts in .chezmoiscripts/windows run only on an apply without\n  target arguments. chezmoi status scoped to ~/AppData/Local/r-okm did\n  not list the pending 302 script, so a scoped apply, which the old\n  section recommended, would skip it silently and leave PATH and the\n  user variables unchanged.\n- On Windows, chezmoi manages the Windows-owned files too (chezmoi\n  managed lists them), so a full apply writes them. Checking chezmoi\n  status first and running windows-sync for any of them that shows up\n  keeps the apply from overwriting a change made in the Windows\n  application.\n\nThe note that a scoped apply runs a .chezmoiremove entry only when it is\nnamed was left out: with a full apply as the default it rarely matters,\nand 255820c records it.",
+          "timestamp": "2026-10-16T19:05:45+09:00",
+          "tree_id": "9d7fa6bca17e6da586da4278d012064acbcfec2f",
+          "url": "https://github.com/r-okm/dotfiles/commit/1d6fb59c2c67a834058e2f7545becb3ad2c8f606"
+        },
+        "date": 1792145723610,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.5ms, median: 10.3ms (10 runs)"
           }
         ]
       }
