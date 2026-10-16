@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792114608566,
+  "lastUpdate": 1792143236887,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2914,6 +2914,37 @@ window.BENCHMARK_DATA = {
             "range": "0.0",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.3ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "79feaebe124a376fa2f1478534ae20ccad2d1be4",
+          "message": "docs: list source-owned AppData files as examples, not exhaustively\n\nThe exception for source-owned files under AppData named them with\n\"Currently\", which reads as the complete list. Every new file, such as\nAppData/Local/r-okm/bin/yt-dlp.exe in the previous commit, would then\nhave needed an edit there. The two existing names are now given as\nexamples, so the line only needs changing if one of them goes away.",
+          "timestamp": "2026-10-16T18:24:35+09:00",
+          "tree_id": "252fc0f6372eb3e18f0e676fd8e9c412e159cc78",
+          "url": "https://github.com/r-okm/dotfiles/commit/79feaebe124a376fa2f1478534ae20ccad2d1be4"
+        },
+        "date": 1792143236263,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.2ms, median: 10.1ms (10 runs)"
           }
         ]
       }
