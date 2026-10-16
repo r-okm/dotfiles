@@ -1,7 +1,22 @@
-# Entries the Windows user PATH must contain (add) or must no longer contain
-# (remove), applied by .chezmoiscripts/windows/run_onchange_after_302-sync-user-path.ps1.tmpl.
-# To drop an entry, move it to remove instead of deleting it: the script only
-# sees these lists, so a deleted entry would stay on PATH.
+# The Windows user environment, applied by
+# .chezmoiscripts/windows/run_onchange_after_302-sync-user-environment.ps1.tmpl.
+# Only what is listed here is touched; scoop, winget and installers own the rest.
+# To drop an entry or a variable, move it to remove / unset instead of deleting
+# it: the script only sees these lists, so a deleted one would stay behind.
+
+# Entries the user PATH must contain (add) or must no longer contain (remove).
 [windows.userPath]
 add = ['%LOCALAPPDATA%\r-okm\bin']
 remove = []
+
+# User variables other than PATH to set to exactly this value (set) or delete
+# (unset).
+[windows.userEnv]
+unset = []
+
+[windows.userEnv.set]
+# Claude Code locates Git Bash from where git.exe sits on PATH and falls back
+# to the PowerShell tool when that fails. scoop's git stopped putting its cmd
+# directory on PATH and ships git as a shim instead, which defeats the search.
+# current is the junction scoop repoints on every update, so this survives them.
+CLAUDE_CODE_GIT_BASH_PATH = 'C:\scoop\apps\git\current\bin\bash.exe'

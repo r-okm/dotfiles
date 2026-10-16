@@ -1,0 +1,115 @@
+# Reconcile the user environment (HKCU\Environment) with .chezmoidata/windows.toml.
+#
+# userPath: append every add entry the user PATH is missing and drop every
+# remove entry it has. userEnv: set every variable in set to exactly its value
+# and delete every variable in unset. Anything listed in neither is left
+# alone, since scoop, winget, volta and installers write this key too.
+# PowerShell, cmd, Git Bash and apps started from Explorer all build their
+# environment from it.
+#
+# The lists are rendered into this script, so editing them changes its content
+# and chezmoi runs it again.
+
+$ErrorActionPreference = 'Stop'
+
+$pathAdd = @(
+{{- range .windows.userPath.add }}
+  '{{ . | replace "'" "''" }}'
+{{- end }}
+)
+$pathRemove = @(
+{{- range .windows.userPath.remove }}
+  '{{ . | replace "'" "''" }}'
+{{- end }}
+)
+$envSet = [ordered]@{
+{{- range $name, $value := .windows.userEnv.set }}
+  '{{ $name | replace "'" "''" }}' = '{{ $value | replace "'" "''" }}'
+{{- end }}
+}
+$envUnset = @(
+{{- range .windows.userEnv.unset }}
+  '{{ . | replace "'" "''" }}'
+{{- end }}
+)
+
+# PATH is a list that other tools append to; userEnv would overwrite it whole.
+if (@($envSet.Keys) + $envUnset | Where-Object { $_ -ieq 'Path' }) {
+  throw 'PATH belongs in userPath, not userEnv'
+}
+
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+
+public static class SettingChange {
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, UIntPtr wParam, string lParam,
+        uint flags, uint timeout, out UIntPtr result);
+
+    // WM_SETTINGCHANGE "Environment" to every top-level window, so Explorer
+    // hands the new environment to the processes it starts from now on.
+    public static void BroadcastEnvironment() {
+        UIntPtr result;
+        // HWND_BROADCAST, SMTO_ABORTIFHUNG
+        SendMessageTimeout((IntPtr)0xffff, 0x001A, UIntPtr.Zero, "Environment", 0x0002, 5000, out result);
+    }
+}
+'@
+
+# Compare what PATH entries point at, not how they are spelled:
+# %LOCALAPPDATA%\x and C:\Users\me\AppData\Local\x\ are the same directory.
+function Resolve-Entry([string]$entry) {
+  return [Environment]::ExpandEnvironmentVariables($entry).TrimEnd('\')
+}
+
+# Read values unexpanded: .NET expands REG_EXPAND_SZ by default, and writing
+# that back would freeze every %VAR% reference into a literal path.
+function Get-RawValue($key, [string]$name) {
+  return $key.GetValue($name, $null, 'DoNotExpandEnvironmentNames')
+}
+
+$changes = @()
+$key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment')
+try {
+  $path = Get-RawValue $key 'Path'
+  $entries = @("$path" -split ';' | Where-Object { $_ })
+  $unwanted = @($pathRemove | ForEach-Object { Resolve-Entry $_ })
+  $kept = @($entries | Where-Object { $unwanted -notcontains (Resolve-Entry $_) })
+  $present = @($kept | ForEach-Object { Resolve-Entry $_ })
+  $missing = @($pathAdd | Where-Object { $present -notcontains (Resolve-Entry $_) })
+  $dropped = @($entries | Where-Object { $kept -notcontains $_ })
+  if ($missing -or $dropped) {
+    # ExpandString, since entries such as %LOCALAPPDATA%\r-okm\bin need expanding
+    $key.SetValue('Path', (($kept + $missing) -join ';'), 'ExpandString')
+    $changes += @($missing | ForEach-Object { "PATH += $_" })
+    $changes += @($dropped | ForEach-Object { "PATH -= $_" })
+  }
+
+  foreach ($name in $envSet.Keys) {
+    $value = $envSet[$name]
+    # A value that references another variable has to stay expandable
+    $kind = if ($value.Contains('%')) { 'ExpandString' } else { 'String' }
+    $current = Get-RawValue $key $name
+    $currentKind = if ($null -ne $current) { $key.GetValueKind($name) } else { $null }
+    if ($current -cne $value -or $currentKind -ne $kind) {
+      $key.SetValue($name, $value, $kind)
+      $changes += "$name = $value"
+    }
+  }
+
+  foreach ($name in $envUnset) {
+    if ($null -ne (Get-RawValue $key $name)) {
+      $key.DeleteValue($name)
+      $changes += "unset $name"
+    }
+  }
+} finally { $key.Close() }
+
+if (-not $changes) {
+  Write-Host 'User environment already matches .chezmoidata/windows.toml'
+  return
+}
+[SettingChange]::BroadcastEnvironment()
+$changes | ForEach-Object { Write-Host "User environment: $_" }
+Write-Host 'Restart running shells and apps to pick up the change'
