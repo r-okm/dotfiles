@@ -38,25 +38,6 @@ if (@($envSet.Keys) + $envUnset | Where-Object { $_ -ieq 'Path' }) {
   throw 'PATH belongs in userPath, not userEnv'
 }
 
-Add-Type -TypeDefinition @'
-using System;
-using System.Runtime.InteropServices;
-
-public static class SettingChange {
-    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, UIntPtr wParam, string lParam,
-        uint flags, uint timeout, out UIntPtr result);
-
-    // WM_SETTINGCHANGE "Environment" to every top-level window, so Explorer
-    // hands the new environment to the processes it starts from now on.
-    public static void BroadcastEnvironment() {
-        UIntPtr result;
-        // HWND_BROADCAST, SMTO_ABORTIFHUNG
-        SendMessageTimeout((IntPtr)0xffff, 0x001A, UIntPtr.Zero, "Environment", 0x0002, 5000, out result);
-    }
-}
-'@
-
 # Compare what PATH entries point at, not how they are spelled:
 # %LOCALAPPDATA%\x and C:\Users\me\AppData\Local\x\ are the same directory.
 function Resolve-Entry([string]$entry) {
@@ -110,6 +91,26 @@ if (-not $changes) {
   Write-Host 'User environment already matches .chezmoidata/windows.toml'
   return
 }
+
+# Compiled only here, since a run with nothing to change sends no broadcast
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+
+public static class SettingChange {
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, UIntPtr wParam, string lParam,
+        uint flags, uint timeout, out UIntPtr result);
+
+    // WM_SETTINGCHANGE "Environment" to every top-level window, so Explorer
+    // hands the new environment to the processes it starts from now on.
+    public static void BroadcastEnvironment() {
+        UIntPtr result;
+        // HWND_BROADCAST, SMTO_ABORTIFHUNG
+        SendMessageTimeout((IntPtr)0xffff, 0x001A, UIntPtr.Zero, "Environment", 0x0002, 5000, out result);
+    }
+}
+'@
 [SettingChange]::BroadcastEnvironment()
 $changes | ForEach-Object { Write-Host "User environment: $_" }
 Write-Host 'Restart running shells and apps to pick up the change'

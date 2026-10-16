@@ -15,8 +15,9 @@ remove = []
 unset = []
 
 [windows.userEnv.set]
-# Claude Code locates Git Bash from where git.exe sits on PATH and falls back
-# to the PowerShell tool when that fails. scoop's git stopped putting its cmd
-# directory on PATH and ships git as a shim instead, which defeats the search.
+# Claude Code falls back to the PowerShell tool when it cannot find Git Bash.
+# That started once scoop's git stopped putting its cmd directory on PATH and
+# shipped git as a shim instead; presumably the search starts from git.exe on
+# PATH, but how Claude Code looks is not documented.
 # current is the junction scoop repoints on every update, so this survives them.
 CLAUDE_CODE_GIT_BASH_PATH = 'C:\scoop\apps\git\current\bin\bash.exe'
