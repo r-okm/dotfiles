@@ -141,10 +141,27 @@ function Get-UserExperience {
   return $m.Value
 }
 
+function Test-OpensGvim([Microsoft.Win32.RegistryKey]$parent, [string]$subKey) {
+  $k = $parent.OpenSubKey($subKey)
+  if (-not $k) { return $false }
+  try { $id = $k.GetValue('ProgId') } finally { $k.Close() }
+  return $id -and [UserChoice]::OpenCommand($id) -eq $command
+}
+
 function Set-UserChoice([string]$ext, [string]$sid, [string]$experience) {
   $parent = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey(
     "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$ext")
   try {
+    # Newer Windows builds write UserChoiceLatest alongside UserChoice and prefer
+    # it, with a hash this script cannot produce. Keep one that already opens
+    # gvim (set by hand via Open with > Always); drop any other so Explorer
+    # falls back to UserChoice and the class registry.
+    if (Test-OpensGvim $parent 'UserChoiceLatest\ProgId') { return }
+    $parent.DeleteSubKeyTree('UserChoiceLatest', $false)
+    # Likewise leave a UserChoice that already opens gvim alone: one written by
+    # Open with > Always carries a Hash from Windows itself, which is safer to
+    # keep than to replace with the reverse-engineered one
+    if (Test-OpensGvim $parent 'UserChoice') { return }
     # Windows denies SetValue on its own UserChoice, so start from a fresh key.
     # Writing Hash can move the last write time into the next minute; retry then.
     for ($i = 0; $i -lt 3; $i++) {
@@ -176,7 +193,9 @@ foreach ($ext in $extensions) {
   Set-DefaultValue "Software\Classes\$ext" $progId
   $k = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey("Software\Classes\$ext\OpenWithProgids")
   try { $k.SetValue($progId, [byte[]]@(), 'None') } finally { $k.Close() }
-  Set-UserChoice $ext $sid $experience
+  # One extension Windows refuses to let us touch should not leave the rest
+  # unconfigured; the AssocQueryString check below still fails the script
+  try { Set-UserChoice $ext $sid $experience } catch { Write-Warning "${ext}: $_" }
 }
 
 # Files without an extension resolve through the "." class
@@ -193,12 +212,11 @@ $failed = @($extensions + '.' + '.r-okm-unregistered' | Where-Object {
     [UserChoice]::OpenCommand($_) -ne $command
   })
 if ($failed) {
-  # Newer Windows builds also write UserChoiceLatest, with a different hash this
-  # script cannot produce, and prefer it over UserChoice
-  $latest = @($failed | Where-Object {
-      Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\$_\UserChoiceLatest"
-    })
-  $hint = if ($latest) { " (UserChoiceLatest exists for: $($latest -join ' '); set these via Open with > Always)" } else { '' }
+  # Open with > Always writes a choice Windows trusts, and Set-UserChoice keeps
+  # it on the next run. That dialog cannot fix the "." class or the Unknown
+  # fallback, so only listed extensions get the hint.
+  $manual = @($failed | Where-Object { $extensions -contains $_ })
+  $hint = if ($manual) { " (pick gvim via Open with > Always for: $($manual -join ' '), then run chezmoi apply again)" } else { '' }
   throw "Explorer still opens these with another app: $($failed -join ' ')$hint"
 }
 Write-Host "gvim is associated with: $($extensions -join ' '), files without an extension, and unregistered extensions"
