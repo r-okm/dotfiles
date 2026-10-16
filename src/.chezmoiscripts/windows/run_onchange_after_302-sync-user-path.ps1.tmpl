@@ -1,0 +1,70 @@
+# Reconcile the user PATH with userPath in .chezmoidata/windows.toml: append
+# every add entry that is missing and drop every remove entry that is present.
+# Entries listed in neither are left alone, since scoop, winget, volta and
+# installers write this value too. PowerShell, cmd, Git Bash and apps started
+# from Explorer all build their PATH from it.
+#
+# The lists are rendered into this script, so editing them changes its content
+# and chezmoi runs it again.
+
+$ErrorActionPreference = 'Stop'
+
+$add = @(
+{{- range .windows.userPath.add }}
+  '{{ . | replace "'" "''" }}'
+{{- end }}
+)
+$remove = @(
+{{- range .windows.userPath.remove }}
+  '{{ . | replace "'" "''" }}'
+{{- end }}
+)
+
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+
+public static class SettingChange {
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, UIntPtr wParam, string lParam,
+        uint flags, uint timeout, out UIntPtr result);
+
+    // WM_SETTINGCHANGE "Environment" to every top-level window, so Explorer
+    // hands the new PATH to the processes it starts from now on.
+    public static void BroadcastEnvironment() {
+        UIntPtr result;
+        // HWND_BROADCAST, SMTO_ABORTIFHUNG
+        SendMessageTimeout((IntPtr)0xffff, 0x001A, UIntPtr.Zero, "Environment", 0x0002, 5000, out result);
+    }
+}
+'@
+
+# Compare what entries point at, not how they are spelled: %LOCALAPPDATA%\x
+# and C:\Users\me\AppData\Local\x\ are the same directory.
+function Resolve-Entry([string]$entry) {
+  return [Environment]::ExpandEnvironmentVariables($entry).TrimEnd('\')
+}
+
+$key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey('Environment')
+try {
+  # Read it unexpanded: .NET expands REG_EXPAND_SZ by default, and writing that
+  # back would freeze every %VAR% entry into a literal path.
+  $path = $key.GetValue('Path', '', 'DoNotExpandEnvironmentNames')
+  $entries = @($path -split ';' | Where-Object { $_ })
+  $unwanted = @($remove | ForEach-Object { Resolve-Entry $_ })
+  $kept = @($entries | Where-Object { $unwanted -notcontains (Resolve-Entry $_) })
+  $present = @($kept | ForEach-Object { Resolve-Entry $_ })
+  $missing = @($add | Where-Object { $present -notcontains (Resolve-Entry $_) })
+  $dropped = @($entries | Where-Object { $kept -notcontains $_ })
+  if (-not $missing -and -not $dropped) {
+    Write-Host 'User PATH already matches .chezmoidata/windows.toml'
+    return
+  }
+  # ExpandString, since entries such as %LOCALAPPDATA%\r-okm\bin need expanding
+  $key.SetValue('Path', (($kept + $missing) -join ';'), 'ExpandString')
+} finally { $key.Close() }
+
+[SettingChange]::BroadcastEnvironment()
+foreach ($e in $missing) { Write-Host "Added to the user PATH: $e" }
+foreach ($e in $dropped) { Write-Host "Removed from the user PATH: $e" }
+Write-Host 'Restart running shells and apps to pick up the new PATH'

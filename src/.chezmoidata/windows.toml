@@ -1,0 +1,7 @@
+# Entries the Windows user PATH must contain (add) or must no longer contain
+# (remove), applied by .chezmoiscripts/windows/run_onchange_after_302-sync-user-path.ps1.tmpl.
+# To drop an entry, move it to remove instead of deleting it: the script only
+# sees these lists, so a deleted entry would stay on PATH.
+[windows.userPath]
+add = ['%LOCALAPPDATA%\r-okm\bin']
+remove = []
