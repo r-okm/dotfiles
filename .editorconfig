@@ -24,6 +24,6 @@ indent_size = 4
 indent_size = 4
 charset = utf-8-bom
 
-# windows-sync copies these byte for byte; Windows Terminal writes no final newline
+# chezmoi re-add copies these byte for byte; Windows Terminal writes no final newline
 [src/AppData/**]
 insert_final_newline = false

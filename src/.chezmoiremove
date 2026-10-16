@@ -12,3 +12,4 @@
 .copilot/copilot-instructions.md
 AppData/Local/ghub-tools
 AppData/Roaming/alacritty
+.local/bin/windows-sync

@@ -27,20 +27,22 @@ Rules for these files:
 
 ## Windows-Owned Files
 
-The files in the `windows-sync` target list — currently only the Windows Terminal `settings.json` under `src/AppData/**` — are written by their Windows applications; the Windows Terminal settings UI writes its `settings.json` directly. For these, the copy under `%USERPROFILE%` is the source of truth, and changes come back into the source one way only: `windows-sync`, run in WSL, reads Windows and never writes to it. That is what keeps the two copies from drifting apart in both directions at once.
+Some files under `src/AppData/**` are written by their Windows applications, so the copy under `%USERPROFILE%` is the source of truth. Currently:
+
+- `AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json` — the Windows Terminal settings UI writes it directly.
 
 Rules for these files:
 
-- Do not hand-edit them in `src/` to change Windows behavior. Change it in the Windows application, then run `windows-sync` in WSL to pull the result in.
-- `windows-sync` copies byte for byte and refuses to run while `src/AppData` has uncommitted changes. It does not commit — review the diff and write the message yourself, explaining what changed on the Windows side and why the file also came back reformatted, if it did.
-- The target list is hardcoded in `src/dot_local/bin/executable_windows-sync.tmpl`. One path there names both the Windows file (relative to `%USERPROFILE%`) and its copy in the source, so these files keep their plain names — no `dot_`, `private_` or `.tmpl` prefixes.
-- On Linux, `AppData` is ignored, so `chezmoi status` never lists these files and `git status` after `windows-sync` is the only signal.
+- Do not hand-edit them in `src/` to change Windows behavior. Change it in the Windows application, then run `chezmoi re-add <target>` on Windows to pull the result in.
+- `chezmoi re-add` copies byte for byte and overwrites the source copy without looking at git, so commit or discard any uncommitted edit to it first. It does not commit — review the diff and write the message yourself, explaining what changed on the Windows side and why the file also came back reformatted, if it did.
+- Keep them non-template — `chezmoi re-add` skips templates.
+- On Linux, `AppData` is ignored, so only chezmoi on Windows sees these files; sync them there.
 - Any other file under `AppData` is source-owned like the rest of `src/` and takes the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
 
 Applying on Windows:
 
 - Windows-only scripts in `src/.chezmoiscripts/windows` (such as the one that applies `src/.chezmoidata/windows.toml`) run only on an apply without target arguments. After changing them or the data they read, tell the user to run a full `chezmoi apply`, not one scoped to a directory.
-- A full apply on Windows also writes the Windows-owned files above, which chezmoi does manage there. Have the user run `chezmoi status` first; if one of them is listed, pull it in with `windows-sync` and commit before applying, or the apply overwrites the change made in the Windows application.
+- A full apply on Windows also writes the Windows-owned files above, which chezmoi does manage there. Have the user run `chezmoi status` first; if one of them is listed, pull it in with `chezmoi re-add` and commit before applying, or the apply overwrites the change made in the Windows application.
 
 ## Repo Tooling
 

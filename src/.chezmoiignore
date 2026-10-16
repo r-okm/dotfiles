@@ -22,8 +22,5 @@ AppData
 .ideavimrc
 _vimrc
 .bash_aliases
-{{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-.local/bin/windows-sync
-{{   end -}}
 
 {{ end -}}
