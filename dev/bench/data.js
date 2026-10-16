@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792150401360,
+  "lastUpdate": 1792151572332,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3007,6 +3007,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 7.1ms, max: 7.3ms, median: 7.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "814567ccb10f6fb171cbe2b15fc5d28ff8ecb09d",
+          "message": "windows: point the Git Bash icon at a path that survives Git updates\n\nGit for Windows 2.56 replaced mingw64/ with ucrt64/, so the icon under\nmingw64/share/git/ disappeared and Windows Terminal reported a missing\nresource on startup. usr/share/git/ ships the same icon in both 2.55\nand 2.56 and does not depend on the toolchain directory name.",
+          "timestamp": "2026-10-16T20:44:18+09:00",
+          "tree_id": "6958c4732cbd92b149b6a4b0bf2e8fefdd719013",
+          "url": "https://github.com/r-okm/dotfiles/commit/814567ccb10f6fb171cbe2b15fc5d28ff8ecb09d"
+        },
+        "date": 1792151571462,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "0.9",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 11.7ms, median: 10.5ms (10 runs)"
           }
         ]
       }
