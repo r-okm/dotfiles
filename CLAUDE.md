@@ -27,7 +27,7 @@ Rules for these files:
 
 ## Windows-Owned Files
 
-The files in the `windows-sync` target list — the Windows Terminal `settings.json` and the Alacritty configs under `src/AppData/**` — are written by their Windows applications; the Windows Terminal settings UI writes its `settings.json` directly. For these, the copy under `%USERPROFILE%` is the source of truth, and changes come back into the source one way only: `windows-sync`, run in WSL, reads Windows and never writes to it. That is what keeps the two copies from drifting apart in both directions at once.
+The files in the `windows-sync` target list — currently only the Windows Terminal `settings.json` under `src/AppData/**` — are written by their Windows applications; the Windows Terminal settings UI writes its `settings.json` directly. For these, the copy under `%USERPROFILE%` is the source of truth, and changes come back into the source one way only: `windows-sync`, run in WSL, reads Windows and never writes to it. That is what keeps the two copies from drifting apart in both directions at once.
 
 Rules for these files:
 
