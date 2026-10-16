@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792145724030,
+  "lastUpdate": 1792150401360,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -2976,6 +2976,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.5ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "df3d675a6d548040d38a2980c4afa1bc90310547",
+          "message": "windows: drop Alacritty, which is no longer used\n\nRemove its configs and the launcher scripts that opened them, and take\nthe configs off the windows-sync target list. The config directory goes\ninto .chezmoiremove so an apply deletes the deployed copy too.",
+          "timestamp": "2026-10-16T20:23:55+09:00",
+          "tree_id": "5850a076735e33bcdcb8912785203036f90149ed",
+          "url": "https://github.com/r-okm/dotfiles/commit/df3d675a6d548040d38a2980c4afa1bc90310547"
+        },
+        "date": 1792150400400,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7.2,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 7.1ms, max: 7.3ms, median: 7.2ms (10 runs)"
           }
         ]
       }
