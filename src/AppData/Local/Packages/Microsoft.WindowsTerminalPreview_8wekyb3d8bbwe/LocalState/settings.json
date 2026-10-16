@@ -357,7 +357,7 @@
                 "commandline": "C:\\scoop\\apps\\git\\current\\bin\\bash.exe",
                 "guid": "{d15b228a-05d7-50d1-8472-f60aaba86efc}",
                 "hidden": false,
-                "icon": "C:\\scoop\\apps\\git\\current\\mingw64\\share\\git\\git-for-windows.ico",
+                "icon": "C:\\scoop\\apps\\git\\current\\usr\\share\\git\\git-for-windows.ico",
                 "name": "Git Bash",
                 "startingDirectory": "%USERPROFILE%"
             },
