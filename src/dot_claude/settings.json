@@ -242,5 +242,6 @@
   "plansDirectory": "./.ignore/ai/plans",
   "tui": "fullscreen",
   "theme": "dark-ansi",
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "inputNeededNotifEnabled": true
 }
