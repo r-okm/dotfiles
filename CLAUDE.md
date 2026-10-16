@@ -14,35 +14,24 @@ Dotfiles managed with [chezmoi](https://www.chezmoi.io/). Source directory: `src
 
 ## Target-Owned Files
 
-Some managed files are written directly by their applications, so the deployed copy in `$HOME` — not `src/` — is the source of truth. They are listed in `target_owned_files` in `src/dot_local/bin/executable_chezmoi-sync`. Currently:
+Some managed files are written directly by their applications, so the deployed copy — not `src/` — is the source of truth. Currently:
 
 - `~/.claude/settings.json` — Claude Code writes it directly (`/model`, `/config`, permission prompts).
+- `~/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json` — the Windows Terminal settings UI writes it directly. `AppData` is ignored on Linux, so only chezmoi on Windows sees this one.
 
 Rules for these files:
 
-- Changes that originate on the target side (the app writing the file, or the user editing it) are synced back with `chezmoi-sync` (abbr: `chs`), which runs `chezmoi re-add` on the listed files. Do not re-create such changes in `src/` by hand.
-- When Claude changes one of these files, it edits the `src/` copy instead: first confirm `chezmoi status` shows no drift for the file (run `chezmoi-sync` if it does), then edit `src/`, then the user runs `chezmoi apply`. The Bash sandbox blocks writes to `~/.claude/settings.json`, and `src/` gives a reviewable diff before the change takes effect.
+- Changes that originate on the target side (the app writing the file, or the user editing it) are synced back with `chezmoi re-add <target>`, run on the machine where the change happened. Do not re-create such changes in `src/` by hand.
+- `chezmoi re-add` copies byte for byte and overwrites the source copy without looking at git, so commit or discard any uncommitted edit to it first. It does not commit — review the diff and write the message yourself, explaining what changed on the target side and why the file also came back reformatted, if it did.
+- Before the user runs `chezmoi apply`, have them run `chezmoi status`; if one of these files is listed, re-add it and commit first, or the apply overwrites the change the application made.
+- When Claude changes one of these files, it edits the `src/` copy instead: first confirm `chezmoi status` shows no drift for the file (re-add it if it does), then edit `src/`, then the user runs `chezmoi apply`. The Bash sandbox blocks writes to `~/.claude/settings.json`, and `src/` gives a reviewable diff before the change takes effect.
 - Keep them non-template — `chezmoi re-add` skips templates, which breaks the sync. Use `~/`-style paths instead of `{{ .chezmoi.homeDir }}`.
 - If both sides changed (e.g. after pulling source changes from another machine), resolve with `chezmoi merge <file>` instead of re-add.
 
-## Windows-Owned Files
+## Windows
 
-Some files under `src/AppData/**` are written by their Windows applications, so the copy under `%USERPROFILE%` is the source of truth. Currently:
-
-- `AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json` — the Windows Terminal settings UI writes it directly.
-
-Rules for these files:
-
-- Do not hand-edit them in `src/` to change Windows behavior. Change it in the Windows application, then run `chezmoi re-add <target>` on Windows to pull the result in.
-- `chezmoi re-add` copies byte for byte and overwrites the source copy without looking at git, so commit or discard any uncommitted edit to it first. It does not commit — review the diff and write the message yourself, explaining what changed on the Windows side and why the file also came back reformatted, if it did.
-- Keep them non-template — `chezmoi re-add` skips templates.
-- On Linux, `AppData` is ignored, so only chezmoi on Windows sees these files; sync them there.
-- Any other file under `AppData` is source-owned like the rest of `src/` and takes the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
-
-Applying on Windows:
-
+- Files under `src/AppData` other than the target-owned one above are source-owned like the rest of `src/` and take the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
 - Windows-only scripts in `src/.chezmoiscripts/windows` (such as the one that applies `src/.chezmoidata/windows.toml`) run only on an apply without target arguments. After changing them or the data they read, tell the user to run a full `chezmoi apply`, not one scoped to a directory.
-- A full apply on Windows also writes the Windows-owned files above, which chezmoi does manage there. Have the user run `chezmoi status` first; if one of them is listed, pull it in with `chezmoi re-add` and commit before applying, or the apply overwrites the change made in the Windows application.
 
 ## Repo Tooling
 

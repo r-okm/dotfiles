@@ -13,3 +13,4 @@
 AppData/Local/ghub-tools
 AppData/Roaming/alacritty
 .local/bin/windows-sync
+.local/bin/chezmoi-sync
