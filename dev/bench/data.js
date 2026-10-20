@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792477456842,
+  "lastUpdate": 1792477754319,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3100,6 +3100,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 11.6ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "63fc3b53b1b56797a809554d7881dbb4059b42ee",
+          "message": "claude: show effort level next to the model in the status line\n\nClaude Code passes the current effort as .effort.level in the status\nline input. The field is omitted for models without effort support, so\nthe segment then falls back to the model name alone.",
+          "timestamp": "2026-10-20T15:20:05+09:00",
+          "tree_id": "a0a1a173ab4c497c90194e20468e24c1daff303a",
+          "url": "https://github.com/r-okm/dotfiles/commit/63fc3b53b1b56797a809554d7881dbb4059b42ee"
+        },
+        "date": 1792477753500,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 10.9ms, median: 10.7ms (10 runs)"
           }
         ]
       }
