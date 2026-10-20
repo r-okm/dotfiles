@@ -11,6 +11,7 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -I'
+alias chezmoi='chezmoi --pager delta'
 alias eza-ls='eza -ahlmM -F=always --color=always --icons=always --group-directories-first --time-style=relative'
 # force zsh to show the complete history
 alias history="history 0"

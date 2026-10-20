@@ -4,3 +4,7 @@ skip_global_compinit=1
 if [[ -n "$CLAUDECODE" && -z "$TMPDIR" ]]; then
   export TMPDIR="${CLAUDE_TMPDIR:-/tmp/claude-${UID}}"
 fi
+
+if [[ -n "$CLAUDECODE" ]]; then
+  export PAGER=cat
+fi
