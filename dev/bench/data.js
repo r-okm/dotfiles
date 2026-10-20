@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792152378790,
+  "lastUpdate": 1792477456842,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3069,6 +3069,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 6.8ms, max: 7.5ms, median: 7.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "40bb25ec0fdebb44818f11bf59124d53bfd39fd3",
+          "message": "chezmoi: page diffs through delta only in interactive shells\n\nchezmoi pipes diff output into diff.pager even when stdout is not a\nterminal, unlike git, which skips its pager there. Claude Code's Bash\ntool has no TTY, so `chezmoi diff` came back as delta's side-by-side\noutput full of escape codes and box-drawing characters, and Claude\nhad to remember --no-pager.\n\nchezmoi has no pager variable of its own (it reads only $PAGER, and\ndiff.pager in the config wins over it), so delta moves out of the\nconfig into an alias. Claude Code's shell snapshot does not carry\naliases, so agent shells fall back to $PAGER. Agent shells also get\nPAGER=cat to keep any other tool that pages without checking for a TTY\nfrom waiting on a pager.",
+          "timestamp": "2026-10-20T15:15:05+09:00",
+          "tree_id": "ad23659aed24e43d9eb4de4a3eaaba9d991ba606",
+          "url": "https://github.com/r-okm/dotfiles/commit/40bb25ec0fdebb44818f11bf59124d53bfd39fd3"
+        },
+        "date": 1792477455883,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.6,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 11.6ms, median: 10.4ms (10 runs)"
           }
         ]
       }
