@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792477754319,
+  "lastUpdate": 1792477955240,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3131,6 +3131,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.7ms, max: 10.9ms, median: 10.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "c6d871d2ac5fd2b2395122ae83b8777683e48776",
+          "message": "zsh: hand delta to chezmoi through PAGER, not --pager\n\n--pager is a flag of `chezmoi diff` only, so the alias broke every\nother subcommand: `chezmoi apply`, `status` and `re-add` all failed\nwith \"unknown flag: --pager\". With no pager in the config, chezmoi\nfalls back to $PAGER for every command, including the diffs that\n`apply -v` shows, so setting PAGER on the alias covers them all.",
+          "timestamp": "2026-10-20T15:23:44+09:00",
+          "tree_id": "7a66929c260eb04fdc64eb23de7615046a699f27",
+          "url": "https://github.com/r-okm/dotfiles/commit/c6d871d2ac5fd2b2395122ae83b8777683e48776"
+        },
+        "date": 1792477954864,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "3.0",
+            "unit": "ms",
+            "extra": "min: 10.4ms, max: 13.4ms, median: 10.5ms (10 runs)"
           }
         ]
       }
