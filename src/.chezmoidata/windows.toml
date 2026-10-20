@@ -21,3 +21,16 @@ unset = []
 # PATH, but how Claude Code looks is not documented.
 # current is the junction scoop repoints on every update, so this survives them.
 CLAUDE_CODE_GIT_BASH_PATH = 'C:\scoop\apps\git\current\bin\bash.exe'
+
+# The conhost window that runs WSL nvim, built by
+# .chezmoiscripts/windows/run_onchange_after_303-install-nvim-launcher.ps1.tmpl.
+# conhost takes no font option, so these go into the console properties of the
+# Start Menu shortcut, which the Explorer verb also launches through.
+[windows.nvimLauncher]
+font = 'UDEV Gothic 35NF EAW'
+# Cell height in pixels
+fontSize = 20
+columns = 100
+rows = 32
+# Global hotkey of the Start Menu shortcut, in WScript.Shell notation
+hotkey = 'Ctrl+Alt+N'

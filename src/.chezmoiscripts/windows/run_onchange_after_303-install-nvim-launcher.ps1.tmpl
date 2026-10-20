@@ -1,0 +1,147 @@
+# Launch WSL nvim in a conhost window, from the Start Menu (with a hotkey) and
+# from Explorer's context menu.
+#
+# conhost starts in about half the time Windows Terminal takes, which matters
+# for a window opened to jot something down. It has no font option; a console
+# shortcut stores font and window size in its NT_CONSOLE_PROPS block, and
+# conhost reads that block when the shortcut targets conhost.exe itself (a
+# shortcut to wsl.exe would go to the default terminal instead). Explorer
+# cannot run a shortcut as a verb command, so the verb runs it through
+# ShellExec_RunDLL, which appends "%1" to the shortcut's arguments.
+#
+# The settings come from .chezmoidata/windows.toml and are rendered into this
+# script, so editing them changes its content and chezmoi runs it again.
+
+$ErrorActionPreference = 'Stop'
+
+$font = '{{ .windows.nvimLauncher.font | replace "'" "''" }}'
+$fontSize = {{ .windows.nvimLauncher.fontSize }}
+$columns = {{ .windows.nvimLauncher.columns }}
+$rows = {{ .windows.nvimLauncher.rows }}
+$hotkey = '{{ .windows.nvimLauncher.hotkey | replace "'" "''" }}'
+
+$lnk = Join-Path ([Environment]::GetFolderPath('Programs')) 'nvim (WSL).lnk'
+$verb = 'Software\Classes\*\shell\r-okm.nvim'
+
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+
+[ComImport, Guid("45e2b4ae-b1c3-11d0-b92f-00a0c90312e1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+interface IShellLinkDataList {
+    void AddDataBlock(IntPtr pDataBlock);
+    void CopyDataBlock(uint dwSig, out IntPtr ppDataBlock);
+    void RemoveDataBlock(uint dwSig);
+    void GetFlags(out uint pdwFlags);
+    void SetFlags(uint dwFlags);
+}
+
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public struct NT_CONSOLE_PROPS {
+    public uint cbSize;
+    public uint dwSignature;
+    public ushort wFillAttribute;
+    public ushort wPopupFillAttribute;
+    public short ScreenBufferX, ScreenBufferY;
+    public short WindowX, WindowY;
+    public short OriginX, OriginY;
+    public uint nFont;
+    public uint nInputBufferSize;
+    public short FontX, FontY;
+    public uint uFontFamily;
+    public uint uFontWeight;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string FaceName;
+    public uint uCursorSize;
+    public int bFullScreen, bQuickEdit, bInsertMode, bAutoPosition;
+    public uint uHistoryBufferSize, uNumberOfHistoryBuffers;
+    public int bHistoryNoDup;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)] public uint[] ColorTable;
+}
+
+public static class ConsoleLink {
+    const uint NT_CONSOLE_PROPS_SIG = 0xA0000002;
+
+    public static void SetProps(string path, NT_CONSOLE_PROPS props) {
+        // CLSID_ShellLink
+        object link = Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("00021401-0000-0000-C000-000000000046")));
+        try {
+            // STGM_READWRITE
+            ((IPersistFile)link).Load(path, 2);
+            var data = (IShellLinkDataList)link;
+            props.cbSize = (uint)Marshal.SizeOf(typeof(NT_CONSOLE_PROPS));
+            props.dwSignature = NT_CONSOLE_PROPS_SIG;
+            // A shortcut holds one block per signature; a fresh one has none
+            try { data.RemoveDataBlock(NT_CONSOLE_PROPS_SIG); } catch (COMException) { }
+            IntPtr p = Marshal.AllocHGlobal((int)props.cbSize);
+            try {
+                Marshal.StructureToPtr(props, p, false);
+                data.AddDataBlock(p);
+            } finally { Marshal.FreeHGlobal(p); }
+            ((IPersistFile)link).Save(path, true);
+        } finally { Marshal.ReleaseComObject(link); }
+    }
+
+    [DllImport("shell32.dll")]
+    public static extern void SHChangeNotify(int eventId, uint flags, IntPtr item1, IntPtr item2);
+}
+'@
+
+# wsl.exe -e runs no shell, so ~ in the program path would not expand; the
+# path is relative to the --cd directory instead
+$shell = New-Object -ComObject WScript.Shell
+$s = $shell.CreateShortcut($lnk)
+$s.TargetPath = "$env:windir\System32\conhost.exe"
+$s.Arguments = 'wsl.exe --cd ~ -e .local/bin/nvim-win'
+$s.WorkingDirectory = $env:USERPROFILE
+$s.Description = 'nvim in WSL, in a conhost window'
+$s.Hotkey = $hotkey
+$s.Save()
+
+# Start from the console defaults the user already has, so only font, size
+# and mouse handling differ from any other conhost window
+$defaults = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Console')
+try {
+  $p = New-Object NT_CONSOLE_PROPS
+  $p.wFillAttribute = $defaults.GetValue('ScreenColors', 0x07)
+  $p.wPopupFillAttribute = $defaults.GetValue('PopupColors', 0xf5)
+  $p.ScreenBufferX = $columns; $p.ScreenBufferY = $rows
+  $p.WindowX = $columns; $p.WindowY = $rows
+  $p.FontY = $fontSize
+  # FF_MODERN | TMPF_VECTOR | TMPF_TRUETYPE, as the console properties dialog
+  # stores a TrueType face
+  $p.uFontFamily = 0x36
+  $p.uFontWeight = 400
+  $p.FaceName = $font
+  $p.uCursorSize = $defaults.GetValue('CursorSize', 25)
+  # QuickEdit would take mouse clicks for selection instead of passing them
+  # to nvim
+  $p.bQuickEdit = 0
+  $p.bInsertMode = 1
+  $p.bAutoPosition = 1
+  $p.uHistoryBufferSize = $defaults.GetValue('HistoryBufferSize', 50)
+  $p.uNumberOfHistoryBuffers = $defaults.GetValue('NumberOfHistoryBuffers', 4)
+  # The table replaces the palette wholesale; zeros would paint all 16 colors black
+  $p.ColorTable = [uint32[]](0..15 | ForEach-Object {
+      $c = $defaults.GetValue(('ColorTable{0:d2}' -f $_))
+      if ($null -eq $c) { throw "HKCU\Console\ColorTable$('{0:d2}' -f $_) is missing" }
+      [uint32]$c
+    })
+} finally { if ($defaults) { $defaults.Close() } }
+[ConsoleLink]::SetProps($lnk, $p)
+
+function Set-Value([string]$subKey, [string]$name, [string]$value) {
+  $k = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($subKey)
+  try { $k.SetValue($name, $value) } finally { $k.Close() }
+}
+
+# Added next to the gvim association from 301, not in place of it. Windows 11
+# lists HKCU verbs under "Show more options".
+Set-Value $verb '' 'Open in nvim (WSL)'
+Set-Value $verb 'Icon' "$env:windir\System32\wsl.exe"
+Set-Value "$verb\command" '' "`"$env:windir\System32\rundll32.exe`" shell32.dll,ShellExec_RunDLL `"$lnk`" `"%1`""
+
+# SHCNE_ASSOCCHANGED, SHCNF_IDLIST
+[ConsoleLink]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
+
+Write-Host "nvim launcher: $lnk ($hotkey), Explorer verb 'Open in nvim (WSL)'"

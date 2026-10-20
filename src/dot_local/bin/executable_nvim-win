@@ -1,0 +1,34 @@
+#!/bin/bash
+# Run nvim for a Windows launcher: the "nvim" Start Menu shortcut and the
+# Explorer "Open in nvim" verb, both of which start this through
+# `wsl.exe --cd ~ -e .local/bin/nvim-win [<windows path>...]`.
+#
+# wsl.exe -e runs no shell, so neither ~/.profile (PATH, XDG_*) nor any path
+# translation happens; this script does both.
+
+set -eu
+
+# shellcheck disable=SC1091
+. "$HOME/.profile"
+
+to_linux_path() {
+  local path="$1" prefix
+  # wslpath turns \\wsl.localhost\<distro>\home into /mnt/c/wsl.localhost/...,
+  # so a path into this distro's own filesystem is unpacked here
+  for prefix in "\\\\wsl.localhost\\$WSL_DISTRO_NAME\\" "\\\\wsl\$\\$WSL_DISTRO_NAME\\"; do
+    if [[ "${path,,}" == "${prefix,,}"* ]]; then
+      path="/${path:${#prefix}}"
+      printf '%s\n' "${path//\\//}"
+      return
+    fi
+  done
+  wslpath -u "$path"
+}
+
+args=()
+for arg in "$@"; do
+  # Explorer hands over C:\... and \\wsl.localhost\<distro>\... paths alike
+  args+=("$(to_linux_path "$arg")")
+done
+
+exec nvim "${args[@]}"
