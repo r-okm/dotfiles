@@ -1,11 +1,12 @@
 #!/bin/bash
 # Claude Code status line, one line, pipe-separated:
-#   model | context usage bar + used/total tokens | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
+#   model + effort | context usage bar + used/total tokens | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
 # Configured by the statusline-setup agent. Use that agent again to make further changes.
 
 input=$(cat)
 
 model=$(echo "$input" | jq -r '.model.display_name // empty')
+effort=$(echo "$input" | jq -r '.effort.level // empty')
 ctx=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 ctx_used=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
 ctx_size=$(echo "$input" | jq -r '.context_window.context_window_size // empty')
@@ -58,8 +59,12 @@ reset_at() {
 
 segments=()
 
-# model
-[ -n "$model" ] && segments+=("${GRAY}${model}${RESET}")
+# model + effort (effort is absent for models without effort support)
+if [ -n "$model" ]; then
+  seg="${GRAY}${model}${RESET}"
+  [ -n "$effort" ] && seg="${seg} ${GRAY}${effort}${RESET}"
+  segments+=("$seg")
+fi
 
 # context usage bar + used/total tokens
 if [ -n "$ctx" ]; then
