@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792477955240,
+  "lastUpdate": 1792651941632,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3162,6 +3162,37 @@ window.BENCHMARK_DATA = {
             "range": "3.0",
             "unit": "ms",
             "extra": "min: 10.4ms, max: 13.4ms, median: 10.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "b508d86ded934fe29975329b5e48cd502cd7ced3",
+          "message": "claude: drop redundant allow rules and reopen the unsandboxed retry\n\nAuto mode has been the default since 2026-09-03, and the Bash, Skill and\nWebFetch allow rules no longer suppress anything: sandboxed commands are\nauto-allowed by the sandbox, excluded commands and web fetches go to the\nclassifier, and the permission log shows no prompt in that class across\nsome twenty sessions since 09-25, including commands and domains that\nhad no rule. The Read rules stay. A Read outside the working directories\nprompts in auto mode too, once per directory (measured 2026-10-22 in a\nproject with no local settings), and Read(~/.claude/**) in particular\ncovers the tool outputs the harness persists under ~/.claude/projects.\n\nWith no Bash allow rules left, an allow match can no longer approve an\nunsandboxed retry without review, which was the reason strict mode was\nchosen in f23bd38. So allow the retry again and put\nBash(dangerouslyDisableSandbox:true) in ask: every escape from the\nsandbox now prompts, in auto mode too and ahead of any allow rule.\nMeasured on 2.1.308: a tsx EPERM retry prompted, and a read-only `ls /`\nrun with the parameter prompted as well. Tools that cannot run sandboxed\nno longer need an excludedCommands entry each; the prompt replaces it.",
+          "timestamp": "2026-10-22T15:42:50+09:00",
+          "tree_id": "2a9a39015c8ac01539c495b7fd3f55974cc7cc36",
+          "url": "https://github.com/r-okm/dotfiles/commit/b508d86ded934fe29975329b5e48cd502cd7ced3"
+        },
+        "date": 1792651940916,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.5ms, median: 10.2ms (10 runs)"
           }
         ]
       }
