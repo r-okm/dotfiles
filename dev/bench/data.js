@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792746607772,
+  "lastUpdate": 1792747654091,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3317,6 +3317,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 10.5ms, max: 11.3ms, median: 10.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "34d05489b9ce6e4ce0772c53a0b8453954a1b0f8",
+          "message": "wsl: link win32yank from ~/.local/bin and drop C:\\bin from PATH\n\nC:\\bin held hand-made links to Windows executables, the same job\n~/.local/bin already does for gh.exe, npiperelay.exe and the rest. Only\nwin32yank was left in it, so it moves to ~/.local/bin as win32yank.exe,\nthe clipboard script calls it by that name, and the apply checks the\nlink like the others. /mnt/c/bin leaves the WSL PATH; the Windows PATH\nnever had it.\n\nOn each WSL machine, before applying:\n- Link win32yank, or every yank through the clipboard script (Neovim,\n  tmux, lazygit, zsh) fails until it is linked:\n    ln -sf /mnt/c/scoop/apps/win32yank/current/win32yank.exe ~/.local/bin/win32yank.exe\n- Check /mnt/c/bin for anything besides win32yank and give it a link in\n  ~/.local/bin, since it drops off the PATH.\n\nAfter applying and logging in again, delete /mnt/c/bin. chezmoi never\nmanaged it, so .chezmoiremove cannot.",
+          "timestamp": "2026-10-23T18:20:07+09:00",
+          "tree_id": "49b40bc742344c2b2aad3eafa6618c47a7c6c095",
+          "url": "https://github.com/r-okm/dotfiles/commit/34d05489b9ce6e4ce0772c53a0b8453954a1b0f8"
+        },
+        "date": 1792747653454,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 3.9ms, max: 4.2ms, median: 4.0ms (10 runs)"
           }
         ]
       }
