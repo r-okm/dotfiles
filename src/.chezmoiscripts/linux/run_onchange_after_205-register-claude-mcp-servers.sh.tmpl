@@ -1,0 +1,27 @@
+#!/usr/bin/env -S zsh -l
+set -euxo pipefail
+
+# chezmoi: claude の有無を検知 (未導入で skip した回が実行済みとして記録されるため)
+# claude: {{ lookPath "claude" }}
+
+# User-scope MCP servers for Claude Code. `claude mcp add` writes ~/.claude.json,
+# which Claude Code also rewrites at runtime, so that file is not managed here.
+# chrome-devtools-mcp is installed by run_onchange_after_204-install-npm-packages.sh.tmpl
+# and needs Google Chrome (run_once_110-install-google-chrome.sh).
+# https://github.com/ChromeDevTools/chrome-devtools-mcp
+
+main() {
+  if ! command -v claude &>/dev/null; then
+    echo 'claude is not installed; skipping MCP server registration.'
+    return
+  fi
+
+  echo 'Registering Claude Code MCP servers...'
+
+  # `claude mcp add` refuses an existing name, so re-add to pick up argument changes.
+  claude mcp remove chrome-devtools -s user &>/dev/null || true
+  claude mcp add chrome-devtools -s user -- \
+    chrome-devtools-mcp --no-usage-statistics --no-performance-crux
+}
+
+main
