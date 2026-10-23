@@ -18,3 +18,9 @@ AppData/Roaming/alacritty
 .claude/r-okm/scripts/ss.sh
 .cache/ss
 .config/mcphub
+.claude/skills/fetch-pr-context
+.claude/skills/review-pr
+.local/bin/gh-pr-fetch-reviews
+.local/bin/gh-pr-fetch-comments
+.local/bin/gh-pr-review-threads
+.local/bin/gh-pr-parse

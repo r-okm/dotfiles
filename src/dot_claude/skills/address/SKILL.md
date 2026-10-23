@@ -2,7 +2,7 @@
 name: address
 description: PRのレビューコメントを精査し、妥当な指摘に対して修正案を作成する
 disable-model-invocation: true
-allowed-tools: Skill(fetch-pr-context), Read, Grep, Glob
+allowed-tools: Read, Grep, Glob
 argument-hint: "[PR number | GitHub PR URL]"
 ---
 
@@ -20,8 +20,8 @@ argument-hint: "[PR number | GitHub PR URL]"
 ### 引数の解釈
 
 - **無引数**: 直前の会話に含まれるレビュー内容を対象とする。会話内にレビュー情報が見つからない場合はユーザーに確認する。
-- **数値のみ**: PR番号として `fetch-pr-context` スキルに渡す
-- **github.com を含むURL**: URLをそのまま `fetch-pr-context` スキルに渡す
+- **数値のみ**: PR番号として扱う
+- **github.com を含むURL**: URLが指すPRを対象とする
 
 ## 動作フロー
 
@@ -30,8 +30,7 @@ argument-hint: "[PR number | GitHub PR URL]"
 引数に応じてレビューコメントを取得する。
 
 - **PR番号またはURLが与えられた場合**:
-  `fetch-pr-context` スキルをPR番号を引数として呼び出す。
-  Step 3（GraphQL）まで実行し、未解決スレッド（`isResolved == false`）に絞り込む。
+  そのPRのレビューコメントを取得し、未解決スレッド（`isResolved == false`）に絞り込む。
 - **無引数の場合**:
   直前の会話からレビュー内容を特定する。
   会話内にレビュー情報が見つからない場合、ユーザーにPR番号の入力を促す。
