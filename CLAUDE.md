@@ -24,7 +24,7 @@ Rules for these files:
 - Changes that originate on the target side (the app writing the file, or the user editing it) are synced back with `chezmoi re-add <target>`, run on the machine where the change happened. Do not re-create such changes in `src/` by hand.
 - `chezmoi re-add` copies byte for byte and overwrites the source copy without looking at git, so commit or discard any uncommitted edit to it first. It does not commit — review the diff and write the message yourself, explaining what changed on the target side and why the file also came back reformatted, if it did.
 - Before the user runs `chezmoi apply`, have them run `chezmoi status`; if one of these files is listed, re-add it and commit first, or the apply overwrites the change the application made.
-- When Claude changes one of these files, it edits the `src/` copy instead: first confirm `chezmoi status` shows no drift for the file (re-add it if it does), then edit `src/`, then the user runs `chezmoi apply`. The Bash sandbox blocks writes to `~/.claude/settings.json`, and `src/` gives a reviewable diff before the change takes effect.
+- When Claude changes one of these files, it edits the `src/` copy instead: first confirm `chezmoi status` shows no drift for the file (re-add it if it does), then edit `src/`, then the user runs `chezmoi apply`. Editing `src/` gives a reviewable diff before the change takes effect.
 - Keep them non-template — `chezmoi re-add` skips templates, which breaks the sync. Use `~/`-style paths instead of `{{ .chezmoi.homeDir }}`.
 - If both sides changed (e.g. after pulling source changes from another machine), resolve with `chezmoi merge <file>` instead of re-add.
 

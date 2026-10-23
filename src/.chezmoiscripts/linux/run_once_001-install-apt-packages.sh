@@ -37,8 +37,6 @@ apt_packages=(
   'bison'
   # wsl-ssh-agent
   'socat'
-  # claude code bash sandbox (also needs socat)
-  'bubblewrap'
 )
 
 main() {

@@ -18,6 +18,8 @@
       "WebSearch"
     ],
     "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.config/gh/hosts.yml)",
       "Edit(~/.ssh/**)",
       "Edit(~/.aws/**)",
       "Edit(~/.gnupg/**)",
@@ -45,11 +47,8 @@
       "Bash(terraform logout *)"
     ],
     "ask": [
-      "Bash(dangerouslyDisableSandbox:true)",
       "Edit(~/.claude/r-okm/scripts/**)",
-      "Read(~/.ssh/**)",
       "Read(~/.config/gh/**)",
-      "Read(//mnt/**)",
       "Read(//proc/**)"
     ],
     "additionalDirectories": [
@@ -116,52 +115,7 @@
     }
   },
   "sandbox": {
-    "enabled": true,
-    "allowUnsandboxedCommands": true,
-    "network": {
-      "allowedDomains": [
-        "github.com",
-        "*.github.com",
-        "registry.npmjs.org"
-      ],
-      "tlsTerminate": {}
-    },
-    "filesystem": {
-      "allowWrite": [
-        "~/.cache/ss",
-        "~/.config/chezmoi"
-      ],
-      "denyRead": [
-        "~/.ssh",
-        "/mnt"
-      ],
-      "allowRead": [
-        "~/.config/gh/config.yml"
-      ]
-    },
-    "credentials": {
-      "files": [
-        {
-          "path": "~/.config/gh/hosts.yml",
-          "mode": "mask",
-          "extract": "oauth_token:\\s*(\\S+)",
-          "injectHosts": [
-            "api.github.com",
-            "github.com"
-          ]
-        }
-      ]
-    },
-    "excludedCommands": [
-      "git:*",
-      "tmux:*",
-      "git-worktree-tmux:*",
-      "explorer:*",
-      "xdg-open:*",
-      "docker:*",
-      "~/.claude/r-okm/scripts/*",
-      "node *review-wizard-marketplace/review-wizard/*/scripts/review_wizard.ts*"
-    ]
+    "enabled": false
   },
   "effortLevel": "high",
   "advisorModel": "fable",
