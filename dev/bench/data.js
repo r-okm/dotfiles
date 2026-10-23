@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792739060048,
+  "lastUpdate": 1792746607772,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3286,6 +3286,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 8.8ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "4716be7887c2fe761cbcb0d5387405cda4ac9b0b",
+          "message": "gh: keep the tokens in the Windows Credential Manager, not in plaintext\n\nWSL has no usable keyring, so the Linux gh stored both logins in\nplaintext in ~/.config/gh/hosts.yml. A wrapper at ~/.local/bin/gh (WSL\nonly) now takes the token from the Windows gh with `gh.exe auth token`\nand runs the Linux gh with GH_TOKEN. `gh auth` goes to gh.exe, so login,\nswitch and status act on the Windows-side store and a login never lands\nin the Linux hosts.yml. setup-git and git-credential stay on the Linux\ngh, since they configure and serve WSL's git.\n\n1Password was the other candidate. Its CLI integration needs Windows\nHello, which company policy disables on one machine, and a manual\n`op signin` would keep the Secret Key on disk in WSL and have the\naccount password typed there. The Credential Manager is readable by any\nprocess of the same user while logged on, like every OS store, so the\nlogins use gh 2.103's expiring tokens (8-hour access token, rotating\nrefresh token) to shorten what a stolen token is worth.\n\nDetails in the wrapper:\n- A token chosen by the caller (GH_TOKEN, GITHUB_TOKEN and the\n  enterprise ones) wins, as in gh itself.\n- gh.exe gets </dev/null; interop would otherwise hand it the stdin\n  meant for the Linux gh.\n- gh.exe's stderr is shown only on failure; for an expiring token it\n  warns on every call.\n- `auth login` defaults to ssh with --skip-ssh-key. With https an\n  expiring login asks to make gh the Windows git's credential helper,\n  which WSL's git never uses. The protocol recorded there only steers\n  the Windows gh.\n- completion, help and --version skip the token, keeping a Windows\n  process launch out of the zsh startup that regenerates completions.\n\ngh.exe joins the hand-made links the apply checks. Claude Code is denied\n`gh.exe auth token` and the token-printing forms of `gh.exe auth status`,\nmatching the existing gh rules.\n\nThe gh install script now checks /usr/bin/gh: `command -v gh` would find\nthe wrapper and skip installing the gh it wraps. Changing it reruns the\nscript once on each machine, where it finds gh and returns.",
+          "timestamp": "2026-10-23T17:59:31+09:00",
+          "tree_id": "55549bb98fcdcfb7abef6ed1cf757c17bac378ff",
+          "url": "https://github.com/r-okm/dotfiles/commit/4716be7887c2fe761cbcb0d5387405cda4ac9b0b"
+        },
+        "date": 1792746606834,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.8,
+            "range": "0.8",
+            "unit": "ms",
+            "extra": "min: 10.5ms, max: 11.3ms, median: 10.8ms (10 runs)"
           }
         ]
       }
