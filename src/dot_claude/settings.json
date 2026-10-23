@@ -12,7 +12,6 @@
       "Read(~/work/**)",
       "Read(~/.config/tmux/plugins/**)",
       "Read(//tmp/**)",
-      "Read(~/.cache/ss/**)",
       "Read(~/.local/state/yt-summary/**)",
       "Edit(~/.local/state/yt-summary/**)",
       "WebSearch"
