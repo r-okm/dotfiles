@@ -13,3 +13,7 @@ fpath=(
   $ZDOTDIR/completions(N-/)
   $fpath
 )
+
+# zsh-abbr
+ABBR_SET_EXPANSION_CURSOR=1
+ABBR_EXPANSION_CURSOR_MARKER='@@'
