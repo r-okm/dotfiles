@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792716594003,
+  "lastUpdate": 1792717697080,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3224,6 +3224,37 @@ window.BENCHMARK_DATA = {
             "range": "-0.0",
             "unit": "ms",
             "extra": "min: 4.6ms, max: 4.5ms, median: 4.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9aa0c2f08048861a3c327c9e984eaf069a860d81",
+          "message": "zsh: add a tn abbreviation that opens a tmux window with the cursor in quotes\n\ntn expands to `tmux new-window \"\"` with the cursor between the quotes,\nso the command for the new window (e.g. `npm run dev`) can be typed\nright away. Cursor placement needs ABBR_SET_EXPANSION_CURSOR, which is\nset in sync/options.zsh because zsh-abbr reads it when it loads and the\nplugin is sourced after the sync configs.\n\nThe marker is @@ instead of the default %: dec2hex and hex2dec already\ncontain % in printf formats, and with the default marker their first %\nwould be replaced by the cursor. A single @ was also ruled out, since\nzsh-abbr#140 reports it colliding with user@host. Only expansions are\naffected; ABBR_SET_LINE_CURSOR stays off, so an @@ typed on the command\nline is left alone.",
+          "timestamp": "2026-10-23T09:59:08+09:00",
+          "tree_id": "f983c2e983c15e52b392145d28e2d789b0c6c476",
+          "url": "https://github.com/r-okm/dotfiles/commit/9aa0c2f08048861a3c327c9e984eaf069a860d81"
+        },
+        "date": 1792717696434,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.8ms, max: 11.0ms, median: 10.8ms (10 runs)"
           }
         ]
       }
