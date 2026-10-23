@@ -11,6 +11,7 @@ links_dir="$HOME/.local/bin"
 # <link name>|<what calls it>
 links=(
   'git-credential-manager.exe|credential.helper in ~/.config/git/config'
+  'gh.exe|the gh wrapper in ~/.local/bin'
   'npiperelay.exe|ssh-agent-relay.service'
   'vivaldi.exe|vivaldi.desktop and BROWSER in ~/.profile'
 )

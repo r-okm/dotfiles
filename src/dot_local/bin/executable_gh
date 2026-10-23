@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# WSL has no keyring, so the token comes from the Windows gh (Credential
+# Manager) instead of a plaintext ~/.config/gh/hosts.yml.
+
+self="$(basename "$0")"
+
+real_gh() {
+  local self_path candidate
+  self_path="$(realpath -- "$0")"
+  while IFS= read -r candidate; do
+    if [[ "$(realpath -- "$candidate")" != "$self_path" ]]; then
+      echo "$candidate"
+      return 0
+    fi
+  done < <(type -ap gh)
+  echo "$self: the Linux gh is not installed" >&2
+  return 1
+}
+
+gh_bin="$(real_gh)"
+
+require_gh_exe() {
+  if ! command -v gh.exe &>/dev/null; then
+    echo "$self: gh.exe not found -- install it with 'scoop install gh' and link it into ~/.local/bin" >&2
+    exit 1
+  fi
+}
+
+# </dev/null: interop would hand gh.exe the stdin piped to the Linux gh.
+# stderr only on failure: gh.exe warns about expiry on every call.
+exec_with_token() {
+  local token err
+  require_gh_exe
+  err="$(mktemp)"
+  if ! token="$(gh.exe auth token </dev/null 2>"$err")"; then
+    cat -- "$err" >&2
+    rm -f -- "$err"
+    echo "$self: gh.exe gave no token -- see 'gh auth status'" >&2
+    exit 1
+  fi
+  rm -f -- "$err"
+  GH_TOKEN="${token%$'\r'}" exec "$gh_bin" "$@"
+}
+
+if [[ -n "${GH_TOKEN:-}${GITHUB_TOKEN:-}${GH_ENTERPRISE_TOKEN:-}${GITHUB_ENTERPRISE_TOKEN:-}" ]]; then
+  exec "$gh_bin" "$@"
+fi
+
+case "${1:-} ${2:-}" in
+  # Keeps gh.exe out of the zsh startup that regenerates the completion.
+  ' ' | 'completion '* | 'help '* | 'version '* | '--version '* | '-h '* | '--help '*)
+    exec "$gh_bin" "$@"
+    ;;
+
+  # With https an expiring login offers to become the Windows git's credential
+  # helper. The protocol only steers the Windows gh; later flags win.
+  'auth login')
+    require_gh_exe
+    exec gh.exe auth login --git-protocol ssh --skip-ssh-key "${@:3}"
+    ;;
+
+  # They serve the calling git, which is WSL's.
+  'auth setup-git' | 'auth git-credential')
+    exec_with_token "$@"
+    ;;
+
+  # Keeps logins out of the Linux hosts.yml. stdin stays for the prompts.
+  'auth '*)
+    require_gh_exe
+    exec gh.exe "$@"
+    ;;
+
+  *)
+    exec_with_token "$@"
+    ;;
+esac

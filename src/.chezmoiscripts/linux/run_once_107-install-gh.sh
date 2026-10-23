@@ -3,8 +3,8 @@ set -euxo pipefail
 
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 main() {
-  if command -v gh &>/dev/null; then
-    echo "GitHub CLI is already installed: $(gh --version | head -1)"
+  if [[ -x /usr/bin/gh ]]; then
+    echo "GitHub CLI is already installed: $(/usr/bin/gh --version | head -1)"
     return
   fi
 

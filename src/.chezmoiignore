@@ -27,5 +27,6 @@ _vimrc
 {{ if eq .chezmoi.os "linux" -}}
 {{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 .chezmoiscripts/linux/wsl/**
+.local/bin/gh
 {{   end -}}
 {{ end -}}
