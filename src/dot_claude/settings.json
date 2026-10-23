@@ -18,8 +18,10 @@
       "WebSearch"
     ],
     "deny": [
-      "Read(~/.ssh/**)",
       "Read(~/.config/gh/hosts.yml)",
+      "Bash(gh auth token*)",
+      "Bash(gh auth status*--show-token*)",
+      "Bash(gh auth status*-t*)",
       "Edit(~/.ssh/**)",
       "Edit(~/.aws/**)",
       "Edit(~/.gnupg/**)",
