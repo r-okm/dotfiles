@@ -3,7 +3,9 @@
 command = "nvim"
 args = ["-u", "$XDG_CONFIG_HOME/nvim/init.git_editor.lua", "-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}"]
 [diff]
-exclude = ["scripts"]
+exclude = ["always"]
+[status]
+exclude = ["always"]
 {{ end -}}
 [data.work]
 git_user_name = ""
