@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792651941632,
+  "lastUpdate": 1792716594003,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3193,6 +3193,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.5ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "6de024aa71f598ea9b381a82b4ae73a135c62e2e",
+          "message": "linux: install Google Chrome and register chrome-devtools-mcp with Claude Code\n\nClaude in Chrome does not run under WSL, so browser work from Claude Code\ngoes through chrome-devtools-mcp driving a Chrome installed in the WSL\ndistribution. Both halves were set up by hand on this machine; this makes\nthem part of the apply.\n\nChrome comes from Google's signed apt repository, bootstrapped the same\nway as gh (keyring under /etc/apt/keyrings, a one-line .list). The\npackage's postinst then writes its own google-chrome.sources with its own\nkeyring and removes a legacy google-chrome.list that matches its regex,\nso after the install only the bootstrap keyring is left over and the\nscript removes it when no source references it. The same cleanup path\nhandles the hand-added list and keyring on this machine, where the two\nsources had been serving the same index twice. A direct .deb install was\nconsidered and dropped: it skips apt's signature check and is weaker than\nevery other repository script here.\n\nchrome-devtools-mcp is a global npm package rather than an `npx\n-y ...@latest` registration, so a session start does not resolve the\nlatest tag against the registry each time and the server version only\nmoves when the package is reinstalled. The MCP registration script\nre-adds the user-scope entry with remove then add, since `claude mcp add`\nrefuses an existing name and the script should pick up argument changes.\n~/.claude.json itself stays unmanaged; Claude Code rewrites it at runtime.\nThe registration script is a template carrying `lookPath \"claude\"`: a\nrun that skips because claude is missing is still recorded as done, and\nthe path appearing in the rendered script is what triggers a rerun.",
+          "timestamp": "2026-10-23T09:43:09+09:00",
+          "tree_id": "1f72e5e168c29124d948b4ed32dbc5cf64668a8f",
+          "url": "https://github.com/r-okm/dotfiles/commit/6de024aa71f598ea9b381a82b4ae73a135c62e2e"
+        },
+        "date": 1792716593319,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4.3,
+            "range": "-0.0",
+            "unit": "ms",
+            "extra": "min: 4.6ms, max: 4.5ms, median: 4.3ms (10 runs)"
           }
         ]
       }
