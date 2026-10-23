@@ -19,7 +19,7 @@
 
 # WSL
 
-- To open a URL in the user's browser, use `xdg-open <url>` — `$BROWSER` in `~/.profile` routes it to the Windows-side browser. Don't look for `explorer.exe` or `wslview`.
+- To open a URL in the user's browser, use `xdg-open <url>` — `~/.config/mimeapps.list` routes http/https to the Windows-side Vivaldi (`$BROWSER` in `~/.profile` when neither `DISPLAY` nor `WAYLAND_DISPLAY` is set). Don't look for `explorer.exe` or `wslview`.
 
 # review-wizard
 
