@@ -2,8 +2,8 @@
 set -euo pipefail
 
 {{ if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-YANK_CMD='win32yank -i'
-PUT_CMD='win32yank -o --lf'
+YANK_CMD='win32yank.exe -i'
+PUT_CMD='win32yank.exe -o --lf'
 
 {{ else -}}
 YANK_CMD='wl-copy --type text/plain --trim-newline'
