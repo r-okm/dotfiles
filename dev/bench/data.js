@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792747654091,
+  "lastUpdate": 1792847959661,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3348,6 +3348,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 3.9ms, max: 4.2ms, median: 4.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "07a2477b5748ceef7e0c8fc8b89be6dcef57202e",
+          "message": "claude: let the model invoke the yt skill on its own\n\ndisable-model-invocation kept /yt manual-only, so research that ran\ninto a YouTube video had no way to read it: WebFetch on the page gets\nno transcript. The flag goes, and the description now says when to use\nthe skill, including landing on a video mid-research.\n\nBeing callable by the model changes what the skill can assume:\n- The URL may come from a web page, so it is passed in single quotes.\n  Double quotes still expand $(...) and backticks. A URL containing a\n  quote is not run.\n- A research-time call does only the fetch and the read, with\n  --max-comments 0. It skips the fixed summary and summary.md and goes\n  back to the user's question, so the turn does not end on a video\n  summary. Steps 3 and 4 are marked as /yt only.\n- $ARGUMENTS may be empty then, so the URL comes from the research.\n- allowed-tools narrows Write to Edit(~/.local/state/yt-summary/**).\n  The grant can now be live while untrusted captions are being read,\n  and that directory is the only place the skill writes.\n\nvideo-frames also matches requests like 動画の内容を説明して, so its\ndescription now says it handles local files and not URL-only videos.\nNeither skill names the other, so renaming or removing one leaves the\nother accurate.",
+          "timestamp": "2026-10-24T22:10:08+09:00",
+          "tree_id": "a997d9479845573b2a338cbf3cd3b0f0734542c9",
+          "url": "https://github.com/r-okm/dotfiles/commit/07a2477b5748ceef7e0c8fc8b89be6dcef57202e"
+        },
+        "date": 1792847958661,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.8,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 8.7ms, max: 8.9ms, median: 8.8ms (10 runs)"
           }
         ]
       }
