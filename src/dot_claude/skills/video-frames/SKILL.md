@@ -1,6 +1,6 @@
 ---
 name: video-frames
-description: 動画ファイルの中身を確認する。Read tool は動画を読めないので、ffmpeg でフレームを静止画に抽出し、タイル状のコンタクトシートにまとめて画像として読む。「この動画を見て」「画面録画を確認して」「動画の内容を説明して」「.MOV/.mp4 を添付した」「不具合の録画を見て」など、動画（video / screen recording / スクリーンキャプチャ）の中身を見る必要があるときに使用。
+description: 動画ファイルの中身を確認する。Read tool は動画を読めないので、ffmpeg でフレームを静止画に抽出し、タイル状のコンタクトシートにまとめて画像として読む。「この動画を見て」「画面録画を確認して」「動画の内容を説明して」「.MOV/.mp4 を添付した」「不具合の録画を見て」など、動画（video / screen recording / スクリーンキャプチャ）の中身を見る必要があるときに使用。対象はローカルの動画ファイルで、YouTube などの URL しかない動画は扱わない。
 allowed-tools: Bash(~/.claude/r-okm/scripts/video-frames.sh), Bash(~/.claude/r-okm/scripts/video-frames.sh *), Read
 argument-hint: "<動画ファイルパス> [オプション]"
 ---

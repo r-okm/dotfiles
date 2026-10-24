@@ -1,8 +1,7 @@
 ---
 name: yt
-description: YouTube 動画を URL から取得し、定型フォーマットで翻訳・要約する
-disable-model-invocation: true
-allowed-tools: Bash(~/.claude/r-okm/scripts/yt-fetch.py), Bash(~/.claude/r-okm/scripts/yt-fetch.py *), Read, Write
+description: YouTube 動画を URL から取得し、字幕・概要欄・コメント欄を定型フォーマットで翻訳・要約する。ユーザーが YouTube の URL を渡して「この動画を要約して」「何を言っているか教えて」と頼んだとき、および調べ物の途中で YouTube 動画に行き着き、その内容を確認する必要があるときに使う。YouTube のページを WebFetch しても字幕は取れないので、動画の中身が要るときはこれを使う。
+allowed-tools: Bash(~/.claude/r-okm/scripts/yt-fetch.py), Bash(~/.claude/r-okm/scripts/yt-fetch.py *), Read, Edit(~/.local/state/yt-summary/**)
 argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
 ---
 
@@ -13,18 +12,35 @@ argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
 
 字幕が本体。動画情報・概要欄・コメント欄は補助情報として扱う。
 
+## 発動のしかたと手順の範囲
+
+- **`/yt` で呼ばれたとき（要約モード）**: Step 1〜4 をすべて行う。
+- **調べ物の途中で自分から発動したとき（調査モード）**: Step 1〜2 だけ行い、
+  Step 3〜4（定型の要約と `summary.md`）は省く。
+  - 取得は `--max-comments 0` を付けて、字幕と動画情報だけにする。`comments.md`
+    は読まない。
+  - `meta.md` と `transcript.md` から、調べ物に要る箇所を読む。
+  - 読んだ内容は元の調べ物に使う。動画の要約をチャットに出して終えず、
+    ユーザーの元の質問に戻って答える。動画を根拠にした箇所は `[mm:ss]` で示す。
+  - 動画の主張は話者の主張として扱い、検証済みの事実として書かない。
+  - 「厳守事項」はこのモードでも守る。
+
 ## Step 1: 取得
 
 ```bash
-~/.claude/r-okm/scripts/yt-fetch.py "<URL>"
+~/.claude/r-okm/scripts/yt-fetch.py '<URL>'
 ```
 
-`$ARGUMENTS` の先頭が URL。残りはそのままスクリプトに渡す。**stdout の最終行が
-出力ディレクトリの絶対パス**なので、それを以降の作業ディレクトリとする。
+`/yt` で呼ばれたときは `$ARGUMENTS` の先頭が URL で、残りはそのままスクリプトに
+渡す。調べ物の途中で自分から発動したときは `$ARGUMENTS` が空のことがあるので、
+行き着いた動画の URL を使う。**stdout の最終行が出力ディレクトリの絶対パス**
+なので、それを以降の作業ディレクトリとする。
 
 **URL は受け取ったまま渡す。** `t=38s` `si=...` `list=...` などのクエリパラメータを
 削る必要はない（`--no-playlist` で単一動画に解決される）。`&` を含むので**必ず
-引用符で囲む**こと。
+シングルクォートで囲む**こと。URL は Web ページ由来のこともあり、ダブルクォートでは
+`$(...)` やバッククォートが展開されてしまう。URL に `'` が含まれていたら実行せず、
+ユーザーに確認する。
 長尺・コメント 300 件だと数十秒かかるので、途中で打ち切らない。
 
 生成物:
@@ -58,7 +74,7 @@ argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
 
 ```bash
 ~/.claude/r-okm/scripts/yt-fetch.py \
-  --yt-dlp-arg=--cookies-from-browser --yt-dlp-arg firefox "<URL>"
+  --yt-dlp-arg=--cookies-from-browser --yt-dlp-arg firefox '<URL>'
 ```
 
 `yt-dlp` が無い、または YouTube 側の変更で取得が壊れたときは、そのことを
@@ -75,7 +91,7 @@ argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
 **採用字幕が自動生成の場合**、固有名詞・同音異義語・数値は誤認識している前提で読む。
 これが Step 3 の手順(1)の対象になる。
 
-## Step 3: 要約処理の固定手順
+## Step 3: 要約処理の固定手順（要約モードのみ）
 
 **この手順は変更しない。** 順に実行する。
 
@@ -96,7 +112,7 @@ argument-hint: "<YouTube URL> [yt-fetch.py のオプション]"
    明記される）。**足りないと感じても `raw/info.json` を読みに行かないこと** —
    数 MB ある。必要なら `--max-listed-comments` を上げて取得し直す。
 
-## Step 4: 出力
+## Step 4: 出力（要約モードのみ）
 
 要約は**出力ディレクトリの `summary.md`** に Write する。下のテンプレート全体は
 ファイルに書くもので、**チャットには全文を再掲しない**。
