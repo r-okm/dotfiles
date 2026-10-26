@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792847959661,
+  "lastUpdate": 1792972910925,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3379,6 +3379,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 8.7ms, max: 8.9ms, median: 8.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "b44000d12edf55b76f1002c19c55a216b51e5501",
+          "message": "asdf: bump nodejs to 24.22.1 for the Brotli decoder flaw\n\nNode 24.14.1 bundles a Brotli decoder affected by CVE-2026-111497\n(HTTP2Shell), an out-of-bounds write reachable from any br-encoded\nresponse or request it decodes. 24.22.1 is the fixed 24.x release.\n\nThe bump reruns run_onchange_after_204-install-npm-packages, so sfw and\nchrome-devtools-mcp are reinstalled under the new version on apply.\nOlder Node installs are left in asdf; uninstall them by hand.",
+          "timestamp": "2026-10-26T08:51:35+09:00",
+          "tree_id": "5a96b016982c48664a99e6283a8a0ea661f85d2f",
+          "url": "https://github.com/r-okm/dotfiles/commit/b44000d12edf55b76f1002c19c55a216b51e5501"
+        },
+        "date": 1792972910091,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.5ms, median: 10.3ms (10 runs)"
           }
         ]
       }
