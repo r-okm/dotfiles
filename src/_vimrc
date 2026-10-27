@@ -19,6 +19,7 @@ set guioptions-=e
 set hlsearch
 set shortmess-=S
 set belloff=all
+set noswapfile
 let mapleader = "\<Space>"
 
 nnoremap <CR> o<Esc>
