@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1792972910925,
+  "lastUpdate": 1793062256418,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3410,6 +3410,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.5ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "a85a8505ce768279724fa0cb96a8012e56f8e204",
+          "message": "gvim: stop creating swap files\n\nA swap file next to every edited file litters the directory and, when a\ngvim process exits abnormally, leaves a recovery prompt behind on the\nnext open.",
+          "timestamp": "2026-10-27T09:27:43+09:00",
+          "tree_id": "7e41d4d2b3454ca96be4548c58a0a2b55c211f27",
+          "url": "https://github.com/r-okm/dotfiles/commit/a85a8505ce768279724fa0cb96a8012e56f8e204"
+        },
+        "date": 1793062255354,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.4ms, median: 10.3ms (10 runs)"
           }
         ]
       }
