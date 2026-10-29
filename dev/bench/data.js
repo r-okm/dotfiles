@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793062256418,
+  "lastUpdate": 1793233254334,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3441,6 +3441,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.4ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "c71230321bd3d15e5dc05feaafbf7200f51a7f40",
+          "message": "wsl: check the draw.io link in ~/.local/bin on every apply\n\nThe drawio skill of the r-okm Claude Code plugin calls draw.io.exe from\nWSL to export diagrams. appendWindowsPath=false keeps the scoop shim off\nthe WSL PATH, so it goes through a hand-made link in ~/.local/bin like\nthe other Windows executables, and the apply now checks that link too.\n\nOn each WSL machine, before applying, install draw.io with scoop and\nlink it, or the apply fails at the link check:\n    ln -sf /mnt/c/scoop/apps/draw.io/current/draw.io.exe ~/.local/bin/draw.io.exe",
+          "timestamp": "2026-10-29T09:09:35+09:00",
+          "tree_id": "03ec70460d7aab9b4655fa8c882bb94726af1330",
+          "url": "https://github.com/r-okm/dotfiles/commit/c71230321bd3d15e5dc05feaafbf7200f51a7f40"
+        },
+        "date": 1793233253566,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.2,
+            "range": "2.9",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 13.3ms, median: 10.5ms (10 runs)"
           }
         ]
       }
