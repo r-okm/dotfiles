@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793233254334,
+  "lastUpdate": 1793410671790,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3472,6 +3472,37 @@ window.BENCHMARK_DATA = {
             "range": "2.9",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 13.3ms, median: 10.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3b1c893cf283c51767cc34bee96976aad2aa5da6",
+          "message": "ghub: restart the tray when it stops respawning the agent\n\nFrom 2026-10-30 every recovery failed. The script killed the hung agent\nand waited, but no new agent appeared, and it logged an error asking for\nG HUB to be started by hand. The tray was running and responsive, with\nno crash in the event log, yet it no longer respawned the agent: an\nexperiment killed a healthy agent and nothing replaced it for 40 s.\nWhy it got into that state is unknown. It started after the boot on\n10-29, and restarting the tray cured it.\n\nThe tray stays the primary way to bring the agent back. If no new agent\nanswers within 30 s of the kill, the script now kills the tray, waits\nfor it to exit and starts it again with --minimized. A tray that starts\nwith no agent running launches one itself, within a second when tested,\nso the normal parent-child relationship is kept and the tray works for\nlater resumes too. The tray leaves an agent that is already running\nalone, which is why a restart is safe even if the agent was merely slow.\n\nStarting lghub_agent.exe directly was tried first and worked, including\nprofile switching and macros, but it was dropped. It leaves the broken\ntray in place, and with a healthy tray both would start an agent, a case\nthat was never tested.\n\nThe wait for exit applies only to the tray. An agent that takes more\nthan 10 s to exit must not abort the recovery, because the tray wait\nthat follows does not depend on it.\n\nThe log line states what was observed rather than a cause: \"no new agent\nanswered\", plus the tray PID and the new agent's PID or \"none\". A new\nagent PID means the tray did respawn it and the answer was just slow.\nA branch that skips the tray restart in that case was considered and\nrejected: it has never happened, the restart does no harm there, and the\nlog line already tells the two cases apart.\n\nBoth timeouts are one parameter now, as they had the same value and\nmeaning.\n\nTested through a temporary task with the same settings as the real one,\nforcing the first check to fail: with a healthy tray a tray-started\nagent answered after 12 s; with the tray suspended, so that it exists\nbut cannot respawn anything, the script restarted it and the new agent\nanswered after 3 s, and a further run showed the restarted tray\nrespawning the agent normally. A task-started tray keeps running after\nthe task ends and its tray icon menu works. After a reboot and a real\nsleep, the tray recovered a hung agent 38 s after resume. The tray\nrestart path has not yet run on a real resume.",
+          "timestamp": "2026-10-31T10:29:09+09:00",
+          "tree_id": "1acb845a0afbbfd726ac65352223714fded9de83",
+          "url": "https://github.com/r-okm/dotfiles/commit/3b1c893cf283c51767cc34bee96976aad2aa5da6"
+        },
+        "date": 1793410670950,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.6ms, median: 10.2ms (10 runs)"
           }
         ]
       }
