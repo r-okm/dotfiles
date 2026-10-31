@@ -9,7 +9,9 @@
     ghub-agent-monitor.ps1 の記録では、固まる回は復帰直後の最初の確認から応答していなかった。
 
     復帰から一定時間疎通を確かめ、一度も応答しなければ agent を強制終了する。
-    lghub_system_tray.exe が新しい agent を起動し直し、それで復旧する。
+    起動し直すのは lghub_system_tray.exe に任せる。tray は動いたまま起動し直さなくなることが
+    あるので（2026-10-30 に発生）、そのときは tray を再起動する。tray は起動時に agent が
+    いなければ自分で起動する。
 
 .NOTES
     ログ: このスクリプトと同じディレクトリの ghub-resume-recovery.log
@@ -22,14 +24,17 @@ param(
     # ため、1回の失敗では決めない
     [int]$CheckWindowSeconds = 30,
     [int]$IntervalSeconds = 5,
-    # agent を強制終了してから、新しい agent が応答するまで待つ秒数。
-    # lghub_system_tray.exe による起動し直しは2〜20秒（実測）。
-    [int]$RestartTimeoutSeconds = 30
+    # tray による起動し直しと、tray の再起動後のそれぞれで、新しい agent の応答を待つ秒数。
+    # 応答までの実測は最長22秒
+    [int]$TrayTimeoutSeconds = 30,
+    # 強制終了した tray の終了を待つ秒数
+    [int]$ExitTimeoutSeconds = 10
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+$TrayPath = 'C:\Program Files\LGHUB\system_tray\lghub_system_tray.exe'
 $AgentUri = 'ws://127.0.0.1:9010'
 $TimeoutMs = 5000
 $ReceiveBufferBytes = 64KB
@@ -94,9 +99,26 @@ function Test-Agent {
     }
 }
 
-function Get-AgentIds {
-    # Get-Process -Name は該当なしでエラーになるため。agent 不在は正常な結果
-    @([System.Diagnostics.Process]::GetProcessesByName('lghub_agent') | ForEach-Object { $_.Id })
+function Get-ProcessIds {
+    param([string]$Name)
+    # Get-Process -Name は該当なしでエラーになるため。agent や tray の不在は正常な結果
+    @([System.Diagnostics.Process]::GetProcessesByName($Name) | ForEach-Object { $_.Id })
+}
+
+# 強制終了する。失敗や時間切れは呼び出し元の catch に記録させる
+function Stop-Processes {
+    param([int[]]$Ids, [switch]$WaitForExit)
+
+    foreach ($id in $Ids) {
+        try {
+            Stop-Process -Id $id -Force
+            if ($WaitForExit) { Wait-Process -Id $id -Timeout $ExitTimeoutSeconds }
+        }
+        catch {
+            # 固まっている間は tray が起動し直そうとした agent が一瞬だけ見え、終了済みのことがある（実測）
+            if ($_.FullyQualifiedErrorId -notlike 'NoProcessFoundForGivenId,*') { throw }
+        }
+    }
 }
 
 # ログに添えるだけなので、取れなくても例外にしない
@@ -120,7 +142,7 @@ function Wait-AgentReady {
 
     $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
     while ((Get-Date) -lt $deadline) {
-        $new = @(Get-AgentIds | Where-Object { $_ -notin $ExcludeIds })
+        $new = @(Get-ProcessIds 'lghub_agent' | Where-Object { $_ -notin $ExcludeIds })
         if ($new.Count -gt 0 -and (Test-Agent) -eq 'ok') { return $new[0] }
         Start-Sleep -Seconds $ReadyPollSeconds
     }
@@ -143,26 +165,29 @@ try {
         Start-Sleep -Seconds $IntervalSeconds
     }
 
-    $oldIds = @(Get-AgentIds)
+    $oldIds = @(Get-ProcessIds 'lghub_agent')
     Write-Log ('復帰 {0}: agent が {1}秒間応答しません（{2}）' -f $resumeText, $CheckWindowSeconds, ($results -join ' '))
 
     if ($oldIds.Count -eq 0) {
-        # プロセスが無いなら tray が起動し直す途中の可能性があり、終了させるものが無い
         Write-Log 'lghub_agent が存在しないため、起動を待ちます'
     }
     else {
         Write-Log "lghub_agent を再起動します (PID: $($oldIds -join ','))"
-        foreach ($id in $oldIds) {
-            # 失敗は外側の catch に記録させる。終了は待たず、新しい agent の応答で成否を判断する
-            try { Stop-Process -Id $id -Force }
-            catch {
-                # 固まっている間は tray が起動し直そうとした agent が一瞬だけ見え、終了済みのことがある（実測）
-                if ($_.FullyQualifiedErrorId -notlike 'NoProcessFoundForGivenId,*') { throw }
-            }
-        }
+        Stop-Processes $oldIds
     }
 
-    $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $RestartTimeoutSeconds
+    $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $TrayTimeoutSeconds
+    if (-not $newId) {
+        # 新しい agent が現れていれば、tray は起動し直していて応答が遅いだけ。原因をログから見分けるために残す
+        $newIds = @(Get-ProcessIds 'lghub_agent' | Where-Object { $_ -notin $oldIds })
+        $trayIds = @(Get-ProcessIds 'lghub_system_tray')
+        Write-Log "${TrayTimeoutSeconds}秒以内に新しい agent が応答しないため、tray を再起動します (tray: $($trayIds -join ','), 新しい agent: $(if ($newIds.Count) { $newIds -join ',' } else { 'なし' }))"
+        # 古い tray が残っていると、新しい tray が起動できない可能性があるので終了を待つ
+        Stop-Processes $trayIds -WaitForExit
+        Start-Process -FilePath $TrayPath -ArgumentList '--minimized'
+        $newId = Wait-AgentReady -ExcludeIds $oldIds -TimeoutSeconds $TrayTimeoutSeconds
+    }
+
     if ($newId) {
         Write-Log "lghub_agent が起動しました (PID: $newId)"
         exit 0

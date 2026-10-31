@@ -4,7 +4,7 @@ Logicool G HUB の常駐プロセス `lghub_agent.exe` が応答しなくなっ�
 
 agent はスリープ復帰後に、プロセスが生きたまま WebSocket（`ws://127.0.0.1:9010`）の待ち受けをすべて閉じることがある。
 この状態は自然には直らず、G HUB の UI はスプラッシュ画面から進まず、アプリ別プロファイルも切り替わらない。
-agent を強制終了すると `lghub_system_tray.exe` が数秒で新しい agent を起動し直し、それで復旧する。
+agent を強制終了すると `lghub_system_tray.exe` が新しい agent を起動し直し、それで復旧する。
 ここにあるスクリプトは、この再起動を自動で行う。
 
 ## スクリプトと運用状況
@@ -188,5 +188,13 @@ Get-Content "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-resume-recovery.log" -Tail 
 - agent が固まっていなかった場合: `agent は応答しています`
 - 固まっていて再起動した場合: `agent が 30秒間応答しません` → `lghub_agent を再起動します` → `lghub_agent が起動しました`
 
-`ERROR: lghub_agent が起動しませんでした` が出た場合は、tray が新しい agent を起動し直していない。
+`30秒以内に新しい agent が応答しないため、tray を再起動します` が出た場合は、末尾の `新しい agent:` で状況を見分ける。
+
+- `新しい agent: なし`: tray が agent を起動し直さなかった。tray が動いたまま起動し直さない状態になっていた可能性がある。
+- `新しい agent: <PID>`: tray は起動し直していたが、agent の応答が遅かった。
+
+スクリプトは tray を再起動し、そのあとに `lghub_agent が起動しました` が続く。
+tray は起動時に agent がいなければ自分で起動し、動いている agent には手を出さない。再起動した tray は次の回から agent を起動し直す。
+
+`ERROR: lghub_agent が起動しませんでした` が出た場合は、tray を再起動しても agent が応答しなかった。
 G HUB を手動で起動する。
