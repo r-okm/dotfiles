@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793410671790,
+  "lastUpdate": 1793588554981,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3503,6 +3503,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.6ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "5e1c2c8ff14fbb666502625fbd97c08036f358ff",
+          "message": "worktree: list, open and remove worktrees from git-worktree-tmux\n\nRemoving a worktree and opening the session of an existing one were only\nreachable through the fzf picker (ccw), so Claude had no way to clean up\na worktree it had created. They are now options of git-worktree-tmux,\nwhich the worktree skill already runs, and ccw calls them too:\n\n- -l/--list prints <worktree_name> TAB <branch> TAB <session or ->\n- -o/--open <worktree_name> opens or creates the tmux session\n- -r/--remove <worktree_name> removes the worktree and kills its session,\n  keeping the branch; -f/--force skips the checks below\n\nWithout -f, -r refuses a worktree with uncommitted changes or untracked\nfiles, and a detached HEAD whose commits are on no branch, tag or remote\n-- the HEAD is their only ref and is removed with the worktree. The\nstatus runs with --untracked-files=normal so status.showUntrackedFiles=no\ncannot hide untracked files, and its result is assigned on its own line\nso a failing status aborts instead of reading as clean. git refuses a\nworktree with initialized submodules unless forced, even a clean one, so\n--force is passed for those once the script's own check has passed.\nOnce is enough: forcing twice would also override a lock.\n\nWithout -f, -r also keeps the tmux session it runs in, so an agent\nremoving its own worktree does not kill itself. ccw passes -f and so\nstill closes the current session on <C-d>, as before.\n\nAttaching from outside tmux now matches the session name exactly, as\n-o made that path reachable for existing sessions.\n\nThe worktree skill covers the new options and asks before removing a\nworktree, never with -f. The rules against running git worktree or\ngit-worktree-tmux directly and against git -C <project_root> are gone\nfrom CLAUDE.md and the skill: the skill is expected to be picked up from\nits description when a worktree is needed, and the -C rule existed to\navoid permission prompts that no longer appear. argument-hint goes, as\nthe skill is invoked from natural-language requests, not as /worktree.\n\nTested on a throwaway repo, including a worktree with a submodule and\nruns from inside the worktree and its own session. ccw itself has not\nbeen tried yet.",
+          "timestamp": "2026-11-02T11:55:00+09:00",
+          "tree_id": "4b3aa61a82d4fc916045a505bf14ad9eea2d1bcc",
+          "url": "https://github.com/r-okm/dotfiles/commit/5e1c2c8ff14fbb666502625fbd97c08036f358ff"
+        },
+        "date": 1793588554538,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.7ms, median: 10.3ms (10 runs)"
           }
         ]
       }
