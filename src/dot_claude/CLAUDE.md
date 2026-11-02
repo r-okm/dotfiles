@@ -12,11 +12,6 @@
 
 - `CLAUDE.local.md` and other gitignored per-project config files may be symlinks into the project-ignores repo (`~/src/github.com/r-okm/project-ignores`). To edit one, resolve the symlink (`readlink -f`) and edit the real target file in that repo.
 
-# Worktrees
-
-- Never run `git worktree add` or `git-worktree-tmux` directly — creating a worktree (a new branch, an existing branch, or a PR checkout) goes through the `worktree` skill. Invoke it first.
-- When CWD is inside a worktree, run git commands directly in that directory. Never use `git -C <project_root>` from a worktree — that operates on the original repository, not the branch you are working on.
-
 # WSL
 
 - To open a URL in the user's browser, use `xdg-open <url>` — `~/.config/mimeapps.list` routes http/https to the Windows-side Vivaldi (`$BROWSER` in `~/.profile` when neither `DISPLAY` nor `WAYLAND_DISPLAY` is set). Don't look for `explorer.exe` or `wslview`.

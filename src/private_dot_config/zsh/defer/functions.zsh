@@ -96,21 +96,16 @@ fzf_cd_worktree() {
     return 1
   fi
 
-  local all_worktrees
-  all_worktrees=$(git worktree list --porcelain | awk '/^worktree / { print substr($0, 10) }')
+  local main_repo_root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
+  local worktree_names=$(git-worktree-tmux --list | cut -f1)
 
-  local main_repo_root=$(echo "$all_worktrees" | head -1)
-  local project_name=$(basename "$main_repo_root")
-  local worktree_paths=$(echo "$all_worktrees" | tail -n +2)
-
-  if [[ -z "$worktree_paths" ]]; then
+  if [[ -z "$worktree_names" ]]; then
     echo "No worktrees found"
     return 0
   fi
 
   local result=$(
-    echo "$worktree_paths" |
-    while read -r dir; do basename "$dir"; done |
+    echo "$worktree_names" |
     fzf \
       --height 50% \
       --reverse \
@@ -126,18 +121,13 @@ fzf_cd_worktree() {
 
     if [[ -n "$selected" ]]; then
       local full_path="${main_repo_root}/.worktree/${selected}"
-      local session_name="${project_name}+${selected}"
-      session_name="${session_name//./_}"
 
       if [[ "$key" == "ctrl-d" ]]; then
-        echo "Removing: ${session_name}"
-        git worktree remove --force "$full_path"
-        tmux kill-session -t "$session_name" 2>/dev/null
+        git-worktree-tmux --remove --force "$selected"
       elif [[ "$key" == "ctrl-s" ]]; then
-        echo "tmux session: ${session_name}"
-        tmux_cwd_session "$full_path" "$session_name"
+        git-worktree-tmux --open "$selected"
       else
-        echo "cd: ${session_name}"
+        echo "cd: ${selected}"
         _execute_prompt "cd $full_path"
       fi
     fi

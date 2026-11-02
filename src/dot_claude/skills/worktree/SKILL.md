@@ -1,18 +1,19 @@
 ---
 name: worktree
-description: git worktree を作る。「別ブランチで並行作業したい」「PR をチェックアウトして確認したい」「今の作業を汚さずに別ブランチを見たい」「worktree を作って」と言われたとき、および自分の作業のために worktree が必要になったときに使う。素の `git worktree add` を叩く前に必ずこれを読む。
+description: git worktree を作る・一覧する・開く・削除する。「別ブランチで並行作業したい」「PR をチェックアウトして確認したい」「今の作業を汚さずに別ブランチを見たい」「worktree を作って」「worktree の一覧を見せて」「あの worktree のセッションを開いて」「worktree を消して/片付けて」と言われたとき、および自分の作業のために worktree が必要になったときや、自分が作った worktree での作業を終えるときに使う。
 allowed-tools: Bash(git-worktree-tmux *)
-argument-hint: "[-b <branch_name> | -p <pr_number> | -c [<branch_suffix>]]"
 ---
 
-# worktree - git worktree を作る
+# worktree - git worktree を作る・片付ける
 
-worktree は `~/.local/bin/git-worktree-tmux` で作る。**素の `git worktree add` は使わない。**
+worktree の操作は `~/.local/bin/git-worktree-tmux` で行う。
 
-このスクリプトは worktree を作るだけでなく、gitignore された per-project 設定
-（`.ignore` / `CLAUDE.local.md` / `.claude/settings.local.json` / `.claude/local`）を元リポジトリ
-から symlink し、その worktree 用の tmux セッションを開き、submodule を初期化する。
-素の `git worktree add` はこれらを全部落とすので、設定が無いまま作業を始めることになる。
+このスクリプトは worktree と tmux セッションを対で管理する。作成時は gitignore された
+per-project 設定（`.ignore` / `CLAUDE.local.md` / `.claude/settings.local.json` / `.claude/local`）を
+元リポジトリから symlink し、その worktree 用の tmux セッションを開き、submodule を初期化する。
+削除時は対応する tmux セッションも閉じる。
+
+ユーザーも端末の `ccw`（`fzf_cd_worktree`）から同じスクリプトを使っている。
 
 ## 使い方
 
@@ -26,14 +27,27 @@ git-worktree-tmux -d -p <pr_number>
 # リモート HEAD から新しいブランチを切る
 # ブランチ名は <git config user.name>/<branch_suffix>。suffix 省略時は wip-<epoch>
 git-worktree-tmux -d -c [<branch_suffix>]
+
+# worktree を一覧する（1 行 1 件、タブ区切りで <worktree_name> <branch> <tmux セッション名 or ->）
+git-worktree-tmux -l
+
+# 既存の worktree の tmux セッションを開く（無ければ作る）
+git-worktree-tmux -d -o <worktree_name>
+
+# worktree を削除し、tmux セッションを閉じる（ブランチは残る）
+git-worktree-tmux -r <worktree_name>
 ```
 
-上記 3 つで足りる。他のオプションが必要になったら `git-worktree-tmux --help` を実行して確認する。
+他のオプションが必要になったら `git-worktree-tmux --help` を実行して確認する。
+
+`<worktree_name>` はブランチ名の `/` を `-` に置き換えたもの（例: `r-okm/fix-foo` → `r-okm-fix-foo`）。
+迷ったら `-l` の 1 列目を使う。
 
 ## `-d` を必ず付ける
 
-**AI が実行するときは常に `-d`/`--detach` を付ける。** 付けないと、コマンドがユーザーの tmux
-クライアントを新しいセッションに attach / switch し、ユーザーの見ている画面を奪う。
+**AI が `-b` / `-p` / `-c` / `-o` を実行するときは常に `-d`/`--detach` を付ける。** 付けないと、
+コマンドがユーザーの tmux クライアントを新しいセッションに attach / switch し、ユーザーの見ている
+画面を奪う。
 
 `-d` を付けたときの挙動:
 
@@ -59,7 +73,21 @@ fetch / reset すること。
 
 ## 作られた worktree で作業する
 
-worktree は `<project_root>/.worktree/<branch_name>` に作られる（ブランチ名の `/` は `-` に置換）。
+worktree は `<project_root>/.worktree/<worktree_name>` に作られる。
 
-**cwd が worktree の中にあるときは、git コマンドをその場で実行する。**
-`git -C <project_root>` は使わない — 元リポジトリの方を操作してしまう。
+## 作業を終えたら（削除）
+
+自分が作った worktree での作業が終わったら、**削除してよいかユーザーに確認する。**
+確認なしに削除しない。確認が取れたら `-r` で削除する。
+
+- **削除対象は、このセッションで自分が作った worktree だけ。** それ以外はユーザーに
+  明示的に頼まれたときだけ削除する。
+- **`-f`/`--force` は付けない。** `-r` は未コミットの変更や untracked ファイルがあると拒否する。
+  拒否されたら何が残っているかをユーザーに報告して判断を仰ぐ。ユーザーがその場で「強制で消して」と
+  言ったときだけ `-f` を付ける。
+- **削除前に cwd を worktree の外（`<project_root>` など）に移す。** Bash ツールの cwd は
+  コマンド間で引き継がれるので、消したディレクトリに居残ると以降のコマンドがすべて壊れる。
+- 削除されるのは worktree と tmux セッションだけで、**ブランチは残る。** ブランチも消すかは別途
+  ユーザーに確認する。
+- 実行中の tmux セッションが削除対象のセッションそのものだったときは、そのセッションは閉じずに
+  残す（スクリプトがそう出力する）。

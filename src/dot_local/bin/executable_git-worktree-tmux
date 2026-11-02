@@ -11,25 +11,37 @@ SYMLINK_TARGETS=(
 
 # Set by main(): when true, the tmux session is neither attached nor switched to
 DETACH=false
+# Set by main(): when true, -r/--remove discards uncommitted changes
+FORCE=false
 
 help() {
   cat << EOF
-Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix>]
+Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix|worktree_name>]
 
-Create a git worktree and open it in a new tmux session.
+Create, list, open, or remove git worktrees, each paired with a tmux session.
 
 Options:
   -b, --branch        Create worktree from branch name
   -p, --pull-request  Create worktree from pull request number
   -c, --create-branch Create a new branch from the remote HEAD in a new worktree
                       (branch_suffix is optional)
+  -l, --list          List worktrees under .worktree/, one per line as
+                      <worktree_name> TAB <branch> TAB <tmux_session|->
+  -o, --open          Open the tmux session of an existing worktree
+  -r, --remove        Remove a worktree and kill its tmux session. The branch is
+                      kept. Refuses when the worktree has uncommitted changes,
+                      untracked files, or a detached HEAD with commits on no
+                      branch, unless -f is given. Keeps the tmux session when
+                      it is the one this runs in, unless -f is given.
+  -f, --force         With -r, skip the checks above
   -d, --detach        Leave the tmux session detached instead of attaching or
                       switching to it, and print the worktree path on the last
                       line. Use this from non-interactive callers.
   -h, --help          Display this help message
 
-Session name format: <project_name>+<branch_name|pr_number>
-Worktree is created in .worktree/ subdirectory of the repository.
+Worktree name: the branch name with '/' replaced by '-'
+Worktree path: <repository>/.worktree/<worktree_name>
+Session name:  <project_name>+<worktree_name> ('.' replaced by '_')
 
 Examples:
   $(basename "$0") -b feature/new-feature
@@ -37,6 +49,9 @@ Examples:
   $(basename "$0") -c new-feature
   $(basename "$0") -c
   $(basename "$0") -c new-feature -d
+  $(basename "$0") -l
+  $(basename "$0") -o feature-new-feature
+  $(basename "$0") -r feature-new-feature
 EOF
 }
 
@@ -48,6 +63,146 @@ get_repo_root() {
 
 get_project_name() {
   basename "$(get_repo_root)"
+}
+
+# The project name may be passed in to save a lookup per call
+get_session_name() {
+  local worktree_name="$1"
+  local project_name="${2:-}"
+  local session_name
+
+  if [[ -z "$project_name" ]]; then
+    project_name=$(get_project_name)
+  fi
+  session_name="${project_name}+${worktree_name}"
+  # tmux doesn't allow dots in session names
+  echo "${session_name//./_}"
+}
+
+# Prints the path of a worktree registered under .worktree/, or fails
+resolve_worktree_dir() {
+  local worktree_name="$1"
+  local worktree_dir
+
+  if [[ -z "$worktree_name" || "$worktree_name" == */* ||
+    "$worktree_name" == . || "$worktree_name" == .. ]]; then
+    echo "Error: Invalid worktree name: '${worktree_name}'" >&2
+    return 1
+  fi
+
+  worktree_dir="$(get_repo_root)/.worktree/${worktree_name}"
+  if ! git worktree list --porcelain | grep -qxF "worktree ${worktree_dir}"; then
+    echo "Error: No such worktree: ${worktree_name} (see -l/--list)" >&2
+    return 1
+  fi
+
+  echo "$worktree_dir"
+}
+
+list_worktrees() {
+  local repo_root
+  local project_name
+  local prefix
+  local worktree_name
+  local branch
+  local session_name
+  local session_state
+
+  repo_root=$(get_repo_root)
+  project_name=$(basename "$repo_root")
+  prefix="${repo_root}/.worktree/"
+
+  git worktree list --porcelain |
+    awk -v prefix="$prefix" '
+      function flush() {
+        name = substr(path, length(prefix) + 1)
+        if (index(path, prefix) == 1 && name !~ /\//) print name "\t" branch
+        path = ""
+      }
+      /^worktree / { path = substr($0, 10); branch = "(detached)"; next }
+      /^branch / { branch = substr($0, 8); sub(/^refs\/heads\//, "", branch); next }
+      /^$/ { flush() }
+      END { if (path != "") flush() }
+    ' |
+    while IFS=$'\t' read -r worktree_name branch; do
+      session_name=$(get_session_name "$worktree_name" "$project_name")
+      session_state="-"
+      if tmux has-session -t "=$session_name" 2>/dev/null; then
+        session_state="$session_name"
+      fi
+      printf '%s\t%s\t%s\n' "$worktree_name" "$branch" "$session_state"
+    done
+}
+
+open_worktree() {
+  local worktree_name="$1"
+  local worktree_dir
+
+  worktree_dir=$(resolve_worktree_dir "$worktree_name")
+  open_tmux_session "$(get_session_name "$worktree_name")" "$worktree_dir"
+
+  # Last line of stdout, so non-interactive callers can pick up the path
+  if [[ "$DETACH" == true ]]; then
+    echo "$worktree_dir"
+  fi
+}
+
+remove_worktree() {
+  local worktree_name="$1"
+  local worktree_dir
+  local session_name
+  local changes
+  local unreachable
+  local remove_args=()
+
+  worktree_dir=$(resolve_worktree_dir "$worktree_name")
+  session_name=$(get_session_name "$worktree_name")
+
+  if [[ "$FORCE" != true ]]; then
+    # Assigned on its own line so that a failing status aborts under `set -e`
+    # instead of reading as a clean worktree
+    changes=$(git -C "$worktree_dir" status --porcelain \
+      --ignore-submodules=none --untracked-files=normal)
+    if [[ -n "$changes" ]]; then
+      echo "Error: ${worktree_dir} has uncommitted changes or untracked files" >&2
+      echo "Commit or discard them, or pass -f/--force to remove anyway" >&2
+      exit 1
+    fi
+
+    # A detached HEAD is the only ref to its commits, and it goes with the worktree
+    if ! git -C "$worktree_dir" symbolic-ref -q HEAD >/dev/null; then
+      unreachable=$(git -C "$worktree_dir" rev-list -n 1 HEAD \
+        --not --branches --tags --remotes)
+      if [[ -n "$unreachable" ]]; then
+        echo "Error: ${worktree_dir} has a detached HEAD with commits on no branch" >&2
+        echo "Create a branch for them, or pass -f/--force to remove anyway" >&2
+        exit 1
+      fi
+    fi
+  fi
+
+  # git refuses a worktree with initialized submodules unless forced, even when
+  # it is clean. The status check above already covers their changes.
+  if [[ "$FORCE" == true ||
+    -d "$(git -C "$worktree_dir" rev-parse --absolute-git-dir)/modules" ]]; then
+    remove_args+=(--force)
+  fi
+
+  echo "Removing worktree: ${worktree_dir}"
+  git worktree remove "${remove_args[@]}" "$worktree_dir"
+
+  if ! tmux has-session -t "=$session_name" 2>/dev/null; then
+    return 0
+  fi
+  # Without -f, keep the session this runs in: an agent removing its own
+  # worktree would otherwise kill itself. With -f, the caller asked for it.
+  if [[ "$FORCE" != true && -n "${TMUX:-}" &&
+    "$(tmux display-message -p '#S')" == "$session_name" ]]; then
+    echo "Kept tmux session: ${session_name} (it is the current session)"
+    return 0
+  fi
+  echo "Killing tmux session: ${session_name}"
+  tmux kill-session -t "=$session_name"
 }
 
 create_symlinks() {
@@ -93,13 +248,12 @@ create_worktree() {
   local branch="$1"
   # When given, the branch is created at this point instead of being checked out
   local start_point="${2:-}"
-  local project_name
+  local worktree_name="${branch//\//-}"
   local session_name
   local worktree_dir
 
-  project_name=$(get_project_name)
-  session_name="${project_name}+${branch//\//-}"
-  worktree_dir="$(get_repo_root)/.worktree/${branch//\//-}"
+  session_name=$(get_session_name "$worktree_name")
+  worktree_dir="$(get_repo_root)/.worktree/${worktree_name}"
 
   if [[ -d "$worktree_dir" ]]; then
     echo "Worktree directory already exists: $worktree_dir"
@@ -147,9 +301,6 @@ open_tmux_session() {
   local session_name="$1"
   local worktree_dir="$2"
 
-  # Replace dots with underscores (tmux doesn't allow dots in session names)
-  session_name="${session_name//./_}"
-
   # `=` forces an exact match: a bare -t target also matches by prefix, which
   # would treat an unrelated session as this one
   if [[ "$DETACH" == true ]]; then
@@ -162,7 +313,7 @@ open_tmux_session() {
   elif [[ -z "${TMUX:-}" ]]; then
     # Outside tmux: create a new session or attach to an existing one
     tmux new-session -s "$session_name" -c "$worktree_dir" 2>/dev/null ||
-      tmux attach-session -t "$session_name"
+      tmux attach-session -t "=$session_name"
   else
     # Inside tmux: create a new session and switch to it
     if tmux has-session -t "=$session_name" 2>/dev/null; then
@@ -194,6 +345,22 @@ main() {
         mode="create"
         shift
         ;;
+      -l|--list)
+        mode="list"
+        shift
+        ;;
+      -o|--open)
+        mode="open"
+        shift
+        ;;
+      -r|--remove)
+        mode="remove"
+        shift
+        ;;
+      -f|--force)
+        FORCE=true
+        shift
+        ;;
       -d|--detach)
         DETACH=true
         shift
@@ -215,14 +382,19 @@ main() {
   done
 
   if [[ -z "$mode" ]]; then
-    echo "Error: Please specify -b/--branch, -p/--pull-request or -c/--create-branch" >&2
+    echo "Error: Please specify one of -b, -p, -c, -l, -o or -r" >&2
     help
     exit 1
   fi
 
+  if [[ "$FORCE" == true && "$mode" != "remove" ]]; then
+    echo "Error: -f/--force only applies to -r/--remove" >&2
+    exit 1
+  fi
+
   # -c/--create-branch may omit the target: it falls back to a generated name
-  if [[ -z "$target" && "$mode" != "create" ]]; then
-    echo "Error: Please specify a branch name or PR number" >&2
+  if [[ -z "$target" && "$mode" != "create" && "$mode" != "list" ]]; then
+    echo "Error: Please specify a branch name, PR number or worktree name" >&2
     help
     exit 1
   fi
@@ -246,6 +418,15 @@ main() {
       new_branch=$(resolve_new_branch_name "$target")
       base_ref=$(git symbolic-ref refs/remotes/origin/HEAD)
       create_worktree "$new_branch" "$base_ref"
+      ;;
+    list)
+      list_worktrees
+      ;;
+    open)
+      open_worktree "$target"
+      ;;
+    remove)
+      remove_worktree "$target"
       ;;
   esac
 }
