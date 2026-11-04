@@ -69,7 +69,10 @@ main() {
   local dir
   for dir in "${bin_dirs[@]}"; do
     if [ -d "$dir" ]; then
-      export PATH="$dir:$PATH"
+      case ":$PATH:" in
+        *":$dir:"*) ;;
+        *) export PATH="$dir:$PATH" ;;
+      esac
     fi
   done
 }
