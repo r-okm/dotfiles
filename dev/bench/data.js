@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793588554981,
+  "lastUpdate": 1793777687140,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3534,6 +3534,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.7ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f1a3cafa63b7971e8058305abb9a0c90b98c2bc5",
+          "message": "zsh: generate uv and uvx completions\n\nuvx is a separate binary with its own flag\n(--generate-shell-completion), so it needs its own line.",
+          "timestamp": "2026-11-04T16:29:01+09:00",
+          "tree_id": "bf241f7a1104e623862b3f61e24e0486d12a5fb3",
+          "url": "https://github.com/r-okm/dotfiles/commit/f1a3cafa63b7971e8058305abb9a0c90b98c2bc5"
+        },
+        "date": 1793777686374,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4.1,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 4.0ms, max: 4.4ms, median: 4.0ms (10 runs)"
           }
         ]
       }
