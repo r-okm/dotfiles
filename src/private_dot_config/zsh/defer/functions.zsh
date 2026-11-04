@@ -183,6 +183,8 @@ completions_generate() {
   deno completions zsh >"${completions_dir}/_deno"
   asdf completion zsh >"${completions_dir}/_asdf"
   gh completion -s zsh >"${completions_dir}/_gh"
+  uv generate-shell-completion zsh >"${completions_dir}/_uv"
+  uvx --generate-shell-completion zsh >"${completions_dir}/_uvx"
 }
 
 tmux_cwd_session() {
