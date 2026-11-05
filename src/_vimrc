@@ -5,14 +5,7 @@ endif
 set guifont=UDEV_Gothic_NF:h12:cSHIFTJIS:qDRAFT
 set linespace=2
 
-" gvim on Windows has no padding option; an empty fold column painted like
-" the text area keeps text off the left edge
-set foldcolumn=1
-augroup MyVimrcPadding
-  autocmd!
-  autocmd ColorScheme * highlight! link FoldColumn Normal
-augroup END
-highlight! link FoldColumn Normal
+set number
 
 set showtabline=2
 set guioptions-=e
