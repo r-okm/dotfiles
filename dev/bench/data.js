@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793777687140,
+  "lastUpdate": 1793891158172,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3565,6 +3565,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 4.0ms, max: 4.4ms, median: 4.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "b369a5646ca335cd06848ae7b322eaddf5a5eab9",
+          "message": "gvim: show line numbers instead of padding with the fold column\n\nThe number column already keeps text off the left edge, so the empty\nfold column used as padding is no longer needed.",
+          "timestamp": "2026-11-05T23:55:45+09:00",
+          "tree_id": "859a99232c4b9a6d50f399de062b4723af4d6fa1",
+          "url": "https://github.com/r-okm/dotfiles/commit/b369a5646ca335cd06848ae7b322eaddf5a5eab9"
+        },
+        "date": 1793891157152,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.2,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 11.3ms, median: 11.2ms (10 runs)"
           }
         ]
       }
