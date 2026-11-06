@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793891158172,
+  "lastUpdate": 1793954618502,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3596,6 +3596,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 11.3ms, median: 11.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "2390de85cd4cd1f8449260630e9b930be09c2b81",
+          "message": "nvim-open: start nvim in window 2 when it is not running\n\nopen-in-nvim failed whenever nvim in window 2 had been quit back to its\nshell, which left Claude to paste a path instead. nvim-open.sh now starts\nnvim there first, with no arguments, then opens the file as before.\n\nIt types the command into the user's shell rather than respawning the\npane, so nvim gets the same environment as when started by hand and the\nshell is still there after :q. C-u clears anything half-typed (it stays\nin the kill ring), copy-mode is left first, and cd and nvim go on\nseparate lines: zsh's preexec titles the pane after the first word of\nthe line, and the title should read nvim, not cd. The directory is that\nof the calling Claude pane, not the Bash tool's cwd, which may have\ndrifted into a subdirectory.\n\nKeys go only to a zsh or bash that is at its prompt: the pane's own\nshell must hold the terminal's foreground, since a bash script running\nin the pane is also named bash in #{pane_current_command}. Anything else\nin window 2 -- Claude after window 1 was closed and the rest moved up,\nless, a dev server -- or no window 2 at all fails without sending a key.\nWindows are never created, moved or reordered; an earlier idea of\nrepairing the layout around the first Claude window was dropped.\n\nOnly the active pane of window 2 is looked at, as splits are not used\nthere. The window is read with list-panes, because display-message on a\nmissing window silently answers for the current pane, which once started\nnvim in window 1 during testing. After the socket appears, the script\nalso waits for v:vim_did_enter, since nvim creates the socket before\nrunning init.lua; socket and readiness share a 10 s limit.\n--print-pane stays read-only.\n\ngit-worktree-tmux now creates new sessions with the layout this relies\non: 1 a shell, 2 a shell running nvim, 3 a shell for Claude, with window\n1 selected. Existing sessions are left alone.\n\nTested on an isolated tmux server with its own XDG_RUNTIME_DIR: start\nwith half-typed input and in copy-mode, reuse, :q leaving the shell, a\nbash script or less in the pane, a missing window 2, --print-pane, and\nthe new-session layout. The attach and switch-client paths of\ngit-worktree-tmux were not tried.",
+          "timestamp": "2026-11-06T17:36:01+09:00",
+          "tree_id": "f03074d1dbc3e5211d5e121204dbea87980e3d34",
+          "url": "https://github.com/r-okm/dotfiles/commit/2390de85cd4cd1f8449260630e9b930be09c2b81"
+        },
+        "date": 1793954617622,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 5.3,
+            "range": "-0.0",
+            "unit": "ms",
+            "extra": "min: 5.5ms, max: 5.5ms, median: 5.3ms (10 runs)"
           }
         ]
       }
