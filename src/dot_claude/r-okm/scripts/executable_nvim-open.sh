@@ -12,13 +12,19 @@ Usage: $prog [-s|--switch] [--] <path>[:line[:col]]
        $prog --print-pane
 
 Open an existing file (or a directory, in nvim's file browser) in the nvim
-running in window $NVIM_WINDOW of the current tmux session, over its RPC socket.
+running in the active pane of window $NVIM_WINDOW of the current tmux session,
+over its RPC socket.
+
+When that pane sits at a shell prompt instead, nvim is started there first
+with no arguments, in the working directory of the calling pane. Any other
+program in that pane, or a missing window $NVIM_WINDOW, fails without sending
+keys or opening anything. Windows are never created or moved.
 
   -s, --switch      also switch the tmux client to window $NVIM_WINDOW
       --print-pane  print the pane id of that nvim and exit, opening nothing
+                    and starting nothing
   -h, --help        show this help
 
-Fails without opening anything when there is no nvim in window $NVIM_WINDOW.
 A trailing :line[:col] (grep/rg style) is honoured unless the path exists
 verbatim. Use -- before a path that starts with a dash.
 EOF
@@ -39,7 +45,7 @@ report() {
   [[ -t 1 ]] && return 0
   printf '%s: %s\n' "$prog" "$1"
   printf '%s: %s\n' "$prog" \
-    "tell the user the file is open in window $NVIM_WINDOW; if it is not, say so rather than retrying"
+    "tell the user the file is open in window $NVIM_WINDOW (and that nvim was started, if it was); if it is not, say so rather than retrying"
 }
 
 # A path that exists as given wins: a colon is a legal filename character.
@@ -72,18 +78,32 @@ current_session() {
   fi
 }
 
+# Sets target_pane, target_pid, target_in_mode and target_command for the
+# active pane of window 2
+find_target_pane() {
+  local session=$1 info
+
+  # Not display-message: on a missing window it silently answers for the
+  # current pane instead of failing.
+  info=$(tmux list-panes -t "=${session}:${NVIM_WINDOW}" \
+    -F '#{pane_active} #{pane_id} #{pane_pid} #{pane_in_mode} #{pane_current_command}' \
+    2>/dev/null) ||
+    die "window $NVIM_WINDOW not found in session '$session'" \
+      "the nvim window is missing -- tell the user, and read the file some other way"
+  info=$(sed -n 's/^1 //p' <<<"$info")
+  [[ -n $info ]] || die "no active pane in window $NVIM_WINDOW of session '$session'"
+  read -r target_pane target_pid target_in_mode target_command <<<"$info"
+}
+
 # nvim's default server socket is $XDG_RUNTIME_DIR/nvim.<pid>.<n>, and the nvim
 # process still carries the TMUX_PANE it was started in -- so the pane, not the
 # window name or the process tree, is what ties a socket to window 2.
-find_nvim() {
-  local session=$1
+lookup_nvim() {
+  local pane_wanted=$1
   local runtime=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
-  local panes sock pid env pane
+  local sock pid env pane
 
-  panes=$(tmux list-panes -t "=${session}:${NVIM_WINDOW}" -F '#{pane_id}' 2>/dev/null) ||
-    die "window $NVIM_WINDOW not found in session '$session'" \
-      "the nvim window is missing -- open one there, or read the file some other way"
-
+  [[ -n $pane_wanted ]] || return 1
   for sock in "$runtime"/nvim.*; do
     [[ -S $sock ]] || continue
     pid=${sock##*/nvim.}
@@ -98,16 +118,98 @@ find_nvim() {
     grep -q '^NVIM=' <<<"$env" && continue
 
     pane=$(sed -n 's/^TMUX_PANE=//p' <<<"$env" | head -n1)
-    [[ -n $pane ]] || continue
-    grep -qxF "$pane" <<<"$panes" || continue
+    [[ $pane == "$pane_wanted" ]] || continue
 
     nvim_socket=$sock
     nvim_pane=$pane
     return 0
   done
+  return 1
+}
 
-  die "no nvim listening in window $NVIM_WINDOW of session '$session'" \
-    "start nvim there first, or read the file some other way"
+find_nvim() {
+  local session=$1
+  find_target_pane "$session"
+  lookup_nvim "$target_pane" ||
+    die "no nvim listening in window $NVIM_WINDOW of session '$session'" \
+      "start nvim there first, or read the file some other way"
+}
+
+# #{pane_current_command} names the foreground process, and a bash script
+# running in the pane is called bash as well. The shell is at its prompt only
+# when the pane's own process -- the shell tmux started -- holds the terminal's
+# foreground. zsh and bash only: they both read the $'...' that %q may produce.
+shell_at_prompt() {
+  local stat tpgid
+
+  case "$target_command" in
+    zsh | bash) ;;
+    *) return 1 ;;
+  esac
+  stat=$(<"/proc/$target_pid/stat") || return 1
+  # Fields after "pid (comm) ": state ppid pgrp session tty_nr tpgid
+  read -r _ _ _ _ _ tpgid _ <<<"${stat##*) }"
+  [[ $tpgid == "$target_pid" ]]
+}
+
+# The pane the agent runs in: the Bash tool's cwd may have drifted into a
+# subdirectory, the agent process itself has not.
+caller_dir() {
+  if [[ -n ${TMUX_PANE:-} ]]; then
+    tmux display-message -p -t "$TMUX_PANE" '#{pane_current_path}'
+  else
+    pwd
+  fi
+}
+
+# Typed into the user's interactive shell rather than run as the pane command,
+# so nvim gets the same environment as when started by hand and the shell is
+# still there after :q. C-u (kill-whole-line under bindkey -e) clears anything
+# half-typed; it stays in the kill ring for C-y.
+start_nvim() {
+  local session=$1 dir quoted
+
+  find_target_pane "$session"
+  if lookup_nvim "$target_pane"; then
+    nvim_started=false
+    return 0
+  fi
+  [[ $target_command != nvim ]] ||
+    die "window $NVIM_WINDOW of session '$session' runs nvim, but no socket of it was found" \
+      "no keys were sent -- tell the user, and read the file some other way"
+  shell_at_prompt ||
+    die "window $NVIM_WINDOW of session '$session' is running '$target_command', not nvim or a shell at its prompt" \
+      "no keys were sent -- tell the user, and read the file some other way"
+
+  # In copy-mode the keys below would run as copy-mode commands
+  if [[ $target_in_mode == 1 ]]; then
+    tmux send-keys -t "$target_pane" -X cancel
+  fi
+
+  dir=$(caller_dir)
+  printf -v quoted '%q' "$dir"
+  # Two command lines, not `cd ... && nvim`: zsh's preexec titles the pane
+  # after the first word of each line, and it should read nvim.
+  tmux send-keys -t "$target_pane" C-u \; \
+    send-keys -t "$target_pane" -l "cd -- $quoted" \; \
+    send-keys -t "$target_pane" Enter \; \
+    send-keys -t "$target_pane" -l nvim \; \
+    send-keys -t "$target_pane" Enter
+
+  # nvim creates its socket before running init.lua, and answers nothing until
+  # startup is over, so the socket alone does not mean it is ready.
+  local deadline=$((SECONDS + 10)) cmd
+  while ((SECONDS < deadline)); do
+    cmd=$(tmux display-message -p -t "$target_pane" '#{pane_current_command}')
+    if [[ $cmd == nvim ]] && lookup_nvim "$target_pane" &&
+      [[ $(timeout 1 nvim --server "$nvim_socket" --remote-expr 'v:vim_did_enter' 2>/dev/null) == 1 ]]; then
+      nvim_started=true
+      return 0
+    fi
+    sleep 0.2
+  done
+  die "started nvim in window $NVIM_WINDOW of session '$session', but it was not ready within 10s" \
+    "check window $NVIM_WINDOW -- tell the user, and read the file some other way"
 }
 
 # Vim string literal: doubling is the only escape a '...' literal has.
@@ -164,6 +266,7 @@ main() {
 
   local session
   session=$(current_session)
+  [[ -n $session ]] || die "could not tell which tmux session this runs in"
 
   if [[ $print_pane == true ]]; then
     find_nvim "$session"
@@ -198,7 +301,8 @@ main() {
   local abs
   abs=$(realpath -s -- "$file")
 
-  find_nvim "$session"
+  local nvim_started
+  start_nvim "$session"
 
   normalize_mode
   remote_expr "execute('drop ' . fnameescape($(vim_str "$abs")))"
@@ -207,11 +311,13 @@ main() {
   fi
 
   local where="window $NVIM_WINDOW of session '$session'"
+  local started=""
+  [[ $nvim_started == true ]] && started=" (nvim was not running there, so it was started first)"
   if [[ $switch == true ]]; then
     tmux select-window -t "=${session}:${NVIM_WINDOW}"
-    report "opened $abs${line:+ at line $line} in nvim and switched to $where"
+    report "opened $abs${line:+ at line $line} in nvim and switched to $where$started"
   else
-    report "opened $abs${line:+ at line $line} in the nvim in $where (the user has to switch there to see it)"
+    report "opened $abs${line:+ at line $line} in the nvim in $where$started (the user has to switch there to see it)"
   fi
 }
 
