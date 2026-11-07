@@ -24,3 +24,11 @@ AppData/Roaming/alacritty
 .local/bin/gh-pr-fetch-comments
 .local/bin/gh-pr-review-threads
 .local/bin/gh-pr-parse
+{{ if eq .chezmoi.os "windows" -}}
+.claude/r-okm/scripts/nvim-open.sh
+.claude/r-okm/scripts/video-frames.sh
+.claude/skills/open-in-explorer
+.claude/skills/open-in-nvim
+.claude/skills/video-frames
+.claude/skills/worktree
+{{ end -}}

@@ -3,6 +3,12 @@ symlink
 
 {{ if ne .chezmoi.os "linux" -}}
 .chezmoiscripts/linux/**
+.claude/r-okm/scripts/nvim-open.sh
+.claude/r-okm/scripts/video-frames.sh
+.claude/skills/open-in-explorer
+.claude/skills/open-in-nvim
+.claude/skills/video-frames
+.claude/skills/worktree
 .local
 .config/asdf
 .config/systemd
