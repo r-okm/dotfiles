@@ -23,6 +23,7 @@ target_owner() {
     esac
     case "$arg" in
       --repo=*) ref="${arg#--repo=}" ;;
+      -R?*) ref="${arg#-R}" ;;
     esac
     prev="$arg"
   done
