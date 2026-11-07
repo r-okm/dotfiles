@@ -8,3 +8,11 @@
 	email = {{ .work.git_user_email }}
 [commit]
 	gpgsign = false
+{{- with get .work "github_user" }}
+# `gh auth git-credential` answers with the active account only, so pin the
+# work account's token. && fails closed instead of falling back to the active
+# account; </dev/null keeps gh.exe (via the WSL wrapper) off git's stdin.
+[credential "https://github.com"]
+	helper =
+	helper = !token=$(gh auth token --hostname github.com --user {{ . }} </dev/null) && GH_TOKEN=$token gh auth git-credential
+{{- end }}
