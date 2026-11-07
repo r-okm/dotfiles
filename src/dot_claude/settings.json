@@ -27,6 +27,7 @@
       "Bash(gh.exe auth status*-t*)",
       "Bash(gh.exe auth git-credential*)",
       "Bash(git credential*)",
+      "Bash(git * credential *)",
       "Edit(~/.ssh/**)",
       "Edit(~/.aws/**)",
       "Edit(~/.gnupg/**)",
