@@ -12,6 +12,14 @@
 {{ else -}}
 	provider = generic
 {{ end -}}
+# Use gh's token for github.com over HTTPS so push/fetch need no 1Password SSH approval.
+# The empty helper drops helpers inherited from the system config.
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
 {{ if eq .chezmoi.os "windows" -}}
 [safe]
 	directory = *
@@ -87,7 +95,6 @@
 	required = true
 [url "git@github.com:"]
 	pushinsteadof = "git://github.com/"
-	pushinsteadof = "https://github.com/"
 [ghq]
 	root = ~/src
 	user = r-okm
