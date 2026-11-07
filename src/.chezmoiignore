@@ -34,5 +34,6 @@ _vimrc
 {{   if not (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
 .chezmoiscripts/linux/wsl/**
 .local/bin/gh
+.local/bin/gh-account
 {{   end -}}
 {{ end -}}

@@ -4,14 +4,11 @@
 [include]
 	path = ~/.config/git/themes.gitconfig
 	path = ~/.config/git/personal.gitconfig
-[credential]
-{{ if eq .chezmoi.os "linux" -}}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-	helper = "{{ .chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
-{{   end -}}
-{{ else -}}
-	provider = generic
-{{ end -}}
+# Use gh's token for github.com over HTTPS so push/fetch need no 1Password SSH approval.
+# The empty helper drops helpers inherited from the system config.
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
 {{ if eq .chezmoi.os "windows" -}}
 [safe]
 	directory = *
@@ -87,7 +84,6 @@
 	required = true
 [url "git@github.com:"]
 	pushinsteadof = "git://github.com/"
-	pushinsteadof = "https://github.com/"
 [ghq]
 	root = ~/src
 	user = r-okm
@@ -96,6 +92,15 @@
 	path = ~/.config/git/work.gitconfig
 [http "https://{{ . }}"]
 	sslVerify = false
+# Git Credential Manager serves only these hosts; github.com goes to gh above.
+[credential "https://{{ . }}"]
+{{- if eq $.chezmoi.os "linux" }}
+{{-   if ($.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+	helper = "{{ $.chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
+{{-   end }}
+{{- else }}
+	provider = generic
+{{- end }}
 {{ end -}}
 {{ range .work.github_orgs -}}
 [includeIf "hasconfig:remote.*.url:git@github.com:{{ . }}/**"]
