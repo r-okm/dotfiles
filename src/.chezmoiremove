@@ -24,6 +24,8 @@ AppData/Roaming/alacritty
 .local/bin/gh-pr-fetch-comments
 .local/bin/gh-pr-review-threads
 .local/bin/gh-pr-parse
+.claude/skills/commit-message
+.claude/skills/handoff
 {{ if eq .chezmoi.os "windows" -}}
 .claude/r-okm/scripts/nvim-open.sh
 .claude/r-okm/scripts/video-frames.sh
