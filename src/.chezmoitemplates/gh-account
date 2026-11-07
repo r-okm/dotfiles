@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prints the gh account a gh command should run as, or nothing for the host's
+# active account. Takes the gh command's own arguments.
+#
+# gh answers with the active account wherever it runs, so repositories of the
+# work orgs get the work account instead. The owner comes from -R/--repo if
+# given, else from origin of the current directory.
+#
+# Shared by the WSL gh wrapper and the gh function of the Windows Git Bash.
+
+work_user={{ get .work "github_user" | squote }}
+work_orgs=({{ range .work.github_orgs }}{{ . | lower | squote }} {{ end }})
+
+[[ -n "$work_user" ]] || exit 0
+
+target_owner() {
+  local arg prev='' ref='' url rest
+  for arg in "$@"; do
+    case "$prev" in
+      -R | --repo) ref="$arg" ;;
+    esac
+    case "$arg" in
+      --repo=*) ref="${arg#--repo=}" ;;
+    esac
+    prev="$arg"
+  done
+  if [[ -n "$ref" ]]; then
+    # [HOST/]OWNER/REPO
+    [[ "$ref" == */*/* ]] && ref="${ref#*/}"
+    echo "${ref%%/*}"
+    return 0
+  fi
+
+  url="$(git remote get-url origin 2>/dev/null)" || return 0
+  case "$url" in
+    https://github.com/*) rest="${url#https://github.com/}" ;;
+    git@github.com:*) rest="${url#git@github.com:}" ;;
+    ssh://git@github.com/*) rest="${url#ssh://git@github.com/}" ;;
+    *) return 0 ;;
+  esac
+  echo "${rest%%/*}"
+}
+
+owner="$(target_owner "$@")"
+owner="${owner,,}"
+for org in "${work_orgs[@]}"; do
+  if [[ "$owner" == "$org" ]]; then
+    echo "$work_user"
+    exit 0
+  fi
+done
