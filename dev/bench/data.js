@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1793954618502,
+  "lastUpdate": 1794053423010,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3627,6 +3627,37 @@ window.BENCHMARK_DATA = {
             "range": "-0.0",
             "unit": "ms",
             "extra": "min: 5.5ms, max: 5.5ms, median: 5.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0c9969c33243b3917d80bf9e7f6276b9963b7300",
+          "message": "bash: drop the interactive cp, mv and rm aliases\n\nbash is rarely used here, and rm -I got in the way when it was: it\nprompted Claude's own rm through the sourced aliases, which read no\nanswer and removed nothing.",
+          "timestamp": "2026-11-07T20:53:00+09:00",
+          "tree_id": "7f7146d9d228a5c87a8a5d5209cf5628ca949c7f",
+          "url": "https://github.com/r-okm/dotfiles/commit/0c9969c33243b3917d80bf9e7f6276b9963b7300"
+        },
+        "date": 1794053422157,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.5,
+            "range": "1.3",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 11.5ms, median: 10.3ms (10 runs)"
           }
         ]
       }
