@@ -90,22 +90,31 @@
 {{ range .work.git_repo_hosts -}}
 [includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
 	path = ~/.config/git/work.gitconfig
+{{- $ca := printf "%s/.config/git/certs/%s.pem" $.chezmoi.homeDir . }}
 [http "https://{{ . }}"]
+{{- if stat $ca }}
+	# The host's self-signed certificate, placed by hand outside this public
+	# repository; the host is trusted only with it.
+	sslCAInfo = "{{ $ca }}"
+{{- else }}
 	sslVerify = false
+{{- end }}
 {{- if eq $.chezmoi.os "windows" }}
 	# GCM signs in with Windows Integrated Authentication, which needs NTLM.
 	allowNTLMAuth = true
 {{- end }}
 # Git Credential Manager serves only these hosts; github.com goes to gh above.
+# Where a helper is named, the empty one first drops helpers inherited from
+# the system config, such as the helper-selector of Scoop's Git, which returns
+# nothing until a helper is picked in its dialog.
 [credential "https://{{ . }}"]
 {{- if eq $.chezmoi.os "linux" }}
 {{-   if ($.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+	helper =
 	helper = "!WSLENV=${WSLENV:+$WSLENV:}GCM_PROVIDER:GCM_ALLOW_WINDOWSAUTH GCM_PROVIDER=generic GCM_ALLOW_WINDOWSAUTH=false {{ $.chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
 {{-   end }}
 {{- else }}
 {{-   if eq $.chezmoi.os "windows" }}
-	# Scoop's Git sets helper-selector system-wide, which returns nothing until
-	# a helper is picked in its dialog; the empty helper drops it.
 	helper =
 	helper = manager
 {{-   end }}
