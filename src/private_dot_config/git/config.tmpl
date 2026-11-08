@@ -96,7 +96,7 @@
 [credential "https://{{ . }}"]
 {{- if eq $.chezmoi.os "linux" }}
 {{-   if ($.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
-	helper = "!WSLENV=${WSLENV:+$WSLENV:}GCM_ALLOW_WINDOWSAUTH GCM_ALLOW_WINDOWSAUTH=false {{ $.chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
+	helper = "!WSLENV=${WSLENV:+$WSLENV:}GCM_PROVIDER:GCM_ALLOW_WINDOWSAUTH GCM_PROVIDER=generic GCM_ALLOW_WINDOWSAUTH=false {{ $.chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
 {{-   end }}
 {{- else }}
 	provider = generic
