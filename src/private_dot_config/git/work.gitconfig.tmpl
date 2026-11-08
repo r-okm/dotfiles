@@ -8,3 +8,14 @@
 	email = {{ .work.git_user_email }}
 [commit]
 	gpgsign = false
+{{- if get .work "github_user" }}
+# `gh auth git-credential` answers with the active account only, so take the
+# account from gh-account, as gh itself does, and pass its token in. A failed
+# lookup stops instead of falling back to the active account. </dev/null keeps
+# gh.exe (run through interop on WSL) off git's credential request. The token
+# lookup shows its stderr only on failure, as gh warns about the expiry of the
+# inactive account's token on every call. Quoted, as ; would start a comment.
+[credential "https://github.com"]
+	helper =
+	helper = "!f() { [ \"$1\" = get ] || return 0; user=$(gh-account </dev/null) || return; if [ -z \"$user\" ]; then gh auth git-credential \"$@\"; return; fi; err=$(mktemp) || return; token=$(gh auth token --hostname github.com --user \"$user\" </dev/null 2>\"$err\") || { cat \"$err\" >&2; rm -f \"$err\"; return 1; }; rm -f \"$err\"; GH_TOKEN=$token gh auth git-credential \"$@\"; }; f"
+{{- end }}

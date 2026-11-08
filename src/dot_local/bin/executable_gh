@@ -31,13 +31,19 @@ require_gh_exe() {
 # </dev/null: interop would hand gh.exe the stdin piped to the Linux gh.
 # stderr only on failure: gh.exe warns about expiry on every call.
 exec_with_token() {
-  local token err
+  local token err user
+  local -a user_args=()
   require_gh_exe
+  # Repositories of the work orgs run as the work account.
+  user="$("$HOME/.local/bin/gh-account" "$@" </dev/null)"
+  if [[ -n "$user" ]]; then
+    user_args=(--hostname github.com --user "$user")
+  fi
   err="$(mktemp)"
-  if ! token="$(gh.exe auth token </dev/null 2>"$err")"; then
+  if ! token="$(gh.exe auth token "${user_args[@]}" </dev/null 2>"$err")"; then
     cat -- "$err" >&2
     rm -f -- "$err"
-    echo "$self: gh.exe gave no token -- see 'gh auth status'" >&2
+    echo "$self: gh.exe gave no token${user:+ for $user} -- see 'gh auth status'" >&2
     exit 1
   fi
   rm -f -- "$err"
@@ -64,6 +70,19 @@ case "${1:-} ${2:-}" in
   # They serve the calling git, which is WSL's.
   'auth setup-git' | 'auth git-credential')
     exec_with_token "$@"
+    ;;
+
+  # The work credential helper calls this on every git operation.
+  'auth token')
+    require_gh_exe
+    err="$(mktemp)"
+    status=0
+    gh.exe "$@" </dev/null 2>"$err" || status=$?
+    if (( status != 0 )); then
+      cat -- "$err" >&2
+    fi
+    rm -f -- "$err"
+    exit "$status"
     ;;
 
   # Keeps logins out of the Linux hosts.yml. stdin stays for the prompts.

@@ -4,14 +4,11 @@
 [include]
 	path = ~/.config/git/themes.gitconfig
 	path = ~/.config/git/personal.gitconfig
-[credential]
-{{ if eq .chezmoi.os "linux" -}}
-{{   if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
-	helper = "{{ .chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
-{{   end -}}
-{{ else -}}
-	provider = generic
-{{ end -}}
+# Use gh's token for github.com over HTTPS so push/fetch need no 1Password SSH approval.
+# The empty helper drops helpers inherited from the system config.
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
 {{ if eq .chezmoi.os "windows" -}}
 [safe]
 	directory = *
@@ -87,7 +84,6 @@
 	required = true
 [url "git@github.com:"]
 	pushinsteadof = "git://github.com/"
-	pushinsteadof = "https://github.com/"
 [ghq]
 	root = ~/src
 	user = r-okm
@@ -95,7 +91,30 @@
 [includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
 	path = ~/.config/git/work.gitconfig
 [http "https://{{ . }}"]
-	sslVerify = false
+	# The host's self-signed certificate, placed by hand outside this public
+	# repository; the host is trusted only with it, and git fails without it.
+	sslCAInfo = "{{ $.chezmoi.homeDir }}/.config/git/certs/{{ . }}.pem"
+{{- if eq $.chezmoi.os "windows" }}
+	# GCM signs in with Windows Integrated Authentication, which needs NTLM.
+	allowNTLMAuth = true
+{{- end }}
+# Git Credential Manager serves only these hosts; github.com goes to gh above.
+# Where a helper is named, the empty one first drops helpers inherited from
+# the system config, such as the helper-selector of Scoop's Git, which returns
+# nothing until a helper is picked in its dialog.
+[credential "https://{{ . }}"]
+{{- if eq $.chezmoi.os "linux" }}
+{{-   if ($.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+	helper =
+	helper = "!WSLENV=${WSLENV:+$WSLENV:}GCM_PROVIDER:GCM_ALLOW_WINDOWSAUTH GCM_PROVIDER=generic GCM_ALLOW_WINDOWSAUTH=false {{ $.chezmoi.homeDir }}/.local/bin/git-credential-manager.exe"
+{{-   end }}
+{{- else }}
+{{-   if eq $.chezmoi.os "windows" }}
+	helper =
+	helper = manager
+{{-   end }}
+	provider = generic
+{{- end }}
 {{ end -}}
 {{ range .work.github_orgs -}}
 [includeIf "hasconfig:remote.*.url:git@github.com:{{ . }}/**"]
