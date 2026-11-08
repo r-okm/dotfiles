@@ -16,5 +16,5 @@
 # ; would start a comment.
 [credential "https://github.com"]
 	helper =
-	helper = "!f() { user=$(gh-account </dev/null) || return; if [ -z \"$user\" ]; then gh auth git-credential \"$@\"; return; fi; token=$(gh auth token --hostname github.com --user \"$user\" </dev/null) || return; GH_TOKEN=$token gh auth git-credential \"$@\"; }; f"
+	helper = "!f() { [ \"$1\" = get ] || return 0; user=$(gh-account </dev/null) || return; if [ -z \"$user\" ]; then gh auth git-credential \"$@\"; return; fi; token=$(gh auth token --hostname github.com --user \"$user\" </dev/null) || return; GH_TOKEN=$token gh auth git-credential \"$@\"; }; f"
 {{- end }}
