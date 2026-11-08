@@ -90,15 +90,10 @@
 {{ range .work.git_repo_hosts -}}
 [includeIf "hasconfig:remote.*.url:https://{{ . }}/**"]
 	path = ~/.config/git/work.gitconfig
-{{- $ca := printf "%s/.config/git/certs/%s.pem" $.chezmoi.homeDir . }}
 [http "https://{{ . }}"]
-{{- if stat $ca }}
 	# The host's self-signed certificate, placed by hand outside this public
-	# repository; the host is trusted only with it.
-	sslCAInfo = "{{ $ca }}"
-{{- else }}
-	sslVerify = false
-{{- end }}
+	# repository; the host is trusted only with it, and git fails without it.
+	sslCAInfo = "{{ $.chezmoi.homeDir }}/.config/git/certs/{{ . }}.pem"
 {{- if eq $.chezmoi.os "windows" }}
 	# GCM signs in with Windows Integrated Authentication, which needs NTLM.
 	allowNTLMAuth = true
