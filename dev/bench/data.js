@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794053423010,
+  "lastUpdate": 1794114866834,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3658,6 +3658,37 @@ window.BENCHMARK_DATA = {
             "range": "1.3",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 11.5ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "36802c68a036c700725d2406d5d7cd1bea4aae2e",
+          "message": "git: push to github.com over HTTPS with gh, picking the work or personal account (#64)\n\nEvery push and fetch over SSH asked 1Password's SSH agent for approval, so\nClaude's pushes and session-start fetches waited on the user each time, and\nClaude Code denied git push outright.\n\ngithub.com now takes its HTTPS credentials from `gh auth git-credential`, and\nthe pushInsteadOf that rewrote https://github.com/ to SSH is gone. Repositories\nwith an HTTPS remote push and fetch with gh's token; SSH remotes and commit\nsigning still go through 1Password. Claude Code no longer denies git push, and\ndenies `git credential` (also behind -C/-c) and `gh auth git-credential`\ninstead, since they would print the token.\n\ngh answers with the host's active account wherever it runs, so on a machine\nlogged in to both accounts, work-org repositories would have used the personal\ntoken. gh-account, deployed to ~/.local/bin on WSL and %LOCALAPPDATA%\\r-okm\\bin\non Windows, prints the work account in work.github_user when the owner from\n-R/--repo or origin is one of work.github_orgs. The WSL gh wrapper, a gh\nfunction in .bash_aliases for Git Bash and Claude Code's Bash, and the\ncredential helper in work.gitconfig all ask it. A missing token stops instead\nof falling back to the active account.\n\nGit Credential Manager now serves only the work git hosts. On Windows it signs\nin with Windows Integrated Authentication, with NTLM allowed for those hosts;\non WSL, which cannot use Windows authentication, GCM.exe asks for a password.\nThe hosts are reached with their self-signed certificate pinned through\nsslCAInfo instead of sslVerify = false, since that password goes out with\nBasic auth; git fails for a work host until its certificate is placed in\n~/.config/git/certs.\n\nVerified on Windows, WSL and the work PC: push dry-runs over HTTPS without a\n1Password prompt; gh api user and pushes in work-org repositories as the work\naccount with the personal one active, and in personal repositories as r-okm;\nan unknown account stopping with \"no oauth token found\"; clone and ls-remote\non the work git host; SSH work-org remotes still using the work key.\n\nNot handled: cloning a work-org repository with the personal account active\nfails, as there is no origin yet; a repository given positionally, as in\n`gh repo clone OWNER/REPO`, is not looked at; Windows and WSL share GCM's\nstored credential for the work host; and the Git Bash gh function falls back\nto the active account when gh-account is missing. Whether the inactive work\naccount's expiring token is refreshed after 8 hours is not yet confirmed.",
+          "timestamp": "2026-11-08T14:07:58+09:00",
+          "tree_id": "8c1ebbd7a61b7a3fc5ed0f945617e4d95276c236",
+          "url": "https://github.com/r-okm/dotfiles/commit/36802c68a036c700725d2406d5d7cd1bea4aae2e"
+        },
+        "date": 1794114865996,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 9.6,
+            "range": "3.4",
+            "unit": "ms",
+            "extra": "min: 8.9ms, max: 12.2ms, median: 9.1ms (10 runs)"
           }
         ]
       }
