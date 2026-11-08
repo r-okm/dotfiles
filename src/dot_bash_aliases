@@ -41,8 +41,10 @@ alias zg='lazygit'
 # gh answers with the host's active account wherever it runs; repositories of
 # the work orgs run as the work account instead (see gh-account). auth is left
 # alone: with GH_TOKEN set it would act on the token, not the stored accounts.
+# The token lookup shows its stderr only on failure: gh warns about the expiry
+# of the inactive account's token on every call.
 gh() {
-  local user='' token
+  local user='' token err
   if [[ -z "${GH_TOKEN:-}${GITHUB_TOKEN:-}" && "${1:-}" != auth ]]; then
     user="$(gh-account "$@")"
   fi
@@ -50,6 +52,12 @@ gh() {
     command gh "$@"
     return
   fi
-  token="$(command gh auth token --hostname github.com --user "$user")" || return
+  err="$(mktemp)" || return
+  if ! token="$(command gh auth token --hostname github.com --user "$user" 2>"$err")"; then
+    cat -- "$err" >&2
+    rm -f -- "$err"
+    return 1
+  fi
+  rm -f -- "$err"
   GH_TOKEN="$token" command gh "$@"
 }
