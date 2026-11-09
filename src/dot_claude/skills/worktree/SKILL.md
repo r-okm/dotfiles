@@ -28,7 +28,7 @@ git-worktree-tmux -d -p <pr_number>
 # ブランチ名は <git config user.name>/<branch_suffix>。suffix 省略時は wip-<epoch>
 git-worktree-tmux -d -c [<branch_suffix>]
 
-# worktree を一覧する（1 行 1 件、タブ区切りで <worktree_name> <branch> <tmux セッション名 or ->）
+# worktree を一覧する（1 行 1 件、タブ区切りで <worktree_name> <branch> <tmux セッション名 or -> <worktree のパス>）
 git-worktree-tmux -l
 
 # 既存の worktree の tmux セッションを開く（無ければ作る）

@@ -80,8 +80,7 @@ fzf_cd_ghq() {
       local full_path=$(ghq list --full-path --exact "$repo")
 
       if [[ "$key" == "ctrl-s" ]]; then
-        echo "tmux_cwd_session $full_path"
-        tmux_cwd_session "$full_path"
+        git-worktree-tmux --session "$full_path"
       else
         echo "cd $full_path"
         _execute_prompt "cd $full_path"
@@ -96,31 +95,33 @@ fzf_cd_worktree() {
     return 1
   fi
 
-  local main_repo_root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
-  local worktree_names=$(git-worktree-tmux --list | cut -f1)
+  local worktrees=$(git-worktree-tmux --list)
 
-  if [[ -z "$worktree_names" ]]; then
+  if [[ -z "$worktrees" ]]; then
     echo "No worktrees found"
     return 0
   fi
 
   local result=$(
-    echo "$worktree_names" |
+    echo "$worktrees" |
     fzf \
       --height 50% \
       --reverse \
+      --delimiter='\t' \
+      --with-nth=1 \
       --prompt='WORKTREE > ' \
       --header='| cd: <cr> | tmux session: <C-s> | delete: <C-d> |' \
       --expect=ctrl-s,ctrl-d \
-      --preview="git -C ${main_repo_root}/.worktree/{} pretty-log"
+      --preview='git -C {4} pretty-log'
   )
 
   if [[ -n "$result" ]]; then
     local key=$(echo "$result" | head -1)
-    local selected=$(echo "$result" | tail -1)
+    local fields=("${(@ps:\t:)$(echo "$result" | tail -1)}")
+    local selected=${fields[1]}
 
     if [[ -n "$selected" ]]; then
-      local full_path="${main_repo_root}/.worktree/${selected}"
+      local full_path=${fields[4]}
 
       if [[ "$key" == "ctrl-d" ]]; then
         git-worktree-tmux --remove --force "$selected"
@@ -185,24 +186,6 @@ completions_generate() {
   gh completion -s zsh >"${completions_dir}/_gh"
   uv generate-shell-completion zsh >"${completions_dir}/_uv"
   uvx --generate-shell-completion zsh >"${completions_dir}/_uvx"
-}
-
-tmux_cwd_session() {
-  local target_dir="${1:-$PWD}"
-  local session_name="${2:-$(basename "$target_dir")}"
-
-  if [[ -z "$TMUX" ]]; then
-    # Outside tmux: create a new session or attach to an existing one
-    tmux new -s "$session_name" -c "$target_dir" 2>/dev/null || tmux attach -t "$session_name"
-  else
-    # Inside tmux: create a new session and switch to it
-    if tmux has-session -t "$session_name" 2>/dev/null; then
-      tmux switch-client -t "$session_name"
-    else
-      tmux new-session -d -s "$session_name" -c "$target_dir"
-      tmux switch-client -t "$session_name"
-    fi
-  fi
 }
 
 _update_prompt() {

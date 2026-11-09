@@ -16,9 +16,10 @@ FORCE=false
 
 help() {
   cat << EOF
-Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix|worktree_name>]
+Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix|worktree_name|directory>]
 
 Create, list, open, or remove git worktrees, each paired with a tmux session.
+The main worktree of a repository can have a tmux session as well (-s).
 A new session gets three windows: a shell, nvim, and a shell for Claude.
 
 Options:
@@ -27,8 +28,11 @@ Options:
   -c, --create-branch Create a new branch from the remote HEAD in a new worktree
                       (branch_suffix is optional)
   -l, --list          List worktrees under .worktree/, one per line as
-                      <worktree_name> TAB <branch> TAB <tmux_session|->
+                      <worktree_name> TAB <branch> TAB <tmux_session|-> TAB
+                      <worktree_path>
   -o, --open          Open the tmux session of an existing worktree
+  -s, --session       Open the tmux session of the main worktree of the
+                      repository at the given directory
   -r, --remove        Remove a worktree and kill its tmux session. The branch is
                       kept. Refuses when the worktree has uncommitted changes,
                       untracked files, or a detached HEAD with commits on no
@@ -36,13 +40,15 @@ Options:
                       it is the one this runs in, unless -f is given.
   -f, --force         With -r, skip the checks above
   -d, --detach        Leave the tmux session detached instead of attaching or
-                      switching to it, and print the worktree path on the last
-                      line. Use this from non-interactive callers.
+                      switching to it, and print the worktree path (with -s,
+                      the main worktree path) on the last line. Use this from
+                      non-interactive callers.
   -h, --help          Display this help message
 
 Worktree name: the branch name with '/' replaced by '-'
 Worktree path: <repository>/.worktree/<worktree_name>
-Session name:  <project_name>+<worktree_name> ('.' replaced by '_')
+Session name:  <project_name>+<worktree_name> ('.' replaced by '_'),
+               <project_name> for the main worktree
 
 Examples:
   $(basename "$0") -b feature/new-feature
@@ -53,6 +59,7 @@ Examples:
   $(basename "$0") -l
   $(basename "$0") -o feature-new-feature
   $(basename "$0") -r feature-new-feature
+  $(basename "$0") -s ~/src/github.com/owner/repo
 EOF
 }
 
@@ -66,7 +73,8 @@ get_project_name() {
   basename "$(get_repo_root)"
 }
 
-# The project name may be passed in to save a lookup per call
+# An empty worktree name stands for the main worktree.
+# The project name may be passed in to save a lookup per call.
 get_session_name() {
   local worktree_name="$1"
   local project_name="${2:-}"
@@ -75,7 +83,10 @@ get_session_name() {
   if [[ -z "$project_name" ]]; then
     project_name=$(get_project_name)
   fi
-  session_name="${project_name}+${worktree_name}"
+  session_name="$project_name"
+  if [[ -n "$worktree_name" ]]; then
+    session_name+="+${worktree_name}"
+  fi
   # tmux doesn't allow dots in session names
   echo "${session_name//./_}"
 }
@@ -106,6 +117,7 @@ list_worktrees() {
   local prefix
   local worktree_name
   local branch
+  local worktree_dir
   local session_name
   local session_state
 
@@ -117,7 +129,7 @@ list_worktrees() {
     awk -v prefix="$prefix" '
       function flush() {
         name = substr(path, length(prefix) + 1)
-        if (index(path, prefix) == 1 && name !~ /\//) print name "\t" branch
+        if (index(path, prefix) == 1 && name !~ /\//) print name "\t" branch "\t" path
         path = ""
       }
       /^worktree / { path = substr($0, 10); branch = "(detached)"; next }
@@ -125,13 +137,14 @@ list_worktrees() {
       /^$/ { flush() }
       END { if (path != "") flush() }
     ' |
-    while IFS=$'\t' read -r worktree_name branch; do
+    while IFS=$'\t' read -r worktree_name branch worktree_dir; do
       session_name=$(get_session_name "$worktree_name" "$project_name")
       session_state="-"
       if tmux has-session -t "=$session_name" 2>/dev/null; then
         session_state="$session_name"
       fi
-      printf '%s\t%s\t%s\n' "$worktree_name" "$branch" "$session_state"
+      printf '%s\t%s\t%s\t%s\n' \
+        "$worktree_name" "$branch" "$session_state" "$worktree_dir"
     done
 }
 
@@ -141,11 +154,13 @@ open_worktree() {
 
   worktree_dir=$(resolve_worktree_dir "$worktree_name")
   open_tmux_session "$(get_session_name "$worktree_name")" "$worktree_dir"
+}
 
-  # Last line of stdout, so non-interactive callers can pick up the path
-  if [[ "$DETACH" == true ]]; then
-    echo "$worktree_dir"
-  fi
+open_main_worktree() {
+  local repo_root
+
+  repo_root=$(get_repo_root)
+  open_tmux_session "$(get_session_name "")" "$repo_root"
 }
 
 remove_worktree() {
@@ -273,11 +288,6 @@ create_worktree() {
   fi
 
   open_tmux_session "$session_name" "$worktree_dir"
-
-  # Last line of stdout, so non-interactive callers can pick up the path
-  if [[ "$DETACH" == true ]]; then
-    echo "$worktree_dir"
-  fi
 }
 
 resolve_branch_from_pr() {
@@ -332,6 +342,8 @@ open_tmux_session() {
     else
       echo "Session already exists: $session_name"
     fi
+    # Last line of stdout, so non-interactive callers can pick up the path
+    echo "$worktree_dir"
   elif [[ -z "${TMUX:-}" ]]; then
     tmux attach-session -t "=$session_name"
   else
@@ -367,6 +379,10 @@ main() {
         mode="open"
         shift
         ;;
+      -s|--session)
+        mode="session"
+        shift
+        ;;
       -r|--remove)
         mode="remove"
         shift
@@ -396,7 +412,7 @@ main() {
   done
 
   if [[ -z "$mode" ]]; then
-    echo "Error: Please specify one of -b, -p, -c, -l, -o or -r" >&2
+    echo "Error: Please specify one of -b, -p, -c, -l, -o, -s or -r" >&2
     help
     exit 1
   fi
@@ -408,9 +424,14 @@ main() {
 
   # -c/--create-branch may omit the target: it falls back to a generated name
   if [[ -z "$target" && "$mode" != "create" && "$mode" != "list" ]]; then
-    echo "Error: Please specify a branch name, PR number or worktree name" >&2
+    echo "Error: Please specify a branch name, PR number, worktree name or directory" >&2
     help
     exit 1
+  fi
+
+  # The repository is the one at the given directory, not the current one
+  if [[ "$mode" == "session" ]]; then
+    cd "$target"
   fi
 
   # Verify we're in a git repository
@@ -441,6 +462,9 @@ main() {
       ;;
     remove)
       remove_worktree "$target"
+      ;;
+    session)
+      open_main_worktree
       ;;
   esac
 }
