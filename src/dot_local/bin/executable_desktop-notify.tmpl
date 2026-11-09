@@ -16,6 +16,7 @@ xml_escape() {
   s="${s//</&lt;}"
   s="${s//>/&gt;}"
   s="${s//\"/&quot;}"
+  s="${s//\'/&apos;}"
   printf '%s' "$s"
 }
 
