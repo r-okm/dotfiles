@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794194283092,
+  "lastUpdate": 1794198578621,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3720,6 +3720,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 7.0ms, max: 7.6ms, median: 7.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0c4ea3e94f3d3c932f292cd9c77231236d0f077f",
+          "message": "git-worktree-tmux: open the main worktree's session from ghq with the same windows\n\nccg's C-s went through tmux_cwd_session, which opened a session with a\nsingle shell, while worktree sessions from git-worktree-tmux get the\nstandard windows: a shell, nvim and a shell for Claude. nvim-open.sh\nrelies on nvim being in window 2, so the ghq sessions broke it.\n\ngit-worktree-tmux -s/--session <directory> now opens the session of the\nmain worktree of the repository at that directory, created with the same\nwindows. Its name is <project_name>, the first half of a worktree\nsession's <project_name>+<worktree_name>, from the same get_session_name.\nccg's C-s calls it, and tmux_cwd_session and its tms abbreviation are\ngone: nothing else called it and the shell history had no use of tms.\n\n-l/--list prints the worktree path as a fourth column, so ccw no longer\nworks out the main worktree and the .worktree/<name> layout on its own;\nthe layout now lives in git-worktree-tmux only.\n\nWith -d, the worktree path is printed in open_tmux_session instead of in\neach of its three callers.\n\nChecked in a scratch repository: -l prints four columns, also for a\ndetached worktree and a path with a space, and zsh splits a line into\nthe name and the path; session names come out as my_repo for the main\nworktree and my_repo+feat_x for a worktree named feat.x. Opening a\nsession with -s or -d against a tmux server was not tried here.",
+          "timestamp": "2026-11-09T13:19:50+09:00",
+          "tree_id": "d0d98ec7510fe6b66104b4f84318731e3acb44cb",
+          "url": "https://github.com/r-okm/dotfiles/commit/0c4ea3e94f3d3c932f292cd9c77231236d0f077f"
+        },
+        "date": 1794198578231,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.2,
+            "range": "0.8",
+            "unit": "ms",
+            "extra": "min: 10.9ms, max: 11.6ms, median: 11.2ms (10 runs)"
           }
         ]
       }
