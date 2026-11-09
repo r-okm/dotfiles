@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794198578621,
+  "lastUpdate": 1794199819700,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3751,6 +3751,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 10.9ms, max: 11.6ms, median: 11.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "5c1dcbdf5c9e472e885c7968e2acd3c8d1fc74e4",
+          "message": "desktop-notify: escape single quotes so toasts with ' in the body still show\n\nThe body is embedded in a single-quoted PowerShell literal, so an\nunescaped ' ended the string early and the toast was silently dropped.",
+          "timestamp": "2026-11-09T13:44:21+09:00",
+          "tree_id": "0deecc2ffdc2f4d755760544ddaefbcd5916fae2",
+          "url": "https://github.com/r-okm/dotfiles/commit/5c1dcbdf5c9e472e885c7968e2acd3c8d1fc74e4"
+        },
+        "date": 1794199819098,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 3.7,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 3.6ms, max: 4.0ms, median: 3.7ms (10 runs)"
           }
         ]
       }
