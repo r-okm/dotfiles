@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794114866834,
+  "lastUpdate": 1794194283092,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3689,6 +3689,37 @@ window.BENCHMARK_DATA = {
             "range": "3.4",
             "unit": "ms",
             "extra": "min: 8.9ms, max: 12.2ms, median: 9.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "5af1282f181efc3602aa8e9550a6f09a3f0c2464",
+          "message": "git: scan staged changes for secrets with gitleaks before every commit\n\nA pre-commit hook defined in the global config runs gitleaks on the staged\ndiff in every repository. A config-defined hook (Git 2.54+; both machines\nhave 2.56) runs alongside a repository's own .git/hooks/pre-commit, where a\nglobal core.hooksPath would have replaced it. Findings are redacted, and\n--no-banner with --log-level warn keep a clean commit silent.\n\ngitleaks comes from scoop on Windows, installed by hand, and from go install\non WSL. Until it is installed, every commit fails with \"command not found\",\nwhich is intended: a missing scanner should not let commits through.\n\nVerified on Windows with gitleaks 8.30.1 in a scratch repository: a clean\ncommit passes with no output, and a dummy GitHub token is reported as\ngithub-pat, redacted, and stops the commit.\n\ngitleaks is now maintenance-only and its authors moved to Betterleaks. Its\nv2 is still a release candidate and not in scoop, and it drops --staged and\nthe auto-loading of a repository's .gitleaks.toml, so the switch waits for a\nstable release.",
+          "timestamp": "2026-11-09T12:09:33+09:00",
+          "tree_id": "9e28179421d352a99e3ef19f4d3397ea650d9dd1",
+          "url": "https://github.com/r-okm/dotfiles/commit/5af1282f181efc3602aa8e9550a6f09a3f0c2464"
+        },
+        "date": 1794194282617,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7.2,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 7.0ms, max: 7.6ms, median: 7.2ms (10 runs)"
           }
         ]
       }
