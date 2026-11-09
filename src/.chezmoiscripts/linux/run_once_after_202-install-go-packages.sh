@@ -6,6 +6,7 @@ packages=(
   'junegunn/fzf@latest'
   'x-motemen/ghq@latest'
   'jesseduffield/lazygit@latest'
+  'zricethezav/gitleaks/v8@latest'
 )
 
 main() {

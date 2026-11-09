@@ -18,6 +18,9 @@
 	autocrlf = false
 	pager = delta
 	filemode = false
+[hook "gitleaks"]
+	event = pre-commit
+	command = gitleaks git --pre-commit --staged --redact --verbose --no-banner --log-level warn
 [interactive]
 	diffFilter = delta --color-only
 [delta "default"]
