@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794199819700,
+  "lastUpdate": 1794294502576,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3782,6 +3782,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 3.6ms, max: 4.0ms, median: 3.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "46a5a57904115d4167e961bb752ebf52e3ee04f8",
+          "message": "zsh: create a worktree on a new branch from ccg with C-t\n\nccg could cd to a repository or open its main worktree's session, but a\nnew branch in a worktree still meant cd'ing there and typing\ngit-worktree-tmux -c by hand.\n\nC-t now asks for a branch suffix and runs git-worktree-tmux\n--create-branch in the selected repository, from a subshell so the\ncalling shell stays where it is. The branch name comes from\ngit-worktree-tmux as before: <user.name>/<suffix>, or\n<user.name>/wip-<epoch> when the suffix is left empty. The prompt also\nserves as the confirmation, since C-t is the only key in this picker\nthat creates something. ESC, C-d and C-c at the prompt cancel; ESC and\nC-d are bound in a keymap used by this prompt only.\n\nThe key and the repository are now read as the first and second line of\nfzf's output instead of with head -1 and tail -1. With no match, fzf\nprints the key alone, so both read \"ctrl-t\" as the repository; its path\ncame back empty, cd \"\" succeeded, and the worktree would have been\ncreated in the current repository. C-s had the same misread but only\nended in a usage error.\n\nChecked with ghq, fzf and git-worktree-tmux stubbed, in an interactive\nzsh on a pty: a suffix, an empty suffix, an edit with the arrow keys,\nthe three cancel keys, C-s, <cr> and no match. Then used for real in\ndotfiles, once with a suffix and once without.\n\nA repository without refs/remotes/origin/HEAD still fails in\ngit-worktree-tmux -c with git's own error.",
+          "timestamp": "2026-11-10T15:00:01+09:00",
+          "tree_id": "731265489be8a991cdae2d18466a66cc1902f9cf",
+          "url": "https://github.com/r-okm/dotfiles/commit/46a5a57904115d4167e961bb752ebf52e3ee04f8"
+        },
+        "date": 1794294501930,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4.2,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 4.0ms, max: 4.5ms, median: 4.2ms (10 runs)"
           }
         ]
       }
