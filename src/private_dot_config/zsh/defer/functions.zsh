@@ -67,20 +67,28 @@ fzf_cd_ghq() {
       --height 50% \
       --reverse \
       --prompt='CHANGE DIRECTORY > ' \
-      --header='| cd: <cr> | tmux session: <C-s> |' \
-      --expect=ctrl-s \
+      --header='| cd: <cr> | tmux session: <C-s> | new worktree: <C-t> |' \
+      --expect=ctrl-s,ctrl-t \
       --preview="ghq list --full-path --exact {} | xargs -I {} eza-tree {} --git-ignore"
   )
 
   if [[ -n "$result" ]]; then
-    local key=$(echo "$result" | head -1)
-    local repo=$(echo "$result" | tail -1)
+    local lines=("${(@f)result}")
+    local key=${lines[1]}
+    local repo=${lines[2]}
 
     if [[ -n "$repo" ]]; then
       local full_path=$(ghq list --full-path --exact "$repo")
 
       if [[ "$key" == "ctrl-s" ]]; then
         git-worktree-tmux --session "$full_path"
+      elif [[ "$key" == "ctrl-t" ]]; then
+        local suffix
+        bindkey -N fzf_cd_ghq_suffix main
+        bindkey -M fzf_cd_ghq_suffix '\e' send-break '^D' send-break
+        vared -M fzf_cd_ghq_suffix \
+          -p "Branch suffix for $repo (empty: wip-<epoch>): " suffix || return 1
+        (builtin cd -q "$full_path" && git-worktree-tmux --create-branch $suffix)
       else
         echo "cd $full_path"
         _execute_prompt "cd $full_path"
