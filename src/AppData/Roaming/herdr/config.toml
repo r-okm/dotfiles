@@ -1,0 +1,102 @@
+# herdr config for native Windows (written against herdr v0.9.5).
+# Mirrors the tmux setup in src/private_dot_config/tmux/tmux.conf where herdr has an equivalent.
+
+onboarding = false
+
+[terminal]
+# Git Bash. With shell_mode = "login" herdr starts bash.exe with -l, so /etc/profile sets up PATH.
+# Git is installed with scoop on this machine (scoop prefix git).
+default_shell = 'C:\scoop\apps\git\current\bin\bash.exe'
+shell_mode = "login"
+new_cwd = "follow"
+
+[theme]
+# No built-in frappe variant (catppuccin = mocha, catppuccin-latte, catppuccin-mocha only),
+# so the frappe palette is applied on top.
+name = "catppuccin"
+
+[theme.custom]
+panel_bg = "#303446"
+sidebar_bg = "#292c3c"
+active_row_bg = "#414559"
+selection_bg = "#51576d"
+surface0 = "#414559"
+surface1 = "#51576d"
+surface_dim = "#292c3c"
+overlay0 = "#737994"
+overlay1 = "#838ba7"
+text = "#c6d0f5"
+subtext0 = "#a5adce"
+accent = "#a6d189"
+mauve = "#ca9ee6"
+green = "#a6d189"
+yellow = "#e5c890"
+red = "#e78284"
+blue = "#8caaee"
+teal = "#81c8be"
+peach = "#ef9f76"
+
+[keys]
+# tmux: set -g prefix C-g
+prefix = "ctrl+g"
+
+# tmux: bind C-c new-window / C-n next-window / C-p previous-window
+new_tab = ["prefix+c", "prefix+ctrl+c"]
+next_tab = ["prefix+n", "prefix+ctrl+n"]
+previous_tab = ["prefix+p", "prefix+ctrl+p"]
+switch_tab = "prefix+1..9"
+
+# tmux: prefix+s / prefix+w (choose-tree). herdr's default prefix+s opens settings, so move it.
+goto = ["prefix+s", "prefix+ctrl+s"]
+workspace_picker = ["prefix+w", "prefix+ctrl+w"]
+settings = "prefix+comma"
+
+# tmux: bind -n M-k copy-mode (prefix C-[ is Esc to the terminal, so it is not carried over)
+copy_mode = ["prefix+[", "alt+k"]
+
+# tmux: bind m / C-m / M-m select-window -t 1
+# switch_tab takes a 1..9 range only, so a fixed "tab 1" key is left to prefix+1.
+
+# tmux: bind r source-file (herdr's default prefix+r is resize mode)
+reload_config = "prefix+r"
+resize_mode = "prefix+shift+r"
+
+# tmux: bind V -> full scrollback in nvim (needs EDITOR=nvim in the shell environment)
+edit_scrollback = ["prefix+v", "prefix+shift+v"]
+split_vertical = "prefix+backslash"
+split_horizontal = "prefix+minus"
+
+# tmux: prefix d detach-client (herdr's default is prefix+q)
+detach = "prefix+d"
+
+# tmux: bind J break-pane has pane move in the CLI only; no key action.
+
+[ui]
+# tmux: set -g mouse on
+mouse_capture = true
+copy_on_select = true
+# Japanese IME: "native" keeps the candidate window at the cursor, at the cost of occasional flicker.
+host_cursor = "native"
+# tmux: status line at the bottom, session name on the right
+tab_bar_position = "bottom"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "datetime", format = "%H:%M" },
+]
+# tmux: pane-border-status only when the window is split
+pane_borders = "auto"
+show_agent_labels_on_pane_borders = true
+confirm_close = true
+prompt_new_tab_name = false
+status_indicators = "symbols"
+
+[ui.toast]
+# Replaces notify-claude-activity.sh: "system" sends Windows notifications.
+delivery = "system"
+
+[ui.sound]
+enabled = false
+
+[worktrees]
+# git-worktree-tmux keeps worktrees under <repo>/.worktree; herdr takes one global directory.
+directory = "~/.herdr/worktrees"

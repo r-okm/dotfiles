@@ -18,6 +18,7 @@ Some managed files are written directly by their applications, so the deployed c
 
 - `~/.claude/settings.json` — Claude Code writes it directly (`/model`, `/config`, permission prompts).
 - `~/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json` — the Windows Terminal settings UI writes it directly. `AppData` is ignored on Linux, so only chezmoi on Windows sees this one.
+- `~/AppData/Roaming/herdr/config.toml` — herdr writes it from its Settings screen and onboarding. Windows-only for the same reason.
 
 Rules for these files:
 
@@ -30,7 +31,7 @@ Rules for these files:
 
 ## Windows
 
-- Files under `src/AppData` other than the target-owned one above are source-owned like the rest of `src/` and take the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
+- Files under `src/AppData` other than the target-owned ones above are source-owned like the rest of `src/` and take the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
 - Windows-only scripts in `src/.chezmoiscripts/windows` (such as the one that applies `src/.chezmoidata/windows.toml`) run only on an apply without target arguments. After changing them or the data they read, tell the user to run a full `chezmoi apply`, not one scoped to a directory.
 
 ## Repo Tooling
