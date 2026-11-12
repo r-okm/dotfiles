@@ -22,6 +22,22 @@
         {
             "command":
             {
+                "action": "sendInput",
+                "input": "\u001b[23;6~"
+            },
+            "id": "User.sendInput.CtrlShiftF11"
+        },
+        {
+            "command":
+            {
+                "action": "sendInput",
+                "input": "\u001b[24;6~"
+            },
+            "id": "User.sendInput.CtrlShiftF12"
+        },
+        {
+            "command":
+            {
                 "action": "nextTab",
                 "tabSwitcherMode": "disabled"
             },
@@ -78,7 +94,7 @@
             "keys": "ctrl+enter"
         },
         {
-            "id": null,
+            "id": "User.sendInput.CtrlShiftF12",
             "keys": "ctrl+pgdn"
         },
         {
@@ -174,7 +190,7 @@
             "keys": "ctrl+alt+7"
         },
         {
-            "id": null,
+            "id": "User.sendInput.CtrlShiftF11",
             "keys": "ctrl+pgup"
         },
         {

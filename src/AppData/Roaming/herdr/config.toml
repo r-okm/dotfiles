@@ -42,8 +42,10 @@ prefix = "ctrl+g"
 
 # tmux: bind C-c new-window / C-n next-window / C-p previous-window
 new_tab = ["prefix+c", "prefix+ctrl+c"]
-next_tab = ["prefix+n", "prefix+ctrl+n"]
-previous_tab = ["prefix+p", "prefix+ctrl+p"]
+# tmux: bind -n C-S-F12 / C-S-F11, which Windows Terminal sends for ctrl+pgdn / ctrl+pgup
+# (herdr 0.9.5 cannot bind pageup/pagedown: herdrdev/herdr#4892)
+next_tab = ["prefix+n", "prefix+ctrl+n", "ctrl+shift+f12"]
+previous_tab = ["prefix+p", "prefix+ctrl+p", "ctrl+shift+f11"]
 switch_tab = "prefix+1..9"
 
 # tmux: prefix+s / prefix+w (choose-tree). herdr's default prefix+s opens settings, so move it.
