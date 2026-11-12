@@ -127,7 +127,6 @@
   "effortLevel": "high",
   "advisorModel": "fable",
   "autoUpdatesChannel": "latest",
-  "plansDirectory": "./.ignore/ai/plans",
   "tui": "fullscreen",
   "theme": "dark-ansi",
   "agentPushNotifEnabled": true,
