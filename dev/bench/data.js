@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794294502576,
+  "lastUpdate": 1794453306062,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3813,6 +3813,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 4.0ms, max: 4.5ms, median: 4.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "481fb1c4ea3e5680d1312f0476af9c192fb9fa9b",
+          "message": "claude: keep AI work files in a per-session directory from claude-ai-dir.sh\n\nFiles Claude kept past a session all went flat into .ignore/ai, so the\noutput of different sessions mixed together and nothing showed which\nsession a file came from.\n\nThey now go in .ignore/ai/<session id>. The ID is\nCLAUDE_CODE_SESSION_ID, which Claude Code sets in every Bash and hook\nsubprocess and updates on /clear. Subagents get the parent's ID, so\nthey resolve to the same directory. A UUID with no date prefix matches\nthe transcript name and claude --resume <id> directly, and keeps the\nname stable across days and resumes.\n\nThe .ignore/ai path was spelled out in CLAUDE.md, video-frames.sh and\nits SKILL.md, so changing the layout meant editing all of them.\nclaude-ai-dir.sh now holds the only copy: it prints\n<git root>/.ignore/ai/<session id> and fails outside a repository or a\nClaude Code session. CLAUDE.md and video-frames point at it instead of\nthe path, and the conditions under which it fails are documented only\nin its --help. When it fails, CLAUDE.md falls back to the harness\nscratchpad and video-frames to ~/.cache/claude/video-frames.\n\nvideo-frames output moves from the shared .ignore/ai/video-frames into\nthe session directory. A run from a plain terminal, outside Claude\nCode, now lands in ~/.cache.\n\nNo hook announces the directory. One would only save the single Bash\ncall that resolves it, at the cost of a script and two settings.json\nentries.\n\nThe git root comes from the shell's current directory, as before. Bash\nhas no CLAUDE_PROJECT_DIR, so a command run after cd into another\nrepository resolves to that repository.\n\nChecked on Linux, and with Windows Git Bash in a scratch repository:\nthe path, both failures, and that the global git ignore covers .ignore\nthere. The output is C:/... on Windows; whether the Write tool accepts\nit there has not been checked yet.",
+          "timestamp": "2026-11-12T12:05:09+09:00",
+          "tree_id": "cc4a095c7640e074e07357fe231a02711a5a1e3d",
+          "url": "https://github.com/r-okm/dotfiles/commit/481fb1c4ea3e5680d1312f0476af9c192fb9fa9b"
+        },
+        "date": 1794453305115,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 3.8,
+            "range": "-0.2",
+            "unit": "ms",
+            "extra": "min: 4.0ms, max: 3.8ms, median: 3.7ms (10 runs)"
           }
         ]
       }
