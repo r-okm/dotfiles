@@ -6,7 +6,9 @@
 
 # Entries the user PATH must contain (add) or must no longer contain (remove).
 [windows.userPath]
-add = ['%LOCALAPPDATA%\r-okm\bin']
+# .local\bin: where Claude Code's native installer puts claude.exe; it does not
+# add the directory to PATH itself.
+add = ['%LOCALAPPDATA%\r-okm\bin', '%USERPROFILE%\.local\bin']
 remove = []
 
 # User variables other than PATH to set to exactly this value (set) or delete
