@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794469436575,
+  "lastUpdate": 1794478071445,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3875,6 +3875,37 @@ window.BENCHMARK_DATA = {
             "range": "0.2",
             "unit": "ms",
             "extra": "min: 8.6ms, max: 8.8ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "dea4f5ac5d73570fd228e2f09da09251616f8386",
+          "message": "windows-terminal, tmux, herdr: switch tabs on C-PgUp/C-PgDn via C-S-F11/F12\n\nC-PgUp/C-PgDn switched windows in tmux but did nothing in herdr. herdr\n0.9.5 cannot bind PageUp or PageDown: its key name parser has no\npageup/pagedown (nor home, end, insert, delete), and herdr config check\nrejects every spelling as an invalid keybinding. Upstream tracks this as\nherdrdev/herdr#4892, still open, and main does not handle it either.\n\nWindows Terminal now turns the two keys into C-S-F11 and C-S-F12 with\nsendInput (ESC[23;6~ and ESC[24;6~), and both multiplexers bind those:\ntmux with bind -n C-S-F11 previous-window / C-S-F12 next-window, herdr\nby adding ctrl+shift+f11 / ctrl+shift+f12 to previous_tab / next_tab.\nSending prefix+p / prefix+n instead was rejected: C-g p and C-g n are\ntyped by hand too, and the dedicated keys keep the two apart. F11/F12\nwith C-S are bound nowhere else in Windows Terminal or tmux.conf, and\nherdr's input parser decodes the xterm ESC[2x;6~ form as ctrl+shift\nF11/F12.\n\nThe WSL tmux needs this commit pulled and applied there; until then\nWindows Terminal sends keys its tmux.conf does not bind.\n\nChecked: herdr config check reports ok with the new bindings, the\nWindows Terminal settings parse as JSON, and the apply on Windows put\nboth into the deployed files. Pressing the keys in herdr and in tmux has\nnot been checked yet.",
+          "timestamp": "2026-11-12T18:59:07+09:00",
+          "tree_id": "15d3c8cb4b0b213adebe72e868890e626bbeaf87",
+          "url": "https://github.com/r-okm/dotfiles/commit/dea4f5ac5d73570fd228e2f09da09251616f8386"
+        },
+        "date": 1794478070666,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7.2,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 6.8ms, max: 7.5ms, median: 7.1ms (10 runs)"
           }
         ]
       }
