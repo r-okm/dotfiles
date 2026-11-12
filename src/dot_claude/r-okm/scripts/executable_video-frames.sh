@@ -41,8 +41,9 @@ Options:
       --info                      Print video metadata only, extract nothing.
   -h, --help                      Show this help.
 
-Default output directory: <git_root>/.ignore/ai/video-frames/<video_stem>
-(falls back to ~/.cache/claude/video-frames/<video_stem> outside a repo).
+Default output directory: <claude-ai-dir.sh>/video-frames/<video_stem>
+(falls back to ~/.cache/claude/video-frames/<video_stem> when claude-ai-dir.sh
+fails; see claude-ai-dir.sh --help).
 EOF
 }
 
@@ -243,8 +244,8 @@ fi
 if [[ -z "$out_dir" ]]; then
   stem=$(basename "$video")
   stem="${stem%.*}"
-  if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then
-    out_dir="$git_root/.ignore/ai/video-frames/$stem"
+  if ai_dir=$("$(dirname "${BASH_SOURCE[0]}")/claude-ai-dir.sh" 2>/dev/null); then
+    out_dir="$ai_dir/video-frames/$stem"
   else
     out_dir="$HOME/.cache/claude/video-frames/$stem"
   fi

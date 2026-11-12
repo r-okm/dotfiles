@@ -5,8 +5,10 @@
 
 # Project Structure
 
-- `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a temporary file — scratch notes, investigation memos, generated artifacts, intermediate working files — place it under `<project_root>/.ignore/ai/**`.
-- The harness scratchpad is fine for session-scoped throwaway files; anything worth keeping past the session (investigation memos, results, generated assets) goes under `<project_root>/.ignore/ai/**`.
+- `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a file worth keeping past the session — investigation memos, results, generated assets, intermediate working files — place it under the per-session directory printed by `~/.claude/r-okm/scripts/claude-ai-dir.sh`; if the script fails, use the harness scratchpad instead. Create the directory only when you first write to it.
+- Paths fixed by a setting or a script (e.g. a skill's default output directory) keep their own location.
+- The harness scratchpad is fine for session-scoped throwaway files.
+- When a subagent should write such files, put the absolute directory path in its brief.
 
 # Gitignored Per-Project Config
 

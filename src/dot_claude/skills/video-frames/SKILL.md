@@ -102,10 +102,11 @@ Read tool は画像（PNG/JPEG）と PDF しか読めず、動画コンテナ（
 
 ## 出力先
 
-既定は `<git_root>/.ignore/ai/video-frames/<動画名>/`（`.ignore` はグローバルに
-gitignore 済み）。git リポジトリ外では `~/.cache/claude/video-frames/<動画名>/`。
-`/tmp` は使わない。区間ごとに調べるときは `-o` で
-`.ignore/ai/video-frames/<動画名>_detail` のように分けると上書きを避けられる。
+既定は `<claude-ai-dir.sh の出力>/video-frames/<動画名>/`（セッションごとの作業
+ディレクトリ）。`claude-ai-dir.sh` が失敗したときは `~/.cache/claude/video-frames/<動画名>/`。
+`/tmp` は使わない。区間ごとに調べるときは
+`-o "$(~/.claude/r-okm/scripts/claude-ai-dir.sh)/video-frames/<動画名>_detail"`
+のように分けると上書きを避けられる。
 
 生成物:
 
