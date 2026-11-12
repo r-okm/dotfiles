@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794453306062,
+  "lastUpdate": 1794469436575,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3844,6 +3844,37 @@ window.BENCHMARK_DATA = {
             "range": "-0.2",
             "unit": "ms",
             "extra": "min: 4.0ms, max: 3.8ms, median: 3.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f09863f862c85f903a88ca428136961e1be0d6a8",
+          "message": "tmux: open the prompt editor for claude started with zsh -c\n\nC-e did nothing for a claude that a pane started as\nzsh -c 'claude ...; exec zsh', the form Claude uses when asked to open\na new window running claude. A non-interactive zsh has no job control,\nso claude stays in zsh's process group. tmux names the pane after that\ngroup's leader, so pane_current_command reads zsh and the binding\npassed C-e through.\n\nThe script now decides. It reads the tpgid of the pane's process from\n/proc/<pid>/stat, the same way nvim-open.sh does, and opens the editor\nonly when pgrep finds claude in that process group. Otherwise it sends\nC-e on, and in a dead pane (remain-on-exit) it does nothing. tmux.conf\nstill filters first: only panes that report claude or have a start\ncommand run the script, since C-e is zsh's end-of-line everywhere else\nand other panes should not pay for a fork. The arguments are now\nquoted with #{q:}, so a path containing ' no longer breaks the command.\n\nA hook that marks the pane from SessionStart and SessionEnd would avoid\nthe fork, but was rejected. A claude -p run inside another claude\ninherits TMUX_PANE and clears the parent's mark. A mark left by a\ncrashed claude would paste the draft into zsh, where its newlines run\nit as commands. It would also need a hook script and settings.json\nentries.\n\nPanes with a start command that never run claude (bind v, the draft\npane itself) now fork about 30ms per C-e.\n\nChecked: bash -n; #{q:pane_current_path} on a path with ' and $(x);\nthe detection on a claude pane, a zsh pane, a missing pid, and a\nzsh -c pane running a binary named claude, which tmux reports as zsh.\nThe comm of the native claude is claude, so pgrep -x matches. Pressing\nC-e in a real zsh -c pane has not been checked yet.",
+          "timestamp": "2026-11-12T16:35:52+09:00",
+          "tree_id": "64bb44f28e357992f6e3e2b1ef1ae8d6534ba240",
+          "url": "https://github.com/r-okm/dotfiles/commit/f09863f862c85f903a88ca428136961e1be0d6a8"
+        },
+        "date": 1794469435795,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.6,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 8.6ms, max: 8.8ms, median: 8.6ms (10 runs)"
           }
         ]
       }
