@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794550811606,
+  "lastUpdate": 1794551225581,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4092,6 +4092,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 8.6ms, max: 9.2ms, median: 8.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "7de64c2c47b8570238e9578ca89721ec76425acc",
+          "message": "claude: disable the feedback survey via settings.json env\n\nThe export in .profile never reached Claude Code on Windows, where\n.profile is ignored, so the session survey still appeared there.\nSetting it in settings.json covers both platforms.\n\nThe .profile export dates from when CLAUDE_CONFIG_DIR had to live in\nthe shell environment; that var was dropped in 9a95f4b, so nothing\nrequires this one to stay there.",
+          "timestamp": "2026-11-13T15:18:15+09:00",
+          "tree_id": "934a789307fe9597c48b869d34271b73c3cd71cf",
+          "url": "https://github.com/r-okm/dotfiles/commit/7de64c2c47b8570238e9578ca89721ec76425acc"
+        },
+        "date": 1794551224514,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.2,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.2ms, max: 10.4ms, median: 10.1ms (10 runs)"
           }
         ]
       }
