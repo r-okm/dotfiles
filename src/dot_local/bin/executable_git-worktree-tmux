@@ -36,8 +36,9 @@ Options:
   -r, --remove        Remove a worktree and kill its tmux session. The branch is
                       kept. Refuses when the worktree has uncommitted changes,
                       untracked files, or a detached HEAD with commits on no
-                      branch, unless -f is given. Keeps the tmux session when
-                      it is the one this runs in, unless -f is given.
+                      branch, unless -f is given. When the tmux session is
+                      the one this runs in, it is not killed but closes once
+                      no client is attached to it, unless -f is given.
   -f, --force         With -r, skip the checks above
   -d, --detach        Leave the tmux session detached instead of attaching or
                       switching to it, and print the worktree path (with -s,
@@ -210,11 +211,26 @@ remove_worktree() {
   if ! tmux has-session -t "=$session_name" 2>/dev/null; then
     return 0
   fi
-  # Without -f, keep the session this runs in: an agent removing its own
-  # worktree would otherwise kill itself. With -f, the caller asked for it.
+  # Without -f, defer killing the session this runs in until the user leaves
+  # it: an agent removing its own worktree would otherwise kill itself before
+  # its report is read. With -f, the caller asked for it.
   if [[ "$FORCE" != true && -n "${TMUX:-}" &&
     "$(tmux display-message -p '#S')" == "$session_name" ]]; then
-    echo "Kept tmux session: ${session_name} (it is the current session)"
+    # set-option and set-hook take a pane target, where an exact session
+    # match needs the trailing colon
+    local target="=${session_name}:"
+    local hook
+    # destroy-unattached on a session with no client kills it at once, so an
+    # unattached one gets it only when a client next enters it
+    if [[ -n "$(tmux list-clients -t "$target")" ]]; then
+      tmux set-option -t "$target" destroy-unattached on
+      echo "Deferred tmux session: ${session_name} (it is the current session; it closes when you leave it)"
+    else
+      for hook in client-attached client-session-changed; do
+        tmux set-hook -t "$target" "$hook" 'set-option destroy-unattached on'
+      done
+      echo "Deferred tmux session: ${session_name} (it is the current session and no client is on it; it closes after you enter and leave it)"
+    fi
     return 0
   fi
   echo "Killing tmux session: ${session_name}"
