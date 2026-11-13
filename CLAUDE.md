@@ -1,45 +1,45 @@
 # CLAUDE.md
 
-## Project Overview
+## プロジェクト概要
 
-Dotfiles managed with [chezmoi](https://www.chezmoi.io/). Source directory: `src/` (via `.chezmoiroot`). All managed files live under `src/` and are applied to `$HOME`.
+[chezmoi](https://www.chezmoi.io/) で管理する dotfiles。ソースディレクトリは `src/`(`.chezmoiroot` で指定)。管理するファイルはすべて `src/` に置き、`$HOME` に適用する。
 
-## Working with Chezmoi
+## chezmoi での作業
 
-- Edit files in `src/`, never in target paths (`~/.config/` etc.) — `chezmoi apply` overwrites targets.
-- Use chezmoi prefixes when adding files: `dot_` (→ `.`), `private_` (restricted perms), `executable_` (→ +x), `symlink_` (→ symlink).
-- Append `.tmpl` for Go text/template files. Data sources: `.chezmoi.os`, `.chezmoi.homeDir`, custom data in `.chezmoi.toml.tmpl`.
-- **Do NOT run** `chezmoi apply` or `chezmoi init` — user runs these manually. `chezmoi diff` for preview is OK.
-- Removing a file from `src/` (or an entry from `.chezmoiexternal.toml.tmpl`) does not remove the deployed copy — `chezmoi apply` never deletes a target it no longer manages. Add the target path to `src/.chezmoiremove` instead, and never delete entries from it: whether every machine has already applied a removal is not observable from git. List single targets only; a pattern like `.config` or `*` also matches managed directories and aborts the apply.
+- `chezmoi apply` がターゲットを上書きするので、ファイルは `src/` で編集し、ターゲットのパス(`~/.config/` など)では編集しない。
+- ファイルを追加するときは chezmoi のプレフィックス `dot_`(→ `.`)、`private_`(権限を絞る)、`executable_`(→ +x)、`symlink_`(→ シンボリックリンク)を使う。
+- Go の text/template を使うファイルには `.tmpl` を付ける。データ源は `.chezmoi.os`、`.chezmoi.homeDir`、`.chezmoi.toml.tmpl` のカスタムデータ。
+- `chezmoi apply` と `chezmoi init` は**実行しない**。ユーザーが手で実行する。差分の確認に `chezmoi diff` を実行するのはよい。
+- `src/` からファイルを消しても(`.chezmoiexternal.toml.tmpl` からエントリーを消しても)、`chezmoi apply` は管理から外れたターゲットを削除しないので、配置済みのファイルは残る。代わりにターゲットのパスを `src/.chezmoiremove` に追加する。すべてのマシンで削除が適用済みかどうかは git から分からないので、このファイルのエントリーは消さない。書くのは単一のターゲットだけにする。`.config` や `*` のようなパターンは管理中のディレクトリにもマッチし、apply が中断する。
 
-## Target-Owned Files
+## ターゲット側が正のファイル
 
-Some managed files are written directly by their applications, so the deployed copy — not `src/` — is the source of truth. Currently:
+管理しているファイルの中には、アプリケーションが直接書き込むものがある。これらは `src/` ではなく配置先のファイルが正になる。現在は次のとおり。
 
-- `~/.claude/settings.json` — Claude Code writes it directly (`/model`, `/config`, permission prompts).
-- `~/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json` — the Windows Terminal settings UI writes it directly. `AppData` is ignored on Linux, so only chezmoi on Windows sees this one.
-- `~/AppData/Roaming/herdr/config.toml` — herdr writes it from its Settings screen and onboarding. Windows-only for the same reason.
+- `~/.claude/settings.json`: Claude Code が直接書き込む(`/model`、`/config`、権限確認のプロンプト)。
+- `~/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json`: Windows Terminal の設定 UI が直接書き込む。Linux の chezmoi は `AppData` を無視するので、このファイルを扱うのは Windows の chezmoi だけ。
+- `~/AppData/Roaming/herdr/config.toml`: herdr が設定画面とオンボーディングで書き込む。同じ理由で Windows だけ。
 
-Rules for these files:
+これらのファイルは次のように扱う。
 
-- Changes that originate on the target side (the app writing the file, or the user editing it) are synced back with `chezmoi re-add <target>`, run on the machine where the change happened. Do not re-create such changes in `src/` by hand.
-- `chezmoi re-add` copies byte for byte and overwrites the source copy without looking at git, so commit or discard any uncommitted edit to it first. It does not commit — review the diff and write the message yourself, explaining what changed on the target side and why the file also came back reformatted, if it did.
-- Before the user runs `chezmoi apply`, have them run `chezmoi status`; if one of these files is listed, re-add it and commit first, or the apply overwrites the change the application made.
-- When Claude changes one of these files, it edits the `src/` copy instead: first confirm `chezmoi status` shows no drift for the file (re-add it if it does), then edit `src/`, then the user runs `chezmoi apply`. Editing `src/` gives a reviewable diff before the change takes effect.
-- Keep them non-template — `chezmoi re-add` skips templates, which breaks the sync. Use `~/`-style paths instead of `{{ .chezmoi.homeDir }}`.
-- If both sides changed (e.g. after pulling source changes from another machine), resolve with `chezmoi merge <file>` instead of re-add.
+- ターゲット側で起きた変更(アプリケーションの書き込みやユーザーの編集)は、変更が起きたマシンで `chezmoi re-add <target>` を実行してソースに戻す。同じ変更を `src/` に手で作り直さない。
+- `chezmoi re-add` はバイト単位でコピーし、git を見ずにソース側を上書きするので、先にソース側の未コミットの編集をコミットするか破棄しておく。re-add はコミットまではしない。diff を確認し、コミットメッセージは自分で書く。メッセージには、ターゲット側で何が変わったかと、整形し直されて戻ってきた場合はその理由を書く。
+- ユーザーが `chezmoi apply` を実行する前に、`chezmoi status` を実行してもらう。これらのファイルが出てきたら、先に re-add してコミットする。そうしないと apply がアプリケーションの書き込んだ変更を上書きする。
+- Claude がこれらのファイルを変更するときは、ターゲットではなく `src/` 側を編集する。まず `chezmoi status` でそのファイルに drift(ずれ)がないことを確かめ、drift があれば re-add する。次に `src/` を編集し、最後にユーザーが `chezmoi apply` を実行する。`src/` で編集すれば、変更が反映される前に diff を確認できる。
+- テンプレートにしない。`chezmoi re-add` はテンプレートを対象にしないので、同期できなくなる。`{{ .chezmoi.homeDir }}` ではなく `~/` 形式のパスを使う。
+- 両側が変わったとき(別のマシンでのソース側の変更を pull したあとなど)は、re-add ではなく `chezmoi merge <file>` で解決する。
 
 ## Windows
 
-- Files under `src/AppData` other than the target-owned ones above are source-owned like the rest of `src/` and take the usual chezmoi prefixes. Examples include the `dot_editorconfig` next to the Windows Terminal `settings.json` and `src/AppData/Local/r-okm/ghub-tools/` (G HUB helper scripts run by Task Scheduler; see its README).
-- Windows-only scripts in `src/.chezmoiscripts/windows` (such as the one that applies `src/.chezmoidata/windows.toml`) run only on an apply without target arguments. After changing them or the data they read, tell the user to run a full `chezmoi apply`, not one scoped to a directory.
+- `src/AppData` の下にあるファイルのうち、上記のターゲット側が正のファイル以外は、`src/` のほかのファイルと同じくソース側が正で、通常の chezmoi のプレフィックスを使う。たとえば Windows Terminal の `settings.json` の隣にある `dot_editorconfig` や、`src/AppData/Local/r-okm/ghub-tools/`(タスクスケジューラーが実行する G HUB の補助スクリプト。README を参照)がこれに当たる。
+- `src/.chezmoiscripts/windows` にある Windows 専用のスクリプト(`src/.chezmoidata/windows.toml` を適用するものなど)は、ターゲットを引数に取らない apply でしか実行されない。これらのスクリプトや、スクリプトが読むデータを変えたときは、ディレクトリを指定した apply ではなく、引数なしの `chezmoi apply` を実行するようユーザーに伝える。
 
-## Repo Tooling
+## リポジトリのツール
 
-`tools/` holds standalone maintenance scripts. They sit outside `src/`, so chezmoi never deploys them — run them from the repo root.
+`tools/` には単体で動く保守用スクリプトを置いている。`src/` の外にあるので chezmoi は配置しない。リポジトリのルートから実行する。
 
-Each script documents itself in its module docstring and `--help`, which is why they are not listed here. Look there before writing a new one-off script.
+各スクリプトの説明はモジュールの docstring と `--help` にあるので、ここには一覧を載せない。使い捨てのスクリプトを新しく書く前に、そちらを確認する。
 
-## Commands
+## コマンド
 
-- **Preview diff**: `chezmoi diff`
+- **diff の確認**: `chezmoi diff`
