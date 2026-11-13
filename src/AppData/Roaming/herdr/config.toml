@@ -78,6 +78,15 @@ detach = "prefix+d"
 
 # tmux: bind J break-pane has pane move in the CLI only; no key action.
 
+# zsh: fzf_cd_ghq, plus linked worktrees. Popup commands run through cmd.exe, so %LOCALAPPDATA%
+# expands. prefix+g is free: goto moved to prefix+s above.
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = 'python -I -B "%LOCALAPPDATA%\r-okm\bin\herdr-ghq.py"'
+width = "80%"
+height = "80%"
+
 [ui]
 # tmux: set -g mouse on
 mouse_capture = true
