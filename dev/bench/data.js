@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794537923526,
+  "lastUpdate": 1794544425520,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3937,6 +3937,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 8.4ms, max: 8.8ms, median: 8.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f8ff4e185cb00b4822c6196821b8d9f73b055826",
+          "message": "worktree: close the agent's own tmux session once the user leaves it\n\nThe usual flow is one worktree per tmux session, with the Claude inside\nit asked to remove both. Without -f, -r kept the session it ran in so\nthe agent would not kill itself mid-turn, and the skill stopped there.\nIn a session on 11-12 Claude filled the gap with a detached\n`sleep 15; tmux kill-session`, which fired a second or so after the\nuser ran /copy on its report.\n\n-r now leaves that session to tmux instead: with a client attached it\nsets destroy-unattached, so the session closes when the user switches\naway or detaches. Setting it on a session with no client destroys it at\nonce, killing the agent, so that case gets client-attached and\nclient-session-changed hooks that set it when someone next enters. The\nhooks run set-option without -t, which targets the hooked session; the\noutput says which of the two applies. -f and removals from another\nsession still kill at once, so ccw (--remove --force) is unchanged.\n\nThe skill drops the \"session is kept\" line, says to use plain -r for\nthe worktree the agent runs in, forbids home-made delayed kills, and\nhas the report say when the session closes and that its other windows\n(nvim etc.) go with it.\n\nLeft as is: -f still both skips the checks and kills the current\nsession at once, so a forced removal of the agent's own worktree has no\ndeferred path; splitting it would need a new flag in ccw. A review also\nfound that `display-message -p '#S'` can name another client's session,\nbut only with neither TMUX_PANE nor a tty, which Claude Code and ccw\nalways have, and -t \"$TMUX_PANE\" would not change that case.\n\nChecked on a throwaway repo and a separate tmux server (-L): -r from the\nattached own session closes it on switching away; from an unattached\none it stays until entered and left; -r -f and -r from another session\nkill at once; hooks without -t touch only the hooked session.\nshellcheck passes. Not yet tried in a real session.",
+          "timestamp": "2026-11-13T13:25:34+09:00",
+          "tree_id": "e38c3da4c7266fbc03e350977fe7c9ac98b33f87",
+          "url": "https://github.com/r-okm/dotfiles/commit/f8ff4e185cb00b4822c6196821b8d9f73b055826"
+        },
+        "date": 1794544424860,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 6.2,
+            "range": "0.8",
+            "unit": "ms",
+            "extra": "min: 5.9ms, max: 6.7ms, median: 6.1ms (10 runs)"
           }
         ]
       }
