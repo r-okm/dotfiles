@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794551225581,
+  "lastUpdate": 1794551975921,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4123,6 +4123,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.2ms, max: 10.4ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "363751b9b6c25965d7dcc80aa3878ac80f6ac038",
+          "message": "claude: allow edits to .ignore/ai under ~/src\n\ngit-worktree-tmux makes a worktree's .ignore a symlink to the main repo's\n.ignore, so the per-session dir from claude-ai-dir.sh resolves outside the\nworktree and every Write/Edit there prompted, even in auto mode. An allow\nrule must match both the requested and the resolved path; this pattern\nmatches both.\n\nCovers every repo under ~/src, not just the current session's dir, which\nis accepted. A matching Read rule will be added if Read prompts show up.",
+          "timestamp": "2026-11-13T15:30:01+09:00",
+          "tree_id": "38d212654e46cd228ae0bb8f64ecf0af70980f37",
+          "url": "https://github.com/r-okm/dotfiles/commit/363751b9b6c25965d7dcc80aa3878ac80f6ac038"
+        },
+        "date": 1794551974968,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.6ms, median: 10.4ms (10 runs)"
           }
         ]
       }
