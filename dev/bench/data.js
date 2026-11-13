@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794551975921,
+  "lastUpdate": 1794553245910,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4154,6 +4154,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.6ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "2ac0202f06c82881498ec04f765c1d3c9baa63b1",
+          "message": "clipboard: print the invalid-option error to stderr\n\nWith a mistyped option, as in `clipboard --pste | cmd`, the message and\nusage went down the pipe as data. --help and the no-argument help still\nprint to stdout.",
+          "timestamp": "2026-11-13T15:51:28+09:00",
+          "tree_id": "b29d0e88fac5c371e7da9cd6780a44ef9b52b147",
+          "url": "https://github.com/r-okm/dotfiles/commit/2ac0202f06c82881498ec04f765c1d3c9baa63b1"
+        },
+        "date": 1794553245171,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7.9,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 7.4ms, max: 8.6ms, median: 7.9ms (10 runs)"
           }
         ]
       }
