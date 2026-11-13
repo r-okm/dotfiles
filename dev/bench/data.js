@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794478071445,
+  "lastUpdate": 1794537923526,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3906,6 +3906,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 6.8ms, max: 7.5ms, median: 7.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0c1a22b9244f2158f6463f615ec5dd2fe8c48ebd",
+          "message": "git-bash: drop __git_ps1 from the prompt and git calls at startup\n\nGit Bash felt slow on native Windows. Each process start costs about\n30ms under MSYS2, and the stock setup started several per shell and per\nprompt. Measured on this machine, bash -l -i took about 300ms to start,\nand the prompt spent about 130ms on every Enter.\n\nThe prompt came from Git for Windows' /etc/profile.d/git-prompt.sh, not\nfrom this repo. It runs git --exec-path at startup (81ms) to find the\ncompletion scripts, and puts `__git_ps1` in PS1, which forks a subshell\nand runs git rev-parse on each prompt. That file sources\n~/.config/git/git-prompt.sh instead when it exists, so the new file\nkeeps the stock prompt minus the branch and loads git-completion.bash\nfrom $MINGW_PREFIX, which /etc/msystem already sets (/ucrt64), without\nasking git. The branch is left out by choice; git status shows it when\nneeded. Only Git for Windows reads this file, so .chezmoiignore keeps\nit off Linux.\n\nThe bb alias was double-quoted, so git config --get user.name ran when\nthe alias was defined, on every shell start (52ms). Single quotes defer\nit to when bb is used, with the same result.\n\nNot done: switching /etc/nsswitch.conf to passwd: files saved about\n40ms for the domain account, but the file is under scoop's git\ndirectory and is replaced on every Git update.\n\nChecked: with the new files in a scratch HOME, bash -l -i starts in\nabout 170ms instead of 300ms, PS1 has no __git_ps1, complete -p git\nstill shows the git completion, and alias bb prints the deferred form.\nchezmoi diff shows only these two targets. The prompt in a real herdr\npane has not been checked yet, since chezmoi apply has not been run.",
+          "timestamp": "2026-11-13T11:37:25+09:00",
+          "tree_id": "c2362508f722bb46fc9e3fa50705674a6fae0463",
+          "url": "https://github.com/r-okm/dotfiles/commit/0c1a22b9244f2158f6463f615ec5dd2fe8c48ebd"
+        },
+        "date": 1794537922849,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.5,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 8.4ms, max: 8.8ms, median: 8.5ms (10 runs)"
           }
         ]
       }
