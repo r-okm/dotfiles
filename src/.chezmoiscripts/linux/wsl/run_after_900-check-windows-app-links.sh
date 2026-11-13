@@ -10,7 +10,7 @@ links_dir="$HOME/.local/bin"
 
 # <link name>|<what calls it>
 links=(
-  'draw.io.exe|the drawio skill of the r-okm Claude Code plugin'
+  'draw.io.exe|the drawio skill in ~/.claude/skills'
   'git-credential-manager.exe|the credential helper of the work hosts in ~/.config/git/config'
   'gh.exe|the gh wrapper in ~/.local/bin'
   'npiperelay.exe|ssh-agent-relay.service'

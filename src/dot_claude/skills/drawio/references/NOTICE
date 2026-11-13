@@ -1,0 +1,23 @@
+The files in this directory are taken from jgraph/drawio-mcp
+(https://github.com/jgraph/drawio-mcp), commit
+1feb159ae0b1d047d2a2a4c874afef10c0072a8d, licensed under the Apache License 2.0
+(see LICENSE in this directory).
+
+- mermaid-reference.md: shared/mermaid-reference.md
+- xml-reference.md: shared/xml-reference.md
+
+Changes from the originals:
+
+- mermaid-reference.md: removed the link to the canonical list on GitHub.
+- xml-reference.md: removed the "Style reference" section, which linked to
+  style-reference.md and mxfile.xsd on GitHub, and changed the notes saying
+  the MCP servers add the label keys (labelPerimeter, the label gap,
+  labelPlacement) to say they must be written by hand, since the draw.io CLI
+  does not add them.
+
+The parent SKILL.md is a Japanese translation of
+plugins/claude-code/skills/drawio/SKILL.md from the same commit, with every
+instruction that sends the user's information to outside services removed
+(draw.io MCP create_diagram, app.diagrams.net URLs, and scripts/find-shapes.js,
+which sends search terms) and these references bundled instead of fetched
+from GitHub. shared/xml-essentials.md is inlined into it.
