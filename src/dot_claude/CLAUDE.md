@@ -1,23 +1,23 @@
-# Communication
+# 会話
 
-- Always respond in Japanese.
-- The Japanese rule applies to conversation only, not to file content. When editing a file, follow the language already used in that file (or in the repository's similar files). When creating a new file with no precedent, default to English.
+- 返答は常に日本語で書く。
+- 日本語の決まりは会話だけに当て、ファイルの中身には当てない。ファイルを編集するときは、そのファイル(またはリポジトリ内の同種のファイル)で使われている言語に合わせる。前例のない新規ファイルは英語で書く。
 
-# Project Structure
+# プロジェクト構成
 
-- `<project_root>/.ignore` directory is globally gitignored. When you (the AI) create a file worth keeping past the session — investigation memos, results, generated assets, intermediate working files — place it under the per-session directory printed by `~/.claude/r-okm/scripts/claude-ai-dir.sh`; if the script fails, use the harness scratchpad instead. Create the directory only when you first write to it.
-- Paths fixed by a setting or a script (e.g. a skill's default output directory) keep their own location.
-- The harness scratchpad is fine for session-scoped throwaway files.
-- When a subagent should write such files, put the absolute directory path in its brief.
+- `<project_root>/.ignore` ディレクトリはグローバルに gitignore されている。セッション後も残す価値のあるファイル(調査メモ、結果、生成物、中間作業ファイル)を AI が作るときは、`~/.claude/r-okm/scripts/claude-ai-dir.sh` が出力するセッションごとのディレクトリに置く。スクリプトが失敗したらハーネスのスクラッチパッドを使う。ディレクトリは最初に書き込むときまで作らない。
+- 設定やスクリプトで決まっているパス(スキルの既定の出力先など)は、その場所のままにする。
+- セッション内で使い捨てるファイルはハーネスのスクラッチパッドでよい。
+- サブエージェントにそうしたファイルを書かせるときは、ディレクトリの絶対パスを指示文に入れる。
 
-# Gitignored Per-Project Config
+# gitignore されたプロジェクト別設定
 
-- `CLAUDE.local.md` and other gitignored per-project config files may be symlinks into the project-ignores repo (`~/src/github.com/r-okm/project-ignores`). To edit one, resolve the symlink (`readlink -f`) and edit the real target file in that repo.
+- `CLAUDE.local.md` などの gitignore されたプロジェクト別設定ファイルは、project-ignores リポジトリ(`~/src/github.com/r-okm/project-ignores`)へのシンボリックリンクのことがある。編集するときはリンクを解決し(`readlink -f`)、そのリポジトリにある実体を編集する。
 
 # WSL
 
-- To open a URL in the user's browser, use `xdg-open <url>` — `~/.config/mimeapps.list` routes http/https to the Windows-side Vivaldi (`$BROWSER` in `~/.profile` when neither `DISPLAY` nor `WAYLAND_DISPLAY` is set). Don't look for `explorer.exe` or `wslview`.
+- ユーザーのブラウザで URL を開くときは `xdg-open <url>` を使う。`~/.config/mimeapps.list` が http/https を Windows 側の Vivaldi に振り分けている(`DISPLAY` と `WAYLAND_DISPLAY` がどちらも未設定のときは、`~/.profile` の `$BROWSER`)。`explorer.exe` や `wslview` は探さない。
 
 # review-wizard
 
-- When you have a preferred answer to a review-wizard question, list that option first and append "(Recommended)" to its label — the same convention AskUserQuestion uses — and say why in its description.
+- review-wizard の質問で推したい答えがあるときは、その選択肢を先頭に置き、ラベルの末尾に「(Recommended)」を付け、理由を説明欄に書く。AskUserQuestion と同じ書き方。
