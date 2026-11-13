@@ -63,6 +63,7 @@
     ]
   },
   "model": "opus[1m]",
+  "outputStyle": "Concise",
   "skillOverrides": {
     "deep-research": "user-invocable-only"
   },
