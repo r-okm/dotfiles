@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794553245910,
+  "lastUpdate": 1794554848721,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4185,6 +4185,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 7.4ms, max: 8.6ms, median: 7.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "86a0544b57a59583d14a041cf39c6c4a02710749",
+          "message": "rename-suggest: copy the /rename line to the clipboard\n\nThe skill only runs in Claude Code now, so the branch that guessed\nwhether /rename is available (claude.ai, Cowork) is gone. Instead of\nprinting the line in a code block for the user to copy, it pipes it into\nclipboard --yank, which now exists on WSL, Linux and Windows Git Bash\nand drops the heredoc's trailing newline itself.\n\nPassing the name through a quoted heredoc means quotes and backticks no\nlonger break the command, so the naming rules now ban only newlines,\nwhich would split the /rename line. allowed-tools covers the clipboard\ncall so it does not prompt outside auto mode; a probe skill run with\n--permission-mode default confirmed Bash(clipboard *) matches the\nmulti-line heredoc command.",
+          "timestamp": "2026-11-13T16:15:43+09:00",
+          "tree_id": "53b20c7a76b17e120cdc31152e4c34e06b2e2781",
+          "url": "https://github.com/r-okm/dotfiles/commit/86a0544b57a59583d14a041cf39c6c4a02710749"
+        },
+        "date": 1794554848032,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 6.4,
+            "range": "1.1",
+            "unit": "ms",
+            "extra": "min: 6.0ms, max: 7.1ms, median: 6.2ms (10 runs)"
           }
         ]
       }
