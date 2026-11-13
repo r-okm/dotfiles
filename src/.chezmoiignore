@@ -27,6 +27,7 @@ AppData
 .ideavimrc
 _vimrc
 .bash_aliases
+.config/git/git-prompt.sh
 
 {{ end -}}
 
