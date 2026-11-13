@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Shared by Linux/WSL (~/.local/bin) and the Windows Git Bash
+# (%LOCALAPPDATA%\r-okm\bin).
+
+{{ $win32yank := eq .chezmoi.os "windows" -}}
+{{ if eq .chezmoi.os "linux" -}}
+{{   $win32yank = .chezmoi.kernel.osrelease | lower | contains "microsoft" -}}
+{{ end -}}
+# show help
+help() {
+  cat << EOF
+Usage: $(basename "$0") [OPTIONS]
+Options:
+  --yank, -y          Yank stdin to clipboard
+  --put, --paste, -p  Put clipboard content to stdout
+  --help, -h          Display this help message
+EOF
+}
+
+{{ if $win32yank -}}
+# yank stdin to clipboard
+yank() {
+  win32yank.exe -i
+}
+
+# stdout clipboard content
+put() {
+  win32yank.exe -o --lf
+}
+{{- else -}}
+# yank stdin to clipboard
+yank() {
+  wl-copy --type text/plain --trim-newline
+}
+
+# stdout clipboard content
+put() {
+  wl-paste --no-newline
+}
+{{- end }}
+
+# main function
+main() {
+  local opt="${1:-help}"
+
+  case "$opt" in
+    --yank|-y)
+      yank
+      ;;
+    --put|--paste|-p)
+      put
+      ;;
+    --help|-h)
+      help
+      ;;
+    *)
+      echo "Invalid option: $*"
+      echo
+      help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
+
+# vim: set ft=sh:
