@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794544425520,
+  "lastUpdate": 1794546294056,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -3968,6 +3968,37 @@ window.BENCHMARK_DATA = {
             "range": "0.8",
             "unit": "ms",
             "extra": "min: 5.9ms, max: 6.7ms, median: 6.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "ca104a835185e9822026749731b7fcc3597f2fcd",
+          "message": "claude: replace japanese-tech-writing with the yomiyasu plugin\n\nyomiyasu (nanaism/yomiyasu, MIT) proofreads AI-written Japanese with\nmeaning preservation first: it fixes structure rather than banning\nwords, and backs the rewrite with bundled Python checks (lint, a diff\nthat flags meaning risks such as changed numbers, negation or modality,\nand a verify step against a recorded hash). japanese-tech-writing, the\nk16shikano gist pulled in as an external, was a rules-only text that\noverlaps it, and running two proofreading skills together risks\nconflicting instructions, so it goes. Its target is listed in\n.chezmoiremove because dropping the external leaves the deployed copy.\n\nThe plugin is declared like compact-plus and review-wizard, through\nextraKnownMarketplaces and enabledPlugins, with no install script.\nClaude Code adds the marketplace and fetches the plugin on the first\nstart after apply, and records it in installed_plugins.json on the next\none (seen in a --debug run: \"Syncing installed_plugins.json with\nenabledPlugins\"), so another machine needs two starts before\nclaude plugin list shows it.\n\nThe global CLAUDE.md carries the one line yomiyasu's README suggests\nfor using it every time, with the plugin's skill name\nyomiyasu:yomiyasu. Its description limits it to explicit requests, and\nsays a CLAUDE.md instruction counts as one; this is why the plugin does\nnot set disable-model-invocation, which would block that path.\n\nyomiyasu writes its check records to .yomiyasu/ at the git top level,\nso that goes into the global gitignore.\n\nChecked with headless claude -p runs in throwaway repos, two per case:\nyomiyasu ran with its checks on a Japanese README, a PR description, a\nJapanese commit message and a Japanese SKILL.md, and did not run on a\ncode fix, a plain question, a memory write or a one-line CLAUDE.md\naddition (once out of four attempts it tried on the last). A run costs\nabout 2.5 times as much and takes 2 to 3 times the turns.\n\nLeft open: the marketplace is not pinned, so upstream script changes\narrive with auto-update and run through the skill's allowed-tools\nwithout a prompt. Windows also gets this CLAUDE.md, and the checks need\npython3, python or py there.",
+          "timestamp": "2026-11-13T13:54:03+09:00",
+          "tree_id": "aec4fdd019eb6a350d8638ad4638841281674bf5",
+          "url": "https://github.com/r-okm/dotfiles/commit/ca104a835185e9822026749731b7fcc3597f2fcd"
+        },
+        "date": 1794546293688,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "1.5",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 11.6ms, median: 10.2ms (10 runs)"
           }
         ]
       }
