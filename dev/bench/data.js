@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794554848721,
+  "lastUpdate": 1794569745422,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4216,6 +4216,37 @@ window.BENCHMARK_DATA = {
             "range": "1.1",
             "unit": "ms",
             "extra": "min: 6.0ms, max: 7.1ms, median: 6.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "6b4ca70b2d9d8e7ee1335326111063e3a9a0b9d0",
+          "message": "git-bash: page git and chezmoi diffs through delta as zsh does\n\nOn Windows, git diff called delta without its features and chezmoi\ndiff did not call delta at all. Both come from the shell on Linux:\n~/.profile exports DELTA_FEATURES, and a zsh alias passes PAGER=delta\nto chezmoi. Windows gets neither, since .profile is not deployed there\nand the alias lives only in the zsh config.\n\nSet DELTA_FEATURES as a Windows user variable and add the same chezmoi\nalias for Git Bash. The pager stays out of the chezmoi config so that\nagent shells, which have no TTY and no aliases, still get plain diffs\n(40bb25e).\n\nThe user variable is applied only by a chezmoi apply without targets.",
+          "timestamp": "2026-11-13T20:23:35+09:00",
+          "tree_id": "3d4b5a46c28f3b1f1ddaa29da2d951aec7654d7f",
+          "url": "https://github.com/r-okm/dotfiles/commit/6b4ca70b2d9d8e7ee1335326111063e3a9a0b9d0"
+        },
+        "date": 1794569744963,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.5,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.4ms, max: 10.7ms, median: 10.3ms (10 runs)"
           }
         ]
       }
