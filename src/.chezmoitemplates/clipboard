@@ -60,9 +60,11 @@ main() {
       help
       ;;
     *)
-      echo "Invalid option: $*"
-      echo
-      help
+      {
+        echo "Invalid option: $*"
+        echo
+        help
+      } >&2
       exit 1
       ;;
   esac
