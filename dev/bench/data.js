@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794547421419,
+  "lastUpdate": 1794549872882,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4030,6 +4030,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 8.9ms, median: 8.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "aedc6f8d6fb3fa9f60d97f32f00d87f75d123e46",
+          "message": "claude: move the drawio and rename-suggest skills in from claude-plugins\n\nr-okm/claude-plugins existed to deliver these skills to every claude.ai\nsurface (chat, Cowork, Claude Code). Everything now happens in Claude Code,\nso ~/.claude/skills is enough and the marketplace is no longer needed.\n\nCopied from r-okm/claude-plugins 61a1bc1. The only change is the drawio\ninvocation examples, which drop the plugin prefix (/r-okm:drawio ->\n/drawio). The r-okm plugin has been uninstalled from the claude.ai\naccounts so the two copies do not coexist.",
+          "timestamp": "2026-11-13T14:36:54+09:00",
+          "tree_id": "82b1248efc7e32e7ed8cdea9e236a7dba5f0248c",
+          "url": "https://github.com/r-okm/dotfiles/commit/aedc6f8d6fb3fa9f60d97f32f00d87f75d123e46"
+        },
+        "date": 1794549872204,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 5.9,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 5.8ms, max: 6.3ms, median: 5.9ms (10 runs)"
           }
         ]
       }
