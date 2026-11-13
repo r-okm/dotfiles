@@ -47,6 +47,11 @@ new_tab = ["prefix+c", "prefix+ctrl+c"]
 next_tab = ["prefix+n", "prefix+ctrl+n", "ctrl+shift+f12"]
 previous_tab = ["prefix+p", "prefix+ctrl+p", "ctrl+shift+f11"]
 switch_tab = "prefix+1..9"
+# tmux: bind -n C-S-F10 / C-S-F9, which Windows Terminal sends for ctrl+shift+pgdn / ctrl+shift+pgup.
+# Unlike tmux, which stops at the ends, herdr 0.9.5 wraps around: the last tab moves to the front
+# and the first to the back. No option turns that off.
+move_tab_next = "ctrl+shift+f10"
+move_tab_previous = "ctrl+shift+f9"
 
 # tmux: prefix+s / prefix+w (choose-tree). herdr's default prefix+s opens settings, so move it.
 goto = ["prefix+s", "prefix+ctrl+s"]

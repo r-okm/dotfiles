@@ -1,0 +1,13 @@
+# Picked up by the global gitleaks pre-commit hook (~/.config/git/config) when run from the repo root.
+[extend]
+useDefault = true
+
+# Windows Terminal key chords such as "keys": "ctrl+shift+pgdn" look like keys to generic-api-key.
+# targetRules keeps this a per-finding check: a global allowlist with paths skips the whole file.
+[[allowlists]]
+description = "Windows Terminal keybindings"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^src/AppData/Local/Packages/Microsoft\.WindowsTerminal[A-Za-z]*_8wekyb3d8bbwe/LocalState/settings\.json$''']
+regexTarget = "line"
+regexes = ['''^\s*"keys":\s*"[a-z0-9+]+",?\s*$''']
