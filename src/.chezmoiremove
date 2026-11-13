@@ -26,3 +26,4 @@ AppData/Roaming/alacritty
 .local/bin/gh-pr-parse
 .claude/skills/commit-message
 .claude/skills/handoff
+.claude/skills/japanese-tech-writing

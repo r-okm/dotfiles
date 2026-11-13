@@ -106,7 +106,8 @@
   },
   "enabledPlugins": {
     "compact-plus@compact-plus-local": true,
-    "review-wizard@review-wizard-marketplace": true
+    "review-wizard@review-wizard-marketplace": true,
+    "yomiyasu@yomiyasu": true
   },
   "extraKnownMarketplaces": {
     "compact-plus-local": {
@@ -119,6 +120,12 @@
       "source": {
         "source": "git",
         "url": "https://github.com/uehaj/review-wizard.git"
+      }
+    },
+    "yomiyasu": {
+      "source": {
+        "source": "github",
+        "repo": "nanaism/yomiyasu"
       }
     }
   },
