@@ -6,6 +6,7 @@ alias bb='git branch -r | rg "$(git config --get user.name)"'
 alias ch='chezmoi'
 alias cha='chezmoi apply'
 alias chd='chezmoi diff'
+alias chezmoi='PAGER=delta chezmoi'
 alias chma='chezmoi merge-all'
 alias chu='chezmoi update'
 alias dec2hex="printf '%x\n'"

@@ -23,3 +23,6 @@ unset = []
 # PATH, but how Claude Code looks is not documented.
 # current is the junction scoop repoints on every update, so this survives them.
 CLAUDE_CODE_GIT_BASH_PATH = 'C:\scoop\apps\git\current\bin\bash.exe'
+# Selects the [delta "default"] feature in the git config, as ~/.profile does
+# on Linux; that file is not deployed on Windows.
+DELTA_FEATURES = 'default'
