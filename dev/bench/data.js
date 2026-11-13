@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794549872882,
+  "lastUpdate": 1794550811606,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4061,6 +4061,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 5.8ms, max: 6.3ms, median: 5.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "aec304873b4cf74ea4d918ed9d482467ef6e8c5f",
+          "message": "windows-terminal, tmux, herdr: move tabs on C-S-PgUp/C-S-PgDn via C-S-F9/F10\n\nherdr 0.9.5 has move_tab_previous / move_tab_next but no default keys,\nand it still cannot bind PageUp or PageDown (herdrdev/herdr#4892). As\nwith C-PgUp/C-PgDn, Windows Terminal now turns ctrl+shift+pgup/pgdn\ninto C-S-F9 and C-S-F10 with sendInput (ESC[20;6~ and ESC[21;6~), and\nherdr binds those to move_tab_previous / move_tab_next. F9/F10 were\nbound nowhere in Windows Terminal, tmux.conf or the herdr config.\n\ntmux binds the same keys to swap-window -d, so the window moves and\nkeeps focus. swap-window -t +1/-1 wraps around at the ends and would\npush window 1 away from the index that m / C-m / M-m select, so the\nbindings do nothing at the first and last window. They test\nwindow_start_flag / window_end_flag rather than comparing the index\nwith base-index, which misses the first window when the indexes have a\ngap (e.g. 2, 3, 4).\n\nherdr's move_tab_* wraps around at the ends instead (the last tab goes\nto the front, the first to the back), and no option turns that off; the\nherdr config notes the difference.\n\nThis replaces Windows Terminal's default ctrl+shift+pgup/pgdn page\nscrolling in every profile.\n\nThe gitleaks pre-commit hook flagged \"keys\": \"ctrl+shift+pgdn\" and\n\"ctrl+shift+pgup\" as generic-api-key, so a new .gitleaks.toml keeps the\ndefault rules and allowlists only \"keys\" lines in the Windows Terminal\nsettings. The allowlist is tied to generic-api-key with targetRules: a\nglobal allowlist with paths skips the whole file, which hid a test\ngithub-pat token in the same file.\n\nChecked: herdr config check reports ok; the Windows Terminal settings\nparse as JSON. On a throwaway tmux 3.5a server the tmux bindings stop at\nboth ends, also with indexes 2, 3, 4. A throwaway herdr session run through WSL tmux, sent the two\nescape sequences, moved tabs as expected and showed the wrap-around.\ngitleaks still reports test tokens on other lines of the settings file\nand \"keys\" lines in other files. The WSL tmux needs this commit pulled\nand applied.",
+          "timestamp": "2026-11-13T15:11:33+09:00",
+          "tree_id": "cc504b1036a7cafe52ea6ac348cd7583da0e7dad",
+          "url": "https://github.com/r-okm/dotfiles/commit/aec304873b4cf74ea4d918ed9d482467ef6e8c5f"
+        },
+        "date": 1794550811132,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.8,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 8.6ms, max: 9.2ms, median: 8.7ms (10 runs)"
           }
         ]
       }
