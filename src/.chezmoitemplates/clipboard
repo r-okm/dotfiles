@@ -20,9 +20,13 @@ EOF
 }
 
 {{ if $win32yank -}}
-# yank stdin to clipboard
+# yank stdin to clipboard, dropping one trailing newline like wl-copy
+# --trim-newline does
 yank() {
-  win32yank.exe -i
+  local text
+  text="$(cat; printf x)"
+  text="${text%x}"
+  printf '%s' "${text%$'\n'}" | win32yank.exe -i
 }
 
 # stdout clipboard content
