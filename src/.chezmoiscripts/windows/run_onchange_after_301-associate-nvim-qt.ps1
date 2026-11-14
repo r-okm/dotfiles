@@ -1,4 +1,4 @@
-# Open text files in the running gvim (as a new buffer) from Explorer.
+# Open text files in nvim-qt (a new window each time) from Explorer.
 #
 # Explorer honours HKCU\...\FileExts\<ext>\UserChoice over the class registry,
 # and with no UserChoice it falls back to OEMDefaultAssociations.xml (Notepad
@@ -11,7 +11,7 @@
 
 $ErrorActionPreference = 'Stop'
 
-$progId = 'r-okm.gvim'
+$progId = 'r-okm.nvim-qt'
 $extensions = @(
   '.txt', '.md', '.log', '.ini', '.conf', '.config', '.cfg',
   '.toml', '.yaml', '.yml', '.json', '.csv', '.env'
@@ -114,12 +114,12 @@ public static class UserChoice {
 }
 '@
 
-function Resolve-Gvim {
-  $cmd = Get-Command gvim.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+function Resolve-Exe([string]$name, [string]$package) {
+  $cmd = Get-Command $name -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
   if (-not $cmd) {
-    throw 'gvim.exe is not on PATH; install it (scoop install vim) and run chezmoi apply again'
+    throw "$name is not on PATH; install it (scoop install $package) and run chezmoi apply again"
   }
-  # A scoop shim is a console launcher; point Explorer at the real GUI binary
+  # A scoop shim is a console launcher that waits for its child; use the real binary
   $shim = [IO.Path]::ChangeExtension($cmd.Source, '.shim')
   if (Test-Path $shim) {
     $m = Select-String -Path $shim -Pattern '^path\s*=\s*"?([^"]+)"?\s*$' | Select-Object -First 1
@@ -141,11 +141,22 @@ function Get-UserExperience {
   return $m.Value
 }
 
-function Test-OpensGvim([Microsoft.Win32.RegistryKey]$parent, [string]$subKey) {
+function Test-OpensNvimQt([Microsoft.Win32.RegistryKey]$parent, [string]$subKey) {
   $k = $parent.OpenSubKey($subKey)
   if (-not $k) { return $false }
   try { $id = $k.GetValue('ProgId') } finally { $k.Close() }
-  return $id -and [UserChoice]::OpenCommand($id) -eq $command
+  return $id -and (Get-OpenCommand $id) -eq $command
+}
+
+function Get-OpenCommand([string]$id) {
+  # Open with > Always records the ProgId "Applications\nvim-qt.exe", which
+  # AssocQueryString does not resolve (it returns `"%1" %*`); read its verb
+  if ($id -like 'Applications\*') {
+    $k = [Microsoft.Win32.Registry]::ClassesRoot.OpenSubKey("$id\shell\open\command")
+    if (-not $k) { return '' }
+    try { return [string]$k.GetValue('') } finally { $k.Close() }
+  }
+  return [UserChoice]::OpenCommand($id)
 }
 
 function Set-UserChoice([string]$ext, [string]$sid, [string]$experience) {
@@ -154,14 +165,14 @@ function Set-UserChoice([string]$ext, [string]$sid, [string]$experience) {
   try {
     # Newer Windows builds write UserChoiceLatest alongside UserChoice and prefer
     # it, with a hash this script cannot produce. Keep one that already opens
-    # gvim (set by hand via Open with > Always); drop any other so Explorer
+    # nvim-qt (set by hand via Open with > Always); drop any other so Explorer
     # falls back to UserChoice and the class registry.
-    if (Test-OpensGvim $parent 'UserChoiceLatest\ProgId') { return }
+    if (Test-OpensNvimQt $parent 'UserChoiceLatest\ProgId') { return }
     $parent.DeleteSubKeyTree('UserChoiceLatest', $false)
-    # Likewise leave a UserChoice that already opens gvim alone: one written by
-    # Open with > Always carries a Hash from Windows itself, which is safer to
-    # keep than to replace with the reverse-engineered one
-    if (Test-OpensGvim $parent 'UserChoice') { return }
+    # Likewise leave a UserChoice that already opens nvim-qt alone: one written
+    # by Open with > Always carries a Hash from Windows itself, which is safer
+    # to keep than to replace with the reverse-engineered one
+    if (Test-OpensNvimQt $parent 'UserChoice') { return }
     # Windows denies SetValue on its own UserChoice, so start from a fresh key.
     # Writing Hash can move the last write time into the next minute; retry then.
     for ($i = 0; $i -lt 3; $i++) {
@@ -178,14 +189,15 @@ function Set-UserChoice([string]$ext, [string]$sid, [string]$experience) {
   } finally { $parent.Close() }
 }
 
-$gvim = Resolve-Gvim
-$command = "`"$gvim`" --remote-silent `"%1`""
+$nvimQt = Resolve-Exe nvim-qt.exe neovim-qt
+# Same form Open with > Always writes for Applications\nvim-qt.exe
+$command = "`"$nvimQt`" `"%1`""
 
-Set-DefaultValue "Software\Classes\$progId" 'Text file (gvim)'
-Set-DefaultValue "Software\Classes\$progId\DefaultIcon" "`"$gvim`",0"
+Set-DefaultValue "Software\Classes\$progId" 'Text file (nvim-qt)'
+Set-DefaultValue "Software\Classes\$progId\DefaultIcon" "`"$nvimQt`",0"
 Set-DefaultValue "Software\Classes\$progId\shell\open\command" $command
-# Used by "Open with" when gvim is picked from the app list
-Set-DefaultValue 'Software\Classes\Applications\gvim.exe\shell\open\command' $command
+# Used by "Open with" when nvim-qt is picked from the app list
+Set-DefaultValue 'Software\Classes\Applications\nvim-qt.exe\shell\open\command' $command
 
 $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
 $experience = Get-UserExperience
@@ -202,8 +214,10 @@ foreach ($ext in $extensions) {
 Set-DefaultValue 'Software\Classes\.' $progId
 # Extensions nothing has registered fall back to "Unknown", whose default verb
 # is the "Open with" dialog
-Set-DefaultValue 'Software\Classes\Unknown\shell\gvim\command' $command
-Set-DefaultValue 'Software\Classes\Unknown\shell' 'gvim'
+Set-DefaultValue 'Software\Classes\Unknown\shell\nvim-qt\command' $command
+Set-DefaultValue 'Software\Classes\Unknown\shell' 'nvim-qt'
+# Verb left by the earlier gvim version of this script
+[Microsoft.Win32.Registry]::CurrentUser.DeleteSubKeyTree('Software\Classes\Unknown\shell\gvim', $false)
 
 # SHCNE_ASSOCCHANGED, SHCNF_IDLIST
 [UserChoice]::SHChangeNotify(0x08000000, 0, [IntPtr]::Zero, [IntPtr]::Zero)
@@ -216,7 +230,7 @@ if ($failed) {
   # it on the next run. That dialog cannot fix the "." class or the Unknown
   # fallback, so only listed extensions get the hint.
   $manual = @($failed | Where-Object { $extensions -contains $_ })
-  $hint = if ($manual) { " (pick gvim via Open with > Always for: $($manual -join ' '), then run chezmoi apply again)" } else { '' }
+  $hint = if ($manual) { " (pick nvim-qt via Open with > Always for: $($manual -join ' '), then run chezmoi apply again)" } else { '' }
   throw "Explorer still opens these with another app: $($failed -join ' ')$hint"
 }
-Write-Host "gvim is associated with: $($extensions -join ' '), files without an extension, and unregistered extensions"
+Write-Host "nvim-qt is associated with: $($extensions -join ' '), files without an extension, and unregistered extensions"
