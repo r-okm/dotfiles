@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794569745422,
+  "lastUpdate": 1794648538676,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4247,6 +4247,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.4ms, max: 10.7ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "7158c8a788d7aa890023cf30262e1bf9da61ee68",
+          "message": "windows: associate text files with nvim-qt instead of gvim\n\nRename the association script and point the r-okm.nvim-qt ProgId at\nnvim-qt.exe, so Explorer opens each file in a new nvim-qt window. The\ncommand matches what Open with > Always writes for\nApplications\\nvim-qt.exe.\n\nOpen with > Always records the ProgId \"Applications\\nvim-qt.exe\" in\nUserChoiceLatest, which AssocQueryString does not resolve (it returns\n`\"%1\" %*`). The keep-it check therefore saw such a choice as opening\nanother app and deleted it, and Explorer fell back to gvim through the\nOpen with MRU list. Read the verb of an Applications\\ ProgId from the\nregistry instead.\n\nOn this machine .txt .md .log .ini .toml .json had been set to gvim via\nOpen with > Always and ignored the script's UserChoice even with a\nvalid hash; they were switched to nvim-qt by hand the same way.",
+          "timestamp": "2026-11-14T18:19:23+09:00",
+          "tree_id": "afb6b62693a441670e3a1c282c7944b326a88bf5",
+          "url": "https://github.com/r-okm/dotfiles/commit/7158c8a788d7aa890023cf30262e1bf9da61ee68"
+        },
+        "date": 1794648537801,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.5ms, max: 10.9ms, median: 10.8ms (10 runs)"
           }
         ]
       }
