@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794648538676,
+  "lastUpdate": 1794717615586,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4278,6 +4278,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.5ms, max: 10.9ms, median: 10.8ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f32860a91bcb6577c535cb94090c9a9803189650",
+          "message": "ghub: record profile switching in the agent monitor and run it again\n\nOn 2026-11-14 Genshin started with the Desktop profile still active.\nThe agent was answering and auto switching was on, so the resume\nrecovery saw nothing wrong (that morning's resume was \"ok\" on the first\ncheck). Opening the G HUB UI fixed it. The cause is unknown, so the\nmonitor now records enough to compare such cases with\nghub-resume-recovery.log:\n\n- start and exit of the game and of the UI (lghub)\n- each change of the active profile, by application and profile name,\n  with the foreground process at that moment\n- a \"不一致\" line when the game stays in front for 5 s without its\n  profile, with the auto switching value, the seconds since the game\n  started, and whether the agent answered; and a line when it matches\n  again, which can happen while the UI is in front\n- the agent PID and start time on these lines, which is how they line\n  up with the PIDs in the recovery log\n\nThe monitor stays measurement only and never restarts the agent, since\nthat would erase the state under study. It polls every 2 s while the\ngame runs and every 30 s otherwise; game detection uses polling, not\nWin32_ProcessStartTrace, so the task still runs without elevation.\nThe auto switching value is fetched on the 30 s cadence and on each\nmismatch, to keep the extra agent connections down; the UI is itself\nan agent client, so polling could affect what is being measured.\n\nOther changes in the script:\n- the profile and application list is refetched until a fetch\n  succeeds, so one failed fetch no longer leaves names unresolved and\n  every episode reported as a mismatch\n- -GameProcesses is split on commas, since -File passes \"A,B\" as one\n  string\n- a failed resume event lookup is written into the gap line instead of\n  aborting the sample\n- unresponsive samples and repeated errors are logged at most every\n  30 s, so the 2 s polling does not flood the log\n- (Nms) times the agent request alone, as it did before\n\nThe README lists each task with its trigger, whether it stays\nresident and whether it needs elevation, marks GhubAgentMonitor as\nrunning, and explains how to read the new lines.\n\nTested on copies of the script while Genshin was running: profile\nlines, a forced mismatch, one failed catalog fetch followed by a\nretry, comma-separated games, and the parent exit. The registered task\nwas also stopped and started once, and the monitor exited when its\nconhost.exe went away. A real failure to switch, the \"一致しました\"\nline and the UI start and exit lines have not been seen yet.",
+          "timestamp": "2026-11-15T13:32:57+09:00",
+          "tree_id": "b7eca2df0c6abf6dba278157c94c74fe7eed4eba",
+          "url": "https://github.com/r-okm/dotfiles/commit/f32860a91bcb6577c535cb94090c9a9803189650"
+        },
+        "date": 1794717614907,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.6,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 8.5ms, max: 8.9ms, median: 8.5ms (10 runs)"
           }
         ]
       }
