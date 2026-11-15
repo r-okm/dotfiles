@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794717615586,
+  "lastUpdate": 1794735077155,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4309,6 +4309,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 8.9ms, median: 8.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "438e93b9e54ef19a8623180e82088bf7bace4fee",
+          "message": "claude: remove the yt skill\n\nThe skill, its yt-fetch.py helper, and the Read/Edit grants for\n~/.local/state/yt-summary go. Both deployed targets are listed in\n.chezmoiremove so apply deletes them on every machine.\n\nyt-dlp stays in .chezmoiexternal as a standalone tool. Summaries\nalready saved under ~/.local/state/yt-summary are not managed by\nchezmoi and are left alone.",
+          "timestamp": "2026-11-15T18:22:56+09:00",
+          "tree_id": "4bc6f445055e24c272898a02cab3ca8594c1a076",
+          "url": "https://github.com/r-okm/dotfiles/commit/438e93b9e54ef19a8623180e82088bf7bace4fee"
+        },
+        "date": 1794735076740,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "1.2",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 11.2ms, median: 10.2ms (10 runs)"
           }
         ]
       }
