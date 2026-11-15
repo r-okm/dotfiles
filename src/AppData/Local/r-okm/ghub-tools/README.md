@@ -7,17 +7,22 @@ agent はスリープ復帰後に、プロセスが生きたまま WebSocket（`
 agent を強制終了すると `lghub_system_tray.exe` が新しい agent を起動し直し、それで復旧する。
 ここにあるスクリプトは、この再起動を自動で行う。
 
+これとは別に、agent が応答していて自動切替もオンなのに、ゲームを起動してもプロファイルがデスクトップのまま切り替わらないことがある（2026-11-14 に発生。G HUB の UI を起動したら切り替わった）。
+こちらは原因が分かっていないので、起きた時刻と状況を記録している。
+
 ## スクリプトと運用状況
 
-| スクリプト | タスク名 | 動作 | 状態 |
-| --- | --- | --- | --- |
-| `ghub-resume-recovery.ps1` | `GhubResumeRecovery` | スリープ復帰時に起動し、agent が30秒間一度も応答しなければ再起動する | 稼働中 |
-| `ghub-profile-watcher.ps1` | `GhubProfileWatcher` | 常駐して原神の起動を検知し、agent が応答しないか、アプリ別プロファイルが適用されていなければ再起動する | 停止中（保管） |
-| `ghub-agent-monitor.ps1` | `GhubAgentMonitor` | 常駐して30秒ごとに agent の疎通を記録する。agent には何もしない | 停止中（保管） |
+| スクリプト | タスク名 | 状態 | 常駐 | 起動のきっかけ | 管理者権限 | 動作 |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ghub-resume-recovery.ps1` | `GhubResumeRecovery` | 稼働中 | しない | タスクスケジューラー（スリープ・休止状態からの復帰イベント） | 不要 | agent が30秒間一度も応答しなければ再起動する |
+| `ghub-agent-monitor.ps1` | `GhubAgentMonitor` | 稼働中 | する | タスクスケジューラー（ログオン） | 不要 | agent の疎通と、アプリ別プロファイルの切り替わりを記録する。agent には何もしない |
+| `ghub-profile-watcher.ps1` | `GhubProfileWatcher` | 停止中（保管） | する | タスクスケジューラー（ログオン） | 必要 | 原神の起動を検知し、agent が応答しないか、アプリ別プロファイルが適用されていなければ再起動する |
 
-現在は `ghub-resume-recovery.ps1` だけで運用している。
-これまでに観測した不具合はどれもスリープ復帰の直後から起きており、復帰時の確認だけで拾えたためである。
-停止中の2つは、スリープと関係のない不具合が出たときや、原因を調べ直すときに使う。
+agent の再起動は `ghub-resume-recovery.ps1` だけが行う。
+agent が固まる不具合はどれもスリープ復帰の直後から起きており、復帰時の確認で拾えている。
+プロファイルが切り替わらない不具合は agent が応答しているので、復帰時の確認では拾えず、`ghub-agent-monitor.ps1` で記録している。
+`ghub-profile-watcher.ps1` は、プロファイルの不一致を見つけたら agent を再起動する。
+不一致を自動で直すと決めたときに使う。
 
 各スクリプトのログは、スクリプトと同じディレクトリに、スクリプトと同じ名前（拡張子 `.log`）で書き出される。
 ログは chezmoi の管理対象ではないので、`chezmoi apply` で消えたり上書きされたりすることはない。
@@ -131,10 +136,13 @@ Unregister-ScheduledTask -TaskName 'GhubProfileWatcher' -Confirm:$false
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-profile-watcher.ps1" -CheckOnce GenshinImpact.exe
 ```
 
-### GhubAgentMonitor（停止中）
+### GhubAgentMonitor（稼働中）
 
 ログオン時に起動して常駐する。
 agent には何もしないので、管理者権限なしで動かす。
+確認の間隔は30秒で、原神の実行中だけ2秒にする。前面に来てから数秒で切り替わったかを見分けるためである。
+監視するゲームはスクリプトの引数 `-GameProcesses` で指定する（既定は `GenshinImpact`）。
+複数のゲームはカンマで区切って渡す（例: `-GameProcesses GenshinImpact,StarRail`）。
 
 登録（通常の PowerShell）:
 
@@ -181,6 +189,7 @@ Get-ScheduledTask | Where-Object TaskName -match 'Ghub' | Format-Table TaskName,
 
 ```powershell
 Get-Content "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-resume-recovery.log" -Tail 20
+Get-Content "$env:LOCALAPPDATA\r-okm\ghub-tools\ghub-agent-monitor.log" -Tail 20
 ```
 
 `GhubResumeRecovery` のログは、復帰ごとに次のどちらかになる。
@@ -198,3 +207,15 @@ tray は起動時に agent がいなければ自分で起動し、動いてい�
 
 `ERROR: lghub_agent が起動しませんでした` が出た場合は、tray を再起動しても agent が応答しなかった。
 G HUB を手動で起動する。
+
+`GhubAgentMonitor` のログ（`ghub-agent-monitor.log`）は、状態が変わったときだけ書かれる。
+プロファイルが切り替わらなかったときは、次の行を見る。
+
+- `不一致: …`: 原神が前面にあるのに、5秒たってもプロファイルが一致しなかった。監視を始めたときに原神がすでに前面にあった場合は、前面にあった秒数を「監視の開始時から前面のまま<秒数>秒」と書く。続く項目で、原因が次のどれかを見分ける。
+  - `有効なプロファイル = 取得できず（…）`: agent が応答していない。
+  - `自動切替 = オフ`: 設定がオフなので、切り替わらないのが正常。
+  - どちらでもない: agent が応答し、自動切替もオンなのに切り替えていない。
+  - 項目の `起動から<秒数>秒` が小さく、すぐあとに一致していれば、agent が起動直後のゲームを見つけるのに時間がかかっただけで、不具合ではない。
+- `有効なプロファイル: …（…、不一致の記録から<秒数>秒後）` または `一致しました: …`: 不一致のあと、ゲームのプロファイルに切り替わった。直前に `lghub が起動しました` があれば、UI を起動した直後に切り替わった。
+
+行末の `agent=<PID>（起動 …）` を `ghub-resume-recovery.log` の PID と照らし合わせると、その agent がいつのスリープ復帰で起動したものかが分かる。
