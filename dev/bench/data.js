@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794735077155,
+  "lastUpdate": 1794748534224,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4340,6 +4340,37 @@ window.BENCHMARK_DATA = {
             "range": "1.2",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 11.2ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "15345d9b03833fc8c9d7ffe54ce28db7ef97bb43",
+          "message": "claude: write precedent-less files in Japanese, commit messages in English\n\nCommit messages now follow the language of the repository history\ninstead of being covered by the file rule.",
+          "timestamp": "2026-11-15T21:56:59+09:00",
+          "tree_id": "3797a141edf2a248b057f68619ae19b27ba51e94",
+          "url": "https://github.com/r-okm/dotfiles/commit/15345d9b03833fc8c9d7ffe54ce28db7ef97bb43"
+        },
+        "date": 1794748533540,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 7,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 6.8ms, max: 7.5ms, median: 7.0ms (10 runs)"
           }
         ]
       }
