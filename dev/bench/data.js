@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794792869111,
+  "lastUpdate": 1794798349130,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4402,6 +4402,37 @@ window.BENCHMARK_DATA = {
             "range": "0.4",
             "unit": "ms",
             "extra": "min: 10.3ms, max: 10.6ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "33c82ea67d548c965e5ea1b9c333569446ca3458",
+          "message": "herdr: write a prompt for an agent pane in nvim on prefix+e\n\nThe herdr counterpart of tmux's insert-from-editor.sh (C-e). prefix+e\non an agent pane opens nvim with init.tmux_edit.lua in a split below\nit; quitting with <C-CR> puts the draft into the agent's input as a\nbracketed paste without submitting it, and :cq keeps the draft for\nnext time. herdr cannot pass a key through conditionally as tmux's\nif -F does, so the binding sits under the prefix and does nothing on\npanes without an agent, where the paste markers would arrive as\nkeystrokes.\n\nThe editor is a pane of a local herdr plugin (prompt-edit), not a\n`herdr pane split`: split cannot take a command, so its pane showed\nGit Bash starting before nvim. A plugin pane runs its argv directly\nand closes when the command exits. type = \"pane\" for the key was no\nuse either, as it opens zoomed and hides the output being replied to.\n\nherdr launches plugin panes from a copy of the manifest kept in\nplugins.json, so run_onchange_after_303-link-herdr-plugins links the\nplugin again whenever herdr-plugin.toml changes, keeping it disabled\nif it was disabled by hand. The script also links it when herdr does\nnot know the plugin at all.\n\nOther details:\n- nvim on Windows saves CRLF, which would submit the first line, so\n  the draft is sent with LF\n- the paste markers keep tabs, which Claude Code drops when the text\n  is typed\n- nothing either side prints is visible, so the launcher reports\n  errors as herdr notifications and the editor pane waits for Enter\n- a missing target directory falls back to the home directory\n\nTested against a scratch Claude Code pane: multi-line Japanese and a\nleading / arrive unsent, :cq keeps the draft, focus returns to the\nagent, and send failures stay on screen. After chezmoi apply the link\nscript refreshed the manifest copy in plugins.json, and prefix+e from\na real Claude Code pane worked as expected.",
+          "timestamp": "2026-11-16T11:56:30+09:00",
+          "tree_id": "917189d8161189e1b73b4e1aae353dc770f7d89e",
+          "url": "https://github.com/r-okm/dotfiles/commit/33c82ea67d548c965e5ea1b9c333569446ca3458"
+        },
+        "date": 1794798348069,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "2.9",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 12.9ms, median: 10.2ms (10 runs)"
           }
         ]
       }
