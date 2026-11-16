@@ -12,6 +12,7 @@ symlink
 .local
 .config/asdf
 .config/systemd
+.config/herdr
 .config/tmux
 .config/zsh
 .config/zsh-abbr

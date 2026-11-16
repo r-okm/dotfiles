@@ -1,12 +1,22 @@
-# herdr config for native Windows (written against herdr v0.9.5).
+{{/*
+  herdr config shared by native Windows (%APPDATA%\herdr\config.toml) and Linux
+  (~/.config/herdr/config.toml). The scripts it runs live in %LOCALAPPDATA%\r-okm on Windows
+  and in ~/.local/share/r-okm on Linux.
+*/ -}}
+{{- $windows := eq .chezmoi.os "windows" -}}
+# herdr config (written against herdr v0.9.5).
 # Mirrors the tmux setup in src/private_dot_config/tmux/tmux.conf where herdr has an equivalent.
 
 onboarding = false
 
 [terminal]
+{{- if $windows }}
 # Git Bash. With shell_mode = "login" herdr starts bash.exe with -l, so /etc/profile sets up PATH.
 # Git is installed with scoop on this machine (scoop prefix git).
 default_shell = 'C:\scoop\apps\git\current\bin\bash.exe'
+{{- else }}
+# default_shell is unset, so herdr falls back to $SHELL (zsh). Login shells, like tmux's panes.
+{{- end }}
 shell_mode = "login"
 new_cwd = "follow"
 
@@ -81,12 +91,18 @@ detach = "prefix+d"
 
 # tmux: bind J break-pane has pane move in the CLI only; no key action.
 
-# zsh: fzf_cd_ghq, plus linked worktrees. Popup commands run through cmd.exe, so %LOCALAPPDATA%
-# expands. prefix+g is free: goto moved to prefix+s above.
+# zsh: fzf_cd_ghq, plus linked worktrees. prefix+g is free: goto moved to prefix+s above.
+{{- if $windows }}
+# Popup commands run through cmd.exe, so %LOCALAPPDATA% expands.
+{{- end }}
 [[keys.command]]
 key = "prefix+g"
 type = "popup"
+{{- if $windows }}
 command = 'python -I -B "%LOCALAPPDATA%\r-okm\bin\herdr-ghq.py"'
+{{- else }}
+command = 'python3 -I -B "{{ .chezmoi.homeDir }}/.local/share/r-okm/bin/herdr-ghq.py"'
+{{- end }}
 width = "80%"
 height = "80%"
 
@@ -97,7 +113,11 @@ height = "80%"
 [[keys.command]]
 key = ["prefix+e", "prefix+ctrl+e"]
 type = "shell"
+{{- if $windows }}
 command = 'python -I -B "%LOCALAPPDATA%\r-okm\herdr-plugins\prompt-edit\herdr-edit.py"'
+{{- else }}
+command = 'python3 -I -B "{{ .chezmoi.homeDir }}/.local/share/r-okm/herdr-plugins/prompt-edit/herdr-edit.py"'
+{{- end }}
 
 [ui]
 # tmux: set -g mouse on

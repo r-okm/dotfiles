@@ -18,7 +18,6 @@
 
 - `~/.claude/settings.json`: Claude Code が直接書き込む(`/model`、`/config`、権限確認のプロンプト)。
 - `~/AppData/Local/Packages/Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe/LocalState/settings.json`: Windows Terminal の設定 UI が直接書き込む。Linux の chezmoi は `AppData` を無視するので、このファイルを扱うのは Windows の chezmoi だけ。
-- `~/AppData/Roaming/herdr/config.toml`: herdr が設定画面とオンボーディングで書き込む。同じ理由で Windows だけ。
 
 これらのファイルは次のように扱う。
 
@@ -32,6 +31,7 @@
 ## Windows
 
 - `src/AppData` の下にあるファイルのうち、上記のターゲット側が正のファイル以外は、`src/` のほかのファイルと同じくソース側が正で、通常の chezmoi のプレフィックスを使う。たとえば Windows Terminal の `settings.json` の隣にある `dot_editorconfig` や、`src/AppData/Local/r-okm/ghub-tools/`(タスクスケジューラーが実行する G HUB の補助スクリプト。README を参照)がこれに当たる。
+- herdr の設定、スクリプト、プラグインは Windows と Linux の両方に配置する。ファイルの本体は `src/.chezmoitemplates/herdr/` に置き、`src/AppData/...`、`src/private_dot_config/herdr/`、`src/dot_local/share/r-okm/` にある配置先のファイルは、`{{ template }}` で本体を読み込むだけにする。OS で変わる部分は `.chezmoi.os` で分ける。ソース側が正なので、herdr の設定画面で変えた内容は `chezmoi apply` で上書きされる。
 - `src/.chezmoiscripts/windows` にある Windows 専用のスクリプト(`src/.chezmoidata/windows.toml` を適用するものなど)は、ターゲットを引数に取らない apply でしか実行されない。これらのスクリプトや、スクリプトが読むデータを変えたときは、ディレクトリを指定した apply ではなく、引数なしの `chezmoi apply` を実行するようユーザーに伝える。
 
 ## リポジトリのツール

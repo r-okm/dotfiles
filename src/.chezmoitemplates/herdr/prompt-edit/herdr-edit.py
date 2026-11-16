@@ -25,7 +25,8 @@ paste として送り先のペインに入れる。送信はされず、そち�
 待つ。`herdr pane send-text` だけで送ると tmux の `paste-buffer -r` と同じく
 キー入力として届き、改行は LF のまま残るが、Claude Code がタブをキーとして
 扱って消してしまう。送った下書きは復元用に last-sent.md として残す。下書きは
-%LOCALAPPDATA%/r-okm/herdr-edit に置く。
+Windows では %LOCALAPPDATA%/r-okm/herdr-edit、Linux では
+${XDG_DATA_HOME:-~/.local/share}/r-okm/herdr-edit に置く。
 
 どちらの側の出力も誰にも見えない(type = "shell" のコマンドには端末がなく、
 プラグインのペインはこのスクリプトが終わると閉じる)。そのため、起動側は
@@ -68,11 +69,17 @@ def error_code(proc):
 
 
 def draft_dir():
-    return Path(os.environ["LOCALAPPDATA"]) / "r-okm" / "herdr-edit"
+    if os.name == "nt":
+        data = os.environ["LOCALAPPDATA"]
+    else:
+        data = os.environ.get("XDG_DATA_HOME") or Path.home() / ".local" / "share"
+    return Path(data) / "r-okm" / "herdr-edit"
 
 
 def nvim_init():
-    config = os.environ.get("XDG_CONFIG_HOME") or os.environ["LOCALAPPDATA"]
+    config = os.environ.get("XDG_CONFIG_HOME") or (
+        os.environ["LOCALAPPDATA"] if os.name == "nt" else Path.home() / ".config"
+    )
     return Path(config) / "nvim" / "init.tmux_edit.lua"
 
 

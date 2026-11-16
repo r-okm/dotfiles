@@ -5,8 +5,8 @@ processes (bash -l, ghq, jq, awk, sort), each about 100ms through MSYS2's fork
 emulation against about 30ms from here. This
 starts fzf first so the window appears at once, and fills the list from one
 `git config` and one `herdr workspace list` run in parallel with a walk of the
-ghq roots done in-process. It uses only the standard library and fzf and has
-nothing Windows-specific, but chezmoi deploys it only on Windows so far.
+ghq roots done in-process. It uses only the standard library and fzf and runs
+on both native Windows and Linux.
 
 Rows are repositories sorted by name, each followed by its linked worktrees one
 level indented; ● marks checkouts that already have a herdr workspace. Enter

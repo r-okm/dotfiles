@@ -6,7 +6,9 @@
 # このスクリプトをもう一度実行する。登録し直すと写しがその場で更新される。
 # 手で無効にしたプラグインは無効のままにする。
 #
-# prompt-edit: {{ include "AppData/Local/r-okm/herdr-plugins/prompt-edit/herdr-plugin.toml" | sha256sum }}
+# Linux 版は .chezmoiscripts/linux/run_onchange_after_303-link-herdr-plugins.sh.tmpl。
+#
+# prompt-edit: {{ includeTemplate "herdr/prompt-edit/herdr-plugin.toml" . | sha256sum }}
 
 $ErrorActionPreference = 'Stop'
 

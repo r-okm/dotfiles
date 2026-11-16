@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# ~/.local/share/r-okm/herdr-plugins にあるローカルの herdr プラグインを登録する。
+#
+# Windows 版(.chezmoiscripts/windows/run_onchange_after_303-link-herdr-plugins.ps1.tmpl)と
+# 同じ処理。herdr はプラグインを登録するときに manifest を写し、ペインはその写しから起動する。
+# そのため herdr-plugin.toml を変えても、登録し直すまで反映されない。下の manifest のハッシュが
+# 変わると、chezmoi がこのスクリプトをもう一度実行する。手で無効にしたプラグインは無効のままにする。
+#
+# prompt-edit: {{ includeTemplate "herdr/prompt-edit/herdr-plugin.toml" . | sha256sum }}
+# herdr の有無も検知する(未導入で skip した回が実行済みとして記録されるため)
+# herdr: {{ lookPath "herdr" }}
+set -euo pipefail
+
+if ! command -v herdr &>/dev/null; then
+  echo 'herdr is not installed; skipping plugin links'
+  exit 0
+fi
+
+declare -A plugins=(
+  [r-okm.prompt-edit]=prompt-edit
+)
+root="${HOME}/.local/share/r-okm/herdr-plugins"
+fail() {
+  echo "$1; start herdr and run chezmoi apply again" >&2
+  exit 1
+}
+# 一覧が取れないと無効にしたプラグインが分からず、登録すると有効に戻ってしまうので止める
+listed=$(herdr plugin list) || fail 'herdr plugin list failed'
+
+for id in "${!plugins[@]}"; do
+  flags=()
+  # 行は "- <id> (<name>) enabled|disabled [<source>]"。id は正規表現にせず、文字列として比べる
+  if awk -v id="$id" '$1 == "-" && $2 == id && / disabled / { found = 1 } END { exit !found }' <<<"$listed"; then
+    flags+=(--disabled)
+  fi
+  herdr plugin link "${flags[@]}" "${root}/${plugins[$id]}" >/dev/null ||
+    fail "herdr plugin link failed for ${id}"
+done
