@@ -137,12 +137,17 @@ show_agent_labels_on_pane_borders = true
 confirm_close = true
 prompt_new_tab_name = false
 status_indicators = "symbols"
+# Wide enough for "<user>-<branch>" worktree names (the default 26 cuts them after the user prefix).
+sidebar_width = 32
 
-# Claude Code puts the conversation topic in its terminal title; show it in the agent list
-# (herdrdev/herdr discussion #1725). Adapted from herdr's default config, minus the ["agent"]
-# row: it always reads "claude" here unless the agent is renamed.
+# $repo is pane metadata reported by Claude Code's SessionStart hook
+# (~/.claude/r-okm/scripts/herdr-report-repo.sh). Claude Code puts the conversation topic in its
+# terminal title (herdrdev/herdr discussion #1725).
 [ui.sidebar.agents.rows_by_agent]
-claude = [["state_icon", "machine", "workspace", "tab"], ["terminal_title_stripped"]]
+claude = [
+  ["state_icon", { token = "$repo", fg = "#c6d0f5", bold = true }, "state_text"],
+  ["terminal_title_stripped"],
+]
 
 [ui.toast]
 {{- if $windows }}
