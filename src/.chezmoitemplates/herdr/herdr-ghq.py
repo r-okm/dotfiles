@@ -63,17 +63,46 @@ def ghq_roots():
     return [os.path.expanduser(r) for r in roots if r] or [os.path.expanduser("~/ghq")]
 
 
-def opened_checkouts():
+def workspaces_by_checkout():
+    """Map each checkout open in herdr to its workspace ID."""
     # without herdr the list still works, just without the ● marks
     try:
         workspaces = json.loads(run(["herdr", "workspace", "list"]))["result"]["workspaces"]
     except (OSError, ValueError, KeyError, TypeError):
-        return set()
+        return {}
     return {
-        key(w["worktree"]["checkout_path"])
+        key(w["worktree"]["checkout_path"]): w["workspace_id"]
         for w in workspaces
         if (w.get("worktree") or {}).get("checkout_path")
     }
+
+
+def opened_checkouts():
+    return set(workspaces_by_checkout())
+
+
+def close_parent_workspace(repo):
+    """Exit the shell in the repository's own workspace, which closes just that workspace.
+
+    `herdr worktree open` creates it when it is not open, and `workspace close` and
+    `pane close` both refuse to close it alone while a linked worktree workspace is open.
+    """
+    workspace = workspaces_by_checkout().get(key(repo))
+    if not workspace:
+        return
+    try:
+        panes = json.loads(run(["herdr", "pane", "list", "--workspace", workspace]))
+        panes = panes["result"]["panes"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return
+    if len(panes) != 1:
+        return  # not the single shell herdr just started
+    pane = panes[0]["pane_id"]
+    try:
+        run(["herdr", "pane", "send-text", pane, "exit"])
+        run(["herdr", "pane", "send-keys", pane, "Enter"])
+    except OSError:
+        pass
 
 
 def find_repos(root):
@@ -259,7 +288,12 @@ def pick():
 
 
 def open_workspace(path, repo):
-    """Return an error message, or None once the workspace is focused."""
+    """Return an error message, or None once the workspace is focused.
+
+    Opening a linked worktree also opens its repository's workspace when that is
+    closed; that workspace is closed again, so only the picked checkout appears.
+    """
+    parent_was_open = path == repo or key(repo) in opened_checkouts()
     try:
         proc = subprocess.run(
             ["herdr", "worktree", "open", "--cwd", repo, "--path", path, "--focus"],
@@ -270,7 +304,11 @@ def open_workspace(path, repo):
         )
     except OSError as e:
         return str(e)
-    return None if proc.returncode == 0 else proc.stderr or proc.stdout
+    if proc.returncode != 0:
+        return proc.stderr or proc.stdout
+    if not parent_was_open:
+        close_parent_workspace(repo)
+    return None
 
 
 def main():
