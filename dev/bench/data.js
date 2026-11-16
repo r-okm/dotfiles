@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794748534224,
+  "lastUpdate": 1794792869111,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4371,6 +4371,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 6.8ms, max: 7.5ms, median: 7.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3386db9969c2045b4fe462381ea14f19c883663e",
+          "message": "go: install gh-gfm-preview for Markdown previews in nvim\n\nnvim-config replaced markdown-preview.nvim with gh-gfm-preview, which it\nlooks up on PATH. It goes into the go install list rather than\ngh extension install, which this repository has no setup for.",
+          "timestamp": "2026-11-16T10:18:02+09:00",
+          "tree_id": "474a7136ee4247d105a6f9900a5e8fb3e5a1ffc7",
+          "url": "https://github.com/r-okm/dotfiles/commit/3386db9969c2045b4fe462381ea14f19c883663e"
+        },
+        "date": 1794792868204,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.4",
+            "unit": "ms",
+            "extra": "min: 10.3ms, max: 10.6ms, median: 10.3ms (10 runs)"
           }
         ]
       }
