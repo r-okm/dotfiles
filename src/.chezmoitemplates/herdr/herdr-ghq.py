@@ -11,11 +11,12 @@ on both native Windows and Linux.
 Rows are repositories sorted by name, each followed by its linked worktrees one
 level indented; ● marks checkouts that already have a herdr workspace. Enter
 runs `herdr worktree open --focus`, which focuses that workspace or creates
-one. `--preview PATH` prints the preview pane for PATH; fzf calls it.
+one; a new one is moved next to its repository's other workspaces. `--preview PATH` prints the preview pane for PATH; fzf calls it.
 """
 
 import json
 import os
+import socket
 import subprocess
 import sys
 import threading
@@ -63,16 +64,20 @@ def ghq_roots():
     return [os.path.expanduser(r) for r in roots if r] or [os.path.expanduser("~/ghq")]
 
 
+def list_workspaces():
+    """Return herdr's workspaces in sidebar order, or [] without herdr."""
+    try:
+        return json.loads(run(["herdr", "workspace", "list"]))["result"]["workspaces"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return []
+
+
 def workspaces_by_checkout():
     """Map each checkout open in herdr to its workspace ID."""
     # without herdr the list still works, just without the ● marks
-    try:
-        workspaces = json.loads(run(["herdr", "workspace", "list"]))["result"]["workspaces"]
-    except (OSError, ValueError, KeyError, TypeError):
-        return {}
     return {
         key(w["worktree"]["checkout_path"]): w["workspace_id"]
-        for w in workspaces
+        for w in list_workspaces()
         if (w.get("worktree") or {}).get("checkout_path")
     }
 
@@ -103,6 +108,60 @@ def close_parent_workspace(repo):
         run(["herdr", "pane", "send-keys", pane, "Enter"])
     except OSError:
         pass
+
+
+def api_request(method, params):
+    """Send one request to the herdr socket API, for methods the CLI does not expose.
+
+    The socket is a Unix domain socket on Unix and a named pipe on Windows.
+    """
+    path = os.environ.get("HERDR_SOCKET_PATH")
+    if not path:
+        if os.name == "nt":
+            return  # the default pipe name is not documented
+        path = os.path.expanduser("~/.config/herdr/herdr.sock")
+    line = (json.dumps({"id": "herdr-ghq", "method": method, "params": params}) + "\n").encode()
+    if os.name == "nt":
+        with open(path, "r+b", buffering=0) as pipe:
+            pipe.write(line)
+            pipe.readline()
+    else:
+        with socket.socket(socket.AF_UNIX) as sock:
+            sock.connect(path)
+            sock.sendall(line)
+            sock.makefile("rb").readline()
+
+
+def group_with_repository(path):
+    """Move the workspace for path next to the other workspaces of its repository.
+
+    herdr appends a new workspace to the end. The sidebar still shows it under its
+    repository, but goto lists workspaces in their actual order, so this moves the
+    repository's workspaces together, the main checkout first, at the position of
+    the first of them.
+    """
+    workspaces = list_workspaces()
+    ids = [w["workspace_id"] for w in workspaces]
+    trees = {w["workspace_id"]: w.get("worktree") or {} for w in workspaces}
+    target = next(
+        (i for i in ids if trees[i].get("checkout_path") and key(trees[i]["checkout_path"]) == key(path)),
+        None,
+    )
+    repo_key = target and trees[target].get("repo_key")
+    if not repo_key:
+        return
+    group = [i for i in ids if trees[i].get("repo_key") == repo_key]
+    if len(group) < 2:
+        return
+    start = ids.index(group[0])
+    before = next((i for i in ids[start:] if i not in group), None)
+    group.sort(key=lambda i: bool(trees[i].get("is_linked_worktree")))
+    try:
+        api_request(
+            "workspace.move_block", {"workspace_ids": group, "before_workspace_id": before}
+        )
+    except OSError:
+        pass  # the order is cosmetic
 
 
 def find_repos(root):
@@ -293,7 +352,8 @@ def open_workspace(path, repo):
     Opening a linked worktree also opens its repository's workspace when that is
     closed; that workspace is closed again, so only the picked checkout appears.
     """
-    parent_was_open = path == repo or key(repo) in opened_checkouts()
+    opened = opened_checkouts()
+    parent_was_open = path == repo or key(repo) in opened
     try:
         proc = subprocess.run(
             ["herdr", "worktree", "open", "--cwd", repo, "--path", path, "--focus"],
@@ -306,6 +366,8 @@ def open_workspace(path, repo):
         return str(e)
     if proc.returncode != 0:
         return proc.stderr or proc.stdout
+    if key(path) not in opened:
+        group_with_repository(path)
     if not parent_was_open:
         close_parent_workspace(repo)
     return None
