@@ -1,0 +1,380 @@
+#!/usr/bin/env -S python3 -I -B
+"""Create, list, resolve, or remove git worktrees under <repository>/.worktree/.
+
+The git side of git-worktree-tmux, kept free of any terminal multiplexer so that
+other front-ends (herdr) can share it. Python with only the standard library, so
+that it also runs on native Windows. Progress goes to stderr, results to stdout.
+"""
+
+import os
+import subprocess
+import sys
+import time
+from functools import cache
+
+# Files and directories to symlink from original repository to worktree
+SYMLINK_TARGETS = (
+    ".ignore",
+    "CLAUDE.local.md",
+    ".claude/settings.local.json",
+    ".claude/local",
+)
+
+PROG = os.path.basename(sys.argv[0])
+
+HELP = f"""\
+Usage: {PROG} [OPTIONS] [<branch_name|pr_number|branch_suffix|worktree_name|directory>]
+
+Create, list, resolve, or remove git worktrees under <repository>/.worktree/.
+This does the git side only; front-ends such as git-worktree-tmux add a
+terminal session on top. Progress goes to stderr, results to stdout.
+
+Options:
+  -b, --branch        Create worktree from branch name
+  -p, --pull-request  Create worktree from pull request number
+  -c, --create-branch Create a new branch from the remote HEAD in a new worktree
+                      (branch_suffix is optional)
+                      These three print the worktree path. An existing
+                      worktree is returned as is, without fetching, creating
+                      symlinks or initializing submodules.
+  -l, --list          List worktrees under .worktree/, one per line as
+                      <worktree_name> TAB <branch> TAB <worktree_path>
+      --resolve       Print the path of an existing worktree
+      --root          Print the path of the main worktree of the repository at
+                      the given directory (default: the current one)
+  -r, --remove        Remove a worktree. The branch is kept. Refuses when the
+                      worktree has uncommitted changes, untracked files, or a
+                      detached HEAD with commits on no branch, unless -f is
+                      given.
+  -f, --force         With -r, skip the checks above
+  -h, --help          Display this help message
+
+Worktree name: the branch name with '/' replaced by '-'
+Worktree path: <repository>/.worktree/<worktree_name>
+
+Examples:
+  {PROG} -b feature/new-feature
+  {PROG} -p 123
+  {PROG} -c new-feature
+  {PROG} -c
+  {PROG} -l
+  {PROG} --resolve feature-new-feature
+  {PROG} -r feature-new-feature
+  {PROG} --root ~/src/github.com/owner/repo
+"""
+
+MODES = {
+    "-b": "branch",
+    "--branch": "branch",
+    "-p": "pr",
+    "--pull-request": "pr",
+    "-c": "create",
+    "--create-branch": "create",
+    "-l": "list",
+    "--list": "list",
+    "--resolve": "resolve",
+    "--root": "root",
+    "-r": "remove",
+    "--remove": "remove",
+}
+
+
+class Fail(Exception):
+    """Abort with the given exit status; the message is already printed."""
+
+    def __init__(self, status=1):
+        super().__init__(status)
+        self.status = status
+
+
+def log(message):
+    print(message, file=sys.stderr, flush=True)
+
+
+def fail(message):
+    log(message)
+    raise Fail()
+
+
+def git(*args, cwd=None, check=True):
+    """Run git and return its stdout."""
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    if check and proc.returncode != 0:
+        raise Fail(proc.returncode)
+    return proc.stdout
+
+
+def git_to_stderr(*args, cwd=None):
+    """Run git with its stdout sent to stderr, keeping stdout for results."""
+    sys.stdout.flush()
+    sys.stderr.flush()
+    return subprocess.run(["git", *args], cwd=cwd, stdout=sys.stderr).returncode
+
+
+@cache
+def worktree_list():
+    """`git worktree list --porcelain`, read once: the main worktree's path never
+    changes, and the listing is only consulted before worktrees are added or removed."""
+    return git("worktree", "list", "--porcelain")
+
+
+def get_repo_root():
+    """Path of the main worktree, so that running this from a linked worktree
+    does not nest worktrees under it. The first entry of `worktree list` is the
+    main one."""
+    first = worktree_list().partition("\n")[0]
+    return first.removeprefix("worktree ")
+
+
+def worktree_dir_for(worktree_name):
+    # `git worktree list` prints forward slashes on Windows too
+    return f"{get_repo_root()}/.worktree/{worktree_name}"
+
+
+def resolve_worktree_dir(worktree_name):
+    """Return the path of a worktree registered under .worktree/, or fail."""
+    if not worktree_name or "/" in worktree_name or worktree_name in (".", ".."):
+        fail(f"Error: Invalid worktree name: '{worktree_name}'")
+
+    worktree_dir = worktree_dir_for(worktree_name)
+    lines = worktree_list().splitlines()
+    if f"worktree {worktree_dir}" not in lines:
+        fail(f"Error: No such worktree: {worktree_name} (see -l/--list)")
+    return worktree_dir
+
+
+def list_worktrees():
+    prefix = f"{get_repo_root()}/.worktree/"
+    path, branch = None, None
+
+    def flush():
+        if path is not None and path.startswith(prefix):
+            name = path[len(prefix) :]
+            if "/" not in name:
+                print(f"{name}\t{branch}\t{path}")
+
+    for line in worktree_list().splitlines():
+        if line.startswith("worktree "):
+            path, branch = line[len("worktree ") :], "(detached)"
+        elif line.startswith("branch "):
+            branch = line[len("branch ") :].removeprefix("refs/heads/")
+        elif not line:
+            flush()
+            path = None
+    flush()
+
+
+def remove_worktree(worktree_name, force):
+    worktree_dir = resolve_worktree_dir(worktree_name)
+
+    if not force:
+        changes = git(
+            "-C", worktree_dir, "status", "--porcelain",
+            "--ignore-submodules=none", "--untracked-files=normal",
+        )
+        if changes:
+            log(f"Error: {worktree_dir} has uncommitted changes or untracked files")
+            fail("Commit or discard them, or pass -f/--force to remove anyway")
+
+        # A detached HEAD is the only ref to its commits, and it goes with the worktree
+        on_branch = subprocess.run(
+            ["git", "-C", worktree_dir, "symbolic-ref", "-q", "HEAD"],
+            stdout=subprocess.DEVNULL,
+        ).returncode == 0
+        if not on_branch:
+            unreachable = git(
+                "-C", worktree_dir, "rev-list", "-n", "1", "HEAD",
+                "--not", "--branches", "--tags", "--remotes",
+            )
+            if unreachable:
+                log(f"Error: {worktree_dir} has a detached HEAD with commits on no branch")
+                fail("Create a branch for them, or pass -f/--force to remove anyway")
+
+    # git refuses a worktree with initialized submodules unless forced, even when
+    # it is clean. The status check above already covers their changes.
+    # -f skips the lookup as well, so that a worktree whose directory is gone can
+    # still be unregistered.
+    remove_args = []
+    if force or os.path.isdir(
+        os.path.join(git("-C", worktree_dir, "rev-parse", "--absolute-git-dir").strip(), "modules")
+    ):
+        remove_args.append("--force")
+
+    log(f"Removing worktree: {worktree_dir}")
+    status = git_to_stderr("worktree", "remove", *remove_args, worktree_dir)
+    if status != 0:
+        raise Fail(status)
+
+
+def create_symlinks(worktree_dir):
+    original_repo = get_repo_root()
+
+    for target_name in SYMLINK_TARGETS:
+        source_path = f"{original_repo}/{target_name}"
+        target_link = f"{worktree_dir}/{target_name}"
+
+        if os.path.exists(source_path) and not os.path.lexists(target_link):
+            parent_dir = os.path.dirname(target_link)
+            if not os.path.isdir(parent_dir):
+                log(f"Creating directory: {parent_dir}")
+                os.makedirs(parent_dir)
+
+            log(f"Creating symlink: {target_link} -> {source_path}")
+            os.symlink(
+                source_path, target_link, target_is_directory=os.path.isdir(source_path)
+            )
+
+
+def init_submodules(worktree_dir):
+    """Blobless instead of shallow: a submodule is usually pinned to a commit
+    behind the branch tip, and a shallow fetch of an unadvertised object is
+    refused by some servers. Servers without partial clone support just fall
+    back to a full fetch, which is slow but not broken."""
+    if not os.path.isfile(os.path.join(worktree_dir, ".gitmodules")):
+        return
+
+    log("Initializing submodules...")
+    status = git_to_stderr(
+        "-C", worktree_dir, "submodule", "update", "--init", "--recursive",
+        "--filter=blob:none",
+    )
+    if status != 0:
+        log("Warning: submodule update failed")
+
+
+def create_worktree(branch, start_point=None):
+    """With start_point, the branch is created there instead of checked out."""
+    worktree_name = branch.replace("/", "-")
+    worktree_dir = worktree_dir_for(worktree_name)
+
+    if os.path.isdir(worktree_dir):
+        log(f"Worktree directory already exists: {worktree_dir}")
+    else:
+        log("Fetching...")
+        if git_to_stderr("fetch") != 0:
+            log("Warning: git fetch failed, continuing with local refs")
+
+        log(f"Creating worktree: {worktree_dir}")
+        if start_point:
+            args = ["--no-track", "-b", branch, worktree_dir, start_point]
+        else:
+            args = [worktree_dir, branch]
+        status = git_to_stderr("worktree", "add", *args)
+        if status != 0:
+            raise Fail(status)
+        create_symlinks(worktree_dir)
+        init_submodules(worktree_dir)
+
+    print(worktree_dir, flush=True)
+
+
+def resolve_branch_from_pr(pr_number):
+    try:
+        proc = subprocess.run(
+            ["gh", "pr", "view", pr_number, "--json", "headRefName", "--jq", ".headRefName"],
+            stdout=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+    except OSError as e:
+        fail(f"Error: {e}")
+    branch = proc.stdout.strip()
+    if proc.returncode != 0 or not branch:
+        raise Fail(proc.returncode or 1)
+    return branch
+
+
+def resolve_new_branch_name(suffix):
+    suffix = suffix or f"wip-{int(time.time())}"
+    user_name = git("config", "user.name", check=False).strip()
+    if not user_name:
+        fail("Error: git config user.name is not set")
+    return f"{user_name}/{suffix}"
+
+
+def run(argv):
+    mode = None
+    target = ""
+    force = False
+
+    for arg in argv:
+        if arg in MODES:
+            mode = MODES[arg]
+        elif arg in ("-f", "--force"):
+            force = True
+        elif arg in ("-h", "--help"):
+            print(HELP, end="")
+            return
+        elif arg.startswith("-"):
+            log(f"Unknown option: {arg}")
+            log(HELP.rstrip("\n"))
+            raise Fail()
+        else:
+            target = arg
+
+    if mode is None:
+        log("Error: Please specify one of -b, -p, -c, -l, --resolve, --root or -r")
+        log(HELP.rstrip("\n"))
+        raise Fail()
+
+    if force and mode != "remove":
+        fail("Error: -f/--force only applies to -r/--remove")
+
+    # -c, -l and --root may omit the target
+    if not target and mode not in ("create", "list", "root"):
+        log("Error: Please specify a branch name, PR number, worktree name or directory")
+        log(HELP.rstrip("\n"))
+        raise Fail()
+
+    # The repository is the one at the given directory, not the current one
+    if mode == "root" and target:
+        try:
+            os.chdir(os.path.expanduser(target))
+        except OSError as e:
+            fail(f"Error: {target}: {e.strerror}")
+
+    if subprocess.run(
+        ["git", "rev-parse", "--git-dir"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    ).returncode != 0:
+        fail("Error: Not in a git repository")
+
+    if mode == "branch":
+        create_worktree(target)
+    elif mode == "pr":
+        log(f"Fetching PR #{target} info...")
+        create_worktree(resolve_branch_from_pr(target))
+    elif mode == "create":
+        new_branch = resolve_new_branch_name(target)
+        base_ref = git("symbolic-ref", "refs/remotes/origin/HEAD").strip()
+        create_worktree(new_branch, base_ref)
+    elif mode == "list":
+        list_worktrees()
+    elif mode == "resolve":
+        print(resolve_worktree_dir(target))
+    elif mode == "remove":
+        remove_worktree(target, force)
+    elif mode == "root":
+        print(get_repo_root())
+
+
+def main():
+    try:
+        run(sys.argv[1:])
+    except Fail as e:
+        sys.exit(e.status)
+    except BrokenPipeError:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Files and directories to symlink from original repository to worktree
-SYMLINK_TARGETS=(
-  '.ignore'
-  'CLAUDE.local.md'
-  '.claude/settings.local.json'
-  '.claude/local'
-)
-
 # Set by main(): when true, the tmux session is neither attached nor switched to
 DETACH=false
 # Set by main(): when true, -r/--remove discards uncommitted changes
@@ -21,6 +13,7 @@ Usage: $(basename "$0") [OPTIONS] [<branch_name|pr_number|branch_suffix|worktree
 Create, list, open, or remove git worktrees, each paired with a tmux session.
 The main worktree of a repository can have a tmux session as well (-s).
 A new session gets three windows: a shell, nvim, and a shell for Claude.
+The git side is done by git-worktree-core.
 
 Options:
   -b, --branch        Create worktree from branch name
@@ -64,26 +57,17 @@ Examples:
 EOF
 }
 
-# Path of the main worktree, so that running this from a linked worktree does not
-# nest worktrees under it. The first entry of `worktree list` is the main one.
+# The main worktree of the repository at the given directory (default: here)
 get_repo_root() {
-  git worktree list --porcelain | sed -n '1s/^worktree //p'
+  git-worktree-core --root "${1:-.}"
 }
 
-get_project_name() {
-  basename "$(get_repo_root)"
-}
-
-# An empty worktree name stands for the main worktree.
-# The project name may be passed in to save a lookup per call.
+# An empty worktree name stands for the main worktree
 get_session_name() {
-  local worktree_name="$1"
-  local project_name="${2:-}"
+  local project_name="$1"
+  local worktree_name="$2"
   local session_name
 
-  if [[ -z "$project_name" ]]; then
-    project_name=$(get_project_name)
-  fi
   session_name="$project_name"
   if [[ -n "$worktree_name" ]]; then
     session_name+="+${worktree_name}"
@@ -92,54 +76,22 @@ get_session_name() {
   echo "${session_name//./_}"
 }
 
-# Prints the path of a worktree registered under .worktree/, or fails
-resolve_worktree_dir() {
-  local worktree_name="$1"
-  local worktree_dir
-
-  if [[ -z "$worktree_name" || "$worktree_name" == */* ||
-    "$worktree_name" == . || "$worktree_name" == .. ]]; then
-    echo "Error: Invalid worktree name: '${worktree_name}'" >&2
-    return 1
-  fi
-
-  worktree_dir="$(get_repo_root)/.worktree/${worktree_name}"
-  if ! git worktree list --porcelain | grep -qxF "worktree ${worktree_dir}"; then
-    echo "Error: No such worktree: ${worktree_name} (see -l/--list)" >&2
-    return 1
-  fi
-
-  echo "$worktree_dir"
-}
-
 list_worktrees() {
-  local repo_root
   local project_name
-  local prefix
   local worktree_name
   local branch
   local worktree_dir
   local session_name
   local session_state
+  local repo_root
 
+  # Assigned on its own line so that a failing lookup aborts under `set -e`
   repo_root=$(get_repo_root)
   project_name=$(basename "$repo_root")
-  prefix="${repo_root}/.worktree/"
 
-  git worktree list --porcelain |
-    awk -v prefix="$prefix" '
-      function flush() {
-        name = substr(path, length(prefix) + 1)
-        if (index(path, prefix) == 1 && name !~ /\//) print name "\t" branch "\t" path
-        path = ""
-      }
-      /^worktree / { path = substr($0, 10); branch = "(detached)"; next }
-      /^branch / { branch = substr($0, 8); sub(/^refs\/heads\//, "", branch); next }
-      /^$/ { flush() }
-      END { if (path != "") flush() }
-    ' |
+  git-worktree-core --list |
     while IFS=$'\t' read -r worktree_name branch worktree_dir; do
-      session_name=$(get_session_name "$worktree_name" "$project_name")
+      session_name=$(get_session_name "$project_name" "$worktree_name")
       session_state="-"
       if tmux has-session -t "=$session_name" 2>/dev/null; then
         session_state="$session_name"
@@ -149,64 +101,39 @@ list_worktrees() {
     done
 }
 
-open_worktree() {
-  local worktree_name="$1"
-  local worktree_dir
+# Opens the session of a worktree that git-worktree-core printed the path of.
+# The second argument is true for the main worktree; any other one sits at
+# <repo_root>/.worktree/<worktree_name>.
+open_worktree_session() {
+  local worktree_dir="$1"
+  local is_main="${2:-false}"
+  local repo_root="$worktree_dir"
+  local worktree_name=""
 
-  worktree_dir=$(resolve_worktree_dir "$worktree_name")
-  open_tmux_session "$(get_session_name "$worktree_name")" "$worktree_dir"
-}
-
-open_main_worktree() {
-  local repo_root
-
-  repo_root=$(get_repo_root)
-  open_tmux_session "$(get_session_name "")" "$repo_root"
+  if [[ "$is_main" != true ]]; then
+    repo_root="${worktree_dir%/.worktree/*}"
+    worktree_name=$(basename "$worktree_dir")
+  fi
+  open_tmux_session \
+    "$(get_session_name "$(basename "$repo_root")" "$worktree_name")" \
+    "$worktree_dir"
 }
 
 remove_worktree() {
   local worktree_name="$1"
-  local worktree_dir
   local session_name
-  local changes
-  local unreachable
-  local remove_args=()
+  local repo_root
+  local core_args=(--remove)
 
-  worktree_dir=$(resolve_worktree_dir "$worktree_name")
-  session_name=$(get_session_name "$worktree_name")
+  # Named before the removal: the current directory may be the worktree, where
+  # git no longer works afterwards
+  repo_root=$(get_repo_root)
+  session_name=$(get_session_name "$(basename "$repo_root")" "$worktree_name")
 
-  if [[ "$FORCE" != true ]]; then
-    # Assigned on its own line so that a failing status aborts under `set -e`
-    # instead of reading as a clean worktree
-    changes=$(git -C "$worktree_dir" status --porcelain \
-      --ignore-submodules=none --untracked-files=normal)
-    if [[ -n "$changes" ]]; then
-      echo "Error: ${worktree_dir} has uncommitted changes or untracked files" >&2
-      echo "Commit or discard them, or pass -f/--force to remove anyway" >&2
-      exit 1
-    fi
-
-    # A detached HEAD is the only ref to its commits, and it goes with the worktree
-    if ! git -C "$worktree_dir" symbolic-ref -q HEAD >/dev/null; then
-      unreachable=$(git -C "$worktree_dir" rev-list -n 1 HEAD \
-        --not --branches --tags --remotes)
-      if [[ -n "$unreachable" ]]; then
-        echo "Error: ${worktree_dir} has a detached HEAD with commits on no branch" >&2
-        echo "Create a branch for them, or pass -f/--force to remove anyway" >&2
-        exit 1
-      fi
-    fi
+  if [[ "$FORCE" == true ]]; then
+    core_args+=(--force)
   fi
-
-  # git refuses a worktree with initialized submodules unless forced, even when
-  # it is clean. The status check above already covers their changes.
-  if [[ "$FORCE" == true ||
-    -d "$(git -C "$worktree_dir" rev-parse --absolute-git-dir)/modules" ]]; then
-    remove_args+=(--force)
-  fi
-
-  echo "Removing worktree: ${worktree_dir}"
-  git worktree remove "${remove_args[@]}" "$worktree_dir"
+  git-worktree-core "${core_args[@]}" "$worktree_name"
 
   if ! tmux has-session -t "=$session_name" 2>/dev/null; then
     return 0
@@ -235,93 +162,6 @@ remove_worktree() {
   fi
   echo "Killing tmux session: ${session_name}"
   tmux kill-session -t "=$session_name"
-}
-
-create_symlinks() {
-  local worktree_dir="$1"
-  local original_repo
-  original_repo=$(get_repo_root)
-
-  for target_name in "${SYMLINK_TARGETS[@]}"; do
-    local source_path="${original_repo}/${target_name}"
-    local target_link="${worktree_dir}/${target_name}"
-
-    if [[ -e "$source_path" && ! -e "$target_link" ]]; then
-      # Create parent directory if it doesn't exist
-      local parent_dir
-      parent_dir=$(dirname "$target_link")
-      if [[ ! -d "$parent_dir" ]]; then
-        echo "Creating directory: $parent_dir"
-        mkdir -p "$parent_dir"
-      fi
-
-      echo "Creating symlink: $target_link -> $source_path"
-      ln -s "$source_path" "$target_link"
-    fi
-  done
-}
-
-# Blobless instead of shallow: a submodule is usually pinned to a commit behind
-# the branch tip, and a shallow fetch of an unadvertised object is refused by
-# some servers. Servers without partial clone support just fall back to a full
-# fetch, which is slow but not broken.
-init_submodules() {
-  local worktree_dir="$1"
-
-  [[ -f "${worktree_dir}/.gitmodules" ]] || return 0
-
-  echo "Initializing submodules..."
-  git -C "$worktree_dir" submodule update --init --recursive \
-    --filter=blob:none ||
-    echo "Warning: submodule update failed" >&2
-}
-
-create_worktree() {
-  local branch="$1"
-  # When given, the branch is created at this point instead of being checked out
-  local start_point="${2:-}"
-  local worktree_name="${branch//\//-}"
-  local session_name
-  local worktree_dir
-
-  session_name=$(get_session_name "$worktree_name")
-  worktree_dir="$(get_repo_root)/.worktree/${worktree_name}"
-
-  if [[ -d "$worktree_dir" ]]; then
-    echo "Worktree directory already exists: $worktree_dir"
-  else
-    echo "Fetching..."
-    git fetch || echo "Warning: git fetch failed, continuing with local refs" >&2
-
-    echo "Creating worktree: $worktree_dir"
-    if [[ -n "$start_point" ]]; then
-      git worktree add --no-track -b "$branch" "$worktree_dir" "$start_point"
-    else
-      git worktree add "$worktree_dir" "$branch"
-    fi
-    create_symlinks "$worktree_dir"
-    init_submodules "$worktree_dir"
-  fi
-
-  open_tmux_session "$session_name" "$worktree_dir"
-}
-
-resolve_branch_from_pr() {
-  local pr_number="$1"
-  gh pr view "$pr_number" --json headRefName --jq '.headRefName'
-}
-
-resolve_new_branch_name() {
-  local suffix="${1:-wip-$(date +%s)}"
-  local user_name
-
-  user_name=$(git config user.name || true)
-  if [[ -z "$user_name" ]]; then
-    echo "Error: git config user.name is not set" >&2
-    exit 1
-  fi
-
-  echo "${user_name}/${suffix}"
 }
 
 # Window layout of a new session: 1 a free shell, 2 nvim (started from a shell
@@ -370,8 +210,7 @@ open_tmux_session() {
 main() {
   local mode=""
   local target=""
-  local new_branch=""
-  local base_ref=""
+  local worktree_dir=""
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -445,44 +284,35 @@ main() {
     exit 1
   fi
 
-  # The repository is the one at the given directory, not the current one
-  if [[ "$mode" == "session" ]]; then
-    cd "$target"
-  fi
-
-  # Verify we're in a git repository
-  if ! git rev-parse --git-dir >/dev/null 2>&1; then
-    echo "Error: Not in a git repository" >&2
-    exit 1
-  fi
-
   case "$mode" in
     branch)
-      create_worktree "$target"
+      worktree_dir=$(git-worktree-core --branch "$target")
       ;;
     pr)
-      echo "Fetching PR #${target} info..."
-      create_worktree "$(resolve_branch_from_pr "$target")"
+      worktree_dir=$(git-worktree-core --pull-request "$target")
       ;;
     create)
-      # Assign first so `set -e` aborts before the worktree is created
-      new_branch=$(resolve_new_branch_name "$target")
-      base_ref=$(git symbolic-ref refs/remotes/origin/HEAD)
-      create_worktree "$new_branch" "$base_ref"
+      worktree_dir=$(git-worktree-core --create-branch ${target:+"$target"})
+      ;;
+    open)
+      worktree_dir=$(git-worktree-core --resolve "$target")
+      ;;
+    session)
+      worktree_dir=$(get_repo_root "$target")
+      open_worktree_session "$worktree_dir" true
+      return
       ;;
     list)
       list_worktrees
-      ;;
-    open)
-      open_worktree "$target"
+      return
       ;;
     remove)
       remove_worktree "$target"
-      ;;
-    session)
-      open_main_worktree
+      return
       ;;
   esac
+
+  open_worktree_session "$worktree_dir"
 }
 
 main "$@"
