@@ -1,0 +1,16 @@
+# 登録(herdr plugin link)は chezmoi の run_onchange_after_303-link-herdr-plugins が
+# このファイルを変えるたびに行う。herdr がプラグインを知らないときは herdr-edit.py も登録する。
+id = "r-okm.prompt-edit"
+name = "Prompt edit"
+version = "0.1.0"
+min_herdr_version = "0.9.5"
+description = "上のペインに送るプロンプトを nvim で書く"
+platforms = ["windows"]
+
+# プラグインのペインは argv をそのまま起動する。`herdr pane split` は必ず既定のシェルを先に
+# 起動するので、こちらを使う。コマンドはプラグインのディレクトリで動くので、スクリプトは相対パスで指定できる。
+[[panes]]
+id = "editor"
+title = "prompt"
+placement = "split"
+command = ["python", "-I", "-B", "herdr-edit.py", "--edit"]

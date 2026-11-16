@@ -1,0 +1,31 @@
+# AppData/Local/r-okm/herdr-plugins にあるローカルの herdr プラグインを登録する。
+#
+# herdr はプラグインを登録するときに manifest を %APPDATA%\herdr\plugins.json に
+# 写し、ペインはその写しから起動する。そのため herdr-plugin.toml を変えても、
+# 登録し直すまで反映されない。下の manifest のハッシュが変わると、chezmoi が
+# このスクリプトをもう一度実行する。登録し直すと写しがその場で更新される。
+# 手で無効にしたプラグインは無効のままにする。
+#
+# prompt-edit: {{ include "AppData/Local/r-okm/herdr-plugins/prompt-edit/herdr-plugin.toml" | sha256sum }}
+
+$ErrorActionPreference = 'Stop'
+
+if (-not (Get-Command herdr -ErrorAction SilentlyContinue)) {
+  Write-Host 'herdr is not installed; skipping plugin links'
+  exit 0
+}
+
+$plugins = @{
+  'r-okm.prompt-edit' = 'prompt-edit'
+}
+$root = Join-Path $env:LOCALAPPDATA 'r-okm\herdr-plugins'
+$listed = (herdr plugin list) -join "`n"
+
+foreach ($id in $plugins.Keys) {
+  $flags = @()
+  if ($listed -match "(?m)^- $([regex]::Escape($id)) .* disabled ") { $flags += '--disabled' }
+  herdr plugin link @flags (Join-Path $root $plugins[$id]) | Out-Null
+  if ($LASTEXITCODE -ne 0) {
+    throw "herdr plugin link failed for $id; start herdr and run chezmoi apply again"
+  }
+}

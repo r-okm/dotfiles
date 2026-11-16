@@ -87,6 +87,15 @@ command = 'python -I -B "%LOCALAPPDATA%\r-okm\bin\herdr-ghq.py"'
 width = "80%"
 height = "80%"
 
+# tmux: bind -n C-e insert-from-editor.sh. herdr has no conditional binding to pass C-e through
+# to other panes, so it goes under the prefix (free: edit_scrollback moved to prefix+v above).
+# type = "shell" because "pane" opens zoomed and hides the output being replied to; the script
+# opens the editor through its own plugin instead.
+[[keys.command]]
+key = ["prefix+e", "prefix+ctrl+e"]
+type = "shell"
+command = 'python -I -B "%LOCALAPPDATA%\r-okm\herdr-plugins\prompt-edit\herdr-edit.py"'
+
 [ui]
 # tmux: set -g mouse on
 mouse_capture = true
