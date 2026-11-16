@@ -7,6 +7,7 @@ packages=(
   'x-motemen/ghq@latest'
   'jesseduffield/lazygit@latest'
   'zricethezav/gitleaks/v8@latest'
+  'thiagokokada/gh-gfm-preview@latest'
 )
 
 main() {
