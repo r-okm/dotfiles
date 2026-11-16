@@ -145,7 +145,14 @@ status_indicators = "symbols"
 claude = [["state_icon", "machine", "workspace", "tab"], ["terminal_title_stripped"]]
 
 [ui.toast]
+{{- if $windows }}
 # Replaces notify-claude-activity.sh: "system" sends Windows notifications.
+{{- else if .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
+# Replaces notify-claude-activity.sh: "system" runs notify-send, which ~/.local/bin/notify-send
+# turns into a Windows toast on WSL.
+{{- else }}
+# "system" runs libnotify's notify-send.
+{{- end }}
 delivery = "system"
 
 [ui.sound]

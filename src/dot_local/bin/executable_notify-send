@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: notify-send [OPTION...] [--] <title> [body]
+# Stands in for libnotify's notify-send on WSL and shows a Windows toast through desktop-notify.
+# Options are accepted and ignored.
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --)
+      shift
+      break
+      ;;
+    -a | --app-name | -u | --urgency | -t | --expire-time | -i | --icon | -c | --category | -h | --hint | -A | --action | -r | --replace-id)
+      shift 2
+      ;;
+    -?*) shift ;;
+    *) break ;;
+  esac
+done
+
+exec "$HOME/.local/bin/desktop-notify" "$@"
