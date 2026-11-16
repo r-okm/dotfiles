@@ -70,6 +70,9 @@ resize_mode = "prefix+shift+r"
 
 # tmux: bind V -> full scrollback in nvim (needs EDITOR=nvim in the shell environment)
 edit_scrollback = ["prefix+v", "prefix+shift+v"]
+# tmux: prefix o (default select-pane -t :.+), cycling through the panes of the tab
+cycle_pane_next = ["prefix+o", "prefix+ctrl+o"]
+
 split_vertical = "prefix+backslash"
 split_horizontal = "prefix+minus"
 
