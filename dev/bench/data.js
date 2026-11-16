@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794798349130,
+  "lastUpdate": 1794799132266,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4433,6 +4433,37 @@ window.BENCHMARK_DATA = {
             "range": "2.9",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 12.9ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "bd86a10f350ec11e23d737c0e1cb976dae08fe72",
+          "message": "herdr: cycle to the next pane on prefix+o\n\nThe herdr counterpart of tmux's default prefix o (select-pane -t :.+),\nwhich tmux.conf leaves unbound. prefix+ctrl+o is bound too, like the\nother prefix keys.",
+          "timestamp": "2026-11-16T12:09:56+09:00",
+          "tree_id": "ae2f0abde38a1de90fb291481643f5a20839007a",
+          "url": "https://github.com/r-okm/dotfiles/commit/bd86a10f350ec11e23d737c0e1cb976dae08fe72"
+        },
+        "date": 1794799131575,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "1.3",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 11.4ms, median: 10.2ms (10 runs)"
           }
         ]
       }
