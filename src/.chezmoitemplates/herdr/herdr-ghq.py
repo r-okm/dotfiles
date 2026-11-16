@@ -158,24 +158,21 @@ def linked_worktrees(repo):
 
 
 def rows(roots, opened_future):
-    """Yield fzf rows: display <TAB> checkout path <TAB> main repository path <TAB> 1 when open.
+    """Yield fzf rows: display <TAB> checkout path <TAB> main repository path.
 
     Takes the `herdr workspace list` result as a future so the walk overlaps it.
     """
     repos = [repo for root in roots for repo in find_repos(root)]
     opened = opened_future.result()
 
-    def state(path):
-        """(● mark, "1" when open) for the display and the open column."""
-        return (f"{ACCENT}●{RESET}", "1") if key(path) in opened else (" ", "")
+    def mark(path):
+        return f"{ACCENT}●{RESET}" if key(path) in opened else " "
 
     for repo in sorted(repos, key=lambda p: (os.path.basename(p).lower(), p)):
-        mark, is_open = state(repo)
-        yield f"{mark} {os.path.basename(repo)}\t{repo}\t{repo}\t{is_open}"
+        yield f"{mark(repo)} {os.path.basename(repo)}\t{repo}\t{repo}"
         for path, branch in linked_worktrees(repo):
             name = os.path.basename(path)
-            mark, is_open = state(path)
-            yield f"{mark}   {branch}  {DIM}{name}{RESET}\t{path}\t{repo}\t{is_open}"
+            yield f"{mark(path)}   {branch}  {DIM}{name}{RESET}\t{path}\t{repo}"
 
 
 def preview(path):
@@ -248,7 +245,7 @@ def pick():
             pass  # fzf closed before the list was complete
         except Exception as e:
             # an unselectable row: main() ignores a row with an empty path
-            write(f"{ERROR}! {type(e).__name__}: {e}{RESET}\t\t\t")
+            write(f"{ERROR}! {type(e).__name__}: {e}{RESET}\t\t")
         finally:
             try:
                 fzf.stdin.close()  # fzf waits for EOF, so this must always run
@@ -261,20 +258,11 @@ def pick():
     return selected if fzf.wait() == 0 else None
 
 
-def open_workspace(path, repo, already_open):
-    """Return an error message, or None once the workspace is focused.
-
-    A new workspace for a linked worktree is labeled with the repository name rather
-    than the checkout directory, so it reads as its repository in the sidebar. Open
-    workspaces are left alone, since --label also renames an existing workspace, and
-    so are main checkouts, which herdr already labels with the directory name.
-    """
-    cmd = ["herdr", "worktree", "open", "--cwd", repo, "--path", path, "--focus"]
-    if path != repo and not already_open:
-        cmd += ["--label", os.path.basename(repo)]
+def open_workspace(path, repo):
+    """Return an error message, or None once the workspace is focused."""
     try:
         proc = subprocess.run(
-            cmd,
+            ["herdr", "worktree", "open", "--cwd", repo, "--path", path, "--focus"],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -294,10 +282,10 @@ def main():
     selected = pick()
     if not selected:
         return
-    _, path, repo, already_open = selected.rstrip("\r\n").split("\t")
+    _, path, repo = selected.rstrip("\r\n").split("\t")
     if not path:
         return  # the error row
-    error = open_workspace(path, repo, bool(already_open))
+    error = open_workspace(path, repo)
     if error:
         # the popup closes when this exits, so wait until the message is read
         print(f"herdr worktree open failed:\n{error}")
