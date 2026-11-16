@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794804708605,
+  "lastUpdate": 1794814553956,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4588,6 +4588,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.7ms, max: 11.0ms, median: 10.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "7280836fb61e81728d30bf269cafe1a28dbd7efa",
+          "message": "herdr-ghq: label new worktree workspaces with the repository name\n\nherdr labels a workspace opened with `worktree open` after the checkout\ndirectory, which for git-worktree-tmux is the branch with / turned into -.\nNew workspaces for linked worktrees now get the repository name, and the\nbranch row tells them apart. --label also renames a workspace that is\nalready open, so it is passed only for checkouts the picker found\nclosed, and never for main checkouts, which herdr already labels with\nthe directory name.",
+          "timestamp": "2026-11-16T16:27:36+09:00",
+          "tree_id": "241dfc000651d04995297677afef4786f195dbc6",
+          "url": "https://github.com/r-okm/dotfiles/commit/7280836fb61e81728d30bf269cafe1a28dbd7efa"
+        },
+        "date": 1794814553529,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.9,
+            "range": "1.8",
+            "unit": "ms",
+            "extra": "min: 8.5ms, max: 10.3ms, median: 8.6ms (10 runs)"
           }
         ]
       }
