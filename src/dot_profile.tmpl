@@ -53,18 +53,17 @@ main() {
   # env vars managed with chezmoi
   export WORK_GITHUB_ORG_ACTIVE='{{ if gt (len .work.github_orgs) 0 }}1{{ else }}0{{ end }}'
 
-  # prepend bin directories to PATH
-  local bin_dirs=(
-    "$HOME/.local/share/nvim/mason/bin" # mason managed tools
-    "${GOROOT:-/usr/local/go}/bin" # go bin
-    "${GOPATH:-$HOME/go}/bin" # go workspace bin
-    "$DENO_INSTALL/bin" # deno bin
-    "$ASDF_DATA_DIR/shims" # asdf shims
-    "$HOME/neovim/bin" # neovim bin built from source
-    "$HOME/.local/bin" # user specific bin
-  )
+  # prepend bin directories to PATH, in this order: mason managed tools, go bin,
+  # go workspace bin, deno bin, asdf shims, neovim built from source, user specific bin
   local dir
-  for dir in "${bin_dirs[@]}"; do
+  for dir in \
+    "$HOME/.local/share/nvim/mason/bin" \
+    "${GOROOT:-/usr/local/go}/bin" \
+    "${GOPATH:-$HOME/go}/bin" \
+    "$DENO_INSTALL/bin" \
+    "$ASDF_DATA_DIR/shims" \
+    "$HOME/neovim/bin" \
+    "$HOME/.local/bin"; do
     if [ -d "$dir" ]; then
       case ":$PATH:" in
         *":$dir:"*) ;;
