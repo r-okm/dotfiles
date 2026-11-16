@@ -70,6 +70,16 @@
     "deep-research": "user-invocable-only"
   },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/herdr-report-repo.sh"
+          }
+        ]
+      }
+    ],
     "Notification": [
       {
         "matcher": "permission_prompt|auth_success|elicitation_dialog",
