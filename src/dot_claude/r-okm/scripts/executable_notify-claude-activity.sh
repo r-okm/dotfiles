@@ -63,6 +63,6 @@ esac
 body="${body:0:$MAX_BODY_LENGTH}"
 
 title="Claude Code [${claude_session_name}:${claude_window_index}]"
-desktop-notify "$title" "$body"
+notify-send -- "$title" "$body" &>/dev/null || true
 
 # vim: set ft=sh:
