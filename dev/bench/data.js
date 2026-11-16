@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794814553956,
+  "lastUpdate": 1794817308908,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4619,6 +4619,37 @@ window.BENCHMARK_DATA = {
             "range": "1.8",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 10.3ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "e9357b6b35fa1191fa33c9388d36ff4fa7d7d248",
+          "message": "herdr-ghq: move a new workspace next to its repository's workspaces\n\nherdr appends a new workspace to the end of its list. The sidebar still\nshows it under its repository, but goto lists workspaces in that order,\nso a worktree opened later sat apart from its repository\n(herdrdev/herdr#2229). After opening a checkout that was not open, the\npicker moves the repository's workspaces together with\nworkspace.move_block, the main checkout first. The CLI has no move\ncommand, so the request goes to the socket API directly; on Windows,\nwhere the socket is a named pipe with no documented default name, this\nruns only when HERDR_SOCKET_PATH is set.",
+          "timestamp": "2026-11-16T17:11:22+09:00",
+          "tree_id": "7e759c64b19669824d678804d575bebd1ea28f49",
+          "url": "https://github.com/r-okm/dotfiles/commit/e9357b6b35fa1191fa33c9388d36ff4fa7d7d248"
+        },
+        "date": 1794817307980,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 11.0ms, median: 10.3ms (10 runs)"
           }
         ]
       }
