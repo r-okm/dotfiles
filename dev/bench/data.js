@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794804356094,
+  "lastUpdate": 1794804708605,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4557,6 +4557,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 6.9ms, max: 7.5ms, median: 7.0ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "9940d335e5e506f8dcdc7081c529f238db3a855b",
+          "message": "profile: write the PATH loop in POSIX sh so dash can read it\n\nherdr runs \"shell\" key commands through /bin/sh -lc, and dash stopped at\nthe bash/zsh array in ~/.profile with a syntax error, so prefix+e (the\nprompt editor) never started on WSL. The directories and their order\nstay the same.",
+          "timestamp": "2026-11-16T13:43:21+09:00",
+          "tree_id": "8140c734a83fd7bd9ae06b7f03fcd2918de7c67c",
+          "url": "https://github.com/r-okm/dotfiles/commit/9940d335e5e506f8dcdc7081c529f238db3a855b"
+        },
+        "date": 1794804707741,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.7ms, max: 11.0ms, median: 10.9ms (10 runs)"
           }
         ]
       }
