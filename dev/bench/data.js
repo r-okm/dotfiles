@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794817308908,
+  "lastUpdate": 1794824059094,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4650,6 +4650,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.7ms, max: 11.0ms, median: 10.3ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "507de205018d8a41cf414c0258b9fbfa491b58db",
+          "message": "git-worktree-tmux: move the git side into git-worktree-core\n\nCreating, listing, resolving and removing worktrees under .worktree/,\nwith the symlinks, submodules and safety checks, now live in\ngit-worktree-core, which knows nothing about tmux. git-worktree-tmux\ncalls it and keeps only the session naming, window layout, attach and\ndetach, the session column of -l and the session cleanup on -r. Its\noptions and output are unchanged, so the worktree skill and the zsh\nfunctions keep working as they are. This prepares a herdr front-end\nthat shares the same git side.\n\nThe core is Python with only the standard library, like herdr-ghq.py,\nso that it can later run on native Windows too, where Git Bash is slow\nto start processes. It prints progress on stderr and only the result\n(a path, or the listing) on stdout. Its options for printing paths are\n--resolve and --root rather than -o/--open and -s/--session: in herdr,\n\"open\" opens a workspace and \"session\" means a server session.\n\nTwo behaviour changes: progress messages now go to stderr (the -d path\nis still the last line of stdout), and -p stops when gh fails instead\nof carrying on with an empty branch name.",
+          "timestamp": "2026-11-16T18:57:59+09:00",
+          "tree_id": "072c9e6dd2396595110b846fe3c69892b573454b",
+          "url": "https://github.com/r-okm/dotfiles/commit/507de205018d8a41cf414c0258b9fbfa491b58db"
+        },
+        "date": 1794824058038,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.9,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.6ms, max: 11.3ms, median: 10.9ms (10 runs)"
           }
         ]
       }
