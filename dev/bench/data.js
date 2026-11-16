@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794799132266,
+  "lastUpdate": 1794801093996,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4464,6 +4464,37 @@ window.BENCHMARK_DATA = {
             "range": "1.3",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 11.4ms, median: 10.2ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "28210b22116cbc3e32f610132b61238e989e3f91",
+          "message": "herdr: install it in WSL with the official installer",
+          "timestamp": "2026-11-16T12:43:06+09:00",
+          "tree_id": "4512f4bf31bcdd26f293ff8e7b33007725272bdc",
+          "url": "https://github.com/r-okm/dotfiles/commit/28210b22116cbc3e32f610132b61238e989e3f91"
+        },
+        "date": 1794801093344,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 11.7,
+            "range": "0.1",
+            "unit": "ms",
+            "extra": "min: 11.7ms, max: 11.8ms, median: 11.7ms (10 runs)"
           }
         ]
       }
