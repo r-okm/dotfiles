@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794801093996,
+  "lastUpdate": 1794803237044,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4495,6 +4495,37 @@ window.BENCHMARK_DATA = {
             "range": "0.1",
             "unit": "ms",
             "extra": "min: 11.7ms, max: 11.8ms, median: 11.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "52660f6ccfdd591d2ea294e0dcde3693a48e570e",
+          "message": "herdr: deploy the config, scripts and plugin to Linux too\n\nMove the config, herdr-ghq.py and the prompt-edit plugin into\n.chezmoitemplates/herdr and include them from both AppData and the Linux\ntargets (~/.config/herdr, ~/.local/share/r-okm). OS differences (shell,\npython vs python3, script paths, plugin platforms) branch on .chezmoi.os.\n\nThe Windows config is now source-owned instead of target-owned, so it can\nbe a template; CLAUDE.md is updated accordingly. A Linux twin of the\nplugin link script re-links on manifest changes and once herdr appears on\nPATH.",
+          "timestamp": "2026-11-16T13:18:19+09:00",
+          "tree_id": "f501a61517b0aae2a99923ba6de7d453b21b444c",
+          "url": "https://github.com/r-okm/dotfiles/commit/52660f6ccfdd591d2ea294e0dcde3693a48e570e"
+        },
+        "date": 1794803236163,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.6,
+            "range": "-0.1",
+            "unit": "ms",
+            "extra": "min: 10.8ms, max: 10.7ms, median: 10.5ms (10 runs)"
           }
         ]
       }
