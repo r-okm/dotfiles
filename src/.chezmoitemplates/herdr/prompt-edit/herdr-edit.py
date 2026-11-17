@@ -16,7 +16,7 @@ chezmoi がプラグインを登録し直す(run_onchange_after_303-link-herdr-p
 エージェントのいないペインでは何もしない。bracketed paste の印が、それを
 求めていないプログラムにキー入力として届いてしまうため。
 
---edit はプラグインのペインで動くコマンド。init.tmux_edit.lua(autowriteall、
+--edit はプラグインのペインで動くコマンド。init.prompt_edit.lua(autowriteall、
 <C-CR> で終了)で決まった場所の下書きを編集するので、クラッシュや :cq で
 中断しても、次に開くと続きから書ける。普通に終了すると、下書きを bracketed
 paste として送り先のペインに入れる。送信はされず、そちらで Enter を押すまで
@@ -78,7 +78,7 @@ def nvim_init():
     config = os.environ.get("XDG_CONFIG_HOME") or (
         os.environ["LOCALAPPDATA"] if os.name == "nt" else Path.home() / ".config"
     )
-    return Path(config) / "nvim" / "init.tmux_edit.lua"
+    return Path(config) / "nvim" / "init.prompt_edit.lua"
 
 
 def open_editor(target):
