@@ -20,7 +20,7 @@
 
 # WSL
 
-- ユーザーのブラウザで URL を開くときは `xdg-open <url>` を使う。`~/.config/mimeapps.list` が http/https を Windows 側の Vivaldi に振り分けている(`DISPLAY` と `WAYLAND_DISPLAY` がどちらも未設定のときは、`~/.profile` の `$BROWSER`)。`explorer.exe` や `wslview` は探さない。
+- URL や HTML ファイルをユーザーのブラウザで開くときは `xdg-open` を使う。`~/.local/bin/xdg-open` が Windows 側の既定のアプリに渡すので、`explorer.exe` や `wslview` は使わない。
 
 # review-wizard
 
