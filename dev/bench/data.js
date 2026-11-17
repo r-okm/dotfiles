@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794887887102,
+  "lastUpdate": 1794888460091,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4712,6 +4712,37 @@ window.BENCHMARK_DATA = {
             "range": "0.5",
             "unit": "ms",
             "extra": "min: 4.5ms, max: 5.0ms, median: 4.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "0b1600f9220deab9d4f6c75b28a87bd160cd7a5d",
+          "message": "claude: make Enter insert a newline and Ctrl+Enter submit\n\nClaude Code turns on the kitty keyboard protocol, and herdr passes\nCtrl+Enter through as ESC[13;5u, so the two keys can be told apart.\nCtrl+Enter replaces its default chat:sendNow; ctrl+x ctrl+s still sends now.",
+          "timestamp": "2026-11-17T12:58:01+09:00",
+          "tree_id": "eb0aaa8c8b9ca46f0cd10cb3e8e75f2e703be8bc",
+          "url": "https://github.com/r-okm/dotfiles/commit/0b1600f9220deab9d4f6c75b28a87bd160cd7a5d"
+        },
+        "date": 1794888459653,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.4ms, max: 10.7ms, median: 10.4ms (10 runs)"
           }
         ]
       }
