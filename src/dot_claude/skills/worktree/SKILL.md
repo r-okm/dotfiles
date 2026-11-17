@@ -75,6 +75,16 @@ fetch / reset すること。
 
 worktree は `<project_root>/.worktree/<worktree_name>` に作られる。
 
+**EnterWorktree ツールは呼ばない。** このスクリプトが作った worktree に EnterWorktree の `path` で入ると、
+セッションが worktree 隔離モードになり、次の操作が拒否される。
+
+- `{ ...; } | ...` のような複合コマンド。git を含まないコマンドも、構文を検証できなければ拒否される
+- Write / Edit ツールでの、symlink 経由で main checkout に着地する書き込み。このスクリプトが
+  symlink した `.ignore` などが当たる
+
+worktree で作業するときは、以降のコマンドで worktree の絶対パスを使う。すでに隔離モードに入っていたら、
+ExitWorktree を `action: "keep"` で呼んで抜ける。
+
 ## 作業を終えたら（削除）
 
 自分が作った worktree での作業が終わったら、**削除してよいかユーザーに確認する。**
