@@ -1,58 +1,59 @@
 ---
 name: worktree
 description: git worktree を作る・一覧する・開く・削除する。「別ブランチで並行作業したい」「PR をチェックアウトして確認したい」「今の作業を汚さずに別ブランチを見たい」「worktree を作って」「worktree の一覧を見せて」「あの worktree のセッションを開いて」「worktree を消して/片付けて」と言われたとき、および自分の作業のために worktree が必要になったときや、自分が作った worktree での作業を終えるときに使う。
-allowed-tools: Bash(git-worktree-tmux *)
+allowed-tools: Bash(git-worktree-herdr *)
 ---
 
 # worktree - git worktree を作る・片付ける
 
-worktree の操作は `~/.local/bin/git-worktree-tmux` で行う。
+worktree の操作は PATH 上の `git-worktree-herdr` で行う。Linux では `~/.local/bin`、Windows では
+`%LOCALAPPDATA%\r-okm\bin` にある。
 
-このスクリプトは worktree と tmux セッションを対で管理する。作成時は gitignore された
+このスクリプトは worktree と herdr のワークスペースを対で管理する。作成時は gitignore された
 per-project 設定（`.ignore` / `CLAUDE.local.md` / `.claude/settings.local.json` / `.claude/local`）を
-元リポジトリから symlink し、その worktree 用の tmux セッションを開き、submodule を初期化する。
-削除時は対応する tmux セッションも閉じる。
+元リポジトリから symlink し、submodule を初期化し、その worktree のワークスペースを herdr に開く。
+herdr はそのとき、リポジトリ本体（ルート）のワークスペースも一緒に開く。削除時は対応する
+ワークスペースも閉じる。Windows で symlink を作る権限がないときは、警告を出してその設定を
+リンクせずに続ける。
 
-ユーザーも端末の `ccw`（`fzf_cd_worktree`）から同じスクリプトを使っている。
+ユーザーも herdr の `prefix+g` のピッカーで同じ仕組みを使っている（ctrl-t で作成、ctrl-d で削除）。
 
 ## 使い方
 
 ```bash
 # 既存ブランチをチェックアウトする
-git-worktree-tmux -d -b <branch_name>
+git-worktree-herdr -b <branch_name>
 
 # PR の head ブランチをチェックアウトする
-git-worktree-tmux -d -p <pr_number>
+git-worktree-herdr -p <pr_number>
 
 # リモート HEAD から新しいブランチを切る
 # ブランチ名は <git config user.name>/<branch_suffix>。suffix 省略時は wip-<epoch>
-git-worktree-tmux -d -c [<branch_suffix>]
+git-worktree-herdr -c [<branch_suffix>]
 
-# worktree を一覧する（1 行 1 件、タブ区切りで <worktree_name> <branch> <tmux セッション名 or -> <worktree のパス>）
-git-worktree-tmux -l
+# worktree を一覧する（1 行 1 件、タブ区切りで <worktree_name> <branch> <ワークスペース ID or -> <worktree のパス>）
+git-worktree-herdr -l
 
-# 既存の worktree の tmux セッションを開く（無ければ作る）
-git-worktree-tmux -d -o <worktree_name>
+# 既存の worktree のワークスペースを開く（無ければ作る）
+git-worktree-herdr -o <worktree_name>
 
-# worktree を削除し、tmux セッションを閉じる（ブランチは残る）
-git-worktree-tmux -r <worktree_name>
+# worktree を削除し、ワークスペースを閉じる（ブランチは残る）
+git-worktree-herdr -r <worktree_name>
 ```
 
-他のオプションが必要になったら `git-worktree-tmux --help` を実行して確認する。
+他のオプションが必要になったら `git-worktree-herdr --help` を実行して確認する。
 
 `<worktree_name>` はブランチ名の `/` を `-` に置き換えたもの（例: `r-okm/fix-foo` → `r-okm-fix-foo`）。
 迷ったら `-l` の 1 列目を使う。
 
-## `-d` を必ず付ける
+## `--focus` は付けない
 
-**AI が `-b` / `-p` / `-c` / `-o` を実行するときは常に `-d`/`--detach` を付ける。** 付けないと、
-コマンドがユーザーの tmux クライアントを新しいセッションに attach / switch し、ユーザーの見ている
-画面を奪う。
+**AI が `-b` / `-p` / `-c` / `-o` を実行するときは `--focus` を付けない。** 付けると、ユーザーの
+見ている画面が新しいワークスペースに切り替わる。付けなければ、ワークスペースはバックグラウンドで
+開くだけになる。
 
-`-d` を付けたときの挙動:
-
-- tmux セッションはバックグラウンドで作られるだけで、表示は切り替わらない
-- **worktree のパスが stdout の最終行に出力される。** これを以降の作業ディレクトリに使う
+**worktree のパスは stdout の最終行に出力される。** これを以降の作業ディレクトリに使う。
+herdr が動いていないときも、worktree は作られてパスが出力される（ワークスペースは開かない）。
 
 ## 実行する場所
 
@@ -94,17 +95,14 @@ ExitWorktree を `action: "keep"` で呼んで抜ける。
   明示的に頼まれたときだけ削除する。
 - **`-f`/`--force` は付けない。** `-r` は未コミットの変更や untracked ファイルがあると拒否する。
   拒否されたら何が残っているかをユーザーに報告して判断を仰ぐ。ユーザーがその場で「強制で消して」と
-  言ったときだけ `-f` を付ける。`-f` は tmux セッションを即座に閉じるので、自分の動いている
-  worktree に付けると返答の途中で自分が終了する。
+  言ったときだけ `-f` を付ける。
 - **削除前に cwd を worktree の外（`<project_root>` など）に移す。** Bash ツールの cwd は
   コマンド間で引き継がれるので、消したディレクトリに居残ると以降のコマンドがすべて壊れる。
-- 削除されるのは worktree と tmux セッションだけで、**ブランチは残る。** ブランチも消すかは別途
+- 削除されるのは worktree とそのワークスペースだけで、**ブランチは残る。** ブランチも消すかは別途
   ユーザーに確認する。
-- 削除対象が自分の動いている worktree のときも `-r` をそのまま使う。スクリプトはこのセッションを
-  即座には閉じず、ユーザーが別のセッションへ移るか detach した時点で閉じるよう設定する
-  （`Deferred tmux session` と出力される）。誰も attach していないセッションでは、ユーザーが一度
-  そのセッションに入って離れるまで閉じない（出力に `no client is on it` と出る）。
-  - `sleep` と `kill-session` などで自前の時間差 kill を仕込まない。ユーザーが報告を読む前に
-    セッションが消える。
-  - 報告では、出力に合わせていつ閉じるかを伝え、同じセッションの他の window（nvim など）も
-    一緒に終わることを伝える。
+- **削除は削除対象の worktree のワークスペースの外（ルートのワークスペースなど）から行う。**
+  ワークスペースを閉じると中で動いているものも一緒に終了するので、削除対象のワークスペースの中で
+  `-r` を実行すると、スクリプトは worktree も消さずに拒否する。
+  自分の動いている worktree を消したいときは、自分では消さず、ルートのワークスペースか
+  `prefix+g` のピッカー（ctrl-d）から消すようユーザーに伝える。
+  - `herdr workspace close` などでワークスペースを自分で閉じない。

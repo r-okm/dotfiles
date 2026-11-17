@@ -165,5 +165,6 @@ delivery = "system"
 enabled = false
 
 [worktrees]
-# git-worktree-tmux keeps worktrees under <repo>/.worktree; herdr takes one global directory.
+# Only for `herdr worktree create`. git-worktree-herdr and the prefix+g picker keep worktrees
+# under <repo>/.worktree (git_worktree_core) and open them with `herdr worktree open`.
 directory = "~/.herdr/worktrees"

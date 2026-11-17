@@ -8,7 +8,6 @@ symlink
 .claude/skills/open-in-explorer
 .claude/skills/open-in-nvim
 .claude/skills/video-frames
-.claude/skills/worktree
 .local
 .config/asdf
 .config/systemd

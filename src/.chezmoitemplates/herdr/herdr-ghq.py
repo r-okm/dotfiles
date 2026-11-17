@@ -11,16 +11,28 @@ on both native Windows and Linux.
 Rows are repositories sorted by name, each followed by its linked worktrees one
 level indented; ● marks checkouts that already have a herdr workspace. Enter
 runs `herdr worktree open --focus`, which focuses that workspace or creates
-one; a new one is moved next to its repository's other workspaces. `--preview PATH` prints the preview pane for PATH; fzf calls it.
+one; a new one is moved next to its repository's other workspaces. ctrl-t
+creates a new branch in a new worktree of the row's repository and opens it;
+ctrl-d removes the worktree of a linked worktree row and closes its workspace.
+Both go through git_worktree_herdr, which sits next to this file. `--preview
+PATH` prints the preview pane for PATH; fzf calls it.
 """
 
-import json
 import os
-import socket
 import subprocess
 import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor
+
+# python -I leaves the script's directory off sys.path
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
+import git_worktree_core as core  # noqa: E402
+from git_worktree_herdr import (  # noqa: E402
+    key,
+    open_workspace,
+    remove_worktree,
+    workspaces_by_checkout,
+)
 
 ACCENT = "\x1b[38;2;166;209;137m"
 DIM = "\x1b[38;2;115;121;148m"
@@ -52,10 +64,6 @@ def try_run(args, cwd=None):
         return ""
 
 
-def key(path):
-    return os.path.normcase(os.path.normpath(path))
-
-
 def ghq_roots():
     env = os.environ.get("GHQ_ROOT")
     if env:
@@ -64,104 +72,8 @@ def ghq_roots():
     return [os.path.expanduser(r) for r in roots if r] or [os.path.expanduser("~/ghq")]
 
 
-def list_workspaces():
-    """Return herdr's workspaces in sidebar order, or [] without herdr."""
-    try:
-        return json.loads(run(["herdr", "workspace", "list"]))["result"]["workspaces"]
-    except (OSError, ValueError, KeyError, TypeError):
-        return []
-
-
-def workspaces_by_checkout():
-    """Map each checkout open in herdr to its workspace ID."""
-    # without herdr the list still works, just without the ● marks
-    return {
-        key(w["worktree"]["checkout_path"]): w["workspace_id"]
-        for w in list_workspaces()
-        if (w.get("worktree") or {}).get("checkout_path")
-    }
-
-
 def opened_checkouts():
     return set(workspaces_by_checkout())
-
-
-def close_parent_workspace(repo):
-    """Exit the shell in the repository's own workspace, which closes just that workspace.
-
-    `herdr worktree open` creates it when it is not open, and `workspace close` and
-    `pane close` both refuse to close it alone while a linked worktree workspace is open.
-    """
-    workspace = workspaces_by_checkout().get(key(repo))
-    if not workspace:
-        return
-    try:
-        panes = json.loads(run(["herdr", "pane", "list", "--workspace", workspace]))
-        panes = panes["result"]["panes"]
-    except (OSError, ValueError, KeyError, TypeError):
-        return
-    if len(panes) != 1:
-        return  # not the single shell herdr just started
-    pane = panes[0]["pane_id"]
-    try:
-        run(["herdr", "pane", "send-text", pane, "exit"])
-        run(["herdr", "pane", "send-keys", pane, "Enter"])
-    except OSError:
-        pass
-
-
-def api_request(method, params):
-    """Send one request to the herdr socket API, for methods the CLI does not expose.
-
-    The socket is a Unix domain socket on Unix and a named pipe on Windows.
-    """
-    path = os.environ.get("HERDR_SOCKET_PATH")
-    if not path:
-        if os.name == "nt":
-            return  # the default pipe name is not documented
-        path = os.path.expanduser("~/.config/herdr/herdr.sock")
-    line = (json.dumps({"id": "herdr-ghq", "method": method, "params": params}) + "\n").encode()
-    if os.name == "nt":
-        with open(path, "r+b", buffering=0) as pipe:
-            pipe.write(line)
-            pipe.readline()
-    else:
-        with socket.socket(socket.AF_UNIX) as sock:
-            sock.connect(path)
-            sock.sendall(line)
-            sock.makefile("rb").readline()
-
-
-def group_with_repository(path):
-    """Move the workspace for path next to the other workspaces of its repository.
-
-    herdr appends a new workspace to the end. The sidebar still shows it under its
-    repository, but goto lists workspaces in their actual order, so this moves the
-    repository's workspaces together, the main checkout first, at the position of
-    the first of them.
-    """
-    workspaces = list_workspaces()
-    ids = [w["workspace_id"] for w in workspaces]
-    trees = {w["workspace_id"]: w.get("worktree") or {} for w in workspaces}
-    target = next(
-        (i for i in ids if trees[i].get("checkout_path") and key(trees[i]["checkout_path"]) == key(path)),
-        None,
-    )
-    repo_key = target and trees[target].get("repo_key")
-    if not repo_key:
-        return
-    group = [i for i in ids if trees[i].get("repo_key") == repo_key]
-    if len(group) < 2:
-        return
-    start = ids.index(group[0])
-    before = next((i for i in ids[start:] if i not in group), None)
-    group.sort(key=lambda i: bool(trees[i].get("is_linked_worktree")))
-    try:
-        api_request(
-            "workspace.move_block", {"workspace_ids": group, "before_workspace_id": before}
-        )
-    except OSError:
-        pass  # the order is cosmetic
 
 
 def find_repos(root):
@@ -308,7 +220,8 @@ def fzf_command():
         "--delimiter=\t",
         "--with-nth=1",
         "--prompt=> ",
-        "--header=enter: open · esc: close · ● open in herdr",
+        "--header=enter: open · ctrl-t: new worktree · ctrl-d: remove worktree · ● open in herdr",
+        "--expect=ctrl-t,ctrl-d",
         f"--preview={preview_cmd}",
         "--preview-window=right,50%,border-left",
         f"--color={FZF_COLORS}",
@@ -346,31 +259,52 @@ def pick():
     return selected if fzf.wait() == 0 else None
 
 
-def open_workspace(path, repo):
-    """Return an error message, or None once the workspace is focused.
-
-    Opening a linked worktree also opens its repository's workspace when that is
-    closed; that workspace is closed again, so only the picked checkout appears.
-    """
-    opened = opened_checkouts()
-    parent_was_open = path == repo or key(repo) in opened
+def wait(message):
+    """Print message and wait: the popup closes when this exits."""
+    print(message)
     try:
-        proc = subprocess.run(
-            ["herdr", "worktree", "open", "--cwd", repo, "--path", path, "--focus"],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
-    except OSError as e:
-        return str(e)
-    if proc.returncode != 0:
-        return proc.stderr or proc.stdout
-    if key(path) not in opened:
-        group_with_repository(path)
-    if not parent_was_open:
-        close_parent_workspace(repo)
-    return None
+        input("Press Enter to close.")
+    except EOFError:
+        pass
+
+
+def create(repo):
+    try:
+        suffix = input(f"Branch suffix for {os.path.basename(repo)} (empty: wip-<epoch>): ")
+    except (EOFError, KeyboardInterrupt):
+        return
+    os.chdir(repo)
+    try:
+        path = core.create_new_branch(suffix.strip())
+    except core.Fail:
+        wait("Creating the worktree failed.")
+        return
+    error = open_workspace(path, repo, focus=True)
+    if error:
+        wait(f"herdr worktree open failed:\n{error}")
+
+
+def remove(path, repo):
+    if key(path) == key(repo):
+        wait("Pick a linked worktree, not the repository itself.")
+        return
+    os.chdir(repo)
+    name = os.path.basename(path)
+    try:
+        remove_worktree(name, force=False)
+        return
+    except core.Fail:
+        pass
+    try:
+        answer = input("Remove anyway, discarding them? [y/N] ")
+    except (EOFError, KeyboardInterrupt):
+        return
+    if answer.strip().lower() != "y":
+        return
+    try:
+        remove_worktree(name, force=True)
+    except core.Fail:
+        wait("Removing the worktree failed.")
 
 
 def main():
@@ -382,14 +316,19 @@ def main():
     selected = pick()
     if not selected:
         return
-    _, path, repo = selected.rstrip("\r\n").split("\t")
+    pressed, row = selected.rstrip("\r\n").split("\n", 1)
+    pressed = pressed.rstrip("\r")
+    _, path, repo = row.rstrip("\r").split("\t")
     if not path:
         return  # the error row
-    error = open_workspace(path, repo)
-    if error:
-        # the popup closes when this exits, so wait until the message is read
-        print(f"herdr worktree open failed:\n{error}")
-        input("Press Enter to close.")
+    if pressed == "ctrl-t":
+        create(repo)
+    elif pressed == "ctrl-d":
+        remove(path, repo)
+    else:
+        error = open_workspace(path, repo, focus=True)
+        if error:
+            wait(f"herdr worktree open failed:\n{error}")
 
 
 if __name__ == "__main__":

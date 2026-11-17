@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Git Bash entry point for git_worktree_herdr.py next to this file; on Linux,
+# ~/.local/bin/git-worktree-herdr is a symlink to the script instead.
+# -X utf8 because -I ignores PYTHONUTF8, and paths would otherwise be printed in
+# the ANSI code page.
+exec python -I -B -X utf8 "$(dirname "$0")/git_worktree_herdr.py" "$@"
