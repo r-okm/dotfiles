@@ -35,6 +35,7 @@ _vimrc
 .chezmoiscripts/linux/wsl/**
 .local/bin/gh
 .local/bin/gh-account
+.local/bin/xdg-open
 .local/share/r-okm/herdr-plugins/wsl-notify
 {{   end -}}
 {{ end -}}

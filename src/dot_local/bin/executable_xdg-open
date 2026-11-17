@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Shadows /usr/bin/xdg-open on WSL so that everything opens on the Windows
+# side with its default application. The Linux associations would pick the
+# WSL Chrome, and a Linux path means nothing to a Windows program.
+
+self="$(basename "$0")"
+
+if (($# != 1)); then
+  echo "Usage: $self <url-or-path>" >&2
+  exit 1
+fi
+
+target="$1"
+explorer_exe="/mnt/c/Windows/explorer.exe"
+
+# explorer.exe always exits 1; only 126/127 (not executable at all) means failure
+launch() {
+  local rc=0
+  "$explorer_exe" "$1" || rc=$?
+  if ((rc == 126 || rc == 127)); then
+    echo "$self: cannot execute $explorer_exe (exit $rc)" >&2
+    exit 1
+  fi
+}
+
+case "$target" in
+  http://* | https://*)
+    launch "$target"
+    ;;
+  file://*)
+    path="${target#file://}"
+    path="${path#localhost}"
+    path="${path%%[?#]*}"
+    printf -v path '%b' "${path//%/\\x}"
+    launch "$(wslpath -w -- "$path")"
+    ;;
+  # Other schemes (claude-cli: and the like) are Linux-side handlers
+  *:*)
+    exec /usr/bin/xdg-open "$target"
+    ;;
+  *)
+    if [[ ! -e "$target" ]]; then
+      echo "$self: no such file or directory: $target" >&2
+      exit 2
+    fi
+    launch "$(wslpath -w -- "$target")"
+    ;;
+esac

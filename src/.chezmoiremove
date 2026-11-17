@@ -36,3 +36,4 @@ AppData/Roaming/alacritty
 .config/tmux/scripts/insert-from-editor.sh
 .config/tmux/plugins/catppuccin/tmux
 .config/tmux/plugins/extrakto
+.local/share/applications/vivaldi.desktop

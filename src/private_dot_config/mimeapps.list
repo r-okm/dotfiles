@@ -1,4 +1,2 @@
 [Default Applications]
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
-x-scheme-handler/http=vivaldi.desktop
-x-scheme-handler/https=vivaldi.desktop

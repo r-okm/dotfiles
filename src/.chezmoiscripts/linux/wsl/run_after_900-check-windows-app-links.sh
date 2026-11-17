@@ -14,7 +14,6 @@ links=(
   'git-credential-manager.exe|the credential helper of the work hosts in ~/.config/git/config'
   'gh.exe|the gh wrapper in ~/.local/bin'
   'npiperelay.exe|ssh-agent-relay.service'
-  'vivaldi.exe|vivaldi.desktop and BROWSER in ~/.profile'
   'win32yank.exe|the clipboard script in ~/.local/bin (Neovim, lazygit and zsh yank through it)'
 )
 
