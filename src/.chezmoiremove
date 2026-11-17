@@ -31,3 +31,8 @@ AppData/Roaming/alacritty
 .claude/r-okm/scripts/yt-fetch.py
 .local/bin/desktop-notify
 .claude/r-okm/scripts/notify-claude-activity.sh
+.local/bin/git-worktree-tmux
+.config/tmux/tmux.conf
+.config/tmux/scripts/insert-from-editor.sh
+.config/tmux/plugins/catppuccin/tmux
+.config/tmux/plugins/extrakto

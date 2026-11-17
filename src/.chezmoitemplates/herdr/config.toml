@@ -5,7 +5,8 @@
 */ -}}
 {{- $windows := eq .chezmoi.os "windows" -}}
 # herdr config (written against herdr v0.9.5).
-# Mirrors the tmux setup in src/private_dot_config/tmux/tmux.conf where herdr has an equivalent.
+# Carries over the former tmux setup where herdr has an equivalent; "tmux:" comments name the
+# tmux setting each one replaces.
 
 onboarding = false
 

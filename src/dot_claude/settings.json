@@ -13,7 +13,6 @@
       "Read(~/.claude/**)",
       "Read(~/.config/zsh/completions/**)",
       "Read(~/work/**)",
-      "Read(~/.config/tmux/plugins/**)",
       "Read(//tmp/**)",
       "Edit(~/src/**/.ignore/ai/**)",
       "WebSearch"

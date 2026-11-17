@@ -1,10 +1,10 @@
 #!/usr/bin/env -S python3 -I -B
 """Create, list, resolve, or remove git worktrees under <repository>/.worktree/.
 
-The git side of git-worktree-herdr (and git-worktree-tmux), kept free of any
-terminal multiplexer. Python with only the standard library, so that it also
-runs on native Windows; front-ends import it as git_worktree_core. Progress goes
-to stderr, results to stdout.
+The git side of git-worktree-herdr, kept free of any terminal multiplexer.
+Python with only the standard library, so that it also runs on native Windows;
+front-ends import it as git_worktree_core. Progress goes to stderr, results to
+stdout.
 """
 
 import os

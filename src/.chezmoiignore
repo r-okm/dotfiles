@@ -12,7 +12,6 @@ symlink
 .config/asdf
 .config/systemd
 .config/herdr
-.config/tmux
 .config/zsh
 .config/zsh-abbr
 .config/hadolint.yaml

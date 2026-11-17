@@ -1,13 +1,12 @@
 """herdr のエージェントのペインに送るプロンプトを、すぐ下に分割したペインの nvim で書く。
 
-tmux の insert-from-editor.sh(tmux.conf で C-e に割り当て)の herdr 版。herdr の
-キーから type = "shell" で起動され、キーを押したペインを HERDR_ACTIVE_PANE_ID
-で受け取る。type = "pane" のほうが簡単だが、コマンドを最大化して開くので、
-返事を書きたい出力が隠れてしまう。`herdr pane split` には起動するコマンドを
-渡せず、分割したペインでは既定のシェルが先に立ち上がって見える。そこで
-エディターは、このディレクトリのプラグイン(herdr-plugin.toml)のペインとして
-開く。プラグインのペインは herdr がシェルを通さずに起動し、コマンドが終わると
-閉じる。
+herdr のキーから type = "shell" で起動され、キーを押したペインを
+HERDR_ACTIVE_PANE_ID で受け取る。type = "pane" のほうが簡単だが、コマンドを
+最大化して開くので、返事を書きたい出力が隠れてしまう。`herdr pane split`
+には起動するコマンドを渡せず、分割したペインでは既定のシェルが先に立ち上がって
+見える。そこでエディターは、このディレクトリのプラグイン(herdr-plugin.toml)の
+ペインとして開く。プラグインのペインは herdr がシェルを通さずに起動し、コマンドが
+終わると閉じる。
 
 herdr は manifest の写しを自分で持つので、herdr-plugin.toml が変わるたびに
 chezmoi がプラグインを登録し直す(run_onchange_after_303-link-herdr-plugins)。
@@ -15,17 +14,16 @@ chezmoi がプラグインを登録し直す(run_onchange_after_303-link-herdr-p
 マシンのように、herdr がプラグインをまったく知らないときだけ。
 
 エージェントのいないペインでは何もしない。bracketed paste の印が、それを
-求めていないプログラムにキー入力として届いてしまうため。tmux の割り当ても、
-claude のペインでだけエディターを開いていた。
+求めていないプログラムにキー入力として届いてしまうため。
 
 --edit はプラグインのペインで動くコマンド。init.tmux_edit.lua(autowriteall、
 <C-CR> で終了)で決まった場所の下書きを編集するので、クラッシュや :cq で
 中断しても、次に開くと続きから書ける。普通に終了すると、下書きを bracketed
 paste として送り先のペインに入れる。送信はされず、そちらで Enter を押すまで
-待つ。`herdr pane send-text` だけで送ると tmux の `paste-buffer -r` と同じく
-キー入力として届き、改行は LF のまま残るが、Claude Code がタブをキーとして
-扱って消してしまう。送った下書きは復元用に last-sent.md として残す。下書きは
-Windows では %LOCALAPPDATA%/r-okm/herdr-edit、Linux では
+待つ。`herdr pane send-text` だけで送るとキー入力として届き、改行は LF の
+まま残るが、Claude Code がタブをキーとして扱って消してしまう。送った下書きは
+復元用に last-sent.md として残す。下書きは Windows では
+%LOCALAPPDATA%/r-okm/herdr-edit、Linux では
 ${XDG_DATA_HOME:-~/.local/share}/r-okm/herdr-edit に置く。
 
 どちらの側の出力も誰にも見えない(type = "shell" のコマンドには端末がなく、
