@@ -141,12 +141,13 @@ status_indicators = "symbols"
 # Wide enough for "<user>-<branch>" worktree names (the default 26 cuts them after the user prefix).
 sidebar_width = 32
 
-# $repo is pane metadata reported by Claude Code's SessionStart hook
+# $repo and $branch are pane metadata reported by Claude Code's SessionStart and Stop hooks
 # (~/.claude/r-okm/scripts/herdr-report-repo.sh). Claude Code puts the conversation topic in its
 # terminal title (herdrdev/herdr discussion #1725).
 [ui.sidebar.agents.rows_by_agent]
 claude = [
   ["state_icon", { token = "$repo", fg = "#c6d0f5", bold = true }, "state_text"],
+  [{ token = "$branch", fg = "#ca9ee6" }],
   ["terminal_title_stripped"],
 ]
 

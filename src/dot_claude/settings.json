@@ -88,6 +88,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${HOME}/.claude/r-okm/scripts/herdr-report-repo.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
