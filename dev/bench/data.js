@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794824059094,
+  "lastUpdate": 1794887887102,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4681,6 +4681,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.6ms, max: 11.3ms, median: 10.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "3c347416aae7553a54089bdb506db27303d4a864",
+          "message": "CLAUDE.md: keep only the herdr rule Claude would otherwise get wrong\n\nThe herdr item also said every herdr file goes to both Windows and\nLinux, to split OS differences with .chezmoi.os, and that the source is\nauthoritative. The first no longer holds since the WSL-only wsl-notify\nplugin, the second is visible in the templates, and the third is the\ndefault for every file. What remains is that shared files are edited in\nsrc/.chezmoitemplates/herdr/, not in the deployed wrappers.",
+          "timestamp": "2026-11-17T12:50:43+09:00",
+          "tree_id": "13f17f1a900847f00242eb9a1d64dc04db18983d",
+          "url": "https://github.com/r-okm/dotfiles/commit/3c347416aae7553a54089bdb506db27303d4a864"
+        },
+        "date": 1794887886424,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4.5,
+            "range": "0.5",
+            "unit": "ms",
+            "extra": "min: 4.5ms, max: 5.0ms, median: 4.4ms (10 runs)"
           }
         ]
       }
