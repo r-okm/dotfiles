@@ -3,8 +3,6 @@
 FUNCTIONS_IN_THIS_FILE=(
   'fzf_command_history'
   'fzf_cd'
-  'fzf_cd_ghq'
-  'fzf_cd_worktree'
   'fzf_git_log'
   'awsp'
   'completions_generate'
@@ -58,53 +56,6 @@ fzf_cd() {
   if [[ -n "$target_dir" ]]; then
     target_dir=$(realpath "$target_dir")
     _execute_prompt "cd $target_dir"
-  fi
-}
-
-fzf_cd_ghq() {
-  local repo=$(
-    ghq list | fzf \
-      --height 50% \
-      --reverse \
-      --prompt='CHANGE DIRECTORY > ' \
-      --preview="ghq list --full-path --exact {} | xargs -I {} eza-tree {} --git-ignore"
-  )
-
-  if [[ -n "$repo" ]]; then
-    local full_path=$(ghq list --full-path --exact "$repo")
-    echo "cd $full_path"
-    _execute_prompt "cd $full_path"
-  fi
-}
-
-fzf_cd_worktree() {
-  if ! git rev-parse --git-dir >/dev/null 2>&1; then
-    echo "Error: Not in a git repository" >&2
-    return 1
-  fi
-
-  local worktrees=$(git-worktree-core --list)
-
-  if [[ -z "$worktrees" ]]; then
-    echo "No worktrees found"
-    return 0
-  fi
-
-  local selected=$(
-    echo "$worktrees" |
-    fzf \
-      --height 50% \
-      --reverse \
-      --delimiter='\t' \
-      --with-nth=1 \
-      --prompt='WORKTREE > ' \
-      --preview='git -C {3} pretty-log'
-  )
-
-  if [[ -n "$selected" ]]; then
-    local fields=("${(@ps:\t:)selected}")
-    echo "cd: ${fields[1]}"
-    _execute_prompt "cd ${fields[3]}"
   fi
 }
 

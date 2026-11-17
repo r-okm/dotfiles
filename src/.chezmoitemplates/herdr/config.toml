@@ -92,7 +92,7 @@ detach = "prefix+d"
 
 # tmux: bind J break-pane has pane move in the CLI only; no key action.
 
-# zsh: fzf_cd_ghq, plus linked worktrees. prefix+g is free: goto moved to prefix+s above.
+# zsh: ghq picker, plus linked worktrees. prefix+g is free: goto moved to prefix+s above.
 {{- if $windows }}
 # Popup commands run through cmd.exe, so %LOCALAPPDATA% expands.
 {{- end }}
