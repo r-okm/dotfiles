@@ -151,7 +151,6 @@ claude = [
 
 [ui.toast]
 {{- if $windows }}
-# Replaces notify-claude-activity.sh: "system" sends Windows notifications.
 delivery = "system"
 {{- else if .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
 # The r-okm.wsl-notify plugin (~/.local/share/r-okm/herdr-plugins/wsl-notify) shows Windows

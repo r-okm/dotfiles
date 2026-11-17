@@ -30,3 +30,4 @@ AppData/Roaming/alacritty
 .claude/skills/yt
 .claude/r-okm/scripts/yt-fetch.py
 .local/bin/desktop-notify
+.claude/r-okm/scripts/notify-claude-activity.sh
