@@ -152,13 +152,15 @@ claude = [
 [ui.toast]
 {{- if $windows }}
 # Replaces notify-claude-activity.sh: "system" sends Windows notifications.
+delivery = "system"
 {{- else if .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
-# Replaces notify-claude-activity.sh: "system" runs notify-send, which ~/.local/bin/notify-send
-# turns into a Windows toast on WSL.
+# The r-okm.wsl-notify plugin (~/.local/share/r-okm/herdr-plugins/wsl-notify) shows Windows
+# toasts instead: "system" runs notify-send without the pane, so a click could not focus it.
+delivery = "off"
 {{- else }}
 # "system" runs libnotify's notify-send.
-{{- end }}
 delivery = "system"
+{{- end }}
 
 [ui.sound]
 enabled = false

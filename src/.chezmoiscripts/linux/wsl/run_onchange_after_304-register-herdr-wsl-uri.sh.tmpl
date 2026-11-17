@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Registers the herdr-wsl: URI scheme for the current Windows user. Clicking a toast from
+# the r-okm.wsl-notify herdr plugin opens herdr-wsl:focus?pane=<id>, which runs
+# wsl-notify.py focus in this distro. conhost --headless keeps wsl.exe from flashing a
+# console window.
+#
+# The command embeds the distro name and the plugin path, so either changing reruns this:
+# distro: {{ env "WSL_DISTRO_NAME" }}
+# home: {{ .chezmoi.homeDir }}
+set -euo pipefail
+
+handler="${HOME}/.local/share/r-okm/herdr-plugins/wsl-notify/wsl-notify.py"
+command="C:\\Windows\\System32\\conhost.exe --headless C:\\Windows\\System32\\wsl.exe -d ${WSL_DISTRO_NAME} --exec /usr/bin/python3 -I -B ${handler} focus %1"
+
+# WSL interop drops double quotes from arguments, so the script uses single quotes only.
+# The URI has no spaces, so %1 needs no quoting.
+/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoProfile -NonInteractive -Command "
+\$key = 'HKCU:\\Software\\Classes\\herdr-wsl'
+\$open = \$key + '\\shell\\open\\command'
+New-Item -Path \$open -Force | Out-Null
+Set-ItemProperty -Path \$key -Name '(default)' -Value 'URL:herdr-wsl'
+Set-ItemProperty -Path \$key -Name 'URL Protocol' -Value ''
+Set-ItemProperty -Path \$open -Name '(default)' -Value '${command}'
+"

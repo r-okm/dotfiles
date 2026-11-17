@@ -7,6 +7,10 @@
 # 変わると、chezmoi がこのスクリプトをもう一度実行する。手で無効にしたプラグインは無効のままにする。
 #
 # prompt-edit: {{ includeTemplate "herdr/prompt-edit/herdr-plugin.toml" . | sha256sum }}
+{{- $wsl := .chezmoi.kernel.osrelease | lower | contains "microsoft" }}
+{{- if $wsl }}
+# wsl-notify: {{ include "dot_local/share/r-okm/herdr-plugins/wsl-notify/herdr-plugin.toml" | sha256sum }}
+{{- end }}
 # herdr の有無も検知する(未導入で skip した回が実行済みとして記録されるため)
 # herdr: {{ lookPath "herdr" }}
 set -euo pipefail
@@ -18,6 +22,9 @@ fi
 
 declare -A plugins=(
   [r-okm.prompt-edit]=prompt-edit
+{{- if $wsl }}
+  [r-okm.wsl-notify]=wsl-notify
+{{- end }}
 )
 root="${HOME}/.local/share/r-okm/herdr-plugins"
 fail() {

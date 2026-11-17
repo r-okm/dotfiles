@@ -1,0 +1,14 @@
+# WSL で herdr の通知を Windows のトーストとして出す。WSL のマシンにだけ配置する(.chezmoiignore)。
+# 登録(herdr plugin link)は chezmoi の run_onchange_after_303-link-herdr-plugins が
+# このファイルを変えるたびに行う。
+id = "r-okm.wsl-notify"
+name = "WSL notify"
+version = "0.1.0"
+min_herdr_version = "0.9.5"
+description = "エージェントの通知を Windows のトーストで出し、クリックでそのペインに移る"
+platforms = ["linux"]
+
+# コマンドはプラグインのディレクトリで動く
+[[events]]
+on = "pane.agent_status_changed"
+command = ["python3", "-I", "-B", "wsl-notify.py", "notify"]
