@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794888460091,
+  "lastUpdate": 1794913701305,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4743,6 +4743,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.4ms, max: 10.7ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "fada3d8e7cd89b3aa31c597cdef9c4aaf26cb95c",
+          "message": "zsh: drop fzf_cd_ghq and fzf_cd_worktree now that herdr's prefix+g covers them\n\nThe herdr prefix+g popup picks ghq repositories and their linked\nworktrees, so the fzf cd helpers and their ccg/ccw abbreviations are\nno longer needed.",
+          "timestamp": "2026-11-17T19:26:26+09:00",
+          "tree_id": "02611d84bd644e0122a398e80cf1a344db07e515",
+          "url": "https://github.com/r-okm/dotfiles/commit/fada3d8e7cd89b3aa31c597cdef9c4aaf26cb95c"
+        },
+        "date": 1794913700187,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 10.4ms, max: 11.2ms, median: 10.6ms (10 runs)"
           }
         ]
       }
