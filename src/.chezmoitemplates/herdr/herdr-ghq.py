@@ -219,7 +219,7 @@ def fzf_command():
         "--delimiter=\t",
         "--with-nth=1",
         "--prompt=> ",
-        "--header=enter: open · ctrl-t: new worktree · ctrl-d: remove worktree · ● open in herdr",
+        "--header=<CR>: open | <C-t>: new worktree | <C-d>: remove worktree",
         "--expect=ctrl-t,ctrl-d",
         "--bind=ctrl-u:clear-query",
         f"--preview={preview_cmd}",

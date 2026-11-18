@@ -104,8 +104,8 @@ command = 'python -I -B "%LOCALAPPDATA%\r-okm\bin\herdr-ghq.py"'
 {{- else }}
 command = 'python3 -I -B "{{ .chezmoi.homeDir }}/.local/share/r-okm/bin/herdr-ghq.py"'
 {{- end }}
-width = "80%"
-height = "80%"
+width = "95%"
+height = "95%"
 
 # tmux: bind -n C-e insert-from-editor.sh. herdr has no conditional binding to pass C-e through
 # to other panes, so it goes under the prefix (free: edit_scrollback moved to prefix+v above).
