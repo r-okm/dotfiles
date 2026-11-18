@@ -92,12 +92,12 @@ detach = "prefix+d"
 
 # tmux: bind J break-pane has pane move in the CLI only; no key action.
 
-# zsh: ghq picker, plus linked worktrees. prefix+g is free: goto moved to prefix+s above.
+# zsh: ghq picker, plus linked worktrees.
 {{- if $windows }}
 # Popup commands run through cmd.exe, so %LOCALAPPDATA% expands.
 {{- end }}
 [[keys.command]]
-key = "prefix+g"
+key = ["prefix+f", "prefix+ctrl+f"]
 type = "popup"
 {{- if $windows }}
 command = 'python -I -B "%LOCALAPPDATA%\r-okm\bin\herdr-ghq.py"'
@@ -167,6 +167,6 @@ delivery = "system"
 enabled = false
 
 [worktrees]
-# Only for `herdr worktree create`. git-worktree-herdr and the prefix+g picker keep worktrees
+# Only for `herdr worktree create`. git-worktree-herdr and the ghq picker keep worktrees
 # under <repo>/.worktree (git_worktree_core) and open them with `herdr worktree open`.
 directory = "~/.herdr/worktrees"

@@ -2,8 +2,8 @@
 """Create, list, open, or remove git worktrees, each opened as a herdr workspace.
 
 The herdr front-end of git_worktree_core, which does the git side and keeps the
-worktrees under <repository>/.worktree/. herdr-ghq.py imports this for its
-picker. Python with only the standard library, so that it also runs on native
+worktrees under <repository>/.worktree/. herdr-ghq.py, the ghq picker,
+imports this. Python with only the standard library, so that it also runs on native
 Windows. Progress goes to stderr, results to stdout.
 
 The repository's own workspace is the base: `herdr worktree open` opens it next
