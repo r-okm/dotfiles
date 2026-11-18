@@ -9,7 +9,8 @@ ghq roots done in-process. It uses only the standard library and fzf and runs
 on both native Windows and Linux.
 
 Rows are repositories sorted by name, each followed by its linked worktrees one
-level indented; ● marks checkouts that already have a herdr workspace. Enter
+level indented and tagged with the repository's name, which fzf can then
+match; ● marks checkouts that already have a herdr workspace. Enter
 runs `herdr worktree open --focus`, which focuses that workspace or creates
 one; a new one is moved next to its repository's other workspaces. ctrl-t
 creates a new branch in a new worktree of the row's repository and opens it;
@@ -169,10 +170,14 @@ def rows(roots, opened_future):
         return f"{ACCENT}●{RESET}" if key(path) in opened else " "
 
     for repo in sorted(repos, key=lambda p: (os.path.basename(p).lower(), p)):
-        yield f"{mark(repo)} {os.path.basename(repo)}\t{repo}\t{repo}"
+        repo_name = os.path.basename(repo)
+        yield f"{mark(repo)} {repo_name}\t{repo}\t{repo}"
         for path, branch in linked_worktrees(repo):
             name = os.path.basename(path)
-            yield f"{mark(path)}   {branch}  {DIM}{name}{RESET}\t{path}\t{repo}"
+            yield (
+                f"{mark(path)}   {branch}  {DIM}{repo_name} · {name}{RESET}"
+                f"\t{path}\t{repo}"
+            )
 
 
 def preview(path):
