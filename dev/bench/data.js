@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794913701305,
+  "lastUpdate": 1794967732160,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4774,6 +4774,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 10.4ms, max: 11.2ms, median: 10.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "17a6b55c36393f2f30c02372c995d71203d13b92",
+          "message": "herdr-ghq: enlarge the popup to 95% and shorten the key hints in the header",
+          "timestamp": "2026-11-18T11:00:18+09:00",
+          "tree_id": "c53d1d73ec65b8582b735b76d8ae6a6c9c9d6280",
+          "url": "https://github.com/r-okm/dotfiles/commit/17a6b55c36393f2f30c02372c995d71203d13b92"
+        },
+        "date": 1794967731738,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.3,
+            "range": "0.7",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.8ms, median: 10.4ms (10 runs)"
           }
         ]
       }
