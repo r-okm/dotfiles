@@ -27,7 +27,7 @@ new_cwd = "follow"
 name = "catppuccin"
 
 [theme.custom]
-panel_bg = "#303446"
+panel_bg = "reset"
 sidebar_bg = "#292c3c"
 active_row_bg = "#414559"
 selection_bg = "#51576d"

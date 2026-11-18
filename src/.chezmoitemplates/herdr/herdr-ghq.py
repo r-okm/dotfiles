@@ -46,7 +46,7 @@ SKIP_DIRS = {"node_modules"}
 
 FZF_COLORS = (
     "bg+:#414559,hl:#a6d189,hl+:#a6d189,pointer:#a6d189,prompt:#a6d189,"
-    "header:#737994,border:#737994,label:#a6d189"
+    "header:#737994,border:#737994"
 )
 
 
@@ -173,11 +173,7 @@ def rows(roots, opened_future):
         repo_name = os.path.basename(repo)
         yield f"{mark(repo)} {repo_name}\t{repo}\t{repo}"
         for path, branch in linked_worktrees(repo):
-            name = os.path.basename(path)
-            yield (
-                f"{mark(path)}   {branch}  {DIM}{repo_name} · {name}{RESET}"
-                f"\t{path}\t{repo}"
-            )
+            yield f"{mark(path)}   {branch}  {DIM}{repo_name}{RESET}\t{path}\t{repo}"
 
 
 def preview(path):
@@ -220,13 +216,12 @@ def fzf_command():
         "--ansi",
         "--no-sort",
         "--layout=reverse",
-        "--border=rounded",
-        "--border-label= repositories ",
         "--delimiter=\t",
         "--with-nth=1",
         "--prompt=> ",
         "--header=enter: open · ctrl-t: new worktree · ctrl-d: remove worktree · ● open in herdr",
         "--expect=ctrl-t,ctrl-d",
+        "--bind=ctrl-u:clear-query",
         f"--preview={preview_cmd}",
         "--preview-window=right,50%,border-left",
         f"--color={FZF_COLORS}",
