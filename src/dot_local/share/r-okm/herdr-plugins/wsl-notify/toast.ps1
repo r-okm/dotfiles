@@ -1,7 +1,9 @@
 # Shows a herdr notification as a Windows toast, called by wsl-notify.py.
 # Kept ASCII-only: Windows PowerShell 5.1 reads BOM-less scripts in the ANSI code page.
 param(
-  # Base64 of UTF-8 JSON {title, body, launch, tag}. WSL interop drops double quotes from
+  # Base64 of UTF-8 JSON {title, body, launch, tag, expires?, quiet_if_front?}. expires
+  # (epoch seconds) removes the toast from Action Center at that time; quiet_if_front skips
+  # the toast while the WSL tab is in front. WSL interop drops double quotes from
   # arguments, so the text is not passed as-is.
   [Parameter(Mandatory)] [string]$Payload
 )
@@ -15,11 +17,11 @@ Add-Type -Namespace R -Name User32 -MemberDefinition @'
 '@
 
 # herdr runs in the Windows Terminal tab named WSL (fixed by the profile's tabTitle).
-# Stay quiet while that tab is the one in front.
+# With quiet_if_front, stay quiet while that tab is the one in front.
 $fg = [R.User32]::GetForegroundWindow()
 $fgPid = 0
 [void][R.User32]::GetWindowThreadProcessId($fg, [ref]$fgPid)
-if ((Get-Process -Id $fgPid -ErrorAction SilentlyContinue).ProcessName -like 'WindowsTerminal*') {
+if ($n.quiet_if_front -and (Get-Process -Id $fgPid -ErrorAction SilentlyContinue).ProcessName -like 'WindowsTerminal*') {
   $A = [System.Windows.Automation.AutomationElement]
   $selectedTab = New-Object System.Windows.Automation.AndCondition(
     (New-Object System.Windows.Automation.PropertyCondition($A::ControlTypeProperty, [System.Windows.Automation.ControlType]::TabItem)),
@@ -40,9 +42,11 @@ $xml.LoadXml(
   '<text>' + (& $esc $n.title) + '</text><text>' + (& $esc $n.body) + '</text>' +
   '</binding></visual></toast>')
 $toast = [Windows.UI.Notifications.ToastNotification]::new($xml)
-# A newer toast for the same pane replaces the older one.
+# A newer toast with the same tag replaces the older one. The caller picks the tag, so a
+# pane's status toasts and its prompt-cache toasts replace only their own kind.
 $toast.Group = 'herdr-wsl'
 $toast.Tag = $n.tag
+if ($n.expires) { $toast.ExpirationTime = [DateTimeOffset]::FromUnixTimeSeconds([long]$n.expires) }
 
 # Windows herdr registers Herdr.Desktop, which shows the toast as coming from Herdr.
 $aumid = 'Herdr.Desktop'

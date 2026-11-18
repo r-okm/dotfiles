@@ -6,7 +6,11 @@ herdr の `ui.toast.delivery = "system"` は WSL では notify-send を呼ぶだ
 notify: pane.agent_status_changed のフックとして herdr から起動される。状態が blocked か
     done になったら、herdr の delay_seconds(既定 1 秒)と同じだけ待つ。まだ同じ状態の
     ときだけ、herdr 本体と同じ文面で toast.ps1 を呼ぶ。herdr が動いている Windows Terminal
-    の WSL タブが前面にあるときは、toast.ps1 が通知を出さない。
+    の WSL タブが前面にあるときは、toast.ps1 が通知を出さない(quiet_if_front)。
+cache-expiring <pane_id> <expires_at>: Claude Code の statusline(statusline-command.sh)
+    から起動される。プロンプトキャッシュが <expires_at>(epoch 秒)に切れることを、notify と
+    同じ形のトーストで知らせる。notify と違い、WSL タブが前面にあっても出す。トーストは
+    <expires_at> にアクションセンターから消える。
 focus <uri>: トーストのクリックで開く herdr-wsl:focus?pane=<id> の URI を受け取る。
     URI スキームは run_onchange_after_304-register-herdr-wsl-uri が登録する。
     ペインにフォーカスし、focus-terminal.ps1 で WSL タブを前面に出す。
@@ -30,6 +34,7 @@ DELAY_SECONDS = 1
 EVENT_TEXT = {"blocked": "needs attention", "done": "finished"}
 # herdr のペイン ID("w1:p3"、"wK:pP" など)。URI はどのアプリからでも開けるので、形を確かめる
 PANE_ID = re.compile(r"w[0-9A-Za-z]+:p[0-9A-Za-z]+")
+EPOCH = re.compile(r"[0-9]+")
 LOG = Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local/state") / "herdr-wsl-notify.log"
 
 
@@ -79,28 +84,54 @@ def notify(event: dict) -> None:
     pane_id = event["pane_id"]
     status = event["agent_status"]
     time.sleep(DELAY_SECONDS)
+    agent = get_agent(pane_id)
+    if agent is None or agent["agent_status"] != status:
+        return
+    label = event.get("display_agent") or event.get("agent") or agent.get("agent") or "agent"
+    # herdr 本体と同じく、herdr のタブが前面にあるときは出さない
+    toast(pane_id, agent, f"{label} {EVENT_TEXT[status]}", pane_id, quiet_if_front=True)
+
+
+def cache_expiring(pane_id: str, expires_at: str) -> None:
+    left = int(expires_at) - int(time.time())
+    agent = get_agent(pane_id)
+    # 作業中なら次の API 呼び出しでキャッシュが延びるので、知らせる必要がない。
+    # statusline の起動からここまでの間に切れていたら、"cold in" は誤りになる。
+    if agent is None or agent["agent_status"] == "working" or left <= 0:
+        return
+    label = agent.get("display_agent") or agent.get("agent") or "agent"
+    minutes = -(-left // 60)  # statusline の表示と同じく切り上げ
+    # 終了の通知と別のタグにして、同じペインの "finished" のトーストを置き換えない。
+    # キャッシュが切れたら内容が古くなるので、その時刻にアクションセンターから消す。
+    toast(pane_id, agent, f"{label} prompt cache cold in {minutes}m", f"cache:{pane_id}",
+          expires=int(expires_at))
+
+
+def get_agent(pane_id: str) -> dict | None:
     try:
-        agent = herdr("agent", "get", pane_id)["agent"]
+        return herdr("agent", "get", pane_id)["agent"]
     except HerdrError as e:
         # 待つ間にペインが閉じたりエージェントが終わったりするのは、よくあること
         if e.code == "agent_not_found":
-            return
+            return None
         raise
-    if agent["agent_status"] != status:
-        return
 
+
+def toast(pane_id: str, agent: dict, title: str, tag: str, **options) -> None:
+    """options はそのまま payload に入る。toast.ps1 が読むのは expires(epoch 秒、
+    ExpirationTime になる)と quiet_if_front(WSL タブが前面なら出さない)。"""
     workspace = herdr("workspace", "get", agent["workspace_id"])["workspace"]
     # herdr 本体の notification_context と同じ "<workspace> · <番号> · <tab>"(tab は 2 つ以上のとき)
     body = f"{workspace['label']} · {workspace['number']}"
     if workspace["tab_count"] > 1:
         body += f" · {herdr('tab', 'get', agent['tab_id'])['tab']['label']}"
-    label = event.get("display_agent") or event.get("agent") or agent.get("agent") or "agent"
     payload = {
-        "title": f"{label} {EVENT_TEXT[status]}",
+        "title": title,
         "body": body,
         "launch": "herdr-wsl:focus?" + urllib.parse.urlencode({"pane": pane_id}),
         # ToastNotification.Tag は 64 文字まで
-        "tag": pane_id[:64],
+        "tag": tag[:64],
+        **options,
     }
     encoded = base64.b64encode(json.dumps(payload).encode()).decode()
     powershell("toast.ps1", encoded)
@@ -152,11 +183,15 @@ def main() -> None:
         data = event.get("data", event)
         if data.get("agent_status") in EVENT_TEXT:
             run_detached(notify, data)
+    elif (command == "cache-expiring" and len(sys.argv) == 4
+          and PANE_ID.fullmatch(sys.argv[2]) and EPOCH.fullmatch(sys.argv[3])):
+        # statusline を待たせない
+        run_detached(cache_expiring, *sys.argv[2:])
     elif command == "focus" and len(sys.argv) == 3:
         # 切り離さない。前面を取る権利は、トーストのクリックで起動された wsl.exe の側にある
         run_logged(focus, sys.argv[2])
     else:
-        sys.exit("usage: wsl-notify.py notify | focus <uri>")
+        sys.exit("usage: wsl-notify.py notify | cache-expiring <pane_id> <expires_at> | focus <uri>")
 
 
 if __name__ == "__main__":
