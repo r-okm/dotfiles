@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794968697970,
+  "lastUpdate": 1795009503176,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4836,6 +4836,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 8.4ms, max: 8.7ms, median: 8.5ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "58115c6c02e3a4dec7ba0259ba850e5b2ddf89bf",
+          "message": "claude: toast through herdr when the prompt cache is about to go cold\n\nWhen the status line enters the \"Cache cold in Nm\" window of a 1h-TTL\ncache, it runs the wsl-notify plugin's new cache-expiring subcommand,\nwhich shows a Windows toast for the pane. The toast clicks through to the\npane like the other herdr toasts, and it disappears from Action Center\nonce the cache expires. A per-session state file records the expires_at\nalready notified, so each expiry toasts once. The record is written only\nafter the plugin starts cleanly, so a failed start is retried.\n\nNo toast for:\n- a 5m TTL, which starts inside the warning window and would toast on\n  every response\n- a pane whose agent is working, as its next API call refreshes the cache\n- an expiry that passed before the plugin ran\n\nUnlike the status toasts, the cache toast also shows while the WSL tab is\nin front, since the session may be in another pane. toast.ps1 now skips\ntoasts while that tab is in front only when the payload sets\nquiet_if_front, which notify does, and it reads an optional expires for\nExpirationTime.\n\nThe status line now reads every field in one jq pass and does without\ndate, cat and sed, since refreshInterval re-runs it every 15 seconds.",
+          "timestamp": "2026-11-18T22:32:15+09:00",
+          "tree_id": "e751792d9e9d4a0ee214eb334a76292a0b392734",
+          "url": "https://github.com/r-okm/dotfiles/commit/58115c6c02e3a4dec7ba0259ba850e5b2ddf89bf"
+        },
+        "date": 1795009502672,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.7,
+            "range": "1.4",
+            "unit": "ms",
+            "extra": "min: 10.4ms, max: 11.8ms, median: 10.7ms (10 runs)"
           }
         ]
       }
