@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1794967732160,
+  "lastUpdate": 1794968697970,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4805,6 +4805,37 @@ window.BENCHMARK_DATA = {
             "range": "0.7",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.8ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "82ca3e22e3acf5977393973fa1ed9bd79d658f04",
+          "message": "herdr-ghq: move the picker to prefix+f and prefix+ctrl+f\n\nherdr reserves prefix+ctrl+g (the prefix pressed twice sends a literal\nctrl+g), so the ctrl variant could not sit next to prefix+g. f is free\nboth bare and with ctrl. Comments and the worktree skill now call it the\nghq picker instead of naming its key, so they survive the next rebind.",
+          "timestamp": "2026-11-18T11:17:18+09:00",
+          "tree_id": "017f325ffb9ed754346335b21c2ab6d7f69df764",
+          "url": "https://github.com/r-okm/dotfiles/commit/82ca3e22e3acf5977393973fa1ed9bd79d658f04"
+        },
+        "date": 1794968697524,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.5,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 8.4ms, max: 8.7ms, median: 8.5ms (10 runs)"
           }
         ]
       }
