@@ -1,6 +1,6 @@
 #!/bin/bash
 # Claude Code status line, one line, pipe-separated:
-#   model + effort | context usage bar + used/total tokens | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
+#   model + effort | context usage bar + used/total tokens | prompt cache | 5h rate-limit bar + reset time | 7d rate-limit bar + reset time
 # Configured by the statusline-setup agent. Use that agent again to make further changes.
 
 input=$(cat)
@@ -14,12 +14,17 @@ five=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 five_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 week=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
 week_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty')
+cache_hit=$(echo "$input" | jq -r '.prompt_cache.hit_ratio | if . == null then empty else (. * 100 | floor) end')
+cache_warm=$(echo "$input" | jq -r '.prompt_cache.warm // empty')
+cache_at=$(echo "$input" | jq -r '.prompt_cache.expires_at // empty')
+cache_resend=$(echo "$input" | jq -r '.prompt_cache.recache_tokens_if_cold // empty')
 
 # Labels are dimmed (SGR 2 = faint) so they read as secondary, while the bar
 # fill uses a bright color so the indicator stays legible.
 GRAY=$'\033[2;37m'
 FILL=$'\033[92m'  # bright green: filled segments
 TRACK=$'\033[90m' # bright-black (gray): empty segments
+YELLOW=$'\033[33m' # prompt-cache warnings
 RESET=$'\033[0m'
 
 BAR_WIDTH=10
@@ -51,6 +56,16 @@ kfmt() {
   }'
 }
 
+# Format a duration in seconds as 1h12m, 1h or 38m (minutes rounded up).
+span() {
+  local m=$((($1 + 59) / 60))
+  if [ "$m" -ge 60 ]; then
+    echo "$((m / 60))h$((m % 60))m" | sed 's/h0m$/h/'
+  else
+    echo "${m}m"
+  fi
+}
+
 # Format an epoch-seconds reset time; empty if unavailable.
 reset_at() {
   local epoch=$1 fmt=$2
@@ -71,6 +86,27 @@ if [ -n "$ctx" ]; then
   seg="${GRAY}Ctx${RESET} $(bar "$ctx")"
   if [ -n "$ctx_used" ] && [ -n "$ctx_size" ]; then
     seg="${seg} ${GRAY}$(kfmt "$ctx_used")/$(kfmt "$ctx_size")${RESET}"
+  fi
+  segments+=("$seg")
+fi
+
+# Prompt cache, after localixai/tokendoctor's status line: how long it stays
+# warm, the hit rate only when it is low, a warning in its last five minutes,
+# and once cold, how many tokens the next message re-sends. The countdown only
+# moves while idle because settings.json sets statusLine.refreshInterval.
+if [ -n "$cache_hit" ]; then
+  now=$(date +%s)
+  left=$(( ${cache_at:-0} - now ))
+  low=""
+  [ "$cache_hit" -lt 80 ] && low=" ${YELLOW}${cache_hit}% hit${RESET}"
+  if [ "$cache_warm" = true ] && [ "$left" -gt 300 ]; then
+    seg="${GRAY}Cache $(span "$left")${RESET}${low}"
+  elif [ "$cache_warm" = true ] && [ "$left" -gt 0 ]; then
+    seg="${YELLOW}Cache cold in $(span "$left")${RESET}${low}"
+  elif [ "$cache_warm" = true ]; then
+    seg="${GRAY}Cache${RESET}${low}"
+  else
+    seg="${YELLOW}Cache cold, resend $(kfmt "${cache_resend:-${ctx_used:-0}}")${RESET}"
   fi
   segments+=("$seg")
 fi
