@@ -107,7 +107,6 @@
   },
   "enabledPlugins": {
     "compact-plus@compact-plus-local": true,
-    "review-wizard@review-wizard-marketplace": true,
     "yomiyasu@yomiyasu": true
   },
   "extraKnownMarketplaces": {
@@ -115,12 +114,6 @@
       "source": {
         "source": "github",
         "repo": "u-ichi/compact-plus"
-      }
-    },
-    "review-wizard-marketplace": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/uehaj/review-wizard.git"
       }
     },
     "yomiyasu": {

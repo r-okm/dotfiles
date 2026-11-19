@@ -21,7 +21,3 @@
 # WSL
 
 - URL や HTML ファイルをユーザーのブラウザで開くときは `xdg-open` を使う。`~/.local/bin/xdg-open` が Windows 側の既定のアプリに渡すので、`explorer.exe` や `wslview` は使わない。
-
-# review-wizard
-
-- review-wizard の質問で推したい答えがあるときは、その選択肢を先頭に置き、ラベルの末尾に「(Recommended)」を付け、理由を説明欄に書く。AskUserQuestion と同じ書き方。
