@@ -1,5 +1,4 @@
 .config/asdf
-.claude/skills/grilling
 .claude/r-okm/permission-optimization.md
 .claude/r-okm/scripts/notify-to-tmux-popup.sh
 .config/claude
@@ -37,3 +36,5 @@ AppData/Roaming/alacritty
 .config/tmux/plugins/catppuccin/tmux
 .config/tmux/plugins/extrakto
 .local/share/applications/vivaldi.desktop
+.claude/skills/grill-wizard
+.claude/r-okm/external/grilling.md
