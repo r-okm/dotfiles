@@ -38,3 +38,4 @@ AppData/Roaming/alacritty
 .local/share/applications/vivaldi.desktop
 .claude/skills/grill-wizard
 .claude/r-okm/external/grilling.md
+go/bin/gh-gfm-preview
