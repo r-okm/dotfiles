@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795049092120,
+  "lastUpdate": 1795067269259,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4898,6 +4898,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 4.0ms, max: 4.3ms, median: 3.9ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "bbda2eb356be842e1142c4fff315ed865f911708",
+          "message": "go: install the go-grip fork instead of gh-gfm-preview",
+          "timestamp": "2026-11-19T14:35:44+09:00",
+          "tree_id": "cd4ffe89e7f0328a40e15a7ef52df80242eff821",
+          "url": "https://github.com/r-okm/dotfiles/commit/bbda2eb356be842e1142c4fff315ed865f911708"
+        },
+        "date": 1795067268513,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 6.7,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 6.6ms, max: 7.3ms, median: 6.6ms (10 runs)"
           }
         ]
       }
