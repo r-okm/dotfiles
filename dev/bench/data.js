@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795009503176,
+  "lastUpdate": 1795049092120,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4867,6 +4867,37 @@ window.BENCHMARK_DATA = {
             "range": "1.4",
             "unit": "ms",
             "extra": "min: 10.4ms, max: 11.8ms, median: 10.7ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "d74f498f7f74edeacfdaa4fa063e81dceee69cf3",
+          "message": "claude: replace grill-wizard with a Japanese grilling skill of our own\n\ngrilling was the upstream mattpocock/skills file taken as a chezmoi\nexternal and read by grill-wizard, which swapped only its output format\nfor the browser wizard. Upstream's SKILL.md pins a chat format (the\nQ1 / recommended-answer block) and, since 95249b0, asks for questions\nworded so \"yes\" accepts the recommendation; both work against picking\noptions in a wizard, and overriding them from outside the skill would\nmean a line in the global CLAUDE.md. Of the two upstream changes since\nthe external was added, only 7739eae (start fact-finding sub-agents\nwith a fresh context) changed the method.\n\nsrc/dot_claude/skills/grilling/SKILL.md is now a Japanese rewrite of\nupstream 7739eae (MIT): the method sections are kept, the chat format\nand the yes-wording are dropped, and each round goes out through\nbrowser-ask, with options rather than a yes/no question. Without a\nbrowser it falls back to AskUserQuestion in batches of four questions\nand four options, recomputing the frontier only once the whole round is\nanswered. Formatting rules that browser-ask already states are not\nrepeated. LICENSE and NOTICE.md hold the attribution, kept out of the\nSKILL.md body for the same reason as browser-ask's.\n\nThe external entry is dropped. The skill lives at the path the\n.chezmoiremove line .claude/skills/grilling retired on 2026-09-11, and\nchezmoi refuses a managed target that is also listed there\n(\"inconsistent state ... remove\", checked on v2.70.0), so that line is\nremoved; any copy left on a machine is overwritten by the managed file.\ngrill-wizard and the old external target .claude/r-okm/external/grilling.md\nare retired through .chezmoiremove. The emptied external directory is\nleft in place.",
+          "timestamp": "2026-11-19T09:30:49+09:00",
+          "tree_id": "08f219a386d95866e7f2a9db13a35cd981961123",
+          "url": "https://github.com/r-okm/dotfiles/commit/d74f498f7f74edeacfdaa4fa063e81dceee69cf3"
+        },
+        "date": 1795049091447,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 4,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 4.0ms, max: 4.3ms, median: 3.9ms (10 runs)"
           }
         ]
       }
