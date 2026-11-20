@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795067269259,
+  "lastUpdate": 1795156202035,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4929,6 +4929,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 6.6ms, max: 7.3ms, median: 6.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "f75f921f0cc43ff6a659ebef4cce947a46628517",
+          "message": "claude: note that a worktree's .ignore is a symlink to the main checkout's\n\nClaude kept offering to back up .ignore before removing a worktree,\nnot knowing that removal only drops the link and the files stay in\nthe main checkout.",
+          "timestamp": "2026-11-20T15:20:45+09:00",
+          "tree_id": "aa9ee73d661f55dd147e85bac7ba0336ac175551",
+          "url": "https://github.com/r-okm/dotfiles/commit/f75f921f0cc43ff6a659ebef4cce947a46628517"
+        },
+        "date": 1795156200983,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 9.6,
+            "range": "4.8",
+            "unit": "ms",
+            "extra": "min: 8.5ms, max: 13.3ms, median: 8.6ms (10 runs)"
           }
         ]
       }
