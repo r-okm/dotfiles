@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795156202035,
+  "lastUpdate": 1795483373072,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4960,6 +4960,37 @@ window.BENCHMARK_DATA = {
             "range": "4.8",
             "unit": "ms",
             "extra": "min: 8.5ms, max: 13.3ms, median: 8.6ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "67b85433810d17d855d1e1a05c54884eb2de4fac",
+          "message": "zsh: let unmatched globs through in Claude's Bash tool shells\n\nClaude Code's Bash tool runs commands with the user's login shell, which\nis zsh here, but the model writes bash. A scan of past sessions found\nabout 105 failures from zsh's NOMATCH, mostly `grep -r --include=*.py`\naborting with \"no matches found\" before grep ran. Set no_nomatch so an\nunmatched glob is passed through literally, as bash does.\n\nThe guard also requires ZSH_EXECUTION_STRING, which zsh sets only for\n`zsh -c`. The Bash tool runs commands that way, while zsh scripts and\ninteractive panes started under Claude keep NOMATCH. Any other `zsh -c`\nunder Claude (hooks, `$SHELL -c` from xargs or make) is affected too;\nthat is accepted. Matching the shell-snapshot prefix in the execution\nstring would be narrower but depends on Claude Code internals.\n\nAs in bash, a glob that matches nothing now reaches the command\nliterally. git treats such an argument as a pathspec, so `git rm *.log`\nwith no .log in the current directory removes tracked .log files in\nsubdirectories instead of stopping.\n\nOther zsh-vs-bash failures from the scan are left alone. EQUALS\n(`echo ====`) is already turned off by Claude Code's per-command setopt\nas of 2.1.331. Unsplit unquoted variables (`T=\"tmux -L x\"; $T ls`, about\n26 cases) are not fixed with sh_word_split, which would also change the\nsemantics of the zsh functions the shell snapshot restores.",
+          "timestamp": "2026-11-24T10:12:16+09:00",
+          "tree_id": "b0980b712a2c3cac3648a761ecca856c103aece1",
+          "url": "https://github.com/r-okm/dotfiles/commit/67b85433810d17d855d1e1a05c54884eb2de4fac"
+        },
+        "date": 1795483372128,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.4,
+            "range": "0.6",
+            "unit": "ms",
+            "extra": "min: 10.1ms, max: 10.7ms, median: 10.4ms (10 runs)"
           }
         ]
       }
