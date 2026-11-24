@@ -8,3 +8,7 @@ fi
 if [[ -n "$CLAUDECODE" ]]; then
   export PAGER=cat
 fi
+
+if [[ -n "$CLAUDECODE" && -n "$ZSH_EXECUTION_STRING" ]]; then
+  setopt no_nomatch
+fi
