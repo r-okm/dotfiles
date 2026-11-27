@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795765288901,
+  "lastUpdate": 1795766451158,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -5022,6 +5022,37 @@ window.BENCHMARK_DATA = {
             "range": "0.3",
             "unit": "ms",
             "extra": "min: 10.0ms, max: 10.3ms, median: 10.1ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "1d71a98b16f5950abcdda5dc69c3ad3ccc2790c5",
+          "message": "dotnet: install the .NET 10 runtime with the official installer",
+          "timestamp": "2026-11-27T16:53:01+09:00",
+          "tree_id": "dab717bdf3899eaf32f8cce9a9833b52a6215aa2",
+          "url": "https://github.com/r-okm/dotfiles/commit/1d71a98b16f5950abcdda5dc69c3ad3ccc2790c5"
+        },
+        "date": 1795766450347,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 8.5,
+            "range": "0.2",
+            "unit": "ms",
+            "extra": "min: 8.5ms, max: 8.7ms, median: 8.5ms (10 runs)"
           }
         ]
       }
