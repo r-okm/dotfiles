@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1795483373072,
+  "lastUpdate": 1795765288901,
   "repoUrl": "https://github.com/r-okm/dotfiles",
   "entries": {
     "zsh startup time": [
@@ -4991,6 +4991,37 @@ window.BENCHMARK_DATA = {
             "range": "0.6",
             "unit": "ms",
             "extra": "min: 10.1ms, max: 10.7ms, median: 10.4ms (10 runs)"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "committer": {
+            "email": "65703649+r-okm@users.noreply.github.com",
+            "name": "r-okm",
+            "username": "r-okm"
+          },
+          "distinct": true,
+          "id": "b13741eb778bfc6ca5a9ad9b1f34d08ddeeecd60",
+          "message": "open-in-nvim: open every file the user should read, one run per file\n\nAsked to open two files (both passed as the skill's arguments), Claude\nopened only the first and offered the other \"if needed\": the skill said\nonly one path can be passed, to pick the one central file, and to open\nat most once per task.\n\nnvim-open.sh still takes a single path, so the skill now has Claude run\nit once per file when the user asks for several or the explanation spans\nfiles that all need reading. Picking one file stays the default. The\nruns go in order, not in parallel, since the first may start nvim. The\nfile to read first is opened last, as :drop leaves that one on screen,\nand only the last run gets --switch.\n\nDropping the once-per-task limit would let every turn reopen the same\nfile and reset the user's cursor, so files already opened in the task\nare not reopened. If a run fails partway, the reply says which files\nopened and which did not, since the one meant to be on screen is not.\n\nThe script's hint for several paths said to pass only the one file to\nlook at, which would steer Claude back to opening one; it now says to\nrun once per file.",
+          "timestamp": "2026-11-27T16:31:54+09:00",
+          "tree_id": "f0f1848f2240075cf77aba1cf4d40286c4f90bba",
+          "url": "https://github.com/r-okm/dotfiles/commit/b13741eb778bfc6ca5a9ad9b1f34d08ddeeecd60"
+        },
+        "date": 1795765288109,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup (mean)",
+            "value": 10.1,
+            "range": "0.3",
+            "unit": "ms",
+            "extra": "min: 10.0ms, max: 10.3ms, median: 10.1ms (10 runs)"
           }
         ]
       }
