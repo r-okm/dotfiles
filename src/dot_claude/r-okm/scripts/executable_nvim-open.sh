@@ -329,7 +329,7 @@ main() {
     die "no path given" "pass the one file the user should look at"
   ((${#operands[@]} == 1)) ||
     die "expected a single path, got ${#operands[@]}" \
-      "pass the one file the user should look at, not every file you touched"
+      "run this once per file, opening the one to read first last (it is the one left on screen)"
 
   local file line col
   split_line_col "${operands[0]}"
