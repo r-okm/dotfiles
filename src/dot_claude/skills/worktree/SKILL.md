@@ -1,7 +1,7 @@
 ---
 name: worktree
-description: git worktree を作る・一覧する・開く・削除する。「別ブランチで並行作業したい」「PR をチェックアウトして確認したい」「今の作業を汚さずに別ブランチを見たい」「worktree を作って」「worktree の一覧を見せて」「あの worktree のセッションを開いて」「worktree を消して/片付けて」と言われたとき、および自分の作業のために worktree が必要になったときや、自分が作った worktree での作業を終えるときに使う。
-allowed-tools: Bash(git-worktree-herdr *)
+description: git worktree を作る・一覧する・開く・削除する。「別ブランチで並行作業したい」「PR をチェックアウトして確認したい」「今の作業を汚さずに別ブランチを見たい」「worktree を作って」「worktree の一覧を見せて」「あの worktree のセッションを開いて」「worktree を消して/片付けて」「ワークスペースで claude を起動して依頼して」と言われたとき、および自分の作業のために worktree が必要になったときや、自分が作った worktree での作業を終えるときに使う。
+allowed-tools: Bash(git-worktree-herdr *), Bash(herdr pane list *), Bash(herdr pane process-info *), Bash(herdr pane read *), Bash(herdr pane wait-output *)
 ---
 
 # worktree - git worktree を作る・片付ける
@@ -85,6 +85,46 @@ worktree は `<project_root>/.worktree/<worktree_name>` に作られる。
 
 worktree で作業するときは、以降のコマンドで worktree の絶対パスを使う。すでに隔離モードに入っていたら、
 ExitWorktree を `action: "keep"` で呼んで抜ける。
+
+## worktree で Claude を起動して最初の依頼を渡す
+
+「ワークスペースで claude を起動して依頼して。以降は自分がやりとりする」と頼まれたときの手順。
+ユーザーがやりとりする対話セッションに最初の依頼を渡すためのもので、ワーカーとして動かすとき
+（`claude --bg` と SendMessage）の手順とは別になる。Linux（ペインのシェルが zsh）でだけ確かめている。
+
+1. 依頼文を `~/.claude/r-okm/scripts/claude-ai-dir.sh` が出力するディレクトリのファイルに
+   Write ツールで書く（ディレクトリが無くても Write ツールが作る）。スクリプトが失敗したら、
+   ハーネスのスクラッチパッドに書く。依頼文は `-` で始めない。`claude` がオプションとして読む。
+2. 送り先のペインを調べる。`-l` の 3 列目のワークスペース ID を使って
+   `herdr pane list --workspace <ID>` を実行する。3 列目が `-` なら、先に `-o` でワークスペースを
+   開いてから `-l` をやり直す。
+3. cwd が worktree のペインのうち、シェルがプロンプトで待っているものを選ぶ。
+   `herdr pane process-info --pane <pane_id>` で `foreground_process_group_id` が `shell_pid` と
+   同じなら、シェルが前面にいる。nvim や Claude が前面にいるペインに送ると、コマンドがそのアプリへの
+   入力になる。該当するペインが無いときや 2 つ以上あるときは、送らずにユーザーに聞く。
+4. 待つときに照合する文字列を決める。依頼文から、ペインの幅に収まる短い一部（10〜20 文字ほど）を選ぶ。
+   `wait-output` はペインにすでに出ている出力にも即座に一致するので、
+   `herdr pane read <pane_id> --source recent-unwrapped` の出力に含まれないものにする。
+5. 打ちかけの入力を消してから、シェルのコマンドとして起動する。依頼文は引数で渡す。打ちかけの文字が
+   残っていると、送ったコマンドがその後ろにつながって実行される。`ctrl+u` で消した文字は zsh の
+   kill ring に残り、ユーザーが `ctrl+y` で戻せる。
+
+   ```bash
+   herdr pane send-keys <pane_id> ctrl+u
+   herdr pane run <pane_id> 'claude "$(cat "<依頼文のファイル>")"'
+   ```
+
+6. `herdr pane wait-output <pane_id> --match '<4 で決めた文字列>' --source recent-unwrapped --timeout 30000`
+   で、依頼文が表示されるのを待つ。`--source recent-unwrapped` を付けないと、文字列が折り返しを
+   またいだときに一致しない。`sleep` で待たない。表示されたら `herdr pane read <pane_id>` で
+   入力欄が空になっていることを確かめる。タイムアウトしたときや、フォルダーの信頼の確認などの画面で
+   止まっているときは、キーを送らず、画面の状態をユーザーに伝えて任せる。
+
+依頼文をコマンドに直接書かない。`'`、`$`、バッククォートを含むと壊れる。
+
+**起動済みの Claude に `herdr agent prompt` や Enter で送らない。** ユーザーの
+keybindings.json では Enter が改行で、送信は Ctrl+Enter に割り当てられている。そのため依頼が入力欄に
+残ったままになる。
 
 ## 作業を終えたら（削除）
 
