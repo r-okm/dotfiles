@@ -43,6 +43,11 @@ main() {
   # deno
   export DENO_INSTALL="$HOME/.deno"
 
+  # dotnet
+  if [ -d "$HOME/.dotnet" ]; then
+    export DOTNET_ROOT="$HOME/.dotnet"
+  fi
+
   # rust
   source_if_exists "$HOME/.cargo/env"
 
@@ -52,11 +57,13 @@ main() {
   # env vars managed with chezmoi
   export WORK_GITHUB_ORG_ACTIVE='{{ if gt (len .work.github_orgs) 0 }}1{{ else }}0{{ end }}'
 
-  # prepend bin directories to PATH, in this order: mason managed tools, go bin,
-  # go workspace bin, deno bin, asdf shims, neovim built from source, user specific bin
+  # prepend bin directories to PATH, in this order: mason managed tools, dotnet,
+  # go bin, go workspace bin, deno bin, asdf shims, neovim built from source,
+  # user specific bin
   local dir
   for dir in \
     "$HOME/.local/share/nvim/mason/bin" \
+    "$DOTNET_ROOT" \
     "${GOROOT:-/usr/local/go}/bin" \
     "${GOPATH:-$HOME/go}/bin" \
     "$DENO_INSTALL/bin" \
